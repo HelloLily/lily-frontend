@@ -1,0 +1,31 @@
+@import '~style/variables/app_colors';
+@import '~style/variables/measurements';
+
+.dropdown-menu {
+  background: #fff;
+  list-style: none;
+  padding: 0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: var(--base-border-radius);
+  right: 15px;
+  position: absolute;
+
+  .dropdown-menu-item {
+    padding: 13px;
+    width: 175px;
+    display: block;
+    text-decoration: none;
+    color: $app-color-darkblue;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: $app-color-aqua;
+        color: #fff;
+    }
+  }
+
+  .divider {
+    margin: 5px 10px;
+    border-bottom-style: solid;
+  }
+}

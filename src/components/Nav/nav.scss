@@ -1,0 +1,47 @@
+@import '~style/variables/app_colors';
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+
+    .main-nav {
+        background: $app-color-darkblue;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+
+        .hl-lily-icon {
+            font-size: 2em;
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .main-nav-links {
+            list-style: none;
+            display: inline-block;
+
+            li {
+                display: inline-block;
+
+                .lilicon {
+                    font-size: 18px;
+                }
+
+                a {
+                    color: #9392a6;
+                    font-size: 16px;
+
+                    &.active,
+                    &:hover {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}

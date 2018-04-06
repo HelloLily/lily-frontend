@@ -1,0 +1,19 @@
+@import '~style/variables/measurements';
+
+.sidebar {
+  position: absolute;
+  right: -21%;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  z-index: 4;
+  background: #fff;
+  border-style: solid;
+  margin-top: var(--content-top);
+  transition: all 0.25s ease;
+
+  &.slide {
+    transition: all 0.35s ease;
+    right: 0;
+  }
+}

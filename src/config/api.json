@@ -1,0 +1,12 @@
+{
+  "base": "/api/v2",
+  "defaultRequest": {
+    "credentials": "same-origin",
+    "method": "GET",
+    "headers": {
+      "content-type": "application/json",
+      "X-csrftoken": "random"
+    }
+  },
+  "cachePostResponseAsGet": ["/session"]
+}

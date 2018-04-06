@@ -1,0 +1,569 @@
+/* SG
+# Icons #
+
+Lily has a large amount of icons that can be used.
+
+<table class="widget-table">
+    <thead>
+        <tr>
+            <th colspan="9">Menu icons</th>
+        </tr>
+    </thead>
+
+    <tbody class="align-center">
+        <tr>
+            <td><i class="lilicon font-size-24 hl-dashboard-icon"></i><div style="margin-top: 10px;">.hl-dashboard-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-statistics-icon"></i><div style="margin-top: 10px;">.hl-statistics-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-email-icon"></i><div style="margin-top: 10px;">.hl-email-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-company-icon"></i><div style="margin-top: 10px;">.hl-company-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-entity-icon"></i><div style="margin-top: 10px;">.hl-entity-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-deals-icon"></i><div style="margin-top: 10px;">.hl-deals-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-case-icon"></i><div style="margin-top: 10px;">.hl-case-icon</div></td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="9">Interface icons</th>
+        </tr>
+    </thead>
+    <tbody class="align-center">
+        <tr>
+            <td><i class="lilicon font-size-24 hl-arrow-up-icon"></i><div style="margin-top: 10px">.hl-arrow-up-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-arrow-right-icon"></i><div style="margin-top: 10px">.hl-arrow-right-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-arrow-down-icon"></i><div style="margin-top: 10px">.hl-arrow-down-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-arrow-left-icon"></i><div style="margin-top: 10px">.hl-arrow-left-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-close-icon"></i><div style="margin-top: 10px">.hl-close-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-status-icon"></i><div style="margin-top: 10px">.hl-status-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-postpone-icon"></i><div style="margin-top: 10px">.hl-postpone-icon</div></td>
+        </tr>
+        <tr>
+            <td><i class="lilicon font-size-24 hl-toggle-up-icon"></i><div style="margin-top: 10px">.hl-toggle-up-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-toggle-right-icon"></i><div style="margin-top: 10px">.hl-toggle-right-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-toggle-down-icon"></i><div style="margin-top: 10px">.hl-toggle-down-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-toggle-left-icon"></i><div style="margin-top: 10px">.hl-toggle-left-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-cog-icon"></i><div style="margin-top: 10px">.hl-cog-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-options-icon"></i><div style="margin-top: 10px">.hl-options-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-asterix-icon"></i><div style="margin-top: 10px">.hl-asterix-icon</div></td>
+        </tr>
+        <tr>
+            <td><i class="lilicon font-size-24 hl-arrow-up-smll-icon"></i><div style="margin-top: 10px">.hl-arrow-up-smll-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-arrow-right-smll-icon"></i><div style="margin-top: 10px">.hl-arrow-right-smll-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-arrow-down-smll-icon"></i><div style="margin-top: 10px">.hl-arrow-down-smll-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-arrow-left-smll-icon"></i><div style="margin-top: 10px">.hl-arrow-left-smll-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-edit-icon"></i><div style="margin-top: 10px">.hl-edit-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-edit-line-icon"></i><div style="margin-top: 10px">.hl-edit-line-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-trashcan-icon"></i><div style="margin-top: 10px">.hl-trashcan-icon</div></td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="9">Priority Icons</th>
+        </tr>
+    </thead>
+    <tbody class="align-center">
+        <tr>
+            <td><i class="lilicon font-size-24 hl-prio-icon-low"></i><div style="margin-top: 10px">.hl-prio-icon-low</div></td>
+            <td><i class="lilicon font-size-24 hl-prio-icon-medium"></i><div style="margin-top: 10px">.hl-prio-icon-medium</div></td>
+            <td><i class="lilicon font-size-24 hl-prio-icon-high"></i><div style="margin-top: 10px">.hl-prio-icon-high</div></td>
+            <td><i class="lilicon font-size-24 hl-prio-icon-crtical"></i><div style="margin-top: 10px">.hl-prio-icon-critical</div></td>
+            <td colspan="3"></td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="9">Communication / Call</th>
+        </tr>
+    </thead>
+    <tbody class="align-center">
+        <tr>
+            <td><i class="lilicon font-size-24 hl-phone-icon"></i><div style="margin-top: 10px">.hl-phone-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-phone-filled-icon"></i><div style="margin-top: 10px">.hl-phone-filled-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-incoming-icon"></i><div style="margin-top: 10px">.hl-incoming-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-outgoing-icon"></i><div style="margin-top: 10px">.hl-outgoing-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-incoming-down-icon"></i><div style="margin-top: 10px">.hl-incoming-down-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-outgoing-up-icon"></i><div style="margin-top: 10px">.hl-outgoing-up-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-forwarding-icon"></i><div style="margin-top: 10px">.hl-forwarding-icon</div></td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="9">Other</th>
+        </tr>
+    </thead>
+    <tbody class="align-center">
+        <tr>
+            <td><i class="lilicon font-size-24 hl-person-icon"></i><div style="margin-top: 10px">.hl-person-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-user-icon"></i><div style="margin-top: 10px">.hl-user-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-note-icon"></i><div style="margin-top: 10px">.hl-note-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-home-icon"></i><div style="margin-top: 10px">.hl-home-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-stats-icon"></i><div style="margin-top: 10px">.hl-stats-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-paperclip-icon"></i><div style="margin-top: 10px">.hl-paperclip-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-pin-icon"></i><div style="margin-top: 10px">.hl-pin-icon</div></td>
+        </tr>
+        <tr>
+            <td><i class="lilicon font-size-24 hl-info-icon"></i><div style="margin-top: 10px">.hl-info-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-menu-icon"></i><div style="margin-top: 10px">.hl-menu-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-dialplan-icon"></i><div style="margin-top: 10px">.hl-dialplan-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-admin-icon"></i><div style="margin-top: 10px">.hl-admin-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-calendar-icon"></i><div style="margin-top: 10px">.hl-calendar-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-firstday-icon"></i><div style="margin-top: 10px">.hl-firstday-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-tomorrow-icon"></i><div style="margin-top: 10px">.hl-tomorrow-icon</div></td>
+        </tr>
+        <tr>
+            <td><i class="lilicon font-size-24 hl-lily-icon"></i><div style="margin-top: 10px">.hl-lily-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-entity-b-icon"></i><div style="margin-top: 10px">.hl-entity-b-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-entity-active-icon"></i><div style="margin-top: 10px">.hl-entity-active-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-entity-inactive-icon"></i><div style="margin-top: 10px">.hl-entity-inactive-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-entity-status-active-icon"></i><div style="margin-top: 10px">.hl-entity-status-active</div></td>
+            <td><i class="lilicon font-size-24 hl-entity-status-inactive-icon "></i><div style="margin-top: 10px">.hl-entity-status-inactive-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-entities-icon"></i><div style="margin-top: 10px">.hl-entities-icon</div></td>
+        </tr>
+</table>
+
+*/
+
+@font-face {
+    font-family: "lilicon";
+    src: url("./fonts/lilicon/lilicon.eot?ls2e23");
+    src: url("./fonts/lilicon/lilicon.eot?ls2e23#iefix") format("embedded-opentype"),
+    url("./fonts/lilicon/lilicon.ttf?ls2e23") format("truetype"),
+    url("./fonts/lilicon/lilicon.woff?ls2e23") format("woff"),
+    url("./fonts/lilicon/lilicon.svg?ls2e23#lilicon") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.lilicon {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'lilicon' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$hl-entities-icon: "\e93b";
+$hl-entity-inactive-icon: "\e938";
+$hl-entity-active-icon: "\e939";
+$hl-entity-b-icon: "\e93a";
+$hl-lily-icon: "\e935";
+$hl-status-icon: "\e900";
+$hl-postpone-icon: "\e910";
+$hl-deals-icon: "\e901";
+$hl-deals-filled-icon: "\e902";
+$hl-outgoing-icon: "\e903";
+$hl-incoming-icon: "\e904";
+$hl-incoming-down-icon: "\e905";
+$hl-outgoing-up-icon: "\e906";
+$hl-phone-filled-icon: "\e907";
+$hl-asterix-icon: "\e908";
+$hl-edit-icon: "\e909";
+$hl-edit-line-icon: "\e90a";
+$hl-trashcan-icon: "\e90b";
+$hl-calendar-icon: "\e90c";
+$hl-firstday-icon: "\e90d";
+$hl-tomorrow-icon: "\e90e";
+$hl-cog-icon: "\e90f";
+$hl-user-icon: "\e911";
+$hl-email-icon: "\e912";
+$hl-case-icon: "\e913";
+$hl-person-icon: "\e914";
+$hl-note-icon: "\e915";
+$hl-home-icon: "\e916";
+$hl-company-icon: "\e917";
+$hl-stats-icon: "\e918";
+$hl-paperclip-icon: "\e919";
+$hl-options-icon: "\e91a";
+$hl-prio-icon-low: "\e91b";
+$hl-prio-icon-medium: "\e91c";
+$hl-prio-icon-high: "\e91d";
+$hl-prio-icon-critical: "\e91e";
+$hl-toggle-right-icon: "\e91f";
+$hl-toggle-left-icon: "\e920";
+$hl-toggle-up-icon: "\e921";
+$hl-toggle-down-icon: "\e922";
+$hl-close-icon: "\e923";
+$hl-arrow-right-icon: "\e924";
+$hl-arrow-left-icon: "\e925";
+$hl-arrow-up-icon: "\e926";
+$hl-arrow-down-icon: "\e927";
+$hl-arrow-right-smll-icon: "\e928";
+$hl-arrow-left-smll-icon: "\e929";
+$hl-arrow-up-smll-icon: "\e92a";
+$hl-arrow-down-smll-icon: "\e92b";
+$hl-pin-icon: "\e92c";
+$hl-phone-icon: "\e92d";
+$hl-info-icon: "\e933";
+$hl-entity-icon: "\e932";
+$hl-menu-icon: "\e92f";
+$hl-dialplan-icon: "\e92e";
+$hl-admin-icon: "\e931";
+$hl-statistics-icon: "\e930";
+$hl-administration-icon: "\e936";
+$hl-dashboard-icon: "\e934";
+$hl-forwarding-icon: "\e937";
+
+.hl-entities-icon {
+    &:before {
+        content: $hl-entities-icon;
+    }
+}
+
+.hl-entity-inactive-icon {
+    &:before {
+        content: $hl-entity-inactive-icon;
+    }
+}
+
+.hl-entity-active-icon {
+    &:before {
+        content: $hl-entity-active-icon;
+    }
+}
+
+.hl-entity-b-icon {
+    &:before {
+        content: $hl-entity-b-icon;
+    }
+}
+
+.hl-lily-icon { //check
+    &:before {
+        content: $hl-lily-icon;
+    }
+}
+
+.hl-status-icon { //check
+    &:before {
+        content: $hl-status-icon;
+    }
+}
+
+.hl-postpone-icon { //check
+    &:before {
+        content: $hl-postpone-icon;
+    }
+}
+
+.hl-deals-icon { //check
+    &:before {
+        content: $hl-deals-icon;
+    }
+}
+
+.hl-deals-filled-icon {
+    &:before {
+        content: $hl-deals-filled-icon;
+    }
+}
+
+.hl-outgoing-icon {
+    &:before {
+        content: $hl-outgoing-icon;
+    }
+}
+
+.hl-incoming-icon {
+    &:before {
+        content: $hl-incoming-icon;
+    }
+}
+
+.hl-incoming-down-icon {
+    &:before {
+        content: $hl-incoming-down-icon;
+    }
+}
+
+.hl-outgoing-up-icon {
+    &:before {
+        content: $hl-outgoing-up-icon;
+    }
+}
+
+.hl-phone-filled-icon {
+    &:before {
+        content: $hl-phone-filled-icon;
+    }
+}
+
+.hl-asterix-icon {
+    &:before {
+        content: $hl-asterix-icon;
+    }
+}
+
+.hl-edit-icon {
+    &:before {
+        content: $hl-edit-icon;
+    }
+}
+
+.hl-edit-line-icon {
+    &:before {
+        content: $hl-edit-line-icon;
+    }
+}
+
+.hl-trashcan-icon {
+    &:before {
+        content: $hl-trashcan-icon;
+    }
+}
+
+.hl-calendar-icon {
+    &:before {
+        content: $hl-calendar-icon;
+    }
+}
+
+.hl-firstday-icon {
+    &:before {
+        content: $hl-firstday-icon;
+    }
+}
+
+.hl-tomorrow-icon {
+    &:before {
+        content: $hl-tomorrow-icon;
+    }
+}
+
+.hl-cog-icon {
+    &:before {
+        content: $hl-cog-icon;
+    }
+}
+
+.hl-user-icon {
+    &:before {
+        content: $hl-user-icon;
+    }
+}
+
+.hl-email-icon {
+    &:before {
+        content: $hl-email-icon;
+    }
+}
+
+.hl-case-icon {
+    &:before {
+        content: $hl-case-icon;
+    }
+}
+
+.hl-person-icon {
+    &:before {
+        content: $hl-person-icon;
+    }
+}
+
+.hl-note-icon {
+    &:before {
+        content: $hl-note-icon;
+    }
+}
+
+.hl-home-icon {
+    &:before {
+        content: $hl-home-icon;
+    }
+}
+
+.hl-company-icon {
+    &:before {
+        content: $hl-company-icon;
+    }
+}
+
+.hl-stats-icon {
+    &:before {
+        content: $hl-stats-icon;
+    }
+}
+
+.hl-paperclip-icon {
+    &:before {
+        content: $hl-paperclip-icon;
+    }
+}
+
+.hl-options-icon {
+    &:before {
+        content: $hl-options-icon;
+    }
+}
+
+.hl-prio-icon-low {
+    &:before {
+        content: $hl-prio-icon-low;
+    }
+}
+
+.hl-prio-icon-medium {
+    &:before {
+        content: $hl-prio-icon-medium;
+    }
+}
+
+.hl-prio-icon-high {
+    &:before {
+        content: $hl-prio-icon-high;
+    }
+}
+
+.hl-prio-icon-critical {
+    &:before {
+        content: $hl-prio-icon-critical;
+    }
+}
+
+.hl-toggle-right-icon {
+    &:before {
+        content: $hl-toggle-right-icon;
+    }
+}
+
+.hl-toggle-left-icon {
+    &:before {
+        content: $hl-toggle-left-icon;
+    }
+}
+
+.hl-toggle-up-icon {
+    &:before {
+        content: $hl-toggle-up-icon;
+    }
+}
+
+.hl-toggle-down-icon {
+    &:before {
+        content: $hl-toggle-down-icon;
+    }
+}
+
+.hl-close-icon {
+    &:before {
+        content: $hl-close-icon;
+    }
+}
+
+.hl-arrow-right-icon {
+    &:before {
+        content: $hl-arrow-right-icon;
+    }
+}
+
+.hl-arrow-left-icon {
+    &:before {
+        content: $hl-arrow-left-icon;
+    }
+}
+
+.hl-arrow-up-icon {
+    &:before {
+        content: $hl-arrow-up-icon;
+    }
+}
+
+.hl-arrow-down-icon {
+    &:before {
+        content: $hl-arrow-down-icon;
+    }
+}
+
+.hl-arrow-right-smll-icon {
+    &:before {
+        content: $hl-arrow-right-smll-icon;
+    }
+}
+
+.hl-arrow-left-smll-icon {
+    &:before {
+        content: $hl-arrow-left-smll-icon;
+    }
+}
+
+.hl-arrow-up-smll-icon {
+    &:before {
+        content: $hl-arrow-up-smll-icon;
+    }
+}
+
+.hl-arrow-down-smll-icon {
+    &:before {
+        content: $hl-arrow-down-smll-icon;
+    }
+}
+
+.hl-pin-icon {
+    &:before {
+        content: $hl-pin-icon;
+    }
+}
+
+.hl-phone-icon {
+    &:before {
+        content: $hl-phone-icon;
+    }
+}
+
+.hl-info-icon {
+    &:before {
+        content: $hl-info-icon;
+    }
+}
+
+.hl-entity-icon {
+    &:before {
+        content: $hl-entity-icon;
+    }
+}
+
+.hl-menu-icon {
+    &:before {
+        content: $hl-menu-icon;
+    }
+}
+
+.hl-dialplan-icon {
+    &:before {
+        content: $hl-dialplan-icon;
+    }
+}
+
+.hl-admin-icon {
+    &:before {
+        content: $hl-admin-icon;
+    }
+}
+
+.hl-statistics-icon {
+    &:before {
+        content: $hl-statistics-icon;
+    }
+}
+
+.hl-administration-icon {
+    &:before {
+        content: $hl-administration-icon;
+    }
+}
+
+.hl-dashboard-icon {
+    &:before {
+        content: $hl-dashboard-icon;
+    }
+}
+
+.hl-forwarding-icon {
+    &:before {
+        content: $hl-forwarding-icon;
+    }
+}
