@@ -1,6 +1,14 @@
-@import 'variables/app_colors';
+@import 'variables/colors';
 
-$large-button: 30;
+button {
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+$large-button: 30px;
 
 @mixin hl-button($button-size) {
   box-sizing: border-box;
@@ -15,7 +23,6 @@ $large-button: 30;
   font-weight: 500;
   font-size: 12px;
   background: #fff;
-  white-space: nowrap;
 
   &:hover {
       color: $app-color-aqua;
@@ -49,3 +56,11 @@ $large-button: 30;
   }
 }
 
+.close-btn {
+    color: $text-muted;
+    border: 0;
+
+    &:hover {
+        color: $app-color-red;
+    }
+}

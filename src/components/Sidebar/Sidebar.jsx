@@ -21,12 +21,6 @@ class Sidebar extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      sidebar: nextProps.sidebar
-    });
-  }
-
   render() {
     const { sidebar } = this.state;
 
@@ -45,11 +39,15 @@ class Sidebar extends Component {
         {sidebar &&
           <div>
             <div className="sidebar-header">
-              <button onClick={() => this.setState({sidebar: null})}>X</button>
+              <button onClick={() => this.setState({sidebar: null})} className="close-btn">
+                <i className="lilicon hl-close-icon"></i>
+              </button>
             </div>
-            This is the {sidebar} sidebar
+            <div className="sidebar-content">
+              This is the {sidebar} sidebar
 
-            <Form />
+              <Form />
+            </div>
           </div>
         }
       </div>

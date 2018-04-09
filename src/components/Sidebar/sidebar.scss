@@ -8,12 +8,20 @@
   height: 100%;
   z-index: 4;
   background: #fff;
-  border-style: solid;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   margin-top: var(--content-top);
   transition: all 0.25s ease;
+
+  .sidebar-content {
+    padding: 10px;
+  }
 
   &.slide {
     transition: all 0.35s ease;
     right: 0;
+  }
+
+  .close-btn {
+    padding: 10px;
   }
 }

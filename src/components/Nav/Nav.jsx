@@ -14,27 +14,28 @@ class Nav extends Component {
       <div className="navbar">
         <div className="main-nav">
           <nav ref="nav">
-            <NavLink to="/" exact className="m-l-20 m-r-20">
-              <span className="lilicon hl-lily-icon" />
-            </NavLink>
-
             <ul className="main-nav-links">
+              <li>
+                <NavLink to="/" exact className="m-l-20 m-r-40">
+                  <i className="lilicon hl-lily-icon"></i>
+                </NavLink>
+              </li>
+
               {navItems.map((navItem, index) => (
                 <li key={index} className="m-r-55">
                   <NavLink to={navItem.link} exact>
-                    <span className={`lilicon hl-${navItem.icon}-icon m-r-10`} />
+                    <i className={`lilicon hl-${navItem.icon}-icon m-r-10`}></i>
                     <span className="nav-text">{t(navItem.text)}</span>
                   </NavLink>
                 </li>
               ))}
             </ul>
-
           </nav>
 
           <NavDropdown />
         </div>
 
-        <SubNav setSidebar={this.props.setSidebar} />
+        <SubNav sidebarRef={this.props.sidebarRef} />
       </div>
     );
   }

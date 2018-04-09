@@ -38,7 +38,9 @@ class Lily extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: true, data: undefined, sidebar: null };
+    this.sidebar = React.createRef();
+
+    this.state = { loading: true, data: undefined };
   }
 
   componentDidMount() {
@@ -52,10 +54,6 @@ class Lily extends Component {
       this.setState({ data: {}, loading: false });
     });
   };
-
-  setSidebar = type => {
-    this.setState({sidebar: type});
-  }
 
   render() {
     const { loading, sidebar } = this.state;
@@ -77,7 +75,7 @@ class Lily extends Component {
             <Fragment>
               <div className="column">
                 <ErrorBoundry>
-                  <Nav setSidebar={this.setSidebar} />
+                  <Nav sidebarRef={this.sidebar} />
                 </ErrorBoundry>
               </div>
               <div className="column">
@@ -101,7 +99,7 @@ class Lily extends Component {
                   </ErrorBoundry>
                 </main>
 
-                <Sidebar sidebar={sidebar} />
+                <Sidebar ref={this.sidebar} />
               </div>
             </Fragment>
           </Route>
