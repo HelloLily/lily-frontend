@@ -1,7 +1,7 @@
 import React from 'react';
 import i18next, { changeLanguage, t } from 'i18next';
 import { translate } from 'react-i18next';
-import locales from 'app/config/locales.json';
+import locales from 'src/config/locales.json';
 
 function _changeLanguage({ target: { value } }) {
   changeLanguage(value, function(err) {

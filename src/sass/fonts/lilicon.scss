@@ -232,25 +232,25 @@ $hl-forwarding-icon: "\e937";
     }
 }
 
-.hl-lily-icon { //check
+.hl-lily-icon {
     &:before {
         content: $hl-lily-icon;
     }
 }
 
-.hl-status-icon { //check
+.hl-status-icon {
     &:before {
         content: $hl-status-icon;
     }
 }
 
-.hl-postpone-icon { //check
+.hl-postpone-icon {
     &:before {
         content: $hl-postpone-icon;
     }
 }
 
-.hl-deals-icon { //check
+.hl-deals-icon {
     &:before {
         content: $hl-deals-icon;
     }

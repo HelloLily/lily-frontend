@@ -4,6 +4,9 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  output: {
+    publicPath: '/'
+  },
   module: {
     rules: [
       {
@@ -64,8 +67,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      app: path.resolve(__dirname, 'src/'),
+      src: path.resolve(__dirname, 'src/'),
       style: path.resolve(__dirname, 'src/sass/'),
+      components: path.resolve(__dirname, 'src/components/'),
       pages: path.resolve(__dirname, 'src/components/pages/')
     }
   },

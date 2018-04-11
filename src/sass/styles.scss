@@ -2,6 +2,7 @@
 @import 'buttons';
 @import 'form';
 @import 'fonts/lilicon';
+@import 'inputs';
 @import 'utils';
 
 * {
@@ -28,4 +29,21 @@ ul {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+.block-overlay {
+    position: relative;
+
+    &:after {
+      content: ' ';
+      z-index: 10;
+      display: block;
+      position: absolute;
+      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(39, 36, 76, 0.20);
+      border-radius: 4px;
+    }
 }

@@ -7,10 +7,14 @@ import Nav from '../Nav';
 import Sidebar from '../Sidebar';
 import Dashboard from 'pages/Dashboard';
 import Login from 'pages/Login';
-import Accounts from 'pages/Accounts';
-import Cases from 'pages/Cases';
-import Contacts from 'pages/Contacts';
-import Deals from 'pages/Deals';
+import AccountList from 'pages/AccountList';
+import AccountDetail from 'pages/AccountDetail';
+import ContactList from 'pages/ContactList';
+import ContactDetail from 'pages/ContactDetail';
+import CaseList from 'pages/CaseList';
+import CaseDetail from 'pages/CaseDetail';
+import DealList from 'pages/DealList';
+import DealDetail from 'pages/DealDetail';
 import NotFound from 'pages/NotFound';
 // import history from '../../utils/history';
 // import { get } from '../../lib/api/';
@@ -28,10 +32,12 @@ import faPlug from '@fortawesome/fontawesome-free-solid/faPlug';
 import faCreditCard from '@fortawesome/fontawesome-free-solid/faCreditCard';
 import faTrophy from '@fortawesome/fontawesome-free-solid/faTrophy';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
+import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
+import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
 
 fontawesome.library.add(
   faPhone, faPlus, faLock, faKey, faRocket, faEnvelopeOpen,
-  faCode, faPlug, faCreditCard, faTrophy, faSignOutAlt
+  faCode, faPlug, faCreditCard, faTrophy, faSignOutAlt, faCheck, faTimes
 );
 
 class Lily extends Component {
@@ -88,10 +94,14 @@ class Lily extends Component {
                 <main className="content">
                   <ErrorBoundry>
                     <Switch>
-                      <Route path="/accounts" component={Accounts} />
-                      <Route path="/contacts" component={Contacts} />
-                      <Route path="/deals" component={Deals} />
-                      <Route path="/cases" component={Cases} />
+                      <Route path="/accounts/:id" component={AccountDetail} />
+                      <Route path="/accounts" component={AccountList} />
+                      <Route path="/contacts/:id" component={ContactDetail} />
+                      <Route path="/contacts" component={ContactList} />
+                      <Route path="/deals/:id" component={DealDetail} />
+                      <Route path="/deals" component={DealList} />
+                      <Route path="/cases/:id" component={CaseDetail} />
+                      <Route path="/cases" component={CaseList} />
                       <Route path="/" component={Dashboard} />
                       <Redirect from="/" to="/" exact />
                       <Route path="*" component={NotFound} />

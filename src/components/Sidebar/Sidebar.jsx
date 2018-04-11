@@ -21,15 +21,15 @@ class Sidebar extends Component {
     }
   }
 
+  closeSidebar = () => {
+    this.setState({ sidebar: null });
+  }
+
   render() {
     const { sidebar } = this.state;
 
-    let className = 'sidebar';
-
-    if (sidebar) {
-      // Apply a slide animation to the sidebar.
-      className += ' slide';
-    }
+    // Apply a slide animation to the sidebar.
+    const className = 'sidebar' + (sidebar ? ' slide' : '');
 
     // Dynamically decide what form to load.
     const Form = sidebar ? Forms[sidebar] : null;
@@ -39,7 +39,7 @@ class Sidebar extends Component {
         {sidebar &&
           <div>
             <div className="sidebar-header">
-              <button onClick={() => this.setState({sidebar: null})} className="close-btn">
+              <button onClick={this.closeSidebar} className="close-btn">
                 <i className="lilicon hl-close-icon"></i>
               </button>
             </div>

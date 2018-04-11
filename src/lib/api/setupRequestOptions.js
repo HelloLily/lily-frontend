@@ -1,4 +1,4 @@
-import { base, defaultRequest } from 'app/config/api.json';
+import { base, defaultRequest } from 'src/config/api.json';
 
 if (window && window.csrf) {
   defaultRequest.headers['X-csrftoken'] = window.csrf;

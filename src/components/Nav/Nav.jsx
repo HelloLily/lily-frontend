@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { translate } from 'react-i18next';
-import navItems from 'app/config/nav.json';
+import navItems from 'src/config/nav.json';
 
 import NavDropdown from './NavDropdown';
 import SubNav from './SubNav';

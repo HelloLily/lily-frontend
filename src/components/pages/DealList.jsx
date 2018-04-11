@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import List from '../List';
 
-class Deals extends Component {
+class DealList extends Component {
   render() {
     return (
       <div>
@@ -14,4 +14,4 @@ class Deals extends Component {
   }
 }
 
-export default Deals;
+export default DealList;

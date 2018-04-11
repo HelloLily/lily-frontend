@@ -9,7 +9,7 @@
   z-index: 4;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin-top: var(--content-top);
+  margin-top: $content-top;
   transition: all 0.25s ease;
 
   .sidebar-content {

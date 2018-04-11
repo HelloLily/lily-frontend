@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 
 import List from '../List';
 
-class Accounts extends Component {
+class CaseList extends Component {
   render() {
     return (
       <div>
         <List>
-          Account list
+          Case list
         </List>
       </div>
     );
   }
 }
 
-export default Accounts;
+export default CaseList;

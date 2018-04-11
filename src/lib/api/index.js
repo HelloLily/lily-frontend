@@ -52,6 +52,16 @@ export function put(path, body) {
   return fetch(uri, options).then(handleResponse);
 }
 
+export function patch(path, body) {
+  const { uri, options } = setupRequestOptions(path, { body, method: 'PATCH' });
+
+  if (options.body && typeof options.body === 'object') {
+    options.body = JSON.stringify(options.body);
+  }
+
+  return fetch(uri, options).then(handleResponse);
+}
+
 /*
 
 */

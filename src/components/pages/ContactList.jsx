@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import List from '../List';
 
-class Contacts extends Component {
+class ContactList extends Component {
   render() {
     return (
       <div>
@@ -14,4 +14,4 @@ class Contacts extends Component {
   }
 }
 
-export default Contacts;
+export default ContactList;
