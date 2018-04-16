@@ -1,0 +1,25 @@
+@import '~react-select/dist/react-select';
+@import '~style/variables/measurements';
+
+.Select-control {
+    input {
+        padding: 0;
+    }
+
+    &:hover {
+        box-shadow: none;
+    }
+
+    .Select-value {
+        line-height: $inline-editable-field-height !important;
+    }
+}
+
+.Select-control,
+.Select-input {
+    height: $inline-editable-field-height;
+}
+
+.Select-placeholder {
+    line-height: $inline-editable-field-height;
+}

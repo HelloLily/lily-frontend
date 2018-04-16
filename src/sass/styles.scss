@@ -1,9 +1,30 @@
+@import 'vendor';
 @import 'variables/global';
 @import 'buttons';
 @import 'form';
 @import 'fonts/lilicon';
-@import 'inputs';
+@import 'editable';
 @import 'utils';
+@import 'tables';
+
+// TODO: Temporary import, will probably be renamed and only imported in a certain component.
+@import 'selects';
+
+@mixin input-field($height) {
+  border-style: solid;
+  border-radius: $base-border-radius;
+  background: #fff;
+  line-height: $height;
+  height: $height;
+  padding: 0 6px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+
+  &:focus {
+      outline: none;
+      border-color: darken($base-border-color, 20);
+  }
+}
 
 * {
   margin: 0;
@@ -20,6 +41,7 @@ body {
   background: $app-bg-color;
   color: #2a3042;
   margin: 0;
+  line-height: 1.5;
 }
 
 ul {
@@ -29,6 +51,25 @@ ul {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+a {
+  color: $app-color-aqua;
+  text-decoration: none;
+
+  &:hover {
+    color: $app-color-darkblue;
+  }
+}
+
+textarea {
+  outline: none;
+  resize: none;
+  padding: .375rem .75rem;
+}
+
+input {
+  @include input-field(30px);
 }
 
 .block-overlay {

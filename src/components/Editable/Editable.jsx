@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
 
 import EditableText from './EditableText';
+import EditableTextarea from './EditableTextarea';
+import EditableSelect from './EditableSelect';
+import EditableMultiSelect from './EditableMultiSelect';
 import BlockUI from 'components/Utils/BlockUI';
 import Account from 'src/models/Account';
+
+const components = {
+  text: EditableText,
+  textarea: EditableTextarea,
+  select: EditableSelect,
+  multiSelect: EditableMultiSelect
+}
+
+const searchMapping = {
+  assignedTo: {
+    model: 'users',
+    display: 'fullName',
+    sorting: 'fullName'
+  }
+}
 
 class Editable extends Component {
   constructor(props) {
@@ -30,15 +48,17 @@ class Editable extends Component {
   handleClickOutside = event => {
     // Cancel editing if we click outside the editable element.
     // This is to prevent accidental data saving.
-    if (!this.state.submitting && this.editableRef.current && !this.editableRef.current.contains(event.target)) {
-        this.cancel();
+    if (!this.state.submitting && this.editableRef.current !== null && !this.editableRef.current.contains(event.target)) {
+      this.cancel();
     }
   }
 
   handleKeyPress = event => {
-    // Handle Enter key.
-    if (event.keyCode === 13) {
-      this.editableRef.current.handleSubmit();
+    if (this.props.type !== 'textarea') {
+      // Handle Enter key.
+      if (event.keyCode === 13) {
+        this.editableRef.current.handleSubmit();
+      }
     }
 
     // Handle ESC key.
@@ -47,8 +67,15 @@ class Editable extends Component {
     }
   }
 
-  enableEditing = () => {
-    this.setState({ editing: true });
+  enableEditing = event => {
+    const selection = window.getSelection().toString();
+    const elementName = event.target.localName;
+
+    // Allow users to select the field without opening the edit form.
+    // Also prevent the input from showing if we're clicking a link.
+    if (!selection && elementName !== 'a') {
+      this.setState({ editing: true });
+    }
   }
 
   cancel = () => {
@@ -72,7 +99,7 @@ class Editable extends Component {
 
   render() {
     const { editing, value, submitting } = this.state;
-    const { type } = this.props;
+    const { field, type } = this.props;
 
     const editableClassName = 'editable' + (!value ? ' editable-empty' : '');
 
@@ -82,28 +109,26 @@ class Editable extends Component {
       handleSubmit: this.handleSubmit,
       handleChange: this.handleChange,
       cancel: this.cancel,
-      ref: this.editableRef
+      searchMapping: searchMapping[this.props.field]
     }
 
-    let component;
+    const EditableComponent = components[type];
 
-    if (type === 'text') {
-      component = <EditableText {...props} />
-    }
+    const display = (value && searchMapping[field]) ? value[searchMapping[field].display] : value;
 
     return (
       <BlockUI blocking={submitting}>
-        <span>
+        <span onKeyDown={this.handleKeyPress} ref={this.editableRef}>
           {
             editing ?
               (
-                <span onKeyDown={this.handleKeyPress}>
-                  {component}
+                <span>
+                  <EditableComponent {...props} />
                 </span>
               ) :
               (
                 <span onClick={this.enableEditing} className={editableClassName}>
-                  {value || 'No value'}
+                  {display || 'No value'}
                 </span>
               )
           }

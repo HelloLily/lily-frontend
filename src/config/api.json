@@ -1,5 +1,5 @@
 {
-  "base": "http://localhost:3002/api",
+  "base": "http://localhost:8080/api",
   "defaultRequest": {
     "credentials": "same-origin",
     "method": "GET",

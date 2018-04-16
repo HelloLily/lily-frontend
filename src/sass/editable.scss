@@ -1,28 +1,9 @@
 @import './variables/colors';
 @import './variables/measurements';
 
-$inline-editable-field-height: 30px;
-
-@mixin input-field($height) {
-  border-style: solid;
-  border-radius: $base-border-radius;
-  background: #fff;
-  line-height: $height;
-  height: $height;
-  flex-grow: 1;
-  padding: 0 6px;
-  transition: border-color, 0.3s;
-  box-sizing: border-box;
-
-  &:focus {
-      transition: border-color, 0.3s;
-      outline: none;
-      border-color: darken($base-border-color, 20);
-  }
-}
-
-input {
-  @include input-field(30px);
+.editable-wrap {
+  display: flex;
+  position: relative;
 }
 
 .editable {
@@ -33,7 +14,7 @@ input {
   position: relative;
   padding: 0 6px;
   border: 1px transparent solid;
-  white-space: nowrap;
+  white-space: pre-wrap;
 
   &:after {
     background: $lily-white-tone-hover;
@@ -75,8 +56,6 @@ input {
 }
 
 .editable-buttons {
-  display: inline-block;
-
   button {
     color: $lily-dark-blue;
     background: $lily-white-tone-hover;
@@ -111,7 +90,6 @@ input {
 }
 
 .editable-has-buttons {
-  padding: 0 5px;
   line-height: $inline-editable-field-height - 2px;
   height: $inline-editable-field-height;
   border: 1px $lily-grey solid;
@@ -120,23 +98,30 @@ input {
 }
 
 .editable-input {
-  padding: 0 5px;
   line-height: $inline-editable-field-height;
   border-color: $lily-grey;
   border-radius: $base-border-radius;
   border-right: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  resize: vertical;
-  display: inline-block;
+  flex-grow: 1;
 
   &:focus {
       border-color: $lily-grey;
   }
 }
 
-.editable-wrap {
-  display: flex;
+.editable-textarea {
+  flex-direction: column;
+
+  textarea {
+    min-height: 100px;
+    max-height: 500px;
+  }
+
+  .editable-buttons {
+    align-self: flex-end;
+  }
 }
 
 .editable-empty {

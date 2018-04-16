@@ -30,7 +30,14 @@ class AccountDetail extends Component {
                   Account detail
                 </div>
 
+                <strong>Text</strong>
                 <Editable type="text" object={account} field="name" />
+
+                <strong>Textarea</strong>
+                <Editable type="textarea" object={account} field="description" />
+
+                <strong>Select</strong>
+                <Editable type="select" object={account} field="assignedTo" />
               </div>
             ) :
             (

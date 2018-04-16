@@ -1,3 +1,5 @@
+import { convertKeys } from './utils';
+
 const successCodes = [200, 201, 202, 203, 204];
 
 export async function handleResponse(response) {
@@ -20,6 +22,8 @@ export async function handleResponse(response) {
     error.data = data;
     throw error;
   }
+
+  data = convertKeys(data);
 
   return data;
 }
