@@ -50,7 +50,6 @@ export function patch(path, body) {
 
   if (options.body && typeof options.body === 'object') {
     const body = convertKeys(options.body, true);
-    console.log(body);
     options.body = JSON.stringify(body);
   }
 

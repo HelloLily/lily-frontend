@@ -9,9 +9,19 @@
     &:hover {
         box-shadow: none;
     }
+}
 
+.Select--single {
+    .Select-control {
+        .Select-value {
+            line-height: $inline-editable-field-height;
+        }
+    }
+}
+
+.Select--multi {
     .Select-value {
-        line-height: $inline-editable-field-height !important;
+        margin-top: 4px;
     }
 }
 

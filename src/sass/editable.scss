@@ -4,6 +4,10 @@
 .editable-wrap {
   display: flex;
   position: relative;
+
+  &.editable-multi {
+    flex-direction: column;
+  }
 }
 
 .editable {
@@ -131,4 +135,11 @@
   &:hover {
     color: $text-muted;
   }
+}
+
+.editable-multi-actions {
+  background: $lily-white-tone-hover;
+  border: 1px $lily-grey solid;
+  border-radius: $base-border-radius;
+  height: $inline-editable-field-height;
 }

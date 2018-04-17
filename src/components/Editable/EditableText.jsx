@@ -2,22 +2,16 @@ import React, { Component } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 class EditableText extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleSubmit = () => {
     const args = {
       id: this.props.object.id,
       [this.props.field]: this.props.value
-    }
+    };
 
     this.props.handleSubmit(args);
   }
 
   handleChange = event => {
-    event.preventDefault;
-
     this.props.handleChange(event.target.value);
   }
 

@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 class SubNav extends Component {
   setSidebar = type => {
-    this.props.sidebarRef.current.setState({sidebar: type});
+    this.props.sidebarRef.current.setState({ sidebar: type });
   }
 
   render() {
-    const { t } = this.props;
-
     return (
       <div className="subnav">
         <div className="subnav-inner">

@@ -6,7 +6,7 @@ if (window && window.csrf) {
 
 export function setupRequestOptions(path, _options) {
   return {
-    uri: `${base}${path.replace(base, '')}`,
+    uri: `${base}${path.replace(base, '')}?key=88582e527f7fab9a70aa647cb12bf1936a6da321`,
     options: Object.assign({}, defaultRequest, _options)
   };
 }

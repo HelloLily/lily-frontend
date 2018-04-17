@@ -7,7 +7,7 @@ class NavDropdown extends Component {
     super();
 
     this.state = {
-      showMenu: false,
+      showMenu: false
     };
   }
 
@@ -32,8 +32,8 @@ class NavDropdown extends Component {
     return (
       <div>
         <div className="header-avatar clickable m-r-20" onClick={this.showMenu}>
-          <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" className="m-r-5" />
-          <i className="lilicon hl-arrow-down-smll-icon"></i>
+          <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" className="m-r-5" alt="User avatar" />
+          <i className="lilicon hl-arrow-down-smll-icon" />
         </div>
 
         {
@@ -46,13 +46,13 @@ class NavDropdown extends Component {
 
                 <li className="dropdown-menu-item">
                   <NavLink to="/" exact>
-                    <i className="lilicon hl-entity-icon"></i> My profile
+                    <i className="lilicon hl-entity-icon" /> My profile
                   </NavLink>
                 </li>
 
                 <li className="dropdown-menu-item">
                   <NavLink to="/" exact>
-                    <i className="lilicon hl-cog-icon"></i> My account
+                    <i className="lilicon hl-cog-icon" /> My account
                   </NavLink>
                 </li>
 
@@ -74,11 +74,11 @@ class NavDropdown extends Component {
                   </NavLink>
                 </li>
 
-                <div className="divider"></div>
+                <div className="divider" />
 
                 <li className="dropdown-menu-item">
                   <NavLink to="/" exact>
-                    <i className="lilicon hl-email-icon"></i> Email accounts
+                    <i className="lilicon hl-email-icon" /> Email accounts
                   </NavLink>
                 </li>
 
@@ -94,11 +94,11 @@ class NavDropdown extends Component {
                   </NavLink>
                 </li>
 
-                <div className="divider"></div>
+                <div className="divider" />
 
                 <li className="dropdown-menu-item">
                   <NavLink to="/" exact>
-                    <i className="lilicon hl-entities-icon"></i> Users
+                    <i className="lilicon hl-entities-icon" /> Users
                   </NavLink>
                 </li>
 
@@ -116,25 +116,25 @@ class NavDropdown extends Component {
 
                 <li className="dropdown-menu-item">
                   <NavLink to="/" exact>
-                    <i className="lilicon hl-entities-icon"></i> Import
+                    <i className="lilicon hl-entities-icon" /> Import
                   </NavLink>
                 </li>
 
                 <li className="dropdown-menu-item">
                   <NavLink to="/" exact>
-                    <i className="lilicon hl-cog-icon"></i> Settings
+                    <i className="lilicon hl-cog-icon" /> Settings
                   </NavLink>
                 </li>
 
-                <div className="divider"></div>
+                <div className="divider" />
 
                 <li className="dropdown-menu-item">
-                  <a href="https://hellolily.com/blog/whats-new-lately/" target="_blank">
+                  <a href="https://hellolily.com/blog/whats-new-lately/" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon="trophy" /> What's new
                   </a>
                 </li>
 
-                <div className="divider"></div>
+                <div className="divider" />
 
                 <li className="dropdown-menu-item">
                   <NavLink to="/logout" exact>

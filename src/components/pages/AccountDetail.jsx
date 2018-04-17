@@ -17,6 +17,8 @@ class AccountDetail extends Component {
     this.setState({ account: data });
   }
 
+  submitCallback = args => Account.patch(args);
+
   render() {
     const { account } = this.state;
 
@@ -31,13 +33,13 @@ class AccountDetail extends Component {
                 </div>
 
                 <strong>Text</strong>
-                <Editable type="text" object={account} field="name" />
+                <Editable type="text" object={account} field="name" submitCallback={this.submitCallback} />
 
                 <strong>Textarea</strong>
-                <Editable type="textarea" object={account} field="description" />
+                <Editable type="textarea" object={account} field="description" submitCallback={this.submitCallback} />
 
                 <strong>Select</strong>
-                <Editable type="select" object={account} field="assignedTo" />
+                <Editable type="select" object={account} field="assignedTo" submitCallback={this.submitCallback} />
               </div>
             ) :
             (

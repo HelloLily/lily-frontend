@@ -26,7 +26,6 @@ function convertKey(key, toSnakeCase) {
   if (toSnakeCase) {
     // Since the back end uses snake_case, we also want to convert fields back when sending data.
     convertedKey = convertedKey.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-    console.log(convertedKey);
   } else {
     const splitKey = key.split('_');
     convertedKey = splitKey[0];

@@ -10,7 +10,7 @@ const Forms = {
   contact: ContactForm,
   deal: DealForm,
   case: CaseForm
-}
+};
 
 class Sidebar extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class Sidebar extends Component {
     const { sidebar } = this.state;
 
     // Apply a slide animation to the sidebar.
-    const className = 'sidebar' + (sidebar ? ' slide' : '');
+    const className = `sidebar${sidebar ? ' slide' : ''}`;
 
     // Dynamically decide what form to load.
     const Form = sidebar ? Forms[sidebar] : null;
@@ -40,7 +40,7 @@ class Sidebar extends Component {
           <div>
             <div className="sidebar-header">
               <button onClick={this.closeSidebar} className="close-btn">
-                <i className="lilicon hl-close-icon"></i>
+                <i className="lilicon hl-close-icon" />
               </button>
             </div>
             <div className="sidebar-content">

@@ -12,27 +12,25 @@ class EditableTextarea extends Component {
     this.setHeight();
   }
 
+  setHeight = () => {
+    // Set the height to 'auto' to properly calculate the scrollHeight.
+    this.textareaRef.current.style.height = 'auto';
+    this.textareaRef.current.style.height = `${this.textareaRef.current.scrollHeight}px`;
+  }
+
   handleSubmit = () => {
     const args = {
       id: this.props.object.id,
       [this.props.field]: this.props.value
-    }
+    };
 
     this.props.handleSubmit(args);
   }
 
   handleChange = event => {
-    event.preventDefault;
-
     this.setHeight();
 
     this.props.handleChange(event.target.value);
-  }
-
-  setHeight = () => {
-    // Set the height to 'auto' to properly calculate the scrollHeight.
-    this.textareaRef.current.style.height = 'auto';
-    this.textareaRef.current.style.height = `${this.textareaRef.current.scrollHeight}px`;
   }
 
   render() {

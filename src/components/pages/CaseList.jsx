@@ -49,7 +49,7 @@ class CaseList extends Component {
               {cases.map(caseObj => (
                 <tr key={caseObj.id}>
                   <td>{caseObj.id}</td>
-                  <td><NavLink to={`/cases/${caseObj.id}`}>{caseObj.name}</NavLink></td>
+                  <td><NavLink to={`/cases/${caseObj.id}`}>{caseObj.subject}</NavLink></td>
                   <td>
                     {caseObj.contact &&
                       <NavLink to={`/contacts/${caseObj.contact.id}`}>{caseObj.contact.fullName}</NavLink>
@@ -61,7 +61,7 @@ class CaseList extends Component {
                   </td>
                   <td>{caseObj.type.name}</td>
                   <td>{caseObj.status.name}</td>
-                  <td><i className={`lilicon hl-prio-icon-${caseObj.priorityDisplay.toLowerCase()}`}></i></td>
+                  <td><i className={`lilicon hl-prio-icon-${caseObj.priorityDisplay.toLowerCase()}`} /></td>
                   <td>{caseObj.created}</td>
                   <td>{caseObj.expires}</td>
                   <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>

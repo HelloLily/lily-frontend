@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 
 class BlockUI extends Component {
+  static getDerivedStateFromProps = nextProps => ({ blocking: nextProps.blocking });
+
   constructor(props) {
     super(props);
 
     this.state = {
       blocking: false
-    }
-  }
-
-  static getDerivedStateFromProps = nextProps => {
-    return {
-      blocking: nextProps.blocking
     };
   }
 

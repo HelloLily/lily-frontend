@@ -7,24 +7,30 @@ import NavDropdown from './NavDropdown';
 import SubNav from './SubNav';
 
 class Nav extends Component {
+  constructor(props) {
+    super(props);
+
+    this.navRef = React.createRef();
+  }
+
   render() {
     const { t } = this.props;
 
     return (
       <div className="navbar">
         <div className="main-nav">
-          <nav ref="nav">
+          <nav ref={this.navRef}>
             <ul className="main-nav-links">
               <li>
                 <NavLink to="/" exact className="m-l-20 m-r-40">
-                  <i className="lilicon hl-lily-icon"></i>
+                  <i className="lilicon hl-lily-icon" />
                 </NavLink>
               </li>
 
-              {navItems.map((navItem, index) => (
-                <li key={index} className="m-r-55">
+              {navItems.map(navItem => (
+                <li key={navItem.text} className="m-r-55">
                   <NavLink to={navItem.link} exact>
-                    <i className={`lilicon hl-${navItem.icon}-icon m-r-10`}></i>
+                    <i className={`lilicon hl-${navItem.icon}-icon m-r-10`} />
                     <span className="nav-text">{t(navItem.text)}</span>
                   </NavLink>
                 </li>

@@ -1,26 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import ErrorBoundry from '../ErrorBoundry';
-import Header from '../Header';
-import Breadcrumbs from '../Breadcrumbs';
-import Nav from '../Nav';
-import Sidebar from '../Sidebar';
-import Dashboard from 'pages/Dashboard';
-import Login from 'pages/Login';
-import AccountList from 'pages/AccountList';
-import AccountDetail from 'pages/AccountDetail';
-import ContactList from 'pages/ContactList';
-import ContactDetail from 'pages/ContactDetail';
-import CaseList from 'pages/CaseList';
-import CaseDetail from 'pages/CaseDetail';
-import DealList from 'pages/DealList';
-import DealDetail from 'pages/DealDetail';
-import NotFound from 'pages/NotFound';
-// import history from '../../utils/history';
-// import { get } from '../../lib/api/';
-
 import fontawesome from '@fortawesome/fontawesome'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faPhone from '@fortawesome/fontawesome-free-solid/faPhone';
 import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 import faLock from '@fortawesome/fontawesome-free-solid/faLock';
@@ -34,6 +14,25 @@ import faTrophy from '@fortawesome/fontawesome-free-solid/faTrophy';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
+
+import ErrorBoundry from 'components/ErrorBoundry';
+import Header from 'components/Header';
+import Breadcrumbs from 'components/Breadcrumbs';
+import Nav from 'components/Nav';
+import Sidebar from 'components/Sidebar';
+import Dashboard from 'pages/Dashboard';
+import Login from 'pages/Login';
+import AccountList from 'pages/AccountList';
+import AccountDetail from 'pages/AccountDetail';
+import ContactList from 'pages/ContactList';
+import ContactDetail from 'pages/ContactDetail';
+import CaseList from 'pages/CaseList';
+import CaseDetail from 'pages/CaseDetail';
+import DealList from 'pages/DealList';
+import DealDetail from 'pages/DealDetail';
+import NotFound from 'pages/NotFound';
+// import history from '../../utils/history';
+// import { get } from '../../lib/api/';
 
 fontawesome.library.add(
   faPhone, faPlus, faLock, faKey, faRocket, faEnvelopeOpen,
@@ -62,7 +61,7 @@ class Lily extends Component {
   };
 
   render() {
-    const { loading, sidebar } = this.state;
+    const { loading } = this.state;
 
     if (loading) {
       return <div>Loading</div>;

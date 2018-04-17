@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 
+import BlockUI from 'components/Utils/BlockUI';
 import EditableText from './EditableText';
 import EditableTextarea from './EditableTextarea';
 import EditableSelect from './EditableSelect';
-import EditableMultiSelect from './EditableMultiSelect';
-import BlockUI from 'components/Utils/BlockUI';
-import Account from 'src/models/Account';
 
 const components = {
   text: EditableText,
   textarea: EditableTextarea,
-  select: EditableSelect,
-  multiSelect: EditableMultiSelect
-}
+  select: EditableSelect
+};
 
 const searchMapping = {
   assignedTo: {
     model: 'users',
     display: 'fullName',
     sorting: 'fullName'
+  },
+  assignedToTeams: {
+    model: 'users/team',
+    display: 'name',
+    sorting: 'name'
   }
-}
+};
 
 class Editable extends Component {
   constructor(props) {
@@ -34,11 +36,13 @@ class Editable extends Component {
       editing: false,
       value: this.initialValue,
       submitting: false
-    }
+    };
   }
 
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
+    if (!this.props.multi) {
+      document.addEventListener('mousedown', this.handleClickOutside);
+    }
   }
 
   componentWillUnmount() {
@@ -89,7 +93,7 @@ class Editable extends Component {
   handleSubmit = args => {
     this.setState({ submitting: true });
 
-    const promise = Account.patch(args);
+    const promise = this.props.submitCallback(args);
 
     promise.then(response => {
       this.initialValue = this.state.value;
@@ -101,7 +105,7 @@ class Editable extends Component {
     const { editing, value, submitting } = this.state;
     const { field, type } = this.props;
 
-    const editableClassName = 'editable' + (!value ? ' editable-empty' : '');
+    const editableClassName = `editable${!value ? ' editable-empty' : ''}`;
 
     const props = {
       ...this.props,
@@ -110,10 +114,9 @@ class Editable extends Component {
       handleChange: this.handleChange,
       cancel: this.cancel,
       searchMapping: searchMapping[this.props.field]
-    }
+    };
 
     const EditableComponent = components[type];
-
     const display = (value && searchMapping[field]) ? value[searchMapping[field].display] : value;
 
     return (
@@ -128,7 +131,15 @@ class Editable extends Component {
               ) :
               (
                 <span onClick={this.enableEditing} className={editableClassName}>
-                  {display || 'No value'}
+                  {
+                    (value && this.props.multi) ?
+                    (
+                      <div>{value.map(item => <div key={item.id}>{item.name}</div>)}</div>
+                    ) :
+                    (
+                      <span>{display || 'No value'}</span>
+                    )
+                  }
                 </span>
               )
           }

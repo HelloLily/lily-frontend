@@ -60,7 +60,7 @@ class DealList extends Component {
                     }
                   </td>
                   <td>{deal.status.name}</td>
-                  <td><i className={`lilicon hl-prio-icon-${deal.nextStep.name.toLowerCase()}`}></i> {deal.nextStep.name}</td>
+                  <td><i className={`lilicon hl-prio-icon-${deal.nextStep.name.toLowerCase()}`} /> {deal.nextStep.name}</td>
                   <td>{deal.nextStepDate}</td>
                   <td>{deal.assignedTo ? deal.assignedTo.fullName : ''}</td>
                   <td>{deal.amountOnce}</td>
