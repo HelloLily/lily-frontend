@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import List from 'components/List';
+import ListActions from 'components/List/ListActions';
 import Case from 'src/models/Case';
 
 class CaseList extends Component {
@@ -67,7 +68,7 @@ class CaseList extends Component {
                   <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
                   <td>{caseObj.tags.toString()}</td>
-                  <td></td>
+                  <td><ListActions /></td>
                 </tr>
               ))}
             </tbody>

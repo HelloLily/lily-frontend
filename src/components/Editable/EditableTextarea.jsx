@@ -19,12 +19,7 @@ class EditableTextarea extends Component {
   }
 
   handleSubmit = () => {
-    const args = {
-      id: this.props.object.id,
-      [this.props.field]: this.props.value
-    };
-
-    this.props.handleSubmit(args);
+    this.props.handleSubmit();
   }
 
   handleChange = event => {

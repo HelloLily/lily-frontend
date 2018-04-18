@@ -11,6 +11,8 @@ const components = {
   select: EditableSelect
 };
 
+// We set up predefined parameters to reduce the amount of
+// configuration options when calling editable components.
 const searchMapping = {
   assignedTo: {
     model: 'users',
@@ -50,18 +52,20 @@ class Editable extends Component {
   }
 
   handleClickOutside = event => {
+    const editableRef = this.editableRef.current;
+
     // Cancel editing if we click outside the editable element.
     // This is to prevent accidental data saving.
-    if (!this.state.submitting && this.editableRef.current !== null && !this.editableRef.current.contains(event.target)) {
+    if (!this.state.submitting && editableRef !== null && !editableRef.contains(event.target)) {
       this.cancel();
     }
   }
 
   handleKeyPress = event => {
-    if (this.props.type !== 'textarea') {
+    if (this.props.type !== 'textarea' && !this.props.multi) {
       // Handle Enter key.
       if (event.keyCode === 13) {
-        this.editableRef.current.handleSubmit();
+        this.handleSubmit();
       }
     }
 
@@ -90,14 +94,38 @@ class Editable extends Component {
     this.setState({ value });
   }
 
-  handleSubmit = args => {
-    this.setState({ submitting: true });
+  handleSubmit = (data = null) => {
+    const { multi, field } = this.props;
+
+    const args = {
+      id: this.props.object.id
+    };
+
+    if (!data) {
+      args[field] = this.state.value;
+    } else {
+      args[field] = data;
+    }
+
+    if (multi) {
+      args[field] = this.initialValue.map(value => {
+        const isDeleted = args[field].some(item => item.id === value.id);
+
+        return { id: value.id, isDeleted };
+      });
+    }
 
     const promise = this.props.submitCallback(args);
 
-    promise.then(response => {
+    this.setState({ submitting: true });
+
+    promise.then(() => {
       this.initialValue = this.state.value;
-      this.setState({ submitting: false, editing: false });
+      this.setState({ editing: false });
+    }).catch(error => {
+      this.setState({ error: error.data[field] });
+    }).finally(() => {
+      this.setState({ submitting: false });
     });
   }
 
@@ -105,19 +133,32 @@ class Editable extends Component {
     const { editing, value, submitting } = this.state;
     const { field, type } = this.props;
 
-    const editableClassName = `editable${!value ? ' editable-empty' : ''}`;
-
     const props = {
       ...this.props,
       value,
       handleSubmit: this.handleSubmit,
       handleChange: this.handleChange,
       cancel: this.cancel,
-      searchMapping: searchMapping[this.props.field]
+      searchMapping: searchMapping[field],
+      error: this.state.error
     };
 
+    // Dynamically set up the editable component.
     const EditableComponent = components[type];
-    const display = (value && searchMapping[field]) ? value[searchMapping[field].display] : value;
+
+    let display;
+
+    if (this.props.multi) {
+      if (value.length > 0) {
+        display = value.map(item => <div key={item.id}>{item.name}</div>);
+      }
+    } else if (value && searchMapping[field]) {
+      display = value[searchMapping[field].display];
+    } else {
+      display = value;
+    }
+
+    const editableClassName = `editable${!display ? ' editable-empty' : ''}`;
 
     return (
       <BlockUI blocking={submitting}>
@@ -125,20 +166,14 @@ class Editable extends Component {
           {
             editing ?
               (
-                <span>
+                <span className={this.state.error ? 'has-error' : ''}>
                   <EditableComponent {...props} />
                 </span>
               ) :
               (
                 <span onClick={this.enableEditing} className={editableClassName}>
                   {
-                    (value && this.props.multi) ?
-                    (
-                      <div>{value.map(item => <div key={item.id}>{item.name}</div>)}</div>
-                    ) :
-                    (
-                      <span>{display || 'No value'}</span>
-                    )
+                    <span>{display || `No ${field}`}</span>
                   }
                 </span>
               )

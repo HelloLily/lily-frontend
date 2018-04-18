@@ -3,7 +3,7 @@ import Fetch from 'i18next-fetch-backend';
 
 i18n.use(Fetch).init({
   // debug: true,
-  lng: 'nl',
+  lng: 'en',
   loadPath: '/locales/{{lng}}/{{ns}}.json',
   fallbackLng: 'en',
   preload: false,

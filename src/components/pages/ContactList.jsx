@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import List from 'components/List';
+import ListActions from 'components/List/ListActions';
 import Contact from 'src/models/Contact';
 
 class ContactList extends Component {
@@ -56,7 +57,7 @@ class ContactList extends Component {
                   <td>{contact.created}</td>
                   <td>{contact.modified}</td>
                   <td>{contact.tags}</td>
-                  <td></td>
+                  <td><ListActions /></td>
                 </tr>
               ))}
             </tbody>

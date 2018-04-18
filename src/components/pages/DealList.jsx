@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import List from 'components/List';
+import ListActions from 'components/List/ListActions';
 import Deal from 'src/models/Deal';
 
 class DealList extends Component {
@@ -54,22 +55,24 @@ class DealList extends Component {
                     {deal.contact &&
                       <NavLink to={`/contacts/${deal.contact.id}`}>{deal.contact.fullName}</NavLink>
                     }
-                    {(deal.contact && deal.account) && " at " }
+                    {(deal.contact && deal.account) && ' at ' }
                     {deal.account &&
                       <NavLink to={`/accounts/${deal.account.id}`}>{deal.account.name}</NavLink>
                     }
                   </td>
                   <td>{deal.status.name}</td>
-                  <td><i className={`lilicon hl-prio-icon-${deal.nextStep.name.toLowerCase()}`} /> {deal.nextStep.name}</td>
+                  <td>
+                    <i className={`lilicon hl-prio-icon-${deal.nextStep.name.toLowerCase()}`} /> {deal.nextStep.name}
+                  </td>
                   <td>{deal.nextStepDate}</td>
                   <td>{deal.assignedTo ? deal.assignedTo.fullName : ''}</td>
                   <td>{deal.amountOnce}</td>
                   <td>{deal.amountRecurring}</td>
-                  <td>{deal.newBusiness ? "New" : "Existing"}</td>
+                  <td>{deal.newBusiness ? 'New' : 'Existing'}</td>
                   <td>{deal.created}</td>
                   <td>{deal.createdBy ? deal.createdBy.fullName : 'Unknown'}</td>
                   <td>{deal.tags.toString()}</td>
-                  <td></td>
+                  <td><ListActions /></td>
                 </tr>
               ))}
             </tbody>

@@ -18,7 +18,7 @@ class Sidebar extends Component {
 
     this.state = {
       sidebar: null
-    }
+    };
   }
 
   closeSidebar = () => {

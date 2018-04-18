@@ -1,5 +1,5 @@
-@import 'vendor';
 @import 'variables/global';
+@import 'vendor';
 @import 'buttons';
 @import 'form';
 @import 'fonts/lilicon';
@@ -87,4 +87,10 @@ input {
       background: rgba(39, 36, 76, 0.20);
       border-radius: 4px;
     }
+}
+
+.has-error {
+  * {
+    border-color: $app-color-red !important;
+  }
 }

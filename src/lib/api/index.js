@@ -1,8 +1,8 @@
 import * as cache from '../cache';
 import { cachePostResponseAsGet } from '../../config/api.json';
-import { handleResponse } from './handleResponse';
-import { setupRequestOptions } from './setupRequestOptions';
 import { convertKeys } from './utils';
+import handleResponse from './handleResponse';
+import setupRequestOptions from './setupRequestOptions';
 
 export function get(path, _options) {
   const { uri, options } = setupRequestOptions(path, _options);
@@ -38,8 +38,8 @@ export function put(path, body) {
   const { uri, options } = setupRequestOptions(path, { body, method: 'PUT' });
 
   if (options.body && typeof options.body === 'object') {
-    const body = convertKeys(options.body, true);
-    options.body = JSON.stringify(body);
+    const data = convertKeys(options.body, true);
+    options.body = JSON.stringify(data);
   }
 
   return fetch(uri, options).then(handleResponse);
@@ -49,8 +49,8 @@ export function patch(path, body) {
   const { uri, options } = setupRequestOptions(path, { body, method: 'PATCH' });
 
   if (options.body && typeof options.body === 'object') {
-    const body = convertKeys(options.body, true);
-    options.body = JSON.stringify(body);
+    const data = convertKeys(options.body, true);
+    options.body = JSON.stringify(data);
   }
 
   return fetch(uri, options).then(handleResponse);

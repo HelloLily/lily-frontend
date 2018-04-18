@@ -1,6 +1,19 @@
 @import '~react-select/dist/react-select';
 @import '~style/variables/measurements';
 
+.Select {
+    &.editable-input {
+        line-height: $inline-editable-field-height - 3px;
+    }
+
+    &.is-focused:not(.is-open) {
+        .Select-control {
+            border-color: $base-border-color;
+            box-shadow: none;
+        }
+    }
+}
+
 .Select-control {
     input {
         padding: 0;
@@ -14,22 +27,23 @@
 .Select--single {
     .Select-control {
         .Select-value {
-            line-height: $inline-editable-field-height;
+            line-height: $inline-editable-field-height - 2px;
+            padding-left: 6px;
         }
     }
 }
 
 .Select--multi {
     .Select-value {
-        margin-top: 4px;
+        margin-top: 3px;
     }
 }
 
 .Select-control,
 .Select-input {
-    height: $inline-editable-field-height;
+    height: $inline-editable-field-height - 2px;
 }
 
 .Select-placeholder {
-    line-height: $inline-editable-field-height;
+    line-height: $inline-editable-field-height - 2px;
 }
