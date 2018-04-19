@@ -2,10 +2,6 @@
 @import '~style/variables/measurements';
 
 .Select {
-    &.editable-input {
-        line-height: $inline-editable-field-height - 3px;
-    }
-
     &.is-focused:not(.is-open) {
         .Select-control {
             border-color: $base-border-color;
@@ -15,6 +11,13 @@
 }
 
 .Select-control {
+    display: flex;
+    border: 1px $base-border-color solid;
+
+    .Select-multi-value-wrapper {
+        flex-grow: 1;
+    }
+
     input {
         padding: 0;
     }
@@ -27,7 +30,7 @@
 .Select--single {
     .Select-control {
         .Select-value {
-            line-height: $inline-editable-field-height - 2px;
+            line-height: $inline-editable-field-height;
             padding-left: 6px;
         }
     }
@@ -41,9 +44,9 @@
 
 .Select-control,
 .Select-input {
-    height: $inline-editable-field-height - 2px;
+    height: $inline-editable-field-height;
 }
 
 .Select-placeholder {
-    line-height: $inline-editable-field-height - 2px;
+    line-height: $inline-editable-field-height;
 }

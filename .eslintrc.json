@@ -20,7 +20,8 @@
     "max-len": ["error", {"code": 120, "tabWidth": 2}],
     "arrow-parens": [2, "as-needed"],
     "comma-dangle": ["error", "never"],
-    "no-param-reassign": ["error", { "props": false }],
+    "no-param-reassign": ["error", {"props": false}],
+    "object-curly-newline": ["error", {"consistent": true}],
 
     "react/prop-types": 0,
     "react/no-did-mount-set-state": 0,

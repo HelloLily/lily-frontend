@@ -30,9 +30,9 @@
   margin: 0;
 	padding: 0;
 	font-size: 100%;
-  vertical-align: baseline;
   border-color: $base-border-color;
   border-width: 1px;
+  box-sizing: border-box;
 }
 
 body {
@@ -93,4 +93,8 @@ input {
   * {
     border-color: $app-color-red !important;
   }
+}
+
+.error-message {
+  color: $app-color-red;
 }

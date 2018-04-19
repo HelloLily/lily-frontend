@@ -2,6 +2,12 @@
 @import './variables/measurements';
 
 .editable-wrap {
+  .error-message {
+    font-size: 0.85em;
+  }
+}
+
+.editable-input-wrap {
   display: flex;
   position: relative;
 
@@ -64,7 +70,6 @@
     color: $lily-dark-blue;
     background: $lily-white-tone-hover;
     border: 1px $lily-grey solid;
-    border-right: 0;
     margin-left: 0;
     border-radius: 0;
     height: $inline-editable-field-height;
@@ -73,10 +78,13 @@
     padding: 0;
     line-height: $inline-editable-field-height - 2px;
 
-    &:last-child {
-        border-top-right-radius: var(--base-border-radius);
-        border-bottom-right-radius: var(--base-border-radius);
-        border-right: 1px $lily-grey solid;
+    &:not(:last-of-type) {
+      border-right: 0;
+    }
+
+    &:last-of-type {
+        border-top-right-radius: $base-border-radius;
+        border-bottom-right-radius: $base-border-radius;
     }
 
     &:hover {
@@ -125,6 +133,20 @@
 
   .editable-buttons {
     align-self: flex-end;
+  }
+
+  .editable-buttons {
+    button {
+      border-top: 0;
+
+      &:first-of-type {
+        border-bottom-left-radius: $base-border-radius;
+      }
+
+      &:last-of-type {
+          border-top-right-radius: 0;
+      }
+    }
   }
 }
 

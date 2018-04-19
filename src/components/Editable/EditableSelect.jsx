@@ -80,7 +80,7 @@ class EditableSelect extends Component {
       options = { value, label };
     }
 
-    const className = `editable-wrap${multi ? ' editable-multi' : ''}`;
+    const className = `editable-input-wrap${multi ? ' editable-multi' : ''}`;
 
     return (
       <span className={className}>
@@ -97,7 +97,7 @@ class EditableSelect extends Component {
         />
 
         {multi &&
-          <div className="editable-multi-actions">
+          <div className="editable-multi-actions m-t-5">
             <div className="float-right">
               <button
                 type="submit"

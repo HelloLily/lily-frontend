@@ -32,8 +32,14 @@ class EditableTextarea extends Component {
     const { value } = this.props;
 
     return (
-      <span className="editable-wrap editable-textarea">
-        <textarea value={value} autoFocus onChange={this.handleChange} className="editable-has-buttons editable-input" ref={this.textareaRef} />
+      <span className="editable-input-wrap editable-textarea">
+        <textarea
+          autoFocus
+          value={value}
+          onChange={this.handleChange}
+          className="editable-has-buttons editable-input"
+          ref={this.textareaRef}
+        />
 
         <span className="editable-buttons">
           <button onClick={this.handleSubmit}><FontAwesomeIcon icon="check" /></button>

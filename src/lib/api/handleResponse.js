@@ -16,14 +16,14 @@ export default async function handleResponse(response) {
     });
   }
 
+  data = convertKeys(data);
+
   if (!successCodes.includes(status)) {
     data.status = status;
     const error = new Error(statusText);
     error.data = data;
     throw error;
   }
-
-  data = convertKeys(data);
 
   return data;
 }

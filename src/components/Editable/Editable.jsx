@@ -87,7 +87,7 @@ class Editable extends Component {
   }
 
   cancel = () => {
-    this.setState({ value: this.initialValue, editing: false });
+    this.setState({ value: this.initialValue, editing: false, error: null });
   }
 
   handleChange = value => {
@@ -119,18 +119,20 @@ class Editable extends Component {
 
     this.setState({ submitting: true });
 
+    let error = null;
+
     promise.then(() => {
       this.initialValue = this.state.value;
       this.setState({ editing: false });
-    }).catch(error => {
-      this.setState({ error: error.data[field] });
+    }).catch(errorResponse => {
+      error = errorResponse.data[field];
     }).finally(() => {
-      this.setState({ submitting: false });
+      this.setState({ submitting: false, error });
     });
   }
 
   render() {
-    const { editing, value, submitting } = this.state;
+    const { editing, value, submitting, error } = this.state;
     const { field, type } = this.props;
 
     const props = {
@@ -159,6 +161,7 @@ class Editable extends Component {
     }
 
     const editableClassName = `editable${!display ? ' editable-empty' : ''}`;
+    const wrapperClassName = `editable-wrap${error ? ' has-error' : ''}`;
 
     return (
       <BlockUI blocking={submitting}>
@@ -166,8 +169,10 @@ class Editable extends Component {
           {
             editing ?
               (
-                <span className={this.state.error ? 'has-error' : ''}>
+                <span className={wrapperClassName}>
                   <EditableComponent {...props} />
+
+                  {error && <div className="error-message">{error}</div>}
                 </span>
               ) :
               (

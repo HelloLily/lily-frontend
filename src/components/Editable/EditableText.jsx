@@ -14,8 +14,14 @@ class EditableText extends Component {
     const { value } = this.props;
 
     return (
-      <span className="editable-wrap">
-        <input type="text" value={value} autoFocus onChange={this.handleChange} className="editable-has-buttons editable-input" />
+      <span className="editable-input-wrap">
+        <input
+          autoFocus
+          type="text"
+          value={value}
+          onChange={this.handleChange}
+          className="editable-has-buttons editable-input"
+        />
 
         <span className="editable-buttons">
           <button onClick={this.handleSubmit}><FontAwesomeIcon icon="check" /></button>
