@@ -8,19 +8,21 @@
   border-radius: $base-border-radius;
   right: 15px;
   position: absolute;
+  width: 250px;
 
   .dropdown-menu-item {
     a {
-      padding: 13px;
-      width: 175px;
-      display: block;
-      text-decoration: none;
-      color: $app-color-darkblue;
-      white-space: nowrap;
+      &:not(.unavailable-marker) {
+        padding: 13px;
+        display: block;
+        text-decoration: none;
+        color: $app-color-darkblue;
+        white-space: nowrap;
 
-      &:hover {
-          background-color: $app-color-aqua;
-          color: #fff;
+        &:hover {
+            background-color: $app-color-aqua;
+            color: #fff;
+        }
       }
     }
 
@@ -42,6 +44,18 @@
   .divider {
     margin: 5px 10px;
     border-bottom-style: solid;
+  }
+}
+
+.dropdown-menu-item {
+  .is-disabled {
+    a {
+      &:not(.unavailable-marker) {
+        background-color: initial;
+        display: inline-block;
+        width: 150px;
+      }
+    }
   }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import BlockUI from 'components/Utils/BlockUI';
 import EditableText from './EditableText';
@@ -12,12 +13,13 @@ const components = {
 };
 
 // We set up predefined parameters to reduce the amount of
-// configuration options when calling editable components.
+// configuration options when calling Editable components.
 const searchMapping = {
   assignedTo: {
     model: 'users',
     display: 'fullName',
-    sorting: 'fullName'
+    sorting: 'fullName',
+    empty: 'Nobody'
   },
   assignedToTeams: {
     model: 'users/team',
@@ -62,11 +64,16 @@ class Editable extends Component {
   }
 
   handleKeyPress = event => {
-    if (this.props.type !== 'textarea' && !this.props.multi) {
+    let shouldSubmit = event.keyCode === 13;
+
+    if (this.props.type === 'textarea' || this.props.multi) {
+      // Submit certain components with 'Meta' key (e.g. Ctrl) + 'Enter'.
+      shouldSubmit = shouldSubmit && event.metaKey;
+    }
+
+    if (shouldSubmit) {
       // Handle Enter key.
-      if (event.keyCode === 13) {
-        this.handleSubmit();
-      }
+      this.handleSubmit();
     }
 
     // Handle ESC key.
@@ -104,17 +111,21 @@ class Editable extends Component {
     if (!data) {
       args[field] = this.state.value;
     } else {
+      // Editable components might have some processing before submitting.
+      // This means they'll pass the data instead of using this.state.value.
       args[field] = data;
     }
 
     if (multi) {
       args[field] = this.initialValue.map(value => {
+        // Set the isDeleted flag if the value was removed.
         const isDeleted = args[field].some(item => item.id === value.id);
 
         return { id: value.id, isDeleted };
       });
     }
 
+    // The Editable component is passed a function which does the actual submitting.
     const promise = this.props.submitCallback(args);
 
     this.setState({ submitting: true });
@@ -125,8 +136,10 @@ class Editable extends Component {
       this.initialValue = this.state.value;
       this.setState({ editing: false });
     }).catch(errorResponse => {
+      // Get the actual error message.
       error = errorResponse.data[field];
     }).finally(() => {
+      // Always set the error. If there is none the current error will just get cleared.
       this.setState({ submitting: false, error });
     });
   }
@@ -135,6 +148,7 @@ class Editable extends Component {
     const { editing, value, submitting, error } = this.state;
     const { field, type } = this.props;
 
+    // Set up some generic props.
     const props = {
       ...this.props,
       value,
@@ -152,16 +166,21 @@ class Editable extends Component {
 
     if (this.props.multi) {
       if (value.length > 0) {
+        // Since there are multiple values there needs to be custom rendering.
         display = value.map(item => <div key={item.id}>{item.name}</div>);
       }
     } else if (value && searchMapping[field]) {
+      // Certain fields have a custom field used as the displayed field.
       display = value[searchMapping[field].display];
     } else {
+      // No special rendering, so display the value.
       display = value;
     }
 
     const editableClassName = `editable${!display ? ' editable-empty' : ''}`;
     const wrapperClassName = `editable-wrap${error ? ' has-error' : ''}`;
+    // Certain fields have a custom empty state.
+    const emptyText = searchMapping[field] ? searchMapping[field].empty : `No ${field}`;
 
     return (
       <BlockUI blocking={submitting}>
@@ -178,7 +197,13 @@ class Editable extends Component {
               (
                 <span onClick={this.enableEditing} className={editableClassName}>
                   {
-                    <span>{display || `No ${field}`}</span>
+                    type === 'textarea' ?
+                    (
+                      <ReactMarkdown source={display || emptyText} />
+                    ) :
+                    (
+                      <span>{display || emptyText}</span>
+                    )
                   }
                 </span>
               )

@@ -54,7 +54,7 @@ module.exports = {
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
       },
       {
         test: /\.(ttf|otf|eot|svg)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
@@ -62,8 +62,8 @@ module.exports = {
           loader: 'file-loader',
           options: {
             outputPath: 'fonts',
-            publicPath: 'fonts',
-          },
+            publicPath: 'fonts'
+          }
         }]
       }
     ]
@@ -78,7 +78,7 @@ module.exports = {
     }
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebPackPlugin({

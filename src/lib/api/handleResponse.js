@@ -1,4 +1,4 @@
-import { convertKeys } from './utils';
+import convertKeys from './utils';
 
 const successCodes = [200, 201, 202, 203, 204];
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Editable from 'components/Editable/Editable';
+import Editable from 'components/Editable';
 import Case from 'src/models/Case';
 
 class CaseDetail extends Component {

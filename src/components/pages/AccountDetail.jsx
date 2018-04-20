@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Editable from 'components/Editable/Editable';
+import Editable from 'components/Editable';
 import Account from 'src/models/Account';
 
 class AccountDetail extends Component {

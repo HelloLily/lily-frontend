@@ -1,5 +1,7 @@
-@import './variables/colors';
-@import './variables/measurements';
+@import '~style/variables/global';
+@import '~style/fonts/lilicon.scss';
+@import '~style/variables/colors';
+@import '~style/variables/measurements';
 
 .editable-wrap {
   .error-message {
@@ -46,7 +48,7 @@
     cursor: pointer;
 
     &:hover {
-        color: $lily-blue;
+      color: $lily-blue;
     }
   }
 
@@ -56,11 +58,11 @@
     cursor: text;
 
     &:after {
-        transition: all ease-in-out 0.3s;
-        visibility: visible;
-        width: $inline-editable-field-height;
-        right: -$inline-editable-field-height;
-        z-index: 99;
+      transition: all ease-in-out 0.3s;
+      visibility: visible;
+      width: $inline-editable-field-height;
+      right: -$inline-editable-field-height - 2;
+      z-index: 99;
     }
   }
 }
@@ -83,20 +85,20 @@
     }
 
     &:last-of-type {
-        border-top-right-radius: $base-border-radius;
-        border-bottom-right-radius: $base-border-radius;
+      border-top-right-radius: $base-border-radius;
+      border-bottom-right-radius: $base-border-radius;
     }
 
     &:hover {
-        background: $lily-white-tone-hover;
-        border-color: $lily-grey;
-        color: $lily-blue;
+      background: $lily-white-tone-hover;
+      border-color: $lily-grey;
+      color: $lily-blue;
     }
 
     &:active {
-        background: $lily-grey !important;
-        color: darken($lily-blue, 10) !important;
-        border-color: $lily-grey;
+      background: $lily-grey !important;
+      color: darken($lily-blue, 10) !important;
+      border-color: $lily-grey;
     }
   }
 }
@@ -119,7 +121,7 @@
   flex-grow: 1;
 
   &:focus {
-      border-color: $lily-grey;
+    border-color: $lily-grey;
   }
 }
 
@@ -144,7 +146,7 @@
       }
 
       &:last-of-type {
-          border-top-right-radius: 0;
+        border-top-right-radius: 0;
       }
     }
   }

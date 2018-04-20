@@ -25,12 +25,12 @@ $large-button: 30px;
   background: #fff;
 
   &:hover {
-      color: $app-color-aqua;
-      text-decoration: none;
+    color: $app-color-aqua;
+    text-decoration: none;
   }
 
   &:focus {
-      text-decoration: none;
+    text-decoration: none;
   }
 
   &.disabled {
@@ -51,16 +51,16 @@ $large-button: 30px;
   color: $app-color-darkblue;
 
   &.round {
-      margin: 0;
-      border-radius: 50%;
+    margin: 0;
+    border-radius: 50%;
   }
 }
 
 .close-btn {
-    color: $text-muted;
-    border: 0;
+  color: $text-muted;
+  border: 0;
 
-    &:hover {
-        color: $app-color-red;
-    }
+  &:hover {
+    color: $app-color-red;
+  }
 }

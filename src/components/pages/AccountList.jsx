@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Account from 'src/models/Account';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
-import Editable from 'components/Editable/Editable';
+import Editable from 'components/Editable';
 
 class AccountList extends Component {
   constructor(props) {

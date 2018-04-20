@@ -6,12 +6,14 @@ import { get } from 'src/lib/api';
 
 class EditableSelect extends Component {
   onInputKeyDown = event => {
-    if (this.props.multi) {
-      // Default behavior is to open the options, but we want to prevent that.
-      if (event.keyCode === 13) {
-        event.preventDefault();
-        this.handleMultiSubmit();
-      }
+    if (this.props.multi && event.keyCode === 13 && event.metaKey) {
+      // Instead of showing the options when 'Meta' key + 'Enter' are pressed we submit the form.
+      event.preventDefault();
+    }
+
+    if (event.keyCode === 27) {
+      // Don't blur when Esc is pressed, but cancel the editing.
+      event.preventDefault();
     }
   }
 

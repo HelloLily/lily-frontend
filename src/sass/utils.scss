@@ -5,15 +5,15 @@ $spaceamounts: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 8
 $sides: (top, bottom, left, right);
 
 @each $space in $spaceamounts {
-    @each $side in $sides {
-        .m-#{str-slice($side, 0, 1)}-#{$space} {
-            margin-#{$side}: #{$space}px;
-        }
-
-        .p-#{str-slice($side, 0, 1)}-#{$space} {
-            padding-#{$side}: #{$space}px;
-        }
+  @each $side in $sides {
+    .m-#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}px;
     }
+
+    .p-#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}px;
+    }
+  }
 }
 
 .float-left {
@@ -29,9 +29,18 @@ $sides: (top, bottom, left, right);
 }
 
 .no-background {
-    background: none;
+  background: none;
 }
 
 .no-border {
-    border: 0;
+  border: 0;
+}
+
+.is-disabled {
+  pointer-events: none;
+  opacity: 0.35;
+
+  :first-child {
+      pointer-events: none;
+  }
 }

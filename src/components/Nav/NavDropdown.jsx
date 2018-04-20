@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
+import FeatureUnavailableMarker from 'components/Billing/FeatureUnavailableMarker';
+
 class NavDropdown extends Component {
   constructor() {
     super();
@@ -21,7 +23,6 @@ class NavDropdown extends Component {
 
   closeMenu = event => {
     if (!this.dropdownMenu.contains(event.target)) {
-
       this.setState({ showMenu: false }, () => {
         document.removeEventListener('click', this.closeMenu);
       });
@@ -32,7 +33,11 @@ class NavDropdown extends Component {
     return (
       <div>
         <div className="header-avatar clickable m-r-20" onClick={this.showMenu}>
-          <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" className="m-r-5" alt="User avatar" />
+          <img
+            src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
+            className="m-r-5"
+            alt="User avatar"
+          />
           <i className="lilicon hl-arrow-down-smll-icon" />
         </div>
 
@@ -41,7 +46,7 @@ class NavDropdown extends Component {
             ? (
               <ul
                 className="dropdown-menu m-t-5"
-                ref={element => { this.dropdownMenu = element }}
+                ref={element => { this.dropdownMenu = element; }}
               >
 
                 <li className="dropdown-menu-item">
@@ -63,15 +68,19 @@ class NavDropdown extends Component {
                 </li>
 
                 <li className="dropdown-menu-item">
-                  <NavLink to="/" exact>
-                    <FontAwesomeIcon icon="key" /> My API token
-                  </NavLink>
+                  <FeatureUnavailableMarker tier="2">
+                    <NavLink to="/" exact>
+                      <FontAwesomeIcon icon="key" /> My API token
+                    </NavLink>
+                  </FeatureUnavailableMarker>
                 </li>
 
                 <li className="dropdown-menu-item">
-                  <NavLink to="/" exact>
-                    <FontAwesomeIcon icon="rocket" /> My webhook
-                  </NavLink>
+                  <FeatureUnavailableMarker tier="2">
+                    <NavLink to="/" exact>
+                      <FontAwesomeIcon icon="rocket" /> My webhook
+                    </NavLink>
+                  </FeatureUnavailableMarker>
                 </li>
 
                 <div className="divider" />
@@ -103,9 +112,11 @@ class NavDropdown extends Component {
                 </li>
 
                 <li className="dropdown-menu-item">
-                  <NavLink to="/" exact>
-                    <FontAwesomeIcon icon="plug" /> Integrations
-                  </NavLink>
+                  <FeatureUnavailableMarker tier="2">
+                    <NavLink to="/" exact>
+                      <FontAwesomeIcon icon="plug" /> Integrations
+                    </NavLink>
+                  </FeatureUnavailableMarker>
                 </li>
 
                 <li className="dropdown-menu-item">

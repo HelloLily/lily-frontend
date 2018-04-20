@@ -2,51 +2,51 @@
 @import '~style/variables/measurements';
 
 .Select {
-    &.is-focused:not(.is-open) {
-        .Select-control {
-            border-color: $base-border-color;
-            box-shadow: none;
-        }
+  &.is-focused:not(.is-open) {
+    .Select-control {
+        border-color: $base-border-color;
+        box-shadow: none;
     }
+  }
 }
 
 .Select-control {
-    display: flex;
-    border: 1px $base-border-color solid;
+  display: flex;
+  border: 1px $base-border-color solid;
 
-    .Select-multi-value-wrapper {
-        flex-grow: 1;
-    }
+  .Select-multi-value-wrapper {
+    flex-grow: 1;
+  }
 
-    input {
-        padding: 0;
-    }
+  input {
+    padding: 0;
+  }
 
-    &:hover {
-        box-shadow: none;
-    }
+  &:hover {
+    box-shadow: none;
+  }
 }
 
 .Select--single {
-    .Select-control {
-        .Select-value {
-            line-height: $inline-editable-field-height;
-            padding-left: 6px;
-        }
+  .Select-control {
+    .Select-value {
+      line-height: $inline-editable-field-height;
+      padding-left: 6px;
     }
+  }
 }
 
 .Select--multi {
-    .Select-value {
-        margin-top: 3px;
-    }
+  .Select-value {
+    margin-top: 3px;
+  }
 }
 
 .Select-control,
 .Select-input {
-    height: $inline-editable-field-height;
+  height: $inline-editable-field-height;
 }
 
 .Select-placeholder {
-    line-height: $inline-editable-field-height;
+  line-height: $inline-editable-field-height;
 }

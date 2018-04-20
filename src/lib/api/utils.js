@@ -1,8 +1,29 @@
+function convertKey(key, toSnakeCase) {
+  let convertedKey = key;
+
+  if (toSnakeCase) {
+    // Since the back end uses snake_case, we also want to convert fields back when sending data.
+    convertedKey = convertedKey.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
+  } else {
+    const splitKey = key.split('_');
+    [convertedKey] = splitKey;
+
+    // Convert to camelCase.
+    if (splitKey.length > 1) {
+      for (let i = 1; i < splitKey.length; i++) {
+        convertedKey += splitKey[i].charAt(0).toUpperCase() + splitKey[i].slice(1);
+      }
+    }
+  }
+
+  return convertedKey;
+}
+
 /**
  * Converts keys from the API's data from snake_case to camelCase (or vice-versa).
  * This is so the front end can have it's own code style rules.
  */
-export function convertKeys(data, toSnakeCase = false) {
+export default function convertKeys(data, toSnakeCase = false) {
   Object.keys(data).forEach(key => {
     const convertedKey = convertKey(key, toSnakeCase);
 
@@ -18,25 +39,4 @@ export function convertKeys(data, toSnakeCase = false) {
   });
 
   return data;
-}
-
-function convertKey(key, toSnakeCase) {
-  let convertedKey = key;
-
-  if (toSnakeCase) {
-    // Since the back end uses snake_case, we also want to convert fields back when sending data.
-    convertedKey = convertedKey.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-  } else {
-    const splitKey = key.split('_');
-    convertedKey = splitKey[0];
-
-    // Convert to camelCase.
-    if (splitKey.length > 1) {
-      for (let i = 1; i < splitKey.length; i++) {
-        convertedKey += splitKey[i].charAt(0).toUpperCase() + splitKey[i].slice(1);
-      }
-    }
-  }
-
-  return convertedKey;
 }

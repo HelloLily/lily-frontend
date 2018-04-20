@@ -1,6 +1,6 @@
 import * as cache from '../cache';
 import { cachePostResponseAsGet } from '../../config/api.json';
-import { convertKeys } from './utils';
+import convertKeys from './utils';
 import handleResponse from './handleResponse';
 import setupRequestOptions from './setupRequestOptions';
 

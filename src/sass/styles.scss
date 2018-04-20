@@ -3,7 +3,6 @@
 @import 'buttons';
 @import 'form';
 @import 'fonts/lilicon';
-@import 'editable';
 @import 'utils';
 @import 'tables';
 
@@ -73,20 +72,20 @@ input {
 }
 
 .block-overlay {
-    position: relative;
+  position: relative;
 
-    &:after {
-      content: ' ';
-      z-index: 10;
-      display: block;
-      position: absolute;
-      height: 100%;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(39, 36, 76, 0.20);
-      border-radius: 4px;
-    }
+  &:after {
+    content: ' ';
+    z-index: 10;
+    display: block;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(39, 36, 76, 0.20);
+    border-radius: 4px;
+  }
 }
 
 .has-error {
