@@ -5,12 +5,32 @@ class Case {
     return get(`/cases/${id}/`);
   }
 
+  post(data) {
+    return post('/cases/', data);
+  }
+
   patch(data) {
     return patch(`/cases/${data.id}/`, data);
   }
 
+  del(id) {
+    return del(`/cases/${id}/`);
+  }
+
   query() {
     const response = get('/cases/');
+
+    return response;
+  }
+
+  getCaseTypes() {
+    const response = get('/cases/types/');
+
+    return response;
+  }
+
+  getStatuses() {
+    const response = get('/cases/statuses/');
 
     return response;
   }

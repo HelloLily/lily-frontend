@@ -5,8 +5,16 @@ class Contact {
     return get(`/contacts/${id}/`);
   }
 
+  post(data) {
+    return post('/contacts/', data);
+  }
+
   patch(data) {
     return patch(`/contacts/${data.id}/`, data);
+  }
+
+  del(id) {
+    return del(`/contacts/${id}/`);
   }
 
   query() {

@@ -33,7 +33,10 @@ class CaseDetail extends Component {
                 </div>
 
                 <strong>Select</strong>
-                <Editable type="select" object={caseObj} field="assignedTo" submitCallback={this.submitCallback} />
+                <Editable type="select" object={caseObj} field="type" submitCallback={this.submitCallback} />
+
+                <strong>Async select</strong>
+                <Editable type="select" object={caseObj} field="assignedTo" submitCallback={this.submitCallback} async />
 
                 <strong>Multi select</strong>
                 <Editable type="select" object={caseObj} field="assignedToTeams" submitCallback={this.submitCallback} multi />

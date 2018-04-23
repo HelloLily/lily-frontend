@@ -5,8 +5,16 @@ class Deal {
     return get(`/deals/${id}/`);
   }
 
+  post(data) {
+    return post('/deals/', data);
+  }
+
   patch(data) {
     return patch(`/deals/${data.id}/`, data);
+  }
+
+  del(id) {
+    return del(`/deals/${id}/`);
   }
 
   query() {

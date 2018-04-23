@@ -5,8 +5,16 @@ class Account {
     return get(`/accounts/${id}/`);
   }
 
+  post(data) {
+    return post('/accounts/', data);
+  }
+
   patch(data) {
     return patch(`/accounts/${data.id}/`, data);
+  }
+
+  del(id) {
+    return del(`/accounts/${id}/`);
   }
 
   query() {

@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import BlockUI from 'components/Utils/BlockUI';
 import EditableText from './EditableText';
 import EditableTextarea from './EditableTextarea';
+import EditableAsyncSelect from './EditableAsyncSelect';
 import EditableSelect from './EditableSelect';
 
 const components = {
@@ -25,6 +26,9 @@ const searchMapping = {
     model: 'users/team',
     display: 'name',
     sorting: 'name'
+  },
+  type: {
+    model: 'cases/types'
   }
 };
 
@@ -109,7 +113,7 @@ class Editable extends Component {
     };
 
     if (!data) {
-      args[field] = this.state.value;
+      args[field] = this.state.value.hasOwnProperty('id') ? this.state.value.id : this.state.value;
     } else {
       // Editable components might have some processing before submitting.
       // This means they'll pass the data instead of using this.state.value.
@@ -160,7 +164,13 @@ class Editable extends Component {
     };
 
     // Dynamically set up the editable component.
-    const EditableComponent = components[type];
+    let EditableComponent;
+
+    if (type === 'select' && (this.props.async || this.props.multi)) {
+      EditableComponent = EditableAsyncSelect;
+    } else {
+      EditableComponent = components[type];
+    }
 
     let display;
 
@@ -171,7 +181,8 @@ class Editable extends Component {
       }
     } else if (value && searchMapping[field]) {
       // Certain fields have a custom field used as the displayed field.
-      display = value[searchMapping[field].display];
+      // If there is a custom endpoint, but no custom field just fall back to 'name'.
+      display = value[searchMapping[field].display] || value.name;
     } else {
       // No special rendering, so display the value.
       display = value;
@@ -180,7 +191,7 @@ class Editable extends Component {
     const editableClassName = `editable${!display ? ' editable-empty' : ''}`;
     const wrapperClassName = `editable-wrap${error ? ' has-error' : ''}`;
     // Certain fields have a custom empty state.
-    const emptyText = searchMapping[field] ? searchMapping[field].empty : `No ${field}`;
+    const emptyText = searchMapping[field].empty ? searchMapping[field].empty : `No ${field}`;
 
     return (
       <BlockUI blocking={submitting}>
