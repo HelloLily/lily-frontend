@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
+import LilyDate from 'components/utils/LilyDate';
 import Deal from 'src/models/Deal';
 
 class DealList extends Component {
@@ -64,12 +65,12 @@ class DealList extends Component {
                   <td>
                     <i className={`lilicon hl-prio-icon-${deal.nextStep.name.toLowerCase()}`} /> {deal.nextStep.name}
                   </td>
-                  <td>{deal.nextStepDate}</td>
+                  <td><LilyDate date={deal.nextStepDate} /></td>
                   <td>{deal.assignedTo ? deal.assignedTo.fullName : ''}</td>
                   <td>{deal.amountOnce}</td>
                   <td>{deal.amountRecurring}</td>
                   <td>{deal.newBusiness ? 'New' : 'Existing'}</td>
-                  <td>{deal.created}</td>
+                  <td><LilyDate date={deal.created} /></td>
                   <td>{deal.createdBy ? deal.createdBy.fullName : 'Unknown'}</td>
                   <td>{deal.tags.toString()}</td>
                   <td><ListActions /></td>

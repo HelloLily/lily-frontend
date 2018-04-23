@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import List from 'components/List';
+import LilyDate from 'components/utils/LilyDate';
 import ListActions from 'components/List/ListActions';
 import Contact from 'src/models/Contact';
 
@@ -54,8 +55,8 @@ class ContactList extends Component {
                       </div>
                     ))}
                   </td>
-                  <td>{contact.created}</td>
-                  <td>{contact.modified}</td>
+                  <td><LilyDate date={contact.created} /></td>
+                  <td><LilyDate date={contact.modified} /></td>
                   <td>{contact.tags}</td>
                   <td><ListActions /></td>
                 </tr>

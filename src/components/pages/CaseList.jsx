@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
+import LilyDate from 'components/utils/LilyDate';
 import Case from 'src/models/Case';
 
 class CaseList extends Component {
@@ -63,8 +64,8 @@ class CaseList extends Component {
                   <td>{caseObj.type.name}</td>
                   <td>{caseObj.status.name}</td>
                   <td><i className={`lilicon hl-prio-icon-${caseObj.priorityDisplay.toLowerCase()}`} /></td>
-                  <td>{caseObj.created}</td>
-                  <td>{caseObj.expires}</td>
+                  <td><LilyDate date={caseObj.created} /></td>
+                  <td><LilyDate date={caseObj.created} /></td>
                   <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
                   <td>{caseObj.tags.toString()}</td>

@@ -4,10 +4,9 @@ import './feature_unavailable.scss';
 const ObjectLimit = props => {
   const { model } = props;
 
-  // TODO: Change to actual texts.
+  // TODO: Change to actual text and value.
   const tooltip = `Limit reached for ${model}`;
-
-  const isDisabled = true;
+  const isDisabled = false;
 
   return (
     <span>

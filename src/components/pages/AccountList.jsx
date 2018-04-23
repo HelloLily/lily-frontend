@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import Account from 'src/models/Account';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
+import LilyDate from 'components/utils/LilyDate';
+import Account from 'src/models/Account';
 
 class AccountList extends Component {
   constructor(props) {
@@ -47,12 +49,52 @@ class AccountList extends Component {
               {accounts.map(account => (
                 <tr key={account.id}>
                   <td><NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink></td>
-                  <td>{account.emailAddresses.toString()}</td>
+                  <td>
+                    {account.emailAddresses.map(emailAddress =>
+                      (
+                        <div key={emailAddress.id}>
+                          {emailAddress.status !== 0 ?
+                            (
+                              <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
+                                <i className="lilicon hl-mail-icon" /> {emailAddress.emailAddress}
+                              </NavLink>
+                            ) :
+                            (
+                              null
+                            )
+                          }
+                        </div>
+                      ))}
+                    {account.phoneNumbers.map(phone =>
+                      (
+                        <div key={phone.id}>
+                          {(phone.type === 'mobile' || phone.type === 'work') ?
+                            (
+                              <a href={`tel:${phone.number}`}>
+                                {phone.type === 'mobile' ?
+                                  (
+                                    <FontAwesomeIcon icon="mobile" />
+                                  ) :
+                                  (
+                                    <i className="lilicon hl-phone-filled-icon" />
+                                  )
+                                }
+
+                                <span className="m-l-5">{phone.number}</span>
+                              </a>
+                            ) :
+                            (
+                              null
+                            )
+                          }
+                        </div>
+                      ))}
+                  </td>
                   <td>
                     <Editable type="select" object={account} field="assignedTo" />
                   </td>
-                  <td>{account.created}</td>
-                  <td>{account.modified}</td>
+                  <td><LilyDate date={account.created} /></td>
+                  <td><LilyDate date={account.modified} /></td>
                   <td>{account.status.name}</td>
                   <td>{account.tags}</td>
                   <td><ListActions /></td>

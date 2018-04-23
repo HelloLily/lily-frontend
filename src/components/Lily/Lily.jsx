@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import fontawesome from '@fortawesome/fontawesome'
+import fontawesome from '@fortawesome/fontawesome';
 import faPhone from '@fortawesome/fontawesome-free-solid/faPhone';
+import faMobile from '@fortawesome/fontawesome-free-solid/faMobile';
 import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 import faLock from '@fortawesome/fontawesome-free-solid/faLock';
 import faKey from '@fortawesome/fontawesome-free-solid/faKey';
@@ -35,7 +36,7 @@ import NotFound from 'pages/NotFound';
 // import { get } from '../../lib/api/';
 
 fontawesome.library.add(
-  faPhone, faPlus, faLock, faKey, faRocket, faEnvelopeOpen,
+  faPhone, faMobile, faPlus, faLock, faKey, faRocket, faEnvelopeOpen,
   faCode, faPlug, faCreditCard, faTrophy, faSignOutAlt, faCheck, faTimes
 );
 
