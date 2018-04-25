@@ -1,0 +1,123 @@
+@import '~style/variables/colors';
+@import '~style/variables/measurements';
+
+$max-height: 400px;
+
+.widget {
+  border-style: solid;
+  background: #fff;
+  position: relative;
+
+  .widget-header {
+    border-bottom: 1px $light-border-color solid;
+    display: flex;
+    position: relative;
+
+    .widget-tools {
+      align-self: flex-end;
+    }
+  }
+
+  .widget-header,
+  .widget-footer {
+    padding: 10px 5px 10px 15px;
+  }
+
+  .widget-body {
+    max-height: $max-height;
+    overflow-y: scroll;
+
+    &.expanded-height {
+      max-height: $max-height * 2;
+    }
+  }
+
+  .widget-title {
+    flex-grow: 1;
+  }
+
+  .widget-name {
+    line-height: $default-line-height;
+    font-size: 18px;
+    font-weight: 400;
+    color: $app-color-darkblue;
+
+    .label-amount {
+      display: inline-block;
+      border-radius: $base-border-radius;
+      border: 1px $base-border-color solid;
+      padding: 0 3px;
+      margin: 0 3px;
+      font-size: 14px;
+      text-align: center;
+      min-width: 24px;
+      line-height: 24px;
+
+      &.high-prio {
+        color: #fff;
+        border-color: darken($critical-prio-color, 20);
+        background: $critical-prio-color;
+      }
+    }
+  }
+}
+
+.widget-scroll-fade {
+  position: absolute;
+  height: 14px;
+  background-color: lighten($sky-grey, 3);
+  opacity: 0.8;
+  border-top: 1px solid $base-border-color;
+  bottom: 1px;
+  left: 1px;
+  right: 1px;
+  z-index: 10;
+  text-align: center;
+
+  &:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #fff;
+  }
+
+  i {
+    color: $base-border-color;
+    font-size: 10px;
+    position: absolute;
+    top: 2px;
+  }
+}
+
+.widget-label {
+  position: absolute;
+  z-index: 2;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  float: left;
+  width: 5px;
+  background: $app-color-grey;
+
+  &.cases {
+    background: $case-color;
+  }
+
+  &.deals {
+    background: $deal-color;
+  }
+
+  &.email {
+    background: $email-color;
+  }
+
+  &.contact {
+    background: $contact-color;
+  }
+
+  &.account {
+    background: $account-color;
+  }
+}

@@ -25,7 +25,7 @@ class DealList extends Component {
     return (
       <div>
         <List>
-          <div className="widget-header">
+          <div className="list-header">
             <h1>
               Deal list
             </h1>
@@ -78,7 +78,7 @@ class DealList extends Component {
               ))}
             </tbody>
           </table>
-          <div className="widget-footer">
+          <div className="list-footer">
             Pagination
           </div>
         </List>

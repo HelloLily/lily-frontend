@@ -1,1 +1,9 @@
-@import '~style/widgets';
+.list {
+  border-style: solid;
+  background: #fff;
+
+  .list-header,
+  .list-footer {
+    padding: 10px 5px 10px 15px;
+  }
+}

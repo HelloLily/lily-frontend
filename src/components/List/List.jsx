@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class List extends Component {
   render() {
     return (
-      <div className="widget">
+      <div className="list">
         {this.props.children}
       </div>
     );

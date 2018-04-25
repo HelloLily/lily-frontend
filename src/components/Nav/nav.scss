@@ -24,7 +24,7 @@
                     font-size: 16px;
                     display: flex;
                     align-items: center;
-                    padding: 15px;
+                    padding: 12px 15px;
 
                     &.active,
                     &:hover {
@@ -33,11 +33,11 @@
                 }
 
                 .lilicon {
-                    font-size: 18px;
+                    font-size: 16px;
                 }
 
                 .hl-lily-icon {
-                    font-size: 2em;
+                    font-size: 1.85em;
                     color: #fff;
                 }
             }

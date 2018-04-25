@@ -1,3 +1,13 @@
 import React from 'react';
 
-export default () => <div>Dash</div>;
+import MyCases from 'components/Widget/MyCases';
+
+const Dashboard = () => {
+  return (
+    <div>
+      <MyCases />
+    </div>
+  );
+};
+
+export default Dashboard;

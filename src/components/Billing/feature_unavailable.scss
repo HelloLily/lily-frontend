@@ -1,6 +1,14 @@
+@import '~style/variables/colors';
+
 .unavailable-marker {
   font-size: 0.90em;
   border-style: solid;
   padding: 2px 6px;
   border-radius: 2px;
+  color: initial;
+  background: $lily-white-tone;
+
+  &:hover {
+    background: $lily-white-tone-hover;
+  }
 }

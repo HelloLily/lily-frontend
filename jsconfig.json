@@ -5,7 +5,9 @@
     "paths": {
       "src/*": ["./src/*"],
       "components/*": ["./src/components/*"],
-      "pages/*": ["./src/components/pages/*"]
+      "pages/*": ["./src/components/pages/*"],
+      "models/*": ["./src/models*"],
+      "utils/*": ["./src/utils*"]
     }
   },
   "exclude": [

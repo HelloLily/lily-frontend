@@ -25,7 +25,7 @@ class CaseList extends Component {
     return (
       <div>
         <List>
-          <div className="widget-header">
+          <div className="list-header">
             <h1>
               Case list
             </h1>
@@ -65,7 +65,7 @@ class CaseList extends Component {
                   <td>{caseObj.status.name}</td>
                   <td><i className={`lilicon hl-prio-icon-${caseObj.priorityDisplay.toLowerCase()}`} /></td>
                   <td><LilyDate date={caseObj.created} /></td>
-                  <td><LilyDate date={caseObj.created} /></td>
+                  <td><LilyDate date={caseObj.expires} /></td>
                   <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
                   <td>{caseObj.tags.toString()}</td>
@@ -74,7 +74,7 @@ class CaseList extends Component {
               ))}
             </tbody>
           </table>
-          <div className="widget-footer">
+          <div className="list-footer">
             Pagination
           </div>
         </List>

@@ -24,29 +24,28 @@ class CaseDetail extends Component {
 
     return (
       <div>
-        {
-          caseObj ?
-            (
+        {caseObj ?
+          (
+            <div>
               <div>
-                <div>
-                  Case detail
-                </div>
-
-                <strong>Select</strong>
-                <Editable type="select" object={caseObj} field="type" submitCallback={this.submitCallback} />
-
-                <strong>Async select</strong>
-                <Editable type="select" object={caseObj} field="assignedTo" submitCallback={this.submitCallback} async />
-
-                <strong>Multi select</strong>
-                <Editable type="select" object={caseObj} field="assignedToTeams" submitCallback={this.submitCallback} multi />
+                Case detail
               </div>
-            ) :
-            (
-              <div>
-                Loading
-              </div>
-            )
+
+              <strong>Select</strong>
+              <Editable type="select" object={caseObj} field="type" submitCallback={this.submitCallback} />
+
+              <strong>Async select</strong>
+              <Editable type="select" object={caseObj} field="assignedTo" submitCallback={this.submitCallback} async />
+
+              <strong>Multi select</strong>
+              <Editable type="select" object={caseObj} field="assignedToTeams" submitCallback={this.submitCallback} multi />
+            </div>
+          ) :
+          (
+            <div>
+              Loading
+            </div>
+          )
         }
       </div>
     );

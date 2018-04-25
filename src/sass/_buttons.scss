@@ -8,34 +8,19 @@ button {
   }
 }
 
-$large-button: 30px;
+$large-button-size: 30px;
 
 @mixin hl-button($button-size) {
   box-sizing: border-box;
   display: inline-block;
-  border-width: 1px;
-  border-bottom-width: 2px;
-  border-style: solid;
-  line-height: $button-size;
-  padding: 0 ($button-size / 4);
-  border-radius: 3px;
+  padding: 0 ceil($button-size / 4);
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 12px;
   background: #fff;
-
-  &:hover {
-    color: $app-color-aqua;
-    text-decoration: none;
-  }
+  line-height: $large-button-size;
 
   &:focus {
     text-decoration: none;
-  }
-
-  &.disabled {
-      pointer-events: none;
-      opacity: 0.50;
   }
 }
 
@@ -47,12 +32,43 @@ $large-button: 30px;
 }
 
 .hl-primary-btn {
-  @include hl-button($large-button);
+  @include hl-button($large-button-size);
   color: $app-color-darkblue;
+  border-width: 1px;
+  border-bottom-width: 2px;
+  border-style: solid;
+  border-radius: 3px;
+  font-size: 12px;
+
+  &:hover {
+    color: $app-color-aqua;
+    text-decoration: none;
+  }
+
+  &.disabled {
+      pointer-events: none;
+      opacity: 0.50;
+  }
+
+  &.round {
+    border-radius: 50%;
+    padding: 0 (ceil($large-button-size / 4) + 1);
+  }
 
   &.round {
     margin: 0;
     border-radius: 50%;
+  }
+}
+
+.hl-interface-btn {
+  @include hl-button($large-button-size);
+  color: $text-muted;
+  border: none;
+
+  &:hover {
+    color: $app-color-darkblue;
+    text-decoration: none;
   }
 }
 

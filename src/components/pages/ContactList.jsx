@@ -25,7 +25,7 @@ class ContactList extends Component {
     return (
       <div>
         <List>
-          <div className="widget-header">
+          <div className="list-header">
             <h1>
               Contact list
             </h1>
@@ -63,7 +63,7 @@ class ContactList extends Component {
               ))}
             </tbody>
           </table>
-          <div className="widget-footer">
+          <div className="list-footer">
             Pagination
           </div>
         </List>

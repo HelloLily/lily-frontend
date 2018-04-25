@@ -30,7 +30,7 @@
 .Select--single {
   .Select-control {
     .Select-value {
-      line-height: $inline-editable-field-height;
+      line-height: $default-line-height;
       padding-left: 6px;
     }
   }
@@ -44,9 +44,9 @@
 
 .Select-control,
 .Select-input {
-  height: $inline-editable-field-height;
+  height: $default-line-height;
 }
 
 .Select-placeholder {
-  line-height: $inline-editable-field-height;
+  line-height: $default-line-height;
 }

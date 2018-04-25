@@ -4,10 +4,7 @@
   text-align: left;
 
   thead {
-    border-top-style: solid;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-color: $light-border-color;
+    border-bottom: 2px solid $light-border-color;
     text-transform: uppercase;
     white-space: nowrap;
     color: #b4b4c0;
@@ -25,11 +22,30 @@
 
   tbody {
     tr {
-      border-bottom-style: solid;
-      border-bottom-color: $light-border-color;
+      border-bottom: 1px $light-border-color solid;
 
       &:hover {
         background-color: $lily-white-tone-hover;
+      }
+
+      &.table-category {
+        background: #f6f8fc;
+
+        td {
+          padding: 5px 12px;
+        }
+      }
+    }
+
+    .newly-assigned {
+      background: #eaffe9;
+
+      &:hover {
+          background: #e7f9e6;
+      }
+
+      td {
+        padding: 5px 12px;
       }
     }
   }

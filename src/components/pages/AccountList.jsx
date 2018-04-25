@@ -27,7 +27,7 @@ class AccountList extends Component {
     return (
       <div>
         <List>
-          <div className="widget-header">
+          <div className="list-header">
             <h1>
               Account list
             </h1>
@@ -64,7 +64,8 @@ class AccountList extends Component {
                             )
                           }
                         </div>
-                      ))}
+                      ))
+                    }
                     {account.phoneNumbers.map(phone =>
                       (
                         <div key={phone.id}>
@@ -102,7 +103,7 @@ class AccountList extends Component {
               ))}
             </tbody>
           </table>
-          <div className="widget-footer">
+          <div className="list-footer">
             Pagination
           </div>
         </List>

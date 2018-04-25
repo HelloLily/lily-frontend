@@ -43,7 +43,7 @@
 
   .divider {
     margin: 5px 10px;
-    border-bottom-style: solid;
+    border-bottom: 1px $light-border-color solid;
   }
 }
 
@@ -69,8 +69,8 @@
   }
 
   img {
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
