@@ -14,22 +14,25 @@ const VISIBLE = 1;
 const COLLAPSED = 2;
 const EXPANDED_WIDTH = 3;
 
+const DEFAULT_SETTINGS = {
+  status: VISIBLE
+};
+
 class Widget extends Component {
   constructor(props) {
     super(props);
 
     this.settings = new Settings(props.component);
 
-    this.state = {
-      status: VISIBLE,
-      expandHeight: false
-    };
+    this.state = { loading: true };
   }
 
   componentDidMount = async () => {
-    const settings = await this.settings.get();
+    const settingsRequest = await this.settings.get();
 
-    this.setState({ ...settings.results });
+    const settings = settingsRequest.results || DEFAULT_SETTINGS;
+
+    this.setState({ ...settings, loading: false });
   }
 
   heightToggle = () => {
@@ -50,11 +53,12 @@ class Widget extends Component {
 
   toggleCollapse = () => {
     const { status } = this.state;
+    const { expandable } = this.props;
 
     let newStatus;
 
     if (status === COLLAPSED) {
-      newStatus = EXPANDED_WIDTH;
+      newStatus = expandable ? EXPANDED_WIDTH : VISIBLE;
     } else if (status === EXPANDED_WIDTH) {
       newStatus = VISIBLE;
     } else {
@@ -67,13 +71,11 @@ class Widget extends Component {
   }
 
   render() {
-    const { status, expandHeight } = this.state;
-
-    const widgetBodyClassName = `widget-body${expandHeight ? ' expanded-height' : ''}`;
+    const { status, expandHeight, loading } = this.state;
 
     return (
       <React.Fragment>
-        {status !== HIDDEN ?
+        {(!loading && status !== HIDDEN) ?
           (
             <div className={`widget ${status === EXPANDED_WIDTH ? 'w-100' : 'w-50'}`}>
               <div className="widget-header">
@@ -94,7 +96,7 @@ class Widget extends Component {
               </div>
               {status !== COLLAPSED &&
                 <React.Fragment>
-                  <div className={widgetBodyClassName}>
+                  <div className={`widget-body${expandHeight ? ' expanded-height' : ''}`}>
                     {this.props.children}
                   </div>
 

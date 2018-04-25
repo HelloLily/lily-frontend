@@ -11,22 +11,25 @@ class MyCases extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { categories: [] };
+    this.state = { items: [] };
   }
 
   componentDidMount = async () => {
-    const caseRequest = await Case.query();
+    await this.getItems();
+  }
 
-    const total = caseRequest.results.length;
-    const categories = timeCategorize(caseRequest.results, 'expires', { id: 22 });
+  getItems = async () => {
+    const request = await Case.query();
 
-    this.setState({ categories, total });
+    const total = request.results.length;
+    const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY).length;
+    const items = timeCategorize(request.results, 'expires', { id: 22 });
+
+    this.setState({ items, total, criticalCount });
   }
 
   render() {
-    const { categories, total } = this.state;
-
-    const highPriorityCount = 5;
+    const { items, total, criticalCount } = this.state;
 
     const title = (
       <React.Fragment>
@@ -35,20 +38,20 @@ class MyCases extends Component {
           <i className="lilicon hl-case-icon m-r-5" />
           My cases
           <span className="label-amount">{total || '-'}</span>
-          <span className="label-amount high-prio" ng-if="vm.highPrioCases">{highPriorityCount || '-'}</span>
+          <span className="label-amount high-prio" ng-if="vm.highPrioCases">{criticalCount || '-'}</span>
         </div>
       </React.Fragment>
     );
 
-    const items = [];
+    const categories = [];
 
-    Object.keys(categories).forEach(key => {
+    Object.keys(items).forEach(key => {
       const newlyAssigned = key === 'newlyAssigned';
       const className = newlyAssigned ? 'newly-assigned' : '';
 
       const tbody = (
         <tbody key={key}>
-          {categories[key].length > 0 &&
+          {items[key].length > 0 &&
             <tr className="table-category">
               {newlyAssigned ?
                 (
@@ -60,7 +63,7 @@ class MyCases extends Component {
               }
             </tr>
           }
-          {categories[key].map(item =>
+          {items[key].map(item =>
             (
               <tr key={item.id} className={className}>
                 <td>{item.id}</td>
@@ -91,12 +94,12 @@ class MyCases extends Component {
         </tbody>
       );
 
-      items.push(tbody);
+      categories.push(tbody);
     });
 
     return (
       <div>
-        <Widget title={title} component="myCases">
+        <Widget title={title} component="myCases" expandable>
           <table className="hl-table">
             <thead>
               <tr>
@@ -111,7 +114,7 @@ class MyCases extends Component {
               </tr>
             </thead>
 
-            {items}
+            {categories}
           </table>
         </Widget>
       </div>

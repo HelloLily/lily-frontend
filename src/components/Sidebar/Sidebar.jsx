@@ -28,14 +28,11 @@ class Sidebar extends Component {
   render() {
     const { sidebar } = this.state;
 
-    // Apply a slide animation to the sidebar.
-    const className = `sidebar${sidebar ? ' slide' : ''}`;
-
     // Dynamically decide what form to load.
     const Form = sidebar ? Forms[sidebar] : null;
 
     return (
-      <div className={className}>
+      <div className={`sidebar${sidebar ? ' slide' : ''}`}>
         {sidebar &&
           <div>
             <div className="sidebar-header">

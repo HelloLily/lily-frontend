@@ -82,10 +82,8 @@ class EditableSelect extends Component {
       options = { value, label };
     }
 
-    const className = `editable-input-wrap${multi ? ' editable-multi' : ''}`;
-
     return (
-      <span className={className}>
+      <span className={`editable-input-wrap${multi ? ' editable-multi' : ''}`}>
         <Async
           name="options"
           className="editable-input"

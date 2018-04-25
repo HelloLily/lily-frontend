@@ -188,8 +188,6 @@ class Editable extends Component {
       display = value;
     }
 
-    const editableClassName = `editable${!display ? ' editable-empty' : ''}`;
-    const wrapperClassName = `editable-wrap${error ? ' has-error' : ''}`;
     // Certain fields have a custom empty state.
     const emptyText = searchMapping[field].empty ? searchMapping[field].empty : `No ${field}`;
 
@@ -199,14 +197,14 @@ class Editable extends Component {
           {
             editing ?
               (
-                <span className={wrapperClassName}>
+                <span className={`editable-wrap${error ? ' has-error' : ''}`}>
                   <EditableComponent {...props} />
 
                   {error && <div className="error-message">{error}</div>}
                 </span>
               ) :
               (
-                <span onClick={this.enableEditing} className={editableClassName}>
+                <span onClick={this.enableEditing} className={`editable${!display ? ' editable-empty' : ''}`}>
                   {
                     type === 'textarea' ?
                     (
