@@ -6,6 +6,7 @@ import EditableText from './EditableText';
 import EditableTextarea from './EditableTextarea';
 import EditableAsyncSelect from './EditableAsyncSelect';
 import EditableSelect from './EditableSelect';
+import EditableIconSelect from './EditableIconSelect';
 
 const components = {
   text: EditableText,
@@ -15,7 +16,7 @@ const components = {
 
 // We set up predefined parameters to reduce the amount of
 // configuration options when calling Editable components.
-const searchMapping = {
+const selectConfig = {
   assignedTo: {
     model: 'users',
     display: 'fullName',
@@ -29,6 +30,12 @@ const searchMapping = {
   },
   type: {
     model: 'cases/types'
+  },
+  priority: {
+    model: 'cases/priorities',
+    choiceField: true,
+    display: 'priorityDisplay',
+    iconClass: 'lilicon hl-prio-icon-'
   }
 };
 
@@ -36,13 +43,23 @@ class Editable extends Component {
   constructor(props) {
     super(props);
 
+    const { field } = props;
+
     this.editableRef = React.createRef();
 
-    this.initialValue = this.props.object[this.props.field];
+    let initialValue;
+
+    if (selectConfig[field] && selectConfig[field].choiceField) {
+      initialValue = { id: props.object[field], name: props.object[selectConfig[field].display] };
+    } else {
+      initialValue = props.object[field];
+    }
+
+    this.initialValue = initialValue;
 
     this.state = {
       editing: false,
-      value: this.initialValue,
+      value: initialValue,
       submitting: false
     };
   }
@@ -102,6 +119,7 @@ class Editable extends Component {
   }
 
   handleChange = value => {
+    console.log(value);
     this.setState({ value });
   }
 
@@ -113,6 +131,7 @@ class Editable extends Component {
     };
 
     if (!data) {
+      console.log(this.state.value);
       args[field] = this.state.value.hasOwnProperty('id') ? this.state.value.id : this.state.value;
     } else {
       // Editable components might have some processing before submitting.
@@ -148,9 +167,22 @@ class Editable extends Component {
     });
   }
 
+  createOptions = items => {
+    const config = selectConfig[this.props.field];
+
+    let label = 'name';
+
+    if (config && config.display && !config.choiceField) {
+      label = config.display;
+    }
+
+    return items.map(item => ({ value: item, label: item[label] }));
+  }
+
   render() {
     const { editing, value, submitting, error } = this.state;
     const { field, type } = this.props;
+    const config = selectConfig[field];
 
     // Set up some generic props.
     const props = {
@@ -159,8 +191,9 @@ class Editable extends Component {
       handleSubmit: this.handleSubmit,
       handleChange: this.handleChange,
       cancel: this.cancel,
-      searchMapping: searchMapping[field],
-      error: this.state.error
+      selectConfig: config,
+      error: this.state.error,
+      createOptions: this.createOptions
     };
 
     // Dynamically set up the editable component.
@@ -168,28 +201,36 @@ class Editable extends Component {
 
     if (type === 'select' && (this.props.async || this.props.multi)) {
       EditableComponent = EditableAsyncSelect;
+    } else if (type === 'select' && this.props.icon) {
+      EditableComponent = EditableIconSelect;
     } else {
       EditableComponent = components[type];
     }
 
     let display;
 
-    if (this.props.multi) {
+    const hasValue = (typeof value !== 'undefined' && value !== null);
+
+    if (this.props.multi && hasValue) {
       if (value.length > 0) {
         // Since there are multiple values there needs to be custom rendering.
         display = value.map(item => <div key={item.id}>{item.name}</div>);
       }
-    } else if (value && searchMapping[field]) {
+    } else if (hasValue && config) {
       // Certain fields have a custom field used as the displayed field.
       // If there is a custom endpoint, but no custom field just fall back to 'name'.
-      display = value[searchMapping[field].display] || value.name;
+      display = value[config.display] || value.name;
+
+      if (this.props.icon) {
+        display = <span><i className={`${config.iconClass}${display.toLowerCase()} m-r-5`} />{display}</span>;
+      }
     } else {
-      // No special rendering, so display the value.
+      // No special rendering, so display the value (or nothing).
       display = value;
     }
 
     // Certain fields have a custom empty state.
-    const emptyText = searchMapping[field].empty ? searchMapping[field].empty : `No ${field}`;
+    const emptyText = (config && config.empty) ? config.empty : `No ${field}`;
 
     return (
       <BlockUI blocking={submitting}>

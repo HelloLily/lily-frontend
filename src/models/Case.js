@@ -50,16 +50,6 @@ class Case {
 
     return response;
   }
-
-  getCasePriorities() {
-    // Hardcoded because these are the only case priorities.
-    return [
-      { id: this.LOW_PRIORITY, name: 'Low', dateIncrement: 5 },
-      { id: this.MEDIUM_PRIORITY, name: 'Medium', dateIncrement: 3 },
-      { id: this.HIGH_PRIORITY, name: 'High', dateIncrement: 1 },
-      { id: this.CRITICAL_PRIORITY, name: 'Critical', dateIncrement: 0 }
-    ];
-  }
 }
 
 export default new Case();

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 
 import { get } from 'src/lib/api';
 
-class EditableSelect extends Component {
+class EditableIconSelect extends Component {
   constructor(props) {
     super(props);
 
@@ -36,14 +36,32 @@ class EditableSelect extends Component {
     });
   }
 
+  IconOption = props => {
+    const iconClass = `${this.props.selectConfig.iconClass}${props.label.toLowerCase()}`;
+
+    return (
+      <components.Option {...props}>
+        <i className={`${iconClass} m-r-5`} />
+
+        {props.label}
+      </components.Option>
+    );
+  };
+
   render() {
     const { value, selectConfig } = this.props;
 
     let label = value;
 
-    if (value) {
-      label = value[selectConfig.display] || value.name;
+    if (value !== null) {
+      label = this.props.object[selectConfig.display] || value.name;
     }
+
+    label = (
+      <React.Fragment>
+        <i className={`${selectConfig.iconClass}${label.toLowerCase()} m-r-5`} /> {label}
+      </React.Fragment>
+    );
 
     const option = { value, label };
 
@@ -56,6 +74,7 @@ class EditableSelect extends Component {
           onChange={this.handleChange}
           options={this.state.options}
           onInputKeyDown={this.onInputKeyDown}
+          components={{ Option: this.IconOption }}
           autoFocus
         />
       </span>
@@ -63,4 +82,4 @@ class EditableSelect extends Component {
   }
 }
 
-export default EditableSelect;
+export default EditableIconSelect;

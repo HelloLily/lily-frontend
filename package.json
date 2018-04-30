@@ -15,7 +15,7 @@
     "react-i18next": "^7.5.1",
     "react-markdown": "^3.3.0",
     "react-router-dom": "^4.2.2",
-    "react-select": "^1.2.1"
+    "react-select": "^2.0.0-beta.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

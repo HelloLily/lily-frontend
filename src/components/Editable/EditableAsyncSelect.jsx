@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Async } from 'react-select';
+import AsyncSelect from 'react-select/lib/Async';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import { get } from 'src/lib/api';
@@ -51,15 +51,14 @@ class EditableSelect extends Component {
   }
 
   search = async query => {
-    const { model, display } = this.props.searchMapping;
+    const { model } = this.props.selectConfig;
 
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
     const request = await get(`/${model}/`);
+    const options = this.props.createOptions(request.results);
 
-    const options = request.results.map(result => ({ value: result, label: result[display] }));
-
-    return { options };
+    return options;
   }
 
   filterOptions = (options, filter, currentValues) => {
@@ -71,29 +70,30 @@ class EditableSelect extends Component {
   }
 
   render() {
-    const { value, searchMapping, multi } = this.props;
+    const { value, selectConfig, multi } = this.props;
 
     let options;
 
     if (multi) {
-      options = value.map(item => ({ value: item, label: item[searchMapping.display] }));
+      options = value.map(item => ({ value: item, label: item[selectConfig.display] }));
     } else {
-      const label = value ? value[searchMapping.display] : null;
+      const label = value ? value[selectConfig.display] : null;
       options = { value, label };
     }
 
     return (
       <span className={`editable-input-wrap${multi ? ' editable-multi' : ''}`}>
-        <Async
+        <AsyncSelect
+          autoFocus
+          defaultOptions
           name="options"
           className="editable-input"
           value={options}
           onChange={this.handleChange}
           loadOptions={this.search}
-          multi={multi}
+          isMulti={multi}
           filterOptions={this.filterOptions}
           onInputKeyDown={this.onInputKeyDown}
-          autoFocus
         />
 
         {multi &&
