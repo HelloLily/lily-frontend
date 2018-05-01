@@ -37,11 +37,11 @@ class EditableIconSelect extends Component {
   }
 
   IconOption = props => {
-    const iconClass = `${this.props.selectConfig.iconClass}${props.label.toLowerCase()}`;
+    const icon = this.props.createIconLabel(props.value);
 
     return (
       <components.Option {...props}>
-        <i className={`${iconClass} m-r-5`} />
+        <i className={`${icon} m-r-5`} />
 
         {props.label}
       </components.Option>
@@ -49,19 +49,19 @@ class EditableIconSelect extends Component {
   };
 
   render() {
-    const { value, selectConfig } = this.props;
+    const { value, createIconLabel } = this.props;
 
     let label = value;
 
     if (value !== null) {
-      label = this.props.object[selectConfig.display] || value.name;
-    }
+      const icon = createIconLabel(value);
 
-    label = (
-      <React.Fragment>
-        <i className={`${selectConfig.iconClass}${label.toLowerCase()} m-r-5`} /> {label}
-      </React.Fragment>
-    );
+      label = (
+        <React.Fragment>
+          <i className={`${icon} m-r-5`} /> {value.name}
+        </React.Fragment>
+      );
+    }
 
     const option = { value, label };
 

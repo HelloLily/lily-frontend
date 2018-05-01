@@ -1,0 +1,93 @@
+// TODO: Temporary import so it can build.
+@import 'settings';
+
+ul.pagination {
+  font-size: $font-size-20;
+  list-style: none;
+  margin: 0 0 $spacing 0;
+  text-align: right;
+  cursor: pointer;
+
+  li {
+    display: inline-block;
+    margin-bottom: 0.25rem;
+
+    border-top: 1px solid $color-neutral-30;
+    border-bottom: 1px solid $color-neutral-30;
+
+    &:first-child {
+      border: 1px solid $color-neutral-30;
+      border-top-left-radius: $border-radius-20;
+      border-bottom-left-radius: $border-radius-20;
+
+      a {
+        border-top-left-radius: $border-radius-20;
+        border-bottom-left-radius: $border-radius-20;
+      }
+    }
+
+    &:last-child {
+      border: 1px solid $color-neutral-30;
+      border-top-right-radius: $border-radius-20;
+      border-bottom-right-radius: $border-radius-20;
+
+      a {
+        border-top-right-radius: $border-radius-20;
+        border-bottom-right-radius: $border-radius-20;
+      }
+    }
+
+    &.disabled a {
+      background: $color-neutral-10;
+      color: $color-neutral-30;
+
+      &:hover {
+        cursor: disabled;
+      }
+    }
+
+    &.active a {
+      color: $white;
+      background: #2e3547;
+    }
+  }
+
+  li.pagination--gap {
+    background: none;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .break-me {
+    display: inline-block;
+    pointer-events: none;
+  }
+
+  a,
+  .break-me {
+    background: $white;
+    color: $color-neutral-70;
+    line-height: 1.5em;
+    padding: 0.35rem;
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  a {
+    display: block;
+
+    &:hover {
+      color: $white;
+      background: #2e3547;
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
+    }
+
+    i {
+      position: relative;
+      top: 1px;
+    }
+  }
+}

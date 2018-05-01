@@ -5,6 +5,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
+import Pagination from 'components/Pagination';
 import LilyDate from 'components/utils/LilyDate';
 import Account from 'src/models/Account';
 
@@ -12,17 +13,23 @@ class AccountList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { accounts: [] };
+    this.state = { accounts: [], pagination: {} };
   }
 
   async componentDidMount() {
-    const data = await Account.query();
+    const data = await Account.query({ pageSize: 20 });
 
-    this.setState({ accounts: data.results });
+    this.setState({ accounts: data.results, page: 0, pagination: data.pagination });
+  }
+
+  setPage = async page => {
+    const data = await Account.query({ pageSize: 20, page });
+
+    this.setState({ accounts: data.results, page: 0, pagination: data.pagination });
   }
 
   render() {
-    const { accounts } = this.state;
+    const { accounts, page, pagination } = this.state;
 
     return (
       <div>
@@ -56,7 +63,7 @@ class AccountList extends Component {
                           {emailAddress.status !== 0 ?
                             (
                               <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
-                                <i className="lilicon hl-mail-icon" /> {emailAddress.emailAddress}
+                                <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
                               </NavLink>
                             ) :
                             (
@@ -89,7 +96,8 @@ class AccountList extends Component {
                             )
                           }
                         </div>
-                      ))}
+                      ))
+                    }
                   </td>
                   <td>
                     <Editable type="select" object={account} field="assignedTo" />
@@ -104,7 +112,7 @@ class AccountList extends Component {
             </tbody>
           </table>
           <div className="list-footer">
-            Pagination
+            <Pagination page={page} setPage={this.setPage} pagination={pagination} />
           </div>
         </List>
       </div>

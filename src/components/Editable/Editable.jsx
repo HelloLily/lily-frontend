@@ -35,7 +35,13 @@ const selectConfig = {
     model: 'cases/priorities',
     choiceField: true,
     display: 'priorityDisplay',
-    iconClass: 'lilicon hl-prio-icon-'
+    iconClass: 'lilicon hl-prio-icon-',
+    iconDisplay: 'name'
+  },
+  nextStep: {
+    model: 'deals/next-steps',
+    iconClass: 'step-type position-',
+    iconDisplay: 'position'
   }
 };
 
@@ -74,16 +80,6 @@ class Editable extends Component {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
-  handleClickOutside = event => {
-    const editableRef = this.editableRef.current;
-
-    // Cancel editing if we click outside the editable element.
-    // This is to prevent accidental data saving.
-    if (!this.state.submitting && editableRef !== null && !editableRef.contains(event.target)) {
-      this.cancel();
-    }
-  }
-
   handleKeyPress = event => {
     let shouldSubmit = event.keyCode === 13;
 
@@ -119,7 +115,6 @@ class Editable extends Component {
   }
 
   handleChange = value => {
-    console.log(value);
     this.setState({ value });
   }
 
@@ -131,7 +126,6 @@ class Editable extends Component {
     };
 
     if (!data) {
-      console.log(this.state.value);
       args[field] = this.state.value.hasOwnProperty('id') ? this.state.value.id : this.state.value;
     } else {
       // Editable components might have some processing before submitting.
@@ -179,6 +173,12 @@ class Editable extends Component {
     return items.map(item => ({ value: item, label: item[label] }));
   }
 
+  createIconLabel = value => {
+    const { iconClass, iconDisplay } = selectConfig[this.props.field];
+
+    return `${iconClass}${value[iconDisplay].toString().toLowerCase()}`;
+  }
+
   render() {
     const { editing, value, submitting, error } = this.state;
     const { field, type } = this.props;
@@ -203,6 +203,7 @@ class Editable extends Component {
       EditableComponent = EditableAsyncSelect;
     } else if (type === 'select' && this.props.icon) {
       EditableComponent = EditableIconSelect;
+      props.createIconLabel = this.createIconLabel;
     } else {
       EditableComponent = components[type];
     }
@@ -222,7 +223,13 @@ class Editable extends Component {
       display = value[config.display] || value.name;
 
       if (this.props.icon) {
-        display = <span><i className={`${config.iconClass}${display.toLowerCase()} m-r-5`} />{display}</span>;
+        display = (
+          <span>
+            <i className={`${this.createIconLabel(value)} m-r-5`} />
+
+            {!this.props.hideValue && display}
+          </span>
+        );
       }
     } else {
       // No special rendering, so display the value (or nothing).

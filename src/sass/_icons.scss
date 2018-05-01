@@ -1,0 +1,67 @@
+@import 'variables/step_colors';
+
+@mixin colored-bullet($size, $color) {
+  margin-left: 5px;
+  padding-left: 3px;
+
+  &:before {
+    content: "";
+    display: inline-block;
+    position: relative;
+    left: -5px;
+    height: $size;
+    width: $size;
+    border-radius: $size / 2;
+    background: $color;
+  }
+}
+
+$bullet-size: 10px;
+
+.step-type {
+  @include colored-bullet($bullet-size, $bullet-color-1);
+
+  &.position-0 {
+    @include colored-bullet($bullet-size, $bullet-color-1);
+  }
+
+  &.position-1 {
+    @include colored-bullet($bullet-size, $bullet-color-2);
+  }
+
+  &.position-2 {
+    @include colored-bullet($bullet-size, $bullet-color-3);
+  }
+
+  &.position-3 {
+    @include colored-bullet($bullet-size, $bullet-color-4);
+  }
+
+  &.position-4 {
+    @include colored-bullet($bullet-size, $bullet-color-5);
+  }
+
+  &.position-5 {
+    @include colored-bullet($bullet-size, $bullet-color-6);
+  }
+
+  &.position-6 {
+    @include colored-bullet($bullet-size, $bullet-color-7);
+  }
+
+  &.position-7 {
+    @include colored-bullet($bullet-size, $bullet-color-8);
+  }
+
+  &.position-8 {
+    @include colored-bullet($bullet-size, $bullet-color-9);
+  }
+
+  &.position-9 {
+    @include colored-bullet($bullet-size, $bullet-color-10);
+  }
+
+  &.position-10 {
+    @include colored-bullet($bullet-size, $bullet-color-11);
+  }
+}

@@ -5,6 +5,7 @@
 @import 'fonts/lilicon';
 @import 'utils';
 @import 'tables';
+@import 'icons';
 
 // TODO: Temporary import, will probably be renamed and only imported in a certain component.
 @import 'selects';
@@ -41,6 +42,7 @@ body {
   color: #2a3042;
   margin: 0;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 ul {

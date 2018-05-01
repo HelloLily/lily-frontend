@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import Editable from 'components/Editable';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import LilyDate from 'components/utils/LilyDate';
@@ -18,6 +19,8 @@ class CaseList extends Component {
 
     this.setState({ cases: data.results });
   }
+
+  submitCallback = args => Case.patch(args);
 
   render() {
     const { cases } = this.state;
@@ -63,12 +66,14 @@ class CaseList extends Component {
                   </td>
                   <td>{caseObj.type.name}</td>
                   <td>{caseObj.status.name}</td>
-                  <td><i className={`lilicon hl-prio-icon-${caseObj.priorityDisplay.toLowerCase()}`} /></td>
+                  <td>
+                    <Editable type="select" object={caseObj} field="priority" submitCallback={this.submitCallback} icon hideValue />
+                  </td>
                   <td><LilyDate date={caseObj.created} /></td>
                   <td><LilyDate date={caseObj.expires} /></td>
                   <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
-                  <td>{caseObj.tags.toString()}</td>
+                  <td>{caseObj.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
                   <td><ListActions /></td>
                 </tr>
               ))}

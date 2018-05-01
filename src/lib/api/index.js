@@ -60,3 +60,14 @@ export function del(path) {
   const { uri, options } = setupRequestOptions(path, { method: 'DELETE' });
   return fetch(uri, options).then(handleResponse);
 }
+
+export function createParams(params) {
+  const convertedParams = convertKeys(params, true);
+
+  return Object.keys(convertedParams).map(key => {
+    const encodedKey = encodeURIComponent(key);
+    const encodedParam = encodeURIComponent(params[key]);
+
+    return `${encodedKey}=${encodedParam}`;
+  }).join('&');
+}
