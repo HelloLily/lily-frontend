@@ -3,6 +3,19 @@
 
 $max-height: 400px;
 
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 15px;
+}
+
+.widget-container {
+  &.expanded {
+    grid-column-start: 1;
+    grid-column-end: -1;
+  }
+}
+
 .widget {
   border-style: solid;
   background: #fff;

@@ -6,6 +6,7 @@
 @import 'utils';
 @import 'tables';
 @import 'icons';
+@import 'inputs';
 
 // TODO: Temporary import, will probably be renamed and only imported in a certain component.
 @import 'selects';
@@ -102,4 +103,8 @@ input {
 
 .lilicon {
   margin-top: -4px;
+
+  &.small {
+    font-size: 0.75em;
+  }
 }

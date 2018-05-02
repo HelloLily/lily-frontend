@@ -30,7 +30,8 @@ class Widget extends Component {
   componentDidMount = async () => {
     const settingsRequest = await this.settings.get();
 
-    const settings = settingsRequest.results || DEFAULT_SETTINGS;
+    // Fill in any settings which aren't in the database yet.
+    const settings = { ...DEFAULT_SETTINGS, ...settingsRequest.results };
 
     this.setState({ ...settings, loading: false });
   }
@@ -74,10 +75,10 @@ class Widget extends Component {
     const { status, expandHeight, loading } = this.state;
 
     return (
-      <React.Fragment>
+      <div className={`widget-container${status === EXPANDED_WIDTH ? ' expanded' : ''}`}>
         {(!loading && status !== HIDDEN) ?
           (
-            <div className={`widget ${status === EXPANDED_WIDTH ? 'w-100' : 'w-50'}`}>
+            <div className="widget">
               <div className="widget-header">
                 <div className="widget-title">
                   {this.props.title}
@@ -111,7 +112,7 @@ class Widget extends Component {
             null
           )
         }
-      </React.Fragment>
+      </div>
     );
   }
 }

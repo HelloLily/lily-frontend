@@ -6,9 +6,8 @@ import Case from 'models/Case';
 import Editable from 'components/Editable';
 import Widget from 'components/Widget';
 import LilyDate from 'components/utils/LilyDate';
-import timeCategorize from 'utils/timeCategorize';
 
-class MyCases extends Component {
+class UnassignedCases extends Component {
   constructor(props) {
     super(props);
 
@@ -24,7 +23,7 @@ class MyCases extends Component {
 
     const total = request.results.length;
     const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY).length;
-    const items = timeCategorize(request.results, 'expires', { id: 22 });
+    const items = request.results;
 
     this.setState({ items, total, criticalCount });
   }
@@ -37,35 +36,32 @@ class MyCases extends Component {
         <div className="widget-label cases" />
         <div className="widget-name">
           <i className="lilicon hl-case-icon m-r-5" />
-          My cases
+          Unassigned cases
           <span className="label-amount">{total || '-'}</span>
-          <span className="label-amount high-prio">{criticalCount || '-'}</span>
+          <span className="label-amount high-prio" ng-if="vm.highPrioCases">{criticalCount || '-'}</span>
         </div>
       </React.Fragment>
     );
 
-    const categories = [];
-
-    Object.keys(items).forEach(key => {
-      const newlyAssigned = key === 'newlyAssigned';
-
-      const tbody = (
-        <tbody key={key}>
-          {items[key].length > 0 &&
-            <tr className="table-category">
-              {newlyAssigned ?
-                (
-                  <td colSpan="8">Newly assigned to you</td>
-                ) :
-                (
-                  <td colSpan="8" className="text-capitalize">{key}</td>
-                )
-              }
+    return (
+      <Widget title={title} component="myCases" expandable>
+        <table className="hl-table">
+          <thead>
+            <tr>
+              <th>Nr.</th>
+              <th>Subject</th>
+              <th>Client</th>
+              <th>Priority</th>
+              <th>Teams</th>
+              <th>Created</th>
+              <th>Actions</th>
             </tr>
-          }
-          {items[key].map(item =>
+          </thead>
+
+          <tbody>
+            {items.map(item =>
             (
-              <tr key={item.id} className={newlyAssigned ? 'newly-assigned' : ''}>
+              <tr key={item.id}>
                 <td>{item.id}</td>
                 <td><NavLink to={`/cases/${item.id}`}>{item.subject}</NavLink></td>
                 <td>
@@ -77,8 +73,6 @@ class MyCases extends Component {
                     <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
                   }
                 </td>
-                <td>{item.type.name}</td>
-                <td>{item.status.name}</td>
                 <td>
                   <Editable
                     type="select"
@@ -89,44 +83,23 @@ class MyCases extends Component {
                     hideValue
                   />
                 </td>
-                <td><LilyDate date={item.expires} /></td>
                 <td>
-                  {newlyAssigned &&
-                    <button className="hl-primary-btn round">
-                      <FontAwesomeIcon icon="check" />
-                    </button>
-                  }
+                  {item.assignedToTeams.map(team => <div key={team.id}>{team.name}</div>)}
+                </td>
+                <td><LilyDate date={item.created} /></td>
+                <td>
+                  <button className="hl-primary-btn">
+                    Assign to me
+                  </button>
                 </td>
               </tr>
             ))
           }
-        </tbody>
-      );
-
-      categories.push(tbody);
-    });
-
-    return (
-      <Widget title={title} component="myCases" expandable>
-        <table className="hl-table">
-          <thead>
-            <tr>
-              <th>Nr.</th>
-              <th>Subject</th>
-              <th>Client</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Priority</th>
-              <th>Expires</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          {categories}
+          </tbody>
         </table>
       </Widget>
     );
   }
 }
 
-export default MyCases;
+export default UnassignedCases;

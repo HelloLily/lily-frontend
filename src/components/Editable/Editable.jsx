@@ -176,6 +176,8 @@ class Editable extends Component {
   createIconLabel = value => {
     const { iconClass, iconDisplay } = selectConfig[this.props.field];
 
+    // Icon selects have a specific way of rendering.
+    // That's the the className for the label's icon is always built the same way.
     return `${iconClass}${value[iconDisplay].toString().toLowerCase()}`;
   }
 

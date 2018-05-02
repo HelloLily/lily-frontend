@@ -1,3 +1,6 @@
+@import '~style/variables/colors';
+@import '~style/variables/measurements';
+
 .list {
   border-style: solid;
   background: #fff;
@@ -5,5 +8,26 @@
   .list-header,
   .list-footer {
     padding: 10px 5px 10px 15px;
+  }
+}
+
+.list-filter-container {
+  display: inline-block;
+
+  .list-filter {
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    border-radius: $base-border-radius;
+    position: absolute;
+    margin-top: 10px;
+    border: 1px $light-border-color solid;
+
+    .filter-item {
+      padding: 5px 10px;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px $light-border-color solid;
+      }
+    }
   }
 }

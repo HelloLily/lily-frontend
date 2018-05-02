@@ -22,6 +22,12 @@ class Account {
 
     return response;
   }
+
+  statuses() {
+    const response = get('/accounts/statuses/');
+
+    return response;
+  }
 }
 
 export default new Account();

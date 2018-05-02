@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import Case from 'models/Case';
-import Editable from 'components/Editable';
+import Deal from 'models/Deal';
 import Widget from 'components/Widget';
 import LilyDate from 'components/utils/LilyDate';
 import timeCategorize from 'utils/timeCategorize';
 
-class MyCases extends Component {
+class MyDeals extends Component {
   constructor(props) {
     super(props);
 
@@ -20,26 +19,24 @@ class MyCases extends Component {
   }
 
   getItems = async () => {
-    const request = await Case.query();
+    const request = await Deal.query();
 
     const total = request.results.length;
-    const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY).length;
     const items = timeCategorize(request.results, 'expires', { id: 22 });
 
-    this.setState({ items, total, criticalCount });
+    this.setState({ items, total });
   }
 
   render() {
-    const { items, total, criticalCount } = this.state;
+    const { items, total } = this.state;
 
     const title = (
       <React.Fragment>
-        <div className="widget-label cases" />
+        <div className="widget-label deals" />
         <div className="widget-name">
-          <i className="lilicon hl-case-icon m-r-5" />
-          My cases
+          <i className="lilicon hl-deals-icon m-r-5" />
+          My deals
           <span className="label-amount">{total || '-'}</span>
-          <span className="label-amount high-prio">{criticalCount || '-'}</span>
         </div>
       </React.Fragment>
     );
@@ -66,8 +63,7 @@ class MyCases extends Component {
           {items[key].map(item =>
             (
               <tr key={item.id} className={newlyAssigned ? 'newly-assigned' : ''}>
-                <td>{item.id}</td>
-                <td><NavLink to={`/cases/${item.id}`}>{item.subject}</NavLink></td>
+                <td><NavLink to={`/deals/${item.id}`}>{item.name}</NavLink></td>
                 <td>
                   {item.contact &&
                     <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
@@ -77,19 +73,14 @@ class MyCases extends Component {
                     <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
                   }
                 </td>
-                <td>{item.type.name}</td>
-                <td>{item.status.name}</td>
                 <td>
-                  <Editable
-                    type="select"
-                    object={item}
-                    field="priority"
-                    submitCallback={this.submitCallback}
-                    icon
-                    hideValue
-                  />
+                  {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}
+                  {(item.amountOnce !== 0 && item.amountRecurring !== 0) && <span> | </span>}
+                  {item.amountRecurring !== 0 && <span>{item.amountRecurring} /once</span>}
                 </td>
-                <td><LilyDate date={item.expires} /></td>
+                <td>{item.status.name}</td>
+                <td>{item.nextStep.name}</td>
+                <td><LilyDate date={item.nextStepDate} /></td>
                 <td>
                   {newlyAssigned &&
                     <button className="hl-primary-btn round">
@@ -107,17 +98,16 @@ class MyCases extends Component {
     });
 
     return (
-      <Widget title={title} component="myCases" expandable>
+      <Widget title={title} component="myDeals" expandable>
         <table className="hl-table">
           <thead>
             <tr>
-              <th>Nr.</th>
               <th>Subject</th>
               <th>Client</th>
-              <th>Type</th>
+              <th>Deal size</th>
               <th>Status</th>
-              <th>Priority</th>
-              <th>Expires</th>
+              <th>Next step</th>
+              <th>Next step date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -129,4 +119,4 @@ class MyCases extends Component {
   }
 }
 
-export default MyCases;
+export default MyDeals;

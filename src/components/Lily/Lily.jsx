@@ -15,6 +15,7 @@ import faTrophy from '@fortawesome/fontawesome-free-solid/faTrophy';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck';
 import faTimes from '@fortawesome/fontawesome-free-solid/faTimes';
+import faColumns from '@fortawesome/fontawesome-free-solid/faColumns';
 
 import ErrorBoundry from 'components/ErrorBoundry';
 import Header from 'components/Header';
@@ -37,7 +38,7 @@ import NotFound from 'pages/NotFound';
 
 fontawesome.library.add(
   faPhone, faMobile, faPlus, faLock, faKey, faRocket, faEnvelopeOpen,
-  faCode, faPlug, faCreditCard, faTrophy, faSignOutAlt, faCheck, faTimes
+  faCode, faPlug, faCreditCard, faTrophy, faSignOutAlt, faCheck, faTimes, faColumns
 );
 
 class Lily extends Component {
