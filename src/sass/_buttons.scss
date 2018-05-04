@@ -18,6 +18,11 @@ $large-button-size: 30px;
   font-weight: 500;
   background: #fff;
   line-height: $large-button-size;
+  border-width: 1px;
+  border: 1px $inner-border-color solid;
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  font-size: 12px;
 
   &:focus {
     text-decoration: none;
@@ -34,11 +39,6 @@ $large-button-size: 30px;
 .hl-primary-btn {
   @include hl-button($large-button-size);
   color: $app-color-darkblue;
-  border-width: 1px;
-  border-bottom-width: 2px;
-  border-style: solid;
-  border-radius: 3px;
-  font-size: 12px;
 
   &:hover {
     color: $app-color-aqua;
@@ -61,13 +61,62 @@ $large-button-size: 30px;
   }
 }
 
+.hl-primary-btn-green {
+    @include hl-button($large-button-size);
+    background: $app-color-mint;
+    border-color: darken($app-color-mint, 15);
+    color: #fff;
+    font-weight: 700;
+
+    &:hover {
+        color: #fff;
+        background: darken($app-color-mint, 10);
+    }
+
+    &:focus {
+        color: #fff;
+    }
+}
+
+.hl-primary-btn-blue {
+    @include hl-button($large-button-size);
+    background: $app-color-aqua;
+    border-color: darken($app-color-aqua, 10);
+    color: #fff;
+    font-weight: 700;
+
+    &:hover {
+        color: #fff;
+        background: darken($app-color-aqua, 5);
+    }
+
+    &:focus {
+        color: #fff;
+    }
+}
+
+.hl-primary-btn-red {
+    @include hl-button($large-button-size);
+    background: $app-color-red;
+    border-color: darken($app-color-red, 20);
+    color: #fff;
+    font-weight: 700;
+
+    &:hover {
+        color: #fff;
+        background: darken($app-color-red, 5);
+    }
+}
+
 .hl-interface-btn {
   @include hl-button($large-button-size);
   color: $text-muted;
   border: none;
+  background: none;
 
   &:hover {
-    color: $app-color-darkblue;
+    color: #fff;
+    mix-blend-mode: difference;
     text-decoration: none;
   }
 }

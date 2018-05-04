@@ -1,4 +1,4 @@
 import Widget from './Widget';
-import './_widget.scss';
+import './widget.scss';
 
 export default Widget;

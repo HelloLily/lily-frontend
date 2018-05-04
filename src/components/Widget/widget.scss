@@ -25,10 +25,6 @@ $max-height: 400px;
     border-bottom: 1px $light-border-color solid;
     display: flex;
     position: relative;
-
-    .widget-tools {
-      align-self: flex-end;
-    }
   }
 
   .widget-header,

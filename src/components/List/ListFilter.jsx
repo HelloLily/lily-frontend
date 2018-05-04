@@ -36,27 +36,26 @@ class ListFilter extends Component {
           <i className="lilicon hl-toggle-down-icon small" />
         </button>
 
-        {
-          this.state.showMenu
-            ? (
-              <ul
-                className="list-filter m-t-5"
-                ref={element => { this.dropdownMenu = element; }}
-              >
-                <li className="filter-item">
-                  <input type="checkbox" /> Select all
-                </li>
+        {this.state.showMenu
+          ? (
+            <ul
+              className="list-filter m-t-5"
+              ref={element => { this.dropdownMenu = element; }}
+            >
+              <li className="filter-item">
+                <input type="checkbox" /> Select all
+              </li>
 
-                {items.map(item => (
-                  <li className="filter-item" key={item.id}>
-                    <input type="checkbox" /> {item.name}
-                  </li>
-                ))}
-              </ul>
-            )
-            : (
-              null
-            )
+              {items.map(item => (
+                <li className="filter-item" key={item.id}>
+                  <input type="checkbox" /> {item.name}
+                </li>
+              ))}
+            </ul>
+          )
+          : (
+            null
+          )
         }
       </div>
     );

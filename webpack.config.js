@@ -76,7 +76,8 @@ module.exports = {
       components: path.resolve(__dirname, 'src/components/'),
       pages: path.resolve(__dirname, 'src/components/pages/'),
       models: path.resolve(__dirname, 'src/models/'),
-      utils: path.resolve(__dirname, 'src/utils')
+      utils: path.resolve(__dirname, 'src/utils'),
+      lib: path.resolve(__dirname, 'src/lib')
     }
   },
   devServer: {

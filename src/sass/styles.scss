@@ -108,3 +108,13 @@ input {
     font-size: 0.75em;
   }
 }
+
+.header {
+  font-size: 18px;
+  font-weight: 400;
+  color: $app-color-darkblue;
+}
+
+.inbox {
+  display: flex;
+}

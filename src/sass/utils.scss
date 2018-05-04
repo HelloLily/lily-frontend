@@ -4,23 +4,26 @@
 $spaceamounts: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100);
 $sides: (top, bottom, left, right);
 
-@each $space in $spaceamounts {
-  @each $side in $sides {
-    // Set up margin.
-    .m-#{str-slice($side, 0, 1)}-#{$space} {
-      margin-#{$side}: #{$space}px;
+// We put theses classes on the app ID to ensure precedence over other styling.
+#app {
+  @each $space in $spaceamounts {
+    @each $side in $sides {
+      // Set up margin.
+      .m-#{str-slice($side, 0, 1)}-#{$space} {
+        margin-#{$side}: #{$space}px;
+      }
+
+      // Set up padding.
+      .p-#{str-slice($side, 0, 1)}-#{$space} {
+        padding-#{$side}: #{$space}px;
+      }
+
     }
 
-    // Set up padding.
-    .p-#{str-slice($side, 0, 1)}-#{$space} {
-      padding-#{$side}: #{$space}px;
+    // Set up width.
+    .w-#{$space} {
+      width: percentage($space / 100);
     }
-
-  }
-
-  // Set up width.
-  .w-#{$space} {
-    width: percentage($space / 100);
   }
 }
 

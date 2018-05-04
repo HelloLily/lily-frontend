@@ -11,7 +11,10 @@ export function get(path, _options) {
     return cache.get(uri);
   }
 
-  const promise = fetch(uri, options).then(handleResponse);
+  // TODO: Temporary work around because email messages don't have a proper API yet.
+  const url = uri.includes('search/') ? uri.replace('/api', '') : uri;
+
+  const promise = fetch(url, options).then(handleResponse);
 
   cache.add({ uri, promise });
 
@@ -61,7 +64,7 @@ export function del(path) {
   return fetch(uri, options).then(handleResponse);
 }
 
-export function createParams(params) {
+export function createParams(params = {}) {
   const convertedParams = convertKeys(params, true);
 
   return Object.keys(convertedParams).map(key => {

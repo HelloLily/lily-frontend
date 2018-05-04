@@ -25,6 +25,7 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "class-methods-use-this": 0,
     "no-prototype-builtins": 0,
+    "no-bitwise": 0,
 
     "react/prop-types": 0,
     "react/no-did-mount-set-state": 0,

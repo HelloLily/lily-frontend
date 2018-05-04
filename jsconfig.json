@@ -7,7 +7,8 @@
       "components/*": ["./src/components/*"],
       "pages/*": ["./src/components/pages/*"],
       "models/*": ["./src/models*"],
-      "utils/*": ["./src/utils*"]
+      "utils/*": ["./src/utils*"],
+      "lib/*": ["./src/lib*"]
     }
   },
   "exclude": [
