@@ -7,8 +7,12 @@
     "@fortawesome/react-fontawesome": "^0.0.18",
     "date-fns": "^1.29.0",
     "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^0.14.3",
     "i18next": "^10.6.0",
     "i18next-fetch-backend": "^0.1.0",
+    "lint-staged": "^7.1.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
@@ -45,6 +49,17 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --open --port 3001",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,scss}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true
   }
 }
