@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
 import BlockUI from 'components/Utils/BlockUI';
+import Address from 'components/Utils/Address';
 import EditableText from './EditableText';
 import EditableTextarea from './EditableTextarea';
 import EditableAsyncSelect from './EditableAsyncSelect';
 import EditableSelect from './EditableSelect';
 import EditableIconSelect from './EditableIconSelect';
+import EditableEmailAddresses from './EditableEmailAddresses';
+import EditablePhoneNumbers from './EditablePhoneNumbers';
+import EditableAddresses from './EditableAddresses';
+import EditableWebsites from './EditableWebsites';
 
 const components = {
   text: EditableText,
   textarea: EditableTextarea,
-  select: EditableSelect
+  select: EditableSelect,
+  emailAddresses: EditableEmailAddresses,
+  phoneNumbers: EditablePhoneNumbers,
+  addresses: EditableAddresses,
+  websites: EditableWebsites
 };
 
 // We set up predefined parameters to reduce the amount of
@@ -45,6 +55,44 @@ const selectConfig = {
   }
 };
 
+// General styling overwrite for Editable selects.
+const selectStyles = {
+  control: base => ({
+    ...base,
+    background: '#fff',
+    minHeight: '28px',
+    height: '30px'
+  }),
+  valueContainer: base => ({
+    ...base,
+    padding: '0 8px'
+  }),
+  input: base => ({
+    ...base,
+    paddingTop: '0',
+    paddingBottom: '0',
+    margin: '0 2px'
+  }),
+  dropdownIndicator: base => ({
+    ...base,
+    padding: '4px'
+  }),
+  option: base => ({
+    ...base,
+    padding: '2px 12px'
+  }),
+  menuList: base => ({
+    ...base,
+    paddingTop: '0',
+    paddingBottom: '0'
+  }),
+  multiValueLabel: base => ({
+    ...base,
+    lineHeight: '24px',
+    padding: '0 4px'
+  })
+};
+
 class Editable extends Component {
   constructor(props) {
     super(props);
@@ -61,12 +109,11 @@ class Editable extends Component {
       initialValue = props.object[field];
     }
 
-    this.initialValue = initialValue;
-
     this.state = {
       editing: false,
       value: initialValue,
-      submitting: false
+      submitting: false,
+      initialValue
     };
   }
 
@@ -97,7 +144,7 @@ class Editable extends Component {
     if (event.keyCode === 27) {
       this.cancel();
     }
-  }
+  };
 
   enableEditing = event => {
     const selection = window.getSelection().toString();
@@ -108,15 +155,15 @@ class Editable extends Component {
     if (!selection && elementName !== 'a') {
       this.setState({ editing: true });
     }
-  }
+  };
 
   cancel = () => {
-    this.setState({ value: this.initialValue, editing: false, error: null });
-  }
+    this.setState({ value: this.state.initialValue, editing: false, error: null });
+  };
 
-  handleChange = value => {
+  handleChange = (value = '') => {
     this.setState({ value });
-  }
+  };
 
   handleSubmit = (data = null) => {
     const { multi, field } = this.props;
@@ -134,7 +181,7 @@ class Editable extends Component {
     }
 
     if (multi) {
-      args[field] = this.initialValue.map(value => {
+      args[field] = this.state.initialValue.map(value => {
         // Set the isDeleted flag if the value was removed.
         const isDeleted = args[field].some(item => item.id === value.id);
 
@@ -149,17 +196,19 @@ class Editable extends Component {
 
     let error = null;
 
-    promise.then(() => {
-      this.initialValue = this.state.value;
-      this.setState({ editing: false });
-    }).catch(errorResponse => {
-      // Get the actual error message.
-      error = errorResponse.data[field];
-    }).finally(() => {
-      // Always set the error. If there is none the current error will just get cleared.
-      this.setState({ submitting: false, error });
-    });
-  }
+    promise
+      .then(() => {
+        this.setState({ initialValue: this.state.value, editing: false });
+      })
+      .catch(errorResponse => {
+        // Get the actual error message.
+        error = errorResponse.data[field];
+      })
+      .finally(() => {
+        // Always set the error. If there is none the current error will just get cleared.
+        this.setState({ submitting: false, error });
+      });
+  };
 
   createOptions = items => {
     const config = selectConfig[this.props.field];
@@ -171,7 +220,7 @@ class Editable extends Component {
     }
 
     return items.map(item => ({ value: item, label: item[label] }));
-  }
+  };
 
   createIconLabel = value => {
     const { iconClass, iconDisplay } = selectConfig[this.props.field];
@@ -179,21 +228,33 @@ class Editable extends Component {
     // Icon selects have a specific way of rendering.
     // That's the the className for the label's icon is always built the same way.
     return `${iconClass}${value[iconDisplay].toString().toLowerCase()}`;
-  }
+  };
+
+  addRow = data => {
+    // Adds a row to the related field.
+    this.setState({ value: [...this.state.value, Object.assign({}, data)] });
+  };
 
   render() {
-    const { editing, value, submitting, error } = this.state;
+    const { editing, submitting, error } = this.state;
     const { field, type } = this.props;
     const config = selectConfig[field];
+
+    let { value } = this.state;
+
+    if (Array.isArray(value)) {
+      // Deep copy the array of objects.
+      value = value.map(item => ({ ...item }));
+    }
 
     // Set up some generic props.
     const props = {
       ...this.props,
       value,
+      selectConfig: config,
       handleSubmit: this.handleSubmit,
       handleChange: this.handleChange,
       cancel: this.cancel,
-      selectConfig: config,
       error: this.state.error,
       createOptions: this.createOptions
     };
@@ -206,18 +267,53 @@ class Editable extends Component {
     } else if (type === 'select' && this.props.icon) {
       EditableComponent = EditableIconSelect;
       props.createIconLabel = this.createIconLabel;
+    } else if (type === 'related') {
+      props.addRow = this.addRow;
+      EditableComponent = components[field];
     } else {
       EditableComponent = components[type];
     }
 
+    if (type === 'select' || type === 'related') {
+      props.selectStyles = selectStyles;
+    }
+
     let display;
 
-    const hasValue = (typeof value !== 'undefined' && value !== null);
+    const hasValue = typeof value !== 'undefined' && value !== null;
 
     if (this.props.multi && hasValue) {
       if (value.length > 0) {
         // Since there are multiple values there needs to be custom rendering.
         display = value.map(item => <div key={item.id}>{item.name}</div>);
+      }
+    } else if (type === 'related' && hasValue) {
+      if (value.length > 0) {
+        // Since there are multiple values there needs to be custom rendering.
+        display = value.map(item => {
+          let row;
+
+          switch (field) {
+            case 'emailAddresses':
+              row = (
+                <NavLink to={`/email/compose/${item.emailAddress}`}>{item.emailAddress}</NavLink>
+              );
+              break;
+            case 'phoneNumbers':
+              row = <a href={`tel:${item.number}`}>{item.number}</a>;
+              break;
+            case 'addresses':
+              row = <Address address={item} />;
+              break;
+            case 'websites':
+              row = <a href={`${item.website}`}>{item.website.replace(/http(s)?:\/\//, '')}</a>;
+              break;
+            default:
+              return null;
+          }
+
+          return <div key={item.id}>{row}</div>;
+        });
       }
     } else if (hasValue && config) {
       // Certain fields have a custom field used as the displayed field.
@@ -239,34 +335,31 @@ class Editable extends Component {
     }
 
     // Certain fields have a custom empty state.
-    const emptyText = (config && config.empty) ? config.empty : `No ${field}`;
+    const emptyText = config && config.empty ? config.empty : `No ${field}`;
+
+    const hasError = error && type !== 'related';
 
     return (
       <BlockUI blocking={submitting}>
         <span onKeyDown={this.handleKeyPress} ref={this.editableRef}>
-          {
-            editing ?
-              (
-                <span className={`editable-wrap${error ? ' has-error' : ''}`}>
-                  <EditableComponent {...props} />
+          {editing ? (
+            <span className={`editable-wrap${hasError ? ' has-error' : ''}`}>
+              <EditableComponent {...props} />
 
-                  {error && <div className="error-message">{error}</div>}
-                </span>
-              ) :
-              (
-                <span onClick={this.enableEditing} className={`editable${!display ? ' editable-empty' : ''}`}>
-                  {
-                    type === 'textarea' ?
-                    (
-                      <ReactMarkdown source={display || emptyText} />
-                    ) :
-                    (
-                      <span>{display || emptyText}</span>
-                    )
-                  }
-                </span>
-              )
-          }
+              {hasError && <div className="error-message">{error}</div>}
+            </span>
+          ) : (
+            <span
+              onClick={this.enableEditing}
+              className={`editable${!display ? ' editable-empty' : ''}`}
+            >
+              {type === 'textarea' ? (
+                <ReactMarkdown source={display || emptyText} />
+              ) : (
+                <span>{display || emptyText}</span>
+              )}
+            </span>
+          )}
         </span>
       </BlockUI>
     );

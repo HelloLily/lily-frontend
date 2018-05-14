@@ -5,15 +5,21 @@
 .editable-wrap {
   .error-message {
     font-size: 0.85em;
+    flex-basis: 100%;
   }
 }
 
 .editable-input-wrap {
   display: flex;
   position: relative;
+  min-width: 100px;
 
   &.editable-multi {
     flex-direction: column;
+  }
+
+  .hl-primary-btn {
+    line-height: 27px;
   }
 }
 
@@ -38,7 +44,7 @@
     position: absolute;
     top: -1px;
     overflow: hidden;
-    font-family: "lilicon";
+    font-family: 'lilicon';
     content: $hl-edit-icon;
     line-height: $default-line-height - 2px;
     visibility: hidden;
@@ -102,21 +108,10 @@
   }
 }
 
-.editable-has-buttons {
-  line-height: $default-line-height - 2px;
-  height: $default-line-height;
-  border: 1px $lily-grey solid;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
 .editable-input {
   line-height: $default-line-height;
   border-color: $lily-grey;
   border-radius: $base-border-radius;
-  border-right: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
   flex-grow: 1;
 
   &:focus {
@@ -124,7 +119,16 @@
   }
 }
 
-.editable-textarea {
+.editable-has-buttons {
+  line-height: $default-line-height - 2px;
+  height: $default-line-height;
+  border: 1px $lily-grey solid;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+}
+
+.editable-stretched {
   flex-direction: column;
 
   textarea {
@@ -138,8 +142,6 @@
 
   .editable-buttons {
     button {
-      border-top: 0;
-
       &:first-of-type {
         border-bottom-left-radius: $base-border-radius;
       }
@@ -165,4 +167,31 @@
   border: 1px $lily-grey solid;
   border-radius: $base-border-radius;
   height: $default-line-height;
+}
+
+.editable-related-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  .hl-primary-btn {
+    align-self: flex-end;
+  }
+}
+
+.is-deleted {
+  // Undo buttons should be kept available.
+  > :not(button) {
+    pointer-events: none;
+    opacity: 0.35;
+  }
+}
+
+.editable-addresses {
+  display: flex;
+  flex-grow: 1;
+
+  .address-row {
+    flex-grow: 1;
+  }
 }

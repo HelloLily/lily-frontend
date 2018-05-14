@@ -16,17 +16,18 @@ class UnassignedCases extends Component {
 
   componentDidMount = async () => {
     await this.getItems();
-  }
+  };
 
   getItems = async () => {
     const request = await Case.query();
 
     const total = request.results.length;
-    const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY).length;
+    const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY)
+      .length;
     const items = request.results;
 
     this.setState({ items, total, criticalCount });
-  }
+  };
 
   render() {
     const { items, total, criticalCount } = this.state;
@@ -38,13 +39,15 @@ class UnassignedCases extends Component {
           <i className="lilicon hl-case-icon m-r-5" />
           Unassigned cases
           <span className="label-amount">{total || '-'}</span>
-          <span className="label-amount high-prio" ng-if="vm.highPrioCases">{criticalCount || '-'}</span>
+          <span className="label-amount high-prio" ng-if="vm.highPrioCases">
+            {criticalCount || '-'}
+          </span>
         </div>
       </React.Fragment>
     );
 
     return (
-      <Widget title={title} component="myCases" expandable>
+      <Widget title={title} component="unassignedCases" expandable>
         <table className="hl-table">
           <thead>
             <tr>
@@ -59,19 +62,20 @@ class UnassignedCases extends Component {
           </thead>
 
           <tbody>
-            {items.map(item =>
-            (
+            {items.map(item => (
               <tr key={item.id}>
                 <td>{item.id}</td>
-                <td><NavLink to={`/cases/${item.id}`}>{item.subject}</NavLink></td>
                 <td>
-                  {item.contact &&
+                  <NavLink to={`/cases/${item.id}`}>{item.subject}</NavLink>
+                </td>
+                <td>
+                  {item.contact && (
                     <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
-                  }
-                  {(item.contact && item.account) && <span> at </span>}
-                  {item.account &&
+                  )}
+                  {item.contact && item.account && <span> at </span>}
+                  {item.account && (
                     <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
-                  }
+                  )}
                 </td>
                 <td>
                   <Editable
@@ -83,18 +87,15 @@ class UnassignedCases extends Component {
                     hideValue
                   />
                 </td>
+                <td>{item.assignedToTeams.map(team => <div key={team.id}>{team.name}</div>)}</td>
                 <td>
-                  {item.assignedToTeams.map(team => <div key={team.id}>{team.name}</div>)}
+                  <LilyDate date={item.created} />
                 </td>
-                <td><LilyDate date={item.created} /></td>
                 <td>
-                  <button className="hl-primary-btn">
-                    Assign to me
-                  </button>
+                  <button className="hl-primary-btn">Assign to me</button>
                 </td>
               </tr>
-            ))
-          }
+            ))}
           </tbody>
         </table>
       </Widget>

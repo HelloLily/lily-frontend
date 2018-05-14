@@ -4,11 +4,11 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 class EditableText extends Component {
   handleSubmit = () => {
     this.props.handleSubmit();
-  }
+  };
 
   handleChange = event => {
     this.props.handleChange(event.target.value);
-  }
+  };
 
   render() {
     const { value } = this.props;
@@ -21,11 +21,16 @@ class EditableText extends Component {
           value={value}
           onChange={this.handleChange}
           className="editable-has-buttons editable-input"
+          placeholder={this.props.field}
         />
 
         <span className="editable-buttons">
-          <button onClick={this.handleSubmit}><FontAwesomeIcon icon="check" /></button>
-          <button onClick={this.props.cancel}><FontAwesomeIcon icon="times" /></button>
+          <button onClick={this.handleSubmit}>
+            <FontAwesomeIcon icon="check" />
+          </button>
+          <button onClick={this.props.cancel}>
+            <FontAwesomeIcon icon="times" />
+          </button>
         </span>
       </span>
     );

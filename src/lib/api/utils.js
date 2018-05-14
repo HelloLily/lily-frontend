@@ -23,7 +23,15 @@ function convertKey(key, toSnakeCase) {
  * Converts keys from the API's data from snake_case to camelCase (or vice-versa).
  * This is so the front end can have it's own code style rules.
  */
-export default function convertKeys(data, toSnakeCase = false) {
+export default function convertKeys(values, toSnakeCase = false) {
+  let data = null;
+
+  if (Array.isArray(values)) {
+    data = values.slice();
+  } else {
+    data = Object.assign({}, values);
+  }
+
   Object.keys(data).forEach(key => {
     const convertedKey = convertKey(key, toSnakeCase);
 

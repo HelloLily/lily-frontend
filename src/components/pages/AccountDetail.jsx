@@ -24,30 +24,69 @@ class AccountDetail extends Component {
 
     return (
       <div>
-        {
-          account ?
-            (
-              <div>
-                <div>
-                  Account detail
-                </div>
+        {account ? (
+          <div>
+            <div>Account detail</div>
 
-                <strong>Text</strong>
-                <Editable type="text" object={account} field="name" submitCallback={this.submitCallback} />
+            <strong>Text</strong>
+            <Editable
+              type="text"
+              object={account}
+              field="name"
+              submitCallback={this.submitCallback}
+            />
 
-                <strong>Textarea</strong>
-                <Editable type="textarea" object={account} field="description" submitCallback={this.submitCallback} />
+            <strong>Textarea</strong>
+            <Editable
+              type="textarea"
+              object={account}
+              field="description"
+              submitCallback={this.submitCallback}
+            />
 
-                <strong>Select</strong>
-                <Editable type="select" object={account} field="assignedTo" submitCallback={this.submitCallback} />
-              </div>
-            ) :
-            (
-              <div>
-                Loading
-              </div>
-            )
-        }
+            <strong>Select</strong>
+            <Editable
+              type="select"
+              object={account}
+              field="assignedTo"
+              submitCallback={this.submitCallback}
+            />
+
+            <strong>Related (email addresses)</strong>
+            <Editable
+              type="related"
+              object={account}
+              field="emailAddresses"
+              submitCallback={this.submitCallback}
+            />
+
+            <strong>Related (phone numbers)</strong>
+            <Editable
+              type="related"
+              object={account}
+              field="phoneNumbers"
+              submitCallback={this.submitCallback}
+            />
+
+            <strong>Related (addresses)</strong>
+            <Editable
+              type="related"
+              object={account}
+              field="addresses"
+              submitCallback={this.submitCallback}
+            />
+
+            <strong>Related (websites)</strong>
+            <Editable
+              type="related"
+              object={account}
+              field="websites"
+              submitCallback={this.submitCallback}
+            />
+          </div>
+        ) : (
+          <div>Loading</div>
+        )}
       </div>
     );
   }

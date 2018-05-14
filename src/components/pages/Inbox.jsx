@@ -22,7 +22,7 @@ class Inbox extends Component {
     const labelSettings = {};
 
     const accountRequest = await EmailAccount.mine();
-    // TODO: This should be accountRequest.results once the API is changed.
+    // TODO: This should be accountRequest.results once the API is changed.`
     const emailAccounts = accountRequest.map(emailAccount => {
       // Hide labels provided by the email provider.
       emailAccount.labels = emailAccount.labels.filter(label => label.labelType !== 0);
@@ -93,7 +93,7 @@ class Inbox extends Component {
     name += `${label.name}/`;
 
     return name;
-  }
+  };
 
   getParent = (parentLabel, label) => {
     const parentLabelName = this.getParentLabelName(parentLabel);
@@ -115,45 +115,48 @@ class Inbox extends Component {
     }
 
     return parent;
-  }
+  };
 
   setInbox = (emailAccount, label) => {
     this.setState({ emailAccount, label });
-  }
+  };
 
   render() {
     const { emailAccounts, colorCodes, emailAccount, label, loading } = this.state;
 
     return (
       <div className="inbox">
-        {!loading ?
-          (
-            <React.Fragment>
-              <div className="email-accounts m-r-15">
-                <button className="hl-primary-btn-green w-100 m-b-15">
-                  <i className="lilicon hl-email-icon m-r-5" /> Compose
-                </button>
+        {!loading ? (
+          <React.Fragment>
+            <div className="email-accounts m-r-15">
+              <button className="hl-primary-btn-green w-100 m-b-15">
+                <i className="lilicon hl-email-icon m-r-5" /> Compose
+              </button>
 
-                <EmailAccounts emailAccounts={emailAccounts} setInbox={this.setInbox} />
-              </div>
+              <EmailAccounts emailAccounts={emailAccounts} setInbox={this.setInbox} />
+            </div>
 
-              <div className="w-100">
-                <Switch>
-                  <Route path="/email/compose" component={EmailCompose} />
-                  <Route path="/email/:id" component={EmailDetail} />
+            <div className="w-100">
+              <Switch>
+                <Route path="/email/compose" component={EmailCompose} />
+                <Route path="/email/:id" component={EmailDetail} />
 
-                  <Route
-                    path="/email"
-                    render={() => <EmailMessages colorCodes={colorCodes} emailAccount={emailAccount} label={label} />}
-                  />
-                </Switch>
-              </div>
-            </React.Fragment>
-          ) :
-          (
-            <span>Loading</span>
-          )
-        }
+                <Route
+                  path="/email"
+                  render={() => (
+                    <EmailMessages
+                      colorCodes={colorCodes}
+                      emailAccount={emailAccount}
+                      label={label}
+                    />
+                  )}
+                />
+              </Switch>
+            </div>
+          </React.Fragment>
+        ) : (
+          <span>Loading</span>
+        )}
       </div>
     );
   }

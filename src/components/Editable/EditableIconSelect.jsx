@@ -17,14 +17,14 @@ class EditableIconSelect extends Component {
     const options = this.props.createOptions(request.results);
 
     this.setState({ options });
-  }
+  };
 
   onInputKeyDown = event => {
     if (event.keyCode === 27) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }
-  }
+  };
 
   handleChange = selected => {
     const value = selected ? selected.value : null;
@@ -34,7 +34,7 @@ class EditableIconSelect extends Component {
     setTimeout(() => {
       this.props.handleSubmit();
     });
-  }
+  };
 
   IconOption = props => {
     const icon = this.props.createIconLabel(props.value);
@@ -49,7 +49,7 @@ class EditableIconSelect extends Component {
   };
 
   render() {
-    const { value, createIconLabel } = this.props;
+    const { value, createIconLabel, selectStyles } = this.props;
 
     let label = value;
 
@@ -58,7 +58,7 @@ class EditableIconSelect extends Component {
 
       label = (
         <React.Fragment>
-          <i className={`${icon} m-r-5`} /> {value.name}
+          <i className={icon} /> {value.name}
         </React.Fragment>
       );
     }
@@ -68,14 +68,16 @@ class EditableIconSelect extends Component {
     return (
       <span className="editable-input-wrap">
         <Select
+          autoFocus
           name="options"
           className="editable-input"
           value={option}
+          styles={selectStyles}
+          components={{ Option: this.IconOption }}
           onChange={this.handleChange}
           options={this.state.options}
           onInputKeyDown={this.onInputKeyDown}
-          components={{ Option: this.IconOption }}
-          autoFocus
+          onBlur={this.props.cancel}
         />
       </span>
     );

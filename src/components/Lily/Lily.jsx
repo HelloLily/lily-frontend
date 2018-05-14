@@ -24,6 +24,7 @@ import faReplyAll from '@fortawesome/fontawesome-free-solid/faReplyAll';
 import faArrowRight from '@fortawesome/fontawesome-free-solid/faArrowRight';
 import faArchive from '@fortawesome/fontawesome-free-solid/faArchive';
 import faFolder from '@fortawesome/fontawesome-free-solid/faFolder';
+import faUndo from '@fortawesome/fontawesome-free-solid/faUndo';
 
 import ErrorBoundry from 'components/ErrorBoundry';
 import Header from 'components/Header';
@@ -46,9 +47,30 @@ import NotFound from 'pages/NotFound';
 // import { get } from '../../lib/api/';
 
 fontawesome.library.add(
-  faPhone, faMobile, faPlus, faLock, faKey, faRocket, faEnvelope, faEnvelopeOpen,
-  faCode, faPlug, faCreditCard, faTrophy, faSignOutAlt, faCheck, faTimes, faColumns,
-  faStar, faSpinner, faReply, faReplyAll, faArrowRight, faArchive, faFolder
+  faPhone,
+  faMobile,
+  faPlus,
+  faLock,
+  faKey,
+  faRocket,
+  faEnvelope,
+  faEnvelopeOpen,
+  faCode,
+  faPlug,
+  faCreditCard,
+  faTrophy,
+  faSignOutAlt,
+  faCheck,
+  faTimes,
+  faColumns,
+  faStar,
+  faSpinner,
+  faReply,
+  faReplyAll,
+  faArrowRight,
+  faArchive,
+  faFolder,
+  faUndo
 );
 
 class Lily extends Component {

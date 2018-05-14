@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { createFilter } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
@@ -15,13 +16,13 @@ class EditableSelect extends Component {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }
-  }
+  };
 
   handleMultiSubmit = () => {
     const values = this.props.value.map(item => ({ id: item.id }));
 
     this.props.handleSubmit(values);
-  }
+  };
 
   handleChange = selected => {
     if (this.props.multi) {
@@ -29,7 +30,7 @@ class EditableSelect extends Component {
     } else {
       this.handleSingleSelect(selected);
     }
-  }
+  };
 
   handleSingleSelect = selected => {
     const value = selected ? selected.value : null;
@@ -42,13 +43,13 @@ class EditableSelect extends Component {
     };
 
     this.props.handleSubmit(args);
-  }
+  };
 
   handleMultiSelect = selected => {
     const values = selected.map(item => item.value);
 
     this.props.handleChange(values);
-  }
+  };
 
   search = async query => {
     const { model } = this.props.selectConfig;
@@ -59,18 +60,20 @@ class EditableSelect extends Component {
     const options = this.props.createOptions(request.results);
 
     return options;
-  }
+  };
 
   filterOptions = (options, filter, currentValues) => {
     if (this.props.multi) {
-      return options.filter(option => !currentValues.some(value => value.value.id === option.value.id));
+      return options.filter(
+        option => !currentValues.some(value => value.value.id === option.value.id)
+      );
     }
 
     return options;
-  }
+  };
 
   render() {
-    const { value, selectConfig, multi } = this.props;
+    const { value, selectConfig, multi, selectStyles } = this.props;
 
     let options;
 
@@ -89,14 +92,15 @@ class EditableSelect extends Component {
           name="options"
           className="editable-input"
           value={options}
+          isMulti={multi}
+          styles={selectStyles}
           onChange={this.handleChange}
           loadOptions={this.search}
-          isMulti={multi}
-          filterOptions={this.filterOptions}
           onInputKeyDown={this.onInputKeyDown}
+          onBlur={this.props.cancel}
         />
 
-        {multi &&
+        {multi && (
           <div className="editable-multi-actions m-t-5">
             <div className="float-right">
               <button
@@ -116,7 +120,7 @@ class EditableSelect extends Component {
               </button>
             </div>
           </div>
-        }
+        )}
       </span>
     );
   }

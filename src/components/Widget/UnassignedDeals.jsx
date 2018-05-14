@@ -15,7 +15,7 @@ class UnassignedDeals extends Component {
 
   componentDidMount = async () => {
     await this.getItems();
-  }
+  };
 
   getItems = async () => {
     const request = await Deal.query();
@@ -24,7 +24,7 @@ class UnassignedDeals extends Component {
     const items = request.results;
 
     this.setState({ items, total });
-  }
+  };
 
   render() {
     const { items, total } = this.state;
@@ -41,7 +41,7 @@ class UnassignedDeals extends Component {
     );
 
     return (
-      <Widget title={title} component="myDeals" expandable>
+      <Widget title={title} component="unassignedDeals" expandable>
         <table className="hl-table">
           <thead>
             <tr>
@@ -56,37 +56,43 @@ class UnassignedDeals extends Component {
           </thead>
 
           <tbody>
-            {items.map(item =>
-            (
+            {items.map(item => (
               <tr key={item.id}>
-                <td><NavLink to={`/deals/${item.id}`}>{item.name}</NavLink></td>
                 <td>
-                  {item.contact &&
+                  <NavLink to={`/deals/${item.id}`}>{item.name}</NavLink>
+                </td>
+                <td>
+                  {item.contact && (
                     <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
-                  }
-                  {(item.contact && item.account) && <span> at </span>}
-                  {item.account &&
+                  )}
+                  {item.contact && item.account && <span> at </span>}
+                  {item.account && (
                     <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
-                  }
+                  )}
                 </td>
                 <td>
                   {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}
-                  {(item.amountOnce !== 0 && item.amountRecurring !== 0) && <span> | </span>}
+                  {item.amountOnce !== 0 && item.amountRecurring !== 0 && <span> | </span>}
                   {item.amountRecurring !== 0 && <span>{item.amountRecurring} /once</span>}
                 </td>
                 <td>{item.assignedToTeams.map(team => <div key={team.id}>{team.name}</div>)}</td>
                 <td>
-                  <Editable type="select" object={item} field="nextStep" submitCallback={this.submitCallback} icon />
+                  <Editable
+                    type="select"
+                    object={item}
+                    field="nextStep"
+                    submitCallback={this.submitCallback}
+                    icon
+                  />
                 </td>
-                <td><LilyDate date={item.nextStepDate} /></td>
                 <td>
-                  <button className="hl-primary-btn">
-                    Assign to me
-                  </button>
+                  <LilyDate date={item.nextStepDate} />
+                </td>
+                <td>
+                  <button className="hl-primary-btn">Assign to me</button>
                 </td>
               </tr>
-            ))
-          }
+            ))}
           </tbody>
         </table>
       </Widget>

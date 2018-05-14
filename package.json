@@ -5,10 +5,12 @@
     "@fortawesome/fontawesome": "^1.1.5",
     "@fortawesome/fontawesome-free-solid": "^5.0.9",
     "@fortawesome/react-fontawesome": "^0.0.18",
+    "classnames": "^2.2.5",
     "date-fns": "^1.29.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
+    "google-libphonenumber": "^3.1.5",
     "husky": "^0.14.3",
     "i18next": "^10.6.0",
     "i18next-fetch-backend": "^0.1.0",
@@ -53,10 +55,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx,json,scss}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,jsx,json,scss}": ["prettier --write", "git add"]
   },
   "prettier": {
     "printWidth": 100,

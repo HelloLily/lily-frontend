@@ -16,23 +16,23 @@ class EditableTextarea extends Component {
     // Set the height to 'auto' to properly calculate the scrollHeight.
     this.textareaRef.current.style.height = 'auto';
     this.textareaRef.current.style.height = `${this.textareaRef.current.scrollHeight}px`;
-  }
+  };
 
   handleSubmit = () => {
     this.props.handleSubmit();
-  }
+  };
 
   handleChange = event => {
     this.setHeight();
 
     this.props.handleChange(event.target.value);
-  }
+  };
 
   render() {
     const { value } = this.props;
 
     return (
-      <span className="editable-input-wrap editable-textarea">
+      <span className="editable-input-wrap editable-stretched">
         <textarea
           autoFocus
           value={value}
@@ -42,8 +42,12 @@ class EditableTextarea extends Component {
         />
 
         <span className="editable-buttons">
-          <button onClick={this.handleSubmit}><FontAwesomeIcon icon="check" /></button>
-          <button onClick={this.props.cancel}><FontAwesomeIcon icon="times" /></button>
+          <button onClick={this.handleSubmit}>
+            <FontAwesomeIcon icon="check" />
+          </button>
+          <button onClick={this.props.cancel}>
+            <FontAwesomeIcon icon="times" />
+          </button>
         </span>
       </span>
     );

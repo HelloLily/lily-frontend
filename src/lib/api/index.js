@@ -25,7 +25,8 @@ export function post(path, body) {
   const { uri, options } = setupRequestOptions(path, { body, method: 'POST' });
 
   if (options.body && typeof options.body === 'object') {
-    options.body = JSON.stringify(options.body);
+    const data = convertKeys(options.body, true);
+    options.body = JSON.stringify(data);
   }
 
   const promise = fetch(uri, options).then(handleResponse);
@@ -67,10 +68,12 @@ export function del(path) {
 export function createParams(params = {}) {
   const convertedParams = convertKeys(params, true);
 
-  return Object.keys(convertedParams).map(key => {
-    const encodedKey = encodeURIComponent(key);
-    const encodedParam = encodeURIComponent(params[key]);
+  return Object.keys(convertedParams)
+    .map(key => {
+      const encodedKey = encodeURIComponent(key);
+      const encodedParam = encodeURIComponent(params[key]);
 
-    return `${encodedKey}=${encodedParam}`;
-  }).join('&');
+      return `${encodedKey}=${encodedParam}`;
+    })
+    .join('&');
 }
