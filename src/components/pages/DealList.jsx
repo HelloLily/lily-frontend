@@ -3,27 +3,45 @@ import { NavLink } from 'react-router-dom';
 
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
+import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/utils/LilyDate';
-import Deal from 'src/models/Deal';
+import BlockUI from 'components/Utils/BlockUI';
+import Deal from 'models/Deal';
 
 class DealList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { deals: [] };
+    this.state = { deals: [], pagination: {}, loading: true };
   }
 
   async componentDidMount() {
-    const data = await Deal.query();
+    const data = await Deal.query({ pageSize: 20 });
 
-    this.setState({ deals: data.results });
+    this.setState({
+      deals: data.results,
+      pagination: data.pagination,
+      loading: false
+    });
   }
 
+  setPage = async page => {
+    this.setState({ loading: true });
+
+    const data = await Deals.query({ pageSize: 20, page });
+
+    this.setState({
+      deals: data.results,
+      pagination: data.pagination,
+      loading: false
+    });
+  };
+
   render() {
-    const { deals } = this.state;
+    const { deals, loading, pagination } = this.state;
 
     return (
-      <div>
+      <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
             <h1>Deal list</h1>
@@ -85,9 +103,11 @@ class DealList extends Component {
               ))}
             </tbody>
           </table>
-          <div className="list-footer">Pagination</div>
+          <div className="list-footer">
+            <LilyPagination setPage={this.setPage} pagination={pagination} />
+          </div>
         </List>
-      </div>
+      </BlockUI>
     );
   }
 }

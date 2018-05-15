@@ -1,16 +1,20 @@
 // TODO: Temporary import so it can build.
 @import 'settings';
 
+.pagination-container {
+  display: flex;
+  align-items: center;
+
+  .pagination {
+    margin-left: auto;
+  }
+}
+
 ul.pagination {
   font-size: $font-size-20;
-  list-style: none;
-  margin: 0 0 $spacing 0;
-  text-align: right;
-  cursor: pointer;
 
   li {
     display: inline-block;
-    margin-bottom: 0.25rem;
 
     border-top: 1px solid $color-neutral-30;
     border-bottom: 1px solid $color-neutral-30;
@@ -52,18 +56,7 @@ ul.pagination {
     }
   }
 
-  li.pagination--gap {
-    background: none;
-    padding: 0.25rem 0.5rem;
-  }
-
-  .break-me {
-    display: inline-block;
-    pointer-events: none;
-  }
-
-  a,
-  .break-me {
+  a {
     background: $white;
     color: $color-neutral-70;
     line-height: 1.5em;

@@ -5,16 +5,17 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
-import Pagination from 'components/Pagination';
+import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/utils/LilyDate';
-import Account from 'src/models/Account';
-import ListFilter from 'src/components/List/ListFilter';
+import ListFilter from 'components/List/ListFilter';
+import BlockUI from 'components/Utils/BlockUI';
+import Account from 'models/Account';
 
 class AccountList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { accounts: [], pagination: {}, statuses: [] };
+    this.state = { accounts: [], pagination: {}, statuses: [], loading: true };
   }
 
   async componentDidMount() {
@@ -23,16 +24,22 @@ class AccountList extends Component {
 
     this.setState({
       accounts: data.results,
-      page: 0,
       pagination: data.pagination,
-      statuses: statusRequest.results
+      statuses: statusRequest.results,
+      loading: false
     });
   }
 
   setPage = async page => {
+    this.setState({ loading: true });
+
     const data = await Account.query({ pageSize: 20, page });
 
-    this.setState({ accounts: data.results, page: 0, pagination: data.pagination });
+    this.setState({
+      accounts: data.results,
+      pagination: data.pagination,
+      loading: false
+    });
   };
 
   export = () => {
@@ -40,10 +47,10 @@ class AccountList extends Component {
   };
 
   render() {
-    const { accounts, page, pagination, statuses } = this.state;
+    const { accounts, pagination, statuses, loading } = this.state;
 
     return (
-      <div>
+      <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
             {/* TODO: This should be some generic List thing. */}
@@ -53,7 +60,9 @@ class AccountList extends Component {
               <i className="lilicon hl-toggle-down-icon small" />
             </button>
 
-            <button className="hl-primary-btn m-r-10">Export accounts</button>
+            <button className="hl-primary-btn m-r-10" onClick={this.export}>
+              Export accounts
+            </button>
 
             <ListFilter label="Account status" items={statuses} />
           </div>
@@ -121,10 +130,10 @@ class AccountList extends Component {
             </tbody>
           </table>
           <div className="list-footer">
-            <Pagination page={page} setPage={this.setPage} pagination={pagination} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} />
           </div>
         </List>
-      </div>
+      </BlockUI>
     );
   }
 }

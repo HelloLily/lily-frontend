@@ -164,19 +164,19 @@ class Editable extends Component {
   };
 
   handleChange = (value = '') => {
-    console.log(value);
     this.setState({ value });
   };
 
   handleSubmit = (data = null) => {
-    const { multi, field } = this.props;
+    const { value } = this.state;
+    const { multi, field, type } = this.props;
 
     const args = {
       id: this.props.object.id
     };
 
     if (!data) {
-      args[field] = this.state.value.hasOwnProperty('id') ? this.state.value.id : this.state.value;
+      args[field] = value.hasOwnProperty('id') ? value.id : value;
     } else {
       // Editable components might have some processing before submitting.
       // This means they'll pass the data instead of using this.state.value.
@@ -184,12 +184,16 @@ class Editable extends Component {
     }
 
     if (multi) {
-      args[field] = this.state.initialValue.map(value => {
+      args[field] = this.state.initialValue.map(initialValue => {
         // Set the isDeleted flag if the value was removed.
-        const isDeleted = args[field].some(item => item.id === value.id);
+        const isDeleted = args[field].some(item => item.id && item.id === initialValue.id);
 
         return { id: value.id, isDeleted };
       });
+    }
+
+    if (type === 'related') {
+      args[field] = value.filter(item => item.id || (!item.id && !item.isDeleted));
     }
 
     // The Editable component is passed a function which does the actual submitting.
@@ -201,7 +205,7 @@ class Editable extends Component {
 
     promise
       .then(() => {
-        this.setState({ initialValue: this.state.value, editing: false });
+        this.setState({ value: args[field], initialValue: args[field], editing: false });
       })
       .catch(errorResponse => {
         // Get the actual error message.
@@ -297,7 +301,7 @@ class Editable extends Component {
     } else if (type === 'related' && hasValue) {
       if (value.length > 0) {
         // Since there are multiple values there needs to be custom rendering.
-        display = value.map(item => {
+        display = value.map((item, index) => {
           let row;
 
           switch (field) {
@@ -319,7 +323,8 @@ class Editable extends Component {
               return null;
           }
 
-          return <div key={item.id}>{row}</div>;
+          // New rows don't have an ID, so create a key based on current index.
+          return <div key={item.id || `row-${index}`}>{row}</div>;
         });
       }
     } else if (hasValue && config) {

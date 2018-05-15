@@ -71,7 +71,7 @@ export function createParams(params = {}) {
   return Object.keys(convertedParams)
     .map(key => {
       const encodedKey = encodeURIComponent(key);
-      const encodedParam = encodeURIComponent(params[key]);
+      const encodedParam = encodeURIComponent(convertedParams[key]);
 
       return `${encodedKey}=${encodedParam}`;
     })

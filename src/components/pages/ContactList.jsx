@@ -4,21 +4,39 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import List from 'components/List';
 import LilyDate from 'components/utils/LilyDate';
+import LilyPagination from 'components/LilyPagination';
 import ListActions from 'components/List/ListActions';
-import Contact from 'src/models/Contact';
+import BlockUI from 'components/Utils/BlockUI';
+import Contact from 'models/Contact';
 
 class ContactList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { contacts: [] };
+    this.state = { contacts: [], pagination: {}, loading: true };
   }
 
   async componentDidMount() {
-    const data = await Contact.query();
+    const data = await Contact.query({ pageSize: 20 });
 
-    this.setState({ contacts: data.results });
+    this.setState({
+      contacts: data.results,
+      pagination: data.pagination,
+      loading: false
+    });
   }
+
+  setPage = async page => {
+    this.setState({ loading: true });
+
+    const data = await Contact.query({ pageSize: 20, page });
+
+    this.setState({
+      contacts: data.results,
+      pagination: data.pagination,
+      loading: false
+    });
+  };
 
   getAccountInformation = contact =>
     contact.accounts.map(account => (
@@ -49,10 +67,10 @@ class ContactList extends Component {
     ));
 
   render() {
-    const { contacts } = this.state;
+    const { contacts, loading, pagination } = this.state;
 
     return (
-      <div>
+      <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
             <h1>Contact list</h1>
@@ -125,9 +143,11 @@ class ContactList extends Component {
               ))}
             </tbody>
           </table>
-          <div className="list-footer">Pagination</div>
+          <div className="list-footer">
+            <LilyPagination setPage={this.setPage} pagination={pagination} />
+          </div>
         </List>
-      </div>
+      </BlockUI>
     );
   }
 }

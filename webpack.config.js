@@ -18,12 +18,14 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: [{
-          loader: 'html-loader',
-          options: {
-            minimize: true
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: true
+            }
           }
-        }]
+        ]
       },
       {
         test: /\.(png|jpe?g)/i,
@@ -46,11 +48,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
-        ]
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -58,13 +56,15 @@ module.exports = {
       },
       {
         test: /\.(ttf|otf|eot|svg)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            outputPath: 'fonts',
-            publicPath: 'fonts'
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'fonts',
+              publicPath: 'fonts'
+            }
           }
-        }]
+        ]
       }
     ]
   },
@@ -76,7 +76,7 @@ module.exports = {
       components: path.resolve(__dirname, 'src/components/'),
       pages: path.resolve(__dirname, 'src/components/pages/'),
       models: path.resolve(__dirname, 'src/models/'),
-      utils: path.resolve(__dirname, 'src/utils'),
+      utils: path.resolve(__dirname, 'src/utils/'),
       lib: path.resolve(__dirname, 'src/lib')
     }
   },

@@ -4,34 +4,50 @@ import { NavLink } from 'react-router-dom';
 import Editable from 'components/Editable';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
+import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/utils/LilyDate';
-import Case from 'src/models/Case';
+import BlockUI from 'components/Utils/BlockUI';
+import Case from 'models/Case';
 
 class CaseList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { cases: [] };
+    this.state = { cases: [], pagination: {}, loading: true };
   }
 
   async componentDidMount() {
-    const data = await Case.query();
+    const data = await Case.query({ pageSize: 20 });
 
-    this.setState({ cases: data.results });
+    this.setState({
+      cases: data.results,
+      pagination: data.pagination,
+      loading: false
+    });
   }
+
+  setPage = async page => {
+    this.setState({ loading: true });
+
+    const data = await Case.query({ pageSize: 20, page });
+
+    this.setState({
+      cases: data.results,
+      pagination: data.pagination,
+      loading: false
+    });
+  };
 
   submitCallback = args => Case.patch(args);
 
   render() {
-    const { cases } = this.state;
+    const { cases, loading, pagination } = this.state;
 
     return (
-      <div>
+      <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
-            <h1>
-              Case list
-            </h1>
+            <h1>Case list</h1>
           </div>
           <table className="hl-table">
             <thead>
@@ -54,36 +70,55 @@ class CaseList extends Component {
               {cases.map(caseObj => (
                 <tr key={caseObj.id}>
                   <td>{caseObj.id}</td>
-                  <td><NavLink to={`/cases/${caseObj.id}`}>{caseObj.subject}</NavLink></td>
                   <td>
-                    {caseObj.contact &&
-                      <NavLink to={`/contacts/${caseObj.contact.id}`}>{caseObj.contact.fullName}</NavLink>
-                    }
-                    {(caseObj.contact && caseObj.account) && <span>at</span> }
-                    {caseObj.account &&
-                      <NavLink to={`/accounts/${caseObj.account.id}`}>{caseObj.account.name}</NavLink>
-                    }
+                    <NavLink to={`/cases/${caseObj.id}`}>{caseObj.subject}</NavLink>
+                  </td>
+                  <td>
+                    {caseObj.contact && (
+                      <NavLink to={`/contacts/${caseObj.contact.id}`}>
+                        {caseObj.contact.fullName}
+                      </NavLink>
+                    )}
+                    {caseObj.contact && caseObj.account && <span>at</span>}
+                    {caseObj.account && (
+                      <NavLink to={`/accounts/${caseObj.account.id}`}>
+                        {caseObj.account.name}
+                      </NavLink>
+                    )}
                   </td>
                   <td>{caseObj.type.name}</td>
                   <td>{caseObj.status.name}</td>
                   <td>
-                    <Editable type="select" object={caseObj} field="priority" submitCallback={this.submitCallback} icon hideValue />
+                    <Editable
+                      type="select"
+                      object={caseObj}
+                      field="priority"
+                      submitCallback={this.submitCallback}
+                      icon
+                      hideValue
+                    />
                   </td>
-                  <td><LilyDate date={caseObj.created} /></td>
-                  <td><LilyDate date={caseObj.expires} /></td>
+                  <td>
+                    <LilyDate date={caseObj.created} />
+                  </td>
+                  <td>
+                    <LilyDate date={caseObj.expires} />
+                  </td>
                   <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
                   <td>{caseObj.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
-                  <td><ListActions /></td>
+                  <td>
+                    <ListActions />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className="list-footer">
-            Pagination
+            <LilyPagination setPage={this.setPage} pagination={pagination} />
           </div>
         </List>
-      </div>
+      </BlockUI>
     );
   }
 }
