@@ -83,6 +83,15 @@ class AccountDetail extends Component {
               field="websites"
               submitCallback={this.submitCallback}
             />
+
+            <strong>Tags</strong>
+            <Editable
+              multi
+              type="tags"
+              object={account}
+              field="tags"
+              submitCallback={this.submitCallback}
+            />
           </div>
         ) : (
           <div>Loading</div>

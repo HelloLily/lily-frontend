@@ -13,6 +13,7 @@ import EditableEmailAddresses from './EditableEmailAddresses';
 import EditablePhoneNumbers from './EditablePhoneNumbers';
 import EditableAddresses from './EditableAddresses';
 import EditableWebsites from './EditableWebsites';
+import EditableTags from './EditableTags';
 
 const components = {
   text: EditableText,
@@ -21,7 +22,8 @@ const components = {
   emailAddresses: EditableEmailAddresses,
   phoneNumbers: EditablePhoneNumbers,
   addresses: EditableAddresses,
-  websites: EditableWebsites
+  websites: EditableWebsites,
+  tags: EditableTags
 };
 
 // We set up predefined parameters to reduce the amount of
@@ -162,6 +164,7 @@ class Editable extends Component {
   };
 
   handleChange = (value = '') => {
+    console.log(value);
     this.setState({ value });
   };
 
@@ -237,10 +240,16 @@ class Editable extends Component {
 
   render() {
     const { editing, submitting, error } = this.state;
-    const { field, type } = this.props;
+    const { field, type, multi } = this.props;
     const config = selectConfig[field];
 
     let { value } = this.state;
+
+    const hasValue = typeof value !== 'undefined' && value !== null;
+
+    if (!hasValue) {
+      value = '';
+    }
 
     if (Array.isArray(value)) {
       // Deep copy the array of objects.
@@ -262,7 +271,7 @@ class Editable extends Component {
     // Dynamically set up the editable component.
     let EditableComponent;
 
-    if (type === 'select' && (this.props.async || this.props.multi)) {
+    if (type === 'select' && (this.props.async || multi)) {
       EditableComponent = EditableAsyncSelect;
     } else if (type === 'select' && this.props.icon) {
       EditableComponent = EditableIconSelect;
@@ -274,15 +283,13 @@ class Editable extends Component {
       EditableComponent = components[type];
     }
 
-    if (type === 'select' || type === 'related') {
+    if (type === 'select' || type === 'related' || type === 'tags') {
       props.selectStyles = selectStyles;
     }
 
     let display;
 
-    const hasValue = typeof value !== 'undefined' && value !== null;
-
-    if (this.props.multi && hasValue) {
+    if (multi && hasValue) {
       if (value.length > 0) {
         // Since there are multiple values there needs to be custom rendering.
         display = value.map(item => <div key={item.id}>{item.name}</div>);

@@ -21,18 +21,23 @@ class AccountList extends Component {
     const data = await Account.query({ pageSize: 20 });
     const statusRequest = await Account.statuses();
 
-    this.setState({ accounts: data.results, page: 0, pagination: data.pagination, statuses: statusRequest.results });
+    this.setState({
+      accounts: data.results,
+      page: 0,
+      pagination: data.pagination,
+      statuses: statusRequest.results
+    });
   }
 
   setPage = async page => {
     const data = await Account.query({ pageSize: 20, page });
 
     this.setState({ accounts: data.results, page: 0, pagination: data.pagination });
-  }
+  };
 
   export = () => {
     console.log('Exported accounts');
-  }
+  };
 
   render() {
     const { accounts, page, pagination, statuses } = this.state;
@@ -68,58 +73,49 @@ class AccountList extends Component {
             <tbody>
               {accounts.map(account => (
                 <tr key={account.id}>
-                  <td><NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink></td>
                   <td>
-                    {account.emailAddresses.map(emailAddress =>
-                      (
-                        <div key={emailAddress.id}>
-                          {emailAddress.status !== 0 ?
-                            (
-                              <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
-                                <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
-                              </NavLink>
-                            ) :
-                            (
-                              null
-                            )
-                          }
-                        </div>
-                      ))
-                    }
-                    {account.phoneNumbers.map(phone =>
-                      (
-                        <div key={phone.id}>
-                          {(phone.type === 'mobile' || phone.type === 'work') ?
-                            (
-                              <a href={`tel:${phone.number}`}>
-                                {phone.type === 'mobile' ?
-                                  (
-                                    <FontAwesomeIcon icon="mobile" />
-                                  ) :
-                                  (
-                                    <i className="lilicon hl-phone-filled-icon" />
-                                  )
-                                }
+                    <NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink>
+                  </td>
+                  <td>
+                    {account.emailAddresses.map(emailAddress => (
+                      <div key={emailAddress.id}>
+                        {emailAddress.status !== 0 ? (
+                          <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
+                            <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
+                          </NavLink>
+                        ) : null}
+                      </div>
+                    ))}
+                    {account.phoneNumbers.map(phone => (
+                      <div key={phone.id}>
+                        {phone.type === 'mobile' || phone.type === 'work' ? (
+                          <a href={`tel:${phone.number}`}>
+                            {phone.type === 'mobile' ? (
+                              <FontAwesomeIcon icon="mobile" />
+                            ) : (
+                              <i className="lilicon hl-phone-filled-icon" />
+                            )}
 
-                                <span className="m-l-5">{phone.number}</span>
-                              </a>
-                            ) :
-                            (
-                              null
-                            )
-                          }
-                        </div>
-                      ))
-                    }
+                            <span className="m-l-5">{phone.number}</span>
+                          </a>
+                        ) : null}
+                      </div>
+                    ))}
                   </td>
                   <td>
                     <Editable type="select" object={account} field="assignedTo" />
                   </td>
-                  <td><LilyDate date={account.created} /></td>
-                  <td><LilyDate date={account.modified} /></td>
+                  <td>
+                    <LilyDate date={account.created} />
+                  </td>
+                  <td>
+                    <LilyDate date={account.modified} />
+                  </td>
                   <td>{account.status.name}</td>
-                  <td>{account.tags}</td>
-                  <td><ListActions /></td>
+                  <td>{account.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
+                  <td>
+                    <ListActions />
+                  </td>
                 </tr>
               ))}
             </tbody>

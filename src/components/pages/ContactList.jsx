@@ -21,40 +21,32 @@ class ContactList extends Component {
   }
 
   getAccountInformation = contact =>
-    (contact.accounts.map(account =>
-      (
-        <React.Fragment key={account.id}>
-          {(!contact.primaryEmail && account.primaryEmail) &&
+    contact.accounts.map(account => (
+      <React.Fragment key={account.id}>
+        {!contact.primaryEmail &&
+          account.primaryEmail && (
             <NavLink to={`/email/compose/${account.primaryEmail.emailAddress}`}>
               <i className="lilicon hl-email-icon" /> {account.primaryEmail.emailAddress}
             </NavLink>
-          }
-          {(!contact.phoneNumber && account.phoneNumber) &&
+          )}
+        {!contact.phoneNumber &&
+          account.phoneNumber && (
             <React.Fragment>
-              {(account.phoneNumber.type === 'mobile' || account.phoneNumber.type === 'work') ?
-                (
-                  <a href={`tel:${account.phoneNumber.number}`}>
-                    {account.phoneNumber.type === 'mobile' ?
-                      (
-                        <FontAwesomeIcon icon="mobile" />
-                      ) :
-                      (
-                        <i className="lilicon hl-phone-filled-icon" />
-                      )
-                    }
+              {account.phoneNumber.type === 'mobile' || account.phoneNumber.type === 'work' ? (
+                <a href={`tel:${account.phoneNumber.number}`}>
+                  {account.phoneNumber.type === 'mobile' ? (
+                    <FontAwesomeIcon icon="mobile" />
+                  ) : (
+                    <i className="lilicon hl-phone-filled-icon" />
+                  )}
 
-                    <span className="m-l-5">{account.phoneNumber.number}</span>
-                  </a>
-                ) :
-                (
-                  null
-                )
-              }
+                  <span className="m-l-5">{account.phoneNumber.number}</span>
+                </a>
+              ) : null}
             </React.Fragment>
-          }
-        </React.Fragment>
-      ))
-    );
+          )}
+      </React.Fragment>
+    ));
 
   render() {
     const { contacts } = this.state;
@@ -63,9 +55,7 @@ class ContactList extends Component {
       <div>
         <List>
           <div className="list-header">
-            <h1>
-              Contact list
-            </h1>
+            <h1>Contact list</h1>
           </div>
           <table className="hl-table">
             <thead>
@@ -82,49 +72,34 @@ class ContactList extends Component {
             <tbody>
               {contacts.map(contact => (
                 <tr key={contact.id}>
-                  <td><NavLink to={`/contacts/${contact.id}`}>{contact.fullName}</NavLink></td>
                   <td>
-                    {contact.emailAddresses.map(emailAddress =>
-                      (
-                        <div key={emailAddress.id}>
-                          {emailAddress.status !== 0 ?
-                            (
-                              <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
-                                <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
-                              </NavLink>
-                            ) :
-                            (
-                              null
-                            )
-                          }
-                        </div>
-                      ))
-                    }
-                    {contact.phoneNumbers.map(phone =>
-                      (
-                        <div key={phone.id}>
-                          {(phone.type === 'mobile' || phone.type === 'work') ?
-                            (
-                              <a href={`tel:${phone.number}`}>
-                                {phone.type === 'mobile' ?
-                                  (
-                                    <FontAwesomeIcon icon="mobile" />
-                                  ) :
-                                  (
-                                    <i className="lilicon hl-phone-filled-icon" />
-                                  )
-                                }
+                    <NavLink to={`/contacts/${contact.id}`}>{contact.fullName}</NavLink>
+                  </td>
+                  <td>
+                    {contact.emailAddresses.map(emailAddress => (
+                      <div key={emailAddress.id}>
+                        {emailAddress.status !== 0 ? (
+                          <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
+                            <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
+                          </NavLink>
+                        ) : null}
+                      </div>
+                    ))}
+                    {contact.phoneNumbers.map(phone => (
+                      <div key={phone.id}>
+                        {phone.type === 'mobile' || phone.type === 'work' ? (
+                          <a href={`tel:${phone.number}`}>
+                            {phone.type === 'mobile' ? (
+                              <FontAwesomeIcon icon="mobile" />
+                            ) : (
+                              <i className="lilicon hl-phone-filled-icon" />
+                            )}
 
-                                <span className="m-l-5">{phone.number}</span>
-                              </a>
-                            ) :
-                            (
-                              null
-                            )
-                          }
-                        </div>
-                      ))
-                    }
+                            <span className="m-l-5">{phone.number}</span>
+                          </a>
+                        ) : null}
+                      </div>
+                    ))}
 
                     {this.getAccountInformation(contact)}
                   </td>
@@ -136,17 +111,21 @@ class ContactList extends Component {
                       </div>
                     ))}
                   </td>
-                  <td><LilyDate date={contact.created} /></td>
-                  <td><LilyDate date={contact.modified} /></td>
-                  <td>{contact.tags}</td>
-                  <td><ListActions /></td>
+                  <td>
+                    <LilyDate date={contact.created} />
+                  </td>
+                  <td>
+                    <LilyDate date={contact.modified} />
+                  </td>
+                  <td>{contact.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
+                  <td>
+                    <ListActions />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="list-footer">
-            Pagination
-          </div>
+          <div className="list-footer">Pagination</div>
         </List>
       </div>
     );

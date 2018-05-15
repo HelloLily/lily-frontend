@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { createFilter } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
