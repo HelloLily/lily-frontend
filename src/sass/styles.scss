@@ -76,6 +76,7 @@ input {
 
 .block-overlay {
   position: relative;
+  display: block;
 
   &:after {
     content: ' ';
@@ -117,4 +118,47 @@ input {
 
 .inbox {
   display: flex;
+}
+
+.detail-page {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 25px;
+  grid-auto-rows: min-content;
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px $inner-border-color solid;
+
+    > * {
+      padding: 14px 16px;
+    }
+
+    > :first-child {
+      width: 35%;
+      font-weight: bold;
+    }
+
+    > :last-child {
+      flex: 1;
+    }
+  }
+
+  .detail-row-info {
+    width: 35%;
+    font-weight: bold;
+  }
+
+  .detail-description {
+    padding: 14px 16px;
+  }
+
+  .widget-body {
+    height: 300px;
+
+    &.expanded-height {
+      height: 500px;
+    }
+  }
 }

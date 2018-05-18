@@ -167,11 +167,13 @@
   border: 1px $lily-grey solid;
   border-radius: $base-border-radius;
   height: $default-line-height;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .editable-related-row {
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   margin-bottom: 20px;
 
   .hl-primary-btn {

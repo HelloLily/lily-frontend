@@ -9,22 +9,15 @@ const ObjectLimit = props => {
   const isDisabled = false;
 
   return (
-    <span>
-      {isDisabled ?
-        (
-          <span title={tooltip}>
-            <span className="is-disabled">
-              {props.children}
-            </span>
-          </span>
-        ) :
-        (
-          <span>
-            {props.children}
-          </span>
-        )
-      }
-    </span>
+    <React.Fragment>
+      {isDisabled ? (
+        <span title={tooltip}>
+          <span className="is-disabled">{props.children}</span>
+        </span>
+      ) : (
+        <React.Fragment>{props.children}</React.Fragment>
+      )}
+    </React.Fragment>
   );
 };
 

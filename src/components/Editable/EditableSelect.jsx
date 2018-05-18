@@ -12,9 +12,18 @@ class EditableSelect extends Component {
 
   componentDidMount = async () => {
     const { model } = this.props.selectConfig;
-    // Fetch data for the given model.
-    const request = await get(`/${model}/`);
-    const options = this.props.createOptions(request.results);
+
+    let options;
+
+    if (!this.props.selectConfig.options) {
+      // Fetch data for the given model.
+      const request = await get(`/${model}/`);
+      options = request.results;
+    } else {
+      ({ options } = this.props.selectConfig);
+    }
+
+    options = this.props.createOptions(options);
 
     this.setState({ options });
   };
@@ -37,12 +46,17 @@ class EditableSelect extends Component {
   };
 
   render() {
+    const { options } = this.state;
     const { value, selectConfig, selectStyles } = this.props;
 
     let label = value;
 
-    if (value) {
-      label = value[selectConfig.display] || value.name;
+    if (value !== undefined) {
+      if (value instanceof Object) {
+        label = value[selectConfig.display] || value.name;
+      } else {
+        label = this.props.object[selectConfig.display];
+      }
     }
 
     const option = { value, label };
@@ -56,7 +70,7 @@ class EditableSelect extends Component {
           value={option}
           styles={selectStyles}
           onChange={this.handleChange}
-          options={this.state.options}
+          options={options}
           onInputKeyDown={this.onInputKeyDown}
           onBlur={this.props.cancel}
         />

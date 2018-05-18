@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
-import LilyDate from 'components/utils/LilyDate';
 import BlockUI from 'components/Utils/BlockUI';
+import LilyDate from 'components/Utils/LilyDate';
 import Deal from 'models/Deal';
 
 class DealList extends Component {
@@ -28,7 +28,7 @@ class DealList extends Component {
   setPage = async page => {
     this.setState({ loading: true });
 
-    const data = await Deals.query({ pageSize: 20, page });
+    const data = await Deal.query({ pageSize: 20, page });
 
     this.setState({
       deals: data.results,

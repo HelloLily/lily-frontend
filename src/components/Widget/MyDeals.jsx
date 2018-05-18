@@ -4,7 +4,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import Deal from 'models/Deal';
 import Widget from 'components/Widget';
-import LilyDate from 'components/utils/LilyDate';
+import LilyDate from 'components/Utils/LilyDate';
 import timeCategorize from 'utils/timeCategorize';
 
 class MyDeals extends Component {
@@ -16,7 +16,7 @@ class MyDeals extends Component {
 
   componentDidMount = async () => {
     await this.getItems();
-  }
+  };
 
   getItems = async () => {
     const request = await Deal.query();
@@ -25,7 +25,7 @@ class MyDeals extends Component {
     const items = timeCategorize(request.results, 'expires', { id: 22 });
 
     this.setState({ items, total });
-  }
+  };
 
   render() {
     const { items, total } = this.state;
@@ -48,49 +48,50 @@ class MyDeals extends Component {
 
       const tbody = (
         <tbody key={key}>
-          {items[key].length > 0 &&
+          {items[key].length > 0 && (
             <tr className="table-category">
-              {newlyAssigned ?
-                (
-                  <td colSpan="8">Newly assigned to you</td>
-                ) :
-                (
-                  <td colSpan="8" className="text-capitalize">{key}</td>
-                )
-              }
+              {newlyAssigned ? (
+                <td colSpan="8">Newly assigned to you</td>
+              ) : (
+                <td colSpan="8" className="text-capitalize">
+                  {key}
+                </td>
+              )}
             </tr>
-          }
-          {items[key].map(item =>
-            (
-              <tr key={item.id} className={newlyAssigned ? 'newly-assigned' : ''}>
-                <td><NavLink to={`/deals/${item.id}`}>{item.name}</NavLink></td>
-                <td>
-                  {item.contact &&
-                    <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
-                  }
-                  {(item.contact && item.account) && <span> at </span>}
-                  {item.account &&
-                    <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
-                  }
-                </td>
-                <td>
-                  {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}
-                  {(item.amountOnce !== 0 && item.amountRecurring !== 0) && <span> | </span>}
-                  {item.amountRecurring !== 0 && <span>{item.amountRecurring} /once</span>}
-                </td>
-                <td>{item.status.name}</td>
-                <td>{item.nextStep.name}</td>
-                <td><LilyDate date={item.nextStepDate} /></td>
-                <td>
-                  {newlyAssigned &&
-                    <button className="hl-primary-btn round">
-                      <FontAwesomeIcon icon="check" />
-                    </button>
-                  }
-                </td>
-              </tr>
-            ))
-          }
+          )}
+          {items[key].map(item => (
+            <tr key={item.id} className={newlyAssigned ? 'newly-assigned' : ''}>
+              <td>
+                <NavLink to={`/deals/${item.id}`}>{item.name}</NavLink>
+              </td>
+              <td>
+                {item.contact && (
+                  <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
+                )}
+                {item.contact && item.account && <span> at </span>}
+                {item.account && (
+                  <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
+                )}
+              </td>
+              <td>
+                {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}
+                {item.amountOnce !== 0 && item.amountRecurring !== 0 && <span> | </span>}
+                {item.amountRecurring !== 0 && <span>{item.amountRecurring} /once</span>}
+              </td>
+              <td>{item.status.name}</td>
+              <td>{item.nextStep.name}</td>
+              <td>
+                <LilyDate date={item.nextStepDate} />
+              </td>
+              <td>
+                {newlyAssigned && (
+                  <button className="hl-primary-btn round">
+                    <FontAwesomeIcon icon="check" />
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
         </tbody>
       );
 
@@ -98,7 +99,7 @@ class MyDeals extends Component {
     });
 
     return (
-      <Widget title={title} component="myDeals" expandable>
+      <Widget title={title} component="myDeals" expandable closeable>
         <table className="hl-table">
           <thead>
             <tr>

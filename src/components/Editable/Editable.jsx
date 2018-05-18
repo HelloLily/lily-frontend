@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
+import getSelectConfig from './getSelectConfig';
 import EditableText from './EditableText';
 import EditableTextarea from './EditableTextarea';
 import EditableAsyncSelect from './EditableAsyncSelect';
@@ -26,44 +27,12 @@ const components = {
   tags: EditableTags
 };
 
-// We set up predefined parameters to reduce the amount of
-// configuration options when calling Editable components.
-const selectConfig = {
-  assignedTo: {
-    model: 'users',
-    display: 'fullName',
-    sorting: 'fullName',
-    empty: 'Nobody'
-  },
-  assignedToTeams: {
-    model: 'users/team',
-    display: 'name',
-    sorting: 'name'
-  },
-  type: {
-    model: 'cases/types'
-  },
-  priority: {
-    model: 'cases/priorities',
-    choiceField: true,
-    display: 'priorityDisplay',
-    iconClass: 'lilicon hl-prio-icon-',
-    iconDisplay: 'name'
-  },
-  nextStep: {
-    model: 'deals/next-steps',
-    iconClass: 'step-type position-',
-    iconDisplay: 'position'
-  }
-};
-
 // General styling overwrite for Editable selects.
 const selectStyles = {
   control: base => ({
     ...base,
     background: '#fff',
-    minHeight: '28px',
-    height: '30px'
+    minHeight: '30px'
   }),
   valueContainer: base => ({
     ...base,
@@ -105,8 +74,12 @@ class Editable extends Component {
 
     let initialValue;
 
-    if (selectConfig[field] && selectConfig[field].choiceField) {
-      initialValue = { id: props.object[field], name: props.object[selectConfig[field].display] };
+    const selectConfig = getSelectConfig(field);
+
+    this.selectConfig = selectConfig;
+
+    if (selectConfig && selectConfig.choiceField) {
+      initialValue = { id: props.object[field], name: props.object[selectConfig.display] };
     } else {
       initialValue = props.object[field];
     }
@@ -128,6 +101,21 @@ class Editable extends Component {
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
+
+  getEmptyText = () => {
+    const { field } = this.props;
+    const config = this.selectConfig;
+
+    let emptyText = '';
+
+    if (config && config.empty) {
+      emptyText = config.empty;
+    } else {
+      emptyText = `No ${field.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase()}`;
+    }
+
+    return emptyText;
+  };
 
   handleKeyPress = event => {
     let shouldSubmit = event.keyCode === 13;
@@ -192,8 +180,13 @@ class Editable extends Component {
       });
     }
 
+    let newValue = value;
+
     if (type === 'related') {
       args[field] = value.filter(item => item.id || (!item.id && !item.isDeleted));
+
+      // Filter out any deleted values so we clean our new values.
+      newValue = args[field].filter(item => !item.isDeleted);
     }
 
     // The Editable component is passed a function which does the actual submitting.
@@ -205,7 +198,7 @@ class Editable extends Component {
 
     promise
       .then(() => {
-        this.setState({ value: args[field], initialValue: args[field], editing: false });
+        this.setState({ value: newValue, initialValue: newValue, editing: false });
       })
       .catch(errorResponse => {
         // Get the actual error message.
@@ -218,7 +211,7 @@ class Editable extends Component {
   };
 
   createOptions = items => {
-    const config = selectConfig[this.props.field];
+    const config = this.selectConfig;
 
     let label = 'name';
 
@@ -230,7 +223,7 @@ class Editable extends Component {
   };
 
   createIconLabel = value => {
-    const { iconClass, iconDisplay } = selectConfig[this.props.field];
+    const { iconClass, iconDisplay } = this.selectConfig;
 
     // Icon selects have a specific way of rendering.
     // That's the the className for the label's icon is always built the same way.
@@ -245,7 +238,11 @@ class Editable extends Component {
   render() {
     const { editing, submitting, error } = this.state;
     const { field, type, multi } = this.props;
-    const config = selectConfig[field];
+    const config = Object.assign({}, this.selectConfig);
+
+    if (field === 'status') {
+      config.model = `${this.props.object.contentType.appLabel}${config.model}`;
+    }
 
     let { value } = this.state;
 
@@ -293,62 +290,65 @@ class Editable extends Component {
 
     let display;
 
-    if (multi && hasValue) {
-      if (value.length > 0) {
-        // Since there are multiple values there needs to be custom rendering.
-        display = value.map(item => <div key={item.id}>{item.name}</div>);
-      }
-    } else if (type === 'related' && hasValue) {
-      if (value.length > 0) {
-        // Since there are multiple values there needs to be custom rendering.
-        display = value.map((item, index) => {
-          let row;
+    if (!this.props.children) {
+      if (multi && hasValue) {
+        if (value.length > 0) {
+          // Since there are multiple values there needs to be custom rendering.
+          display = value.map(item => <div key={item.id}>{item.name}</div>);
+        }
+      } else if (type === 'related' && hasValue) {
+        if (value.length > 0) {
+          // Since there are multiple values there needs to be custom rendering.
+          display = value.map((item, index) => {
+            let row;
 
-          switch (field) {
-            case 'emailAddresses':
-              row = (
-                <NavLink to={`/email/compose/${item.emailAddress}`}>{item.emailAddress}</NavLink>
-              );
-              break;
-            case 'phoneNumbers':
-              row = <a href={`tel:${item.number}`}>{item.number}</a>;
-              break;
-            case 'addresses':
-              row = <Address address={item} />;
-              break;
-            case 'websites':
-              row = <a href={`${item.website}`}>{item.website.replace(/http(s)?:\/\//, '')}</a>;
-              break;
-            default:
-              return null;
-          }
+            switch (field) {
+              case 'emailAddresses':
+                row = (
+                  <NavLink to={`/email/compose/${item.emailAddress}`}>{item.emailAddress}</NavLink>
+                );
+                break;
+              case 'phoneNumbers':
+                row = <a href={`tel:${item.number}`}>{item.number}</a>;
+                break;
+              case 'addresses':
+                row = <Address address={item} />;
+                break;
+              case 'websites':
+                row = <a href={`${item.website}`}>{item.website.replace(/http(s)?:\/\//, '')}</a>;
+                break;
+              default:
+                return null;
+            }
 
-          // New rows don't have an ID, so create a key based on current index.
-          return <div key={item.id || `row-${index}`}>{row}</div>;
-        });
-      }
-    } else if (hasValue && config) {
-      // Certain fields have a custom field used as the displayed field.
-      // If there is a custom endpoint, but no custom field just fall back to 'name'.
-      display = value[config.display] || value.name;
+            // New rows don't have an ID, so create a key based on current index.
+            return <div key={item.id || `row-${index}`}>{row}</div>;
+          });
+        }
+      } else if (hasValue && config) {
+        // Certain fields have a custom field used as the displayed field.
+        // If there is a custom endpoint, but no custom field just fall back to 'name'.
+        display = value[config.display] || value.name;
 
-      if (this.props.icon) {
-        display = (
-          <span>
-            <i className={`${this.createIconLabel(value)} m-r-5`} />
+        if (this.props.icon) {
+          display = (
+            <span>
+              <i className={`${this.createIconLabel(value)} m-r-5`} />
 
-            {!this.props.hideValue && display}
-          </span>
-        );
+              {!this.props.hideValue && display}
+            </span>
+          );
+        }
+      } else {
+        // No special rendering, so display the value (or nothing).
+        display = value;
       }
     } else {
-      // No special rendering, so display the value (or nothing).
-      display = value;
+      display = this.props.children;
     }
 
     // Certain fields have a custom empty state.
-    const emptyText = config && config.empty ? config.empty : `No ${field}`;
-
+    const emptyText = this.getEmptyText();
     const hasError = error && type !== 'related';
 
     return (

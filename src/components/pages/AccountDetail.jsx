@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 
-import Editable from 'components/Editable';
-import Account from 'src/models/Account';
+import AccountDetailWidget from 'components/Widget/AccountDetailWidget';
+import DealListWidget from 'components/Widget/DealListWidget';
+import CaseListWidget from 'components/Widget/CaseListWidget';
+import ContactListWidget from 'components/Widget/ContactListWidget';
+import ActivityStream from 'components/ActivityStream';
+import Account from 'models/Account';
 
 class AccountDetail extends Component {
   constructor(props) {
@@ -23,80 +27,23 @@ class AccountDetail extends Component {
     const { account } = this.state;
 
     return (
-      <div>
+      <React.Fragment>
         {account ? (
-          <div>
-            <div>Account detail</div>
+          <div className="detail-page">
+            <AccountDetailWidget account={account} submitCallback={this.submitCallback} />
 
-            <strong>Text</strong>
-            <Editable
-              type="text"
-              object={account}
-              field="name"
-              submitCallback={this.submitCallback}
-            />
+            <DealListWidget object={account} submitCallback={this.submitCallback} />
 
-            <strong>Textarea</strong>
-            <Editable
-              type="textarea"
-              object={account}
-              field="description"
-              submitCallback={this.submitCallback}
-            />
+            <CaseListWidget object={account} submitCallback={this.submitCallback} />
 
-            <strong>Select</strong>
-            <Editable
-              type="select"
-              object={account}
-              field="assignedTo"
-              submitCallback={this.submitCallback}
-            />
+            <ActivityStream object={account} />
 
-            <strong>Related (email addresses)</strong>
-            <Editable
-              type="related"
-              object={account}
-              field="emailAddresses"
-              submitCallback={this.submitCallback}
-            />
-
-            <strong>Related (phone numbers)</strong>
-            <Editable
-              type="related"
-              object={account}
-              field="phoneNumbers"
-              submitCallback={this.submitCallback}
-            />
-
-            <strong>Related (addresses)</strong>
-            <Editable
-              type="related"
-              object={account}
-              field="addresses"
-              submitCallback={this.submitCallback}
-            />
-
-            <strong>Related (websites)</strong>
-            <Editable
-              type="related"
-              object={account}
-              field="websites"
-              submitCallback={this.submitCallback}
-            />
-
-            <strong>Tags</strong>
-            <Editable
-              multi
-              type="tags"
-              object={account}
-              field="tags"
-              submitCallback={this.submitCallback}
-            />
+            <ContactListWidget object={account} />
           </div>
         ) : (
           <div>Loading</div>
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }

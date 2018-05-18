@@ -101,7 +101,7 @@ class EditableSelect extends Component {
 
         {multi && (
           <div className="editable-multi-actions m-t-5">
-            <div className="float-right">
+            <div>
               <button
                 type="submit"
                 className="hl-primary-btn no-background no-border"

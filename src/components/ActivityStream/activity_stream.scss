@@ -1,0 +1,15 @@
+@import '~style/variables/colors';
+
+.activity-stream {
+  background: #fff;
+  border-style: solid;
+  grid-column-start: 2 span;
+  min-height: 1000px; // TODO: Temporary.
+
+  .activity-stream-filter {
+    padding: 10px 16px;
+    border-bottom: 1px $inner-border-color solid;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

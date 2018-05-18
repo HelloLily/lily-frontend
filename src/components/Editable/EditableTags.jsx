@@ -51,7 +51,7 @@ class EditableTags extends Component {
         />
 
         <div className="editable-multi-actions m-t-5">
-          <div className="float-right">
+          <div>
             <button
               type="submit"
               className="hl-primary-btn no-background no-border"

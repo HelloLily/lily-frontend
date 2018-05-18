@@ -6,7 +6,7 @@ import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
 import LilyPagination from 'components/LilyPagination';
-import LilyDate from 'components/utils/LilyDate';
+import LilyDate from 'components/Utils/LilyDate';
 import ListFilter from 'components/List/ListFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import Account from 'models/Account';

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
+import { INACTIVE_EMAIL_STATUS } from 'lib/constants';
 import List from 'components/List';
-import LilyDate from 'components/utils/LilyDate';
+import LilyDate from 'components/Utils/LilyDate';
 import LilyPagination from 'components/LilyPagination';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
@@ -96,7 +97,7 @@ class ContactList extends Component {
                   <td>
                     {contact.emailAddresses.map(emailAddress => (
                       <div key={emailAddress.id}>
-                        {emailAddress.status !== 0 ? (
+                        {emailAddress.status !== INACTIVE_EMAIL_STATUS ? (
                           <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
                             <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
                           </NavLink>

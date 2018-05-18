@@ -5,7 +5,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Case from 'models/Case';
 import Editable from 'components/Editable';
 import Widget from 'components/Widget';
-import LilyDate from 'components/utils/LilyDate';
+import LilyDate from 'components/Utils/LilyDate';
 
 class UnassignedCases extends Component {
   constructor(props) {
@@ -39,15 +39,13 @@ class UnassignedCases extends Component {
           <i className="lilicon hl-case-icon m-r-5" />
           Unassigned cases
           <span className="label-amount">{total || '-'}</span>
-          <span className="label-amount high-prio" ng-if="vm.highPrioCases">
-            {criticalCount || '-'}
-          </span>
+          <span className="label-amount high-prio">{criticalCount || '-'}</span>
         </div>
       </React.Fragment>
     );
 
     return (
-      <Widget title={title} component="unassignedCases" expandable>
+      <Widget title={title} component="unassignedCases" expandable closeable>
         <table className="hl-table">
           <thead>
             <tr>

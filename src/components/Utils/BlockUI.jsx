@@ -14,11 +14,7 @@ class BlockUI extends Component {
   render() {
     const className = this.state.blocking ? 'block-overlay' : '';
 
-    return (
-      <div className={className}>
-        {this.props.children}
-      </div>
-    );
+    return <span className={className}>{this.props.children}</span>;
   }
 }
 

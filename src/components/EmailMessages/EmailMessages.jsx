@@ -4,7 +4,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE } from 'lib/constants';
 import List from 'components/List';
-import LilyDate from 'components/utils/LilyDate';
+import LilyDate from 'components/Utils/LilyDate';
 import ContactIcon from 'components/ContactIcon';
 import EmailMessage from 'models/EmailMessage';
 
@@ -63,7 +63,7 @@ class EmailMessages extends Component {
     }
 
     return status;
-  }
+  };
 
   render() {
     const { selectedMessages, emailMessages } = this.state;
@@ -73,21 +73,31 @@ class EmailMessages extends Component {
       <div className="email-messages">
         <List>
           <div className="list-header">
-            {emailAccount ? emailAccount.emailAddress : 'All mailboxes' } - {label ? label.name : 'Inbox'}
+            {emailAccount ? emailAccount.emailAddress : 'All mailboxes'} -{' '}
+            {label ? label.name : 'Inbox'}
           </div>
 
           <table className="hl-table">
             <tbody>
               {emailMessages.map(emailMessage => (
                 <tr key={emailMessage.id} className={!emailMessage.read ? 'unread' : ''}>
-                  <td><input type="checkbox" /></td>
-                  <td><FontAwesomeIcon icon="star" className="yellow" /></td>
                   <td>
-                    <div className="account-label" style={{ borderLeftColor: colorCodes[emailMessage.account.id] }}>
+                    <input type="checkbox" />
+                  </td>
+                  <td>
+                    <FontAwesomeIcon icon="star" className="yellow" />
+                  </td>
+                  <td>
+                    <div
+                      className="account-label"
+                      style={{ borderLeftColor: colorCodes[emailMessage.account.id] }}
+                    >
                       {emailMessage.account.name || emailMessage.account.email}
                     </div>
                   </td>
-                  <td><ContactIcon emailMessage={emailMessage} /></td>
+                  <td>
+                    <ContactIcon emailMessage={emailMessage} />
+                  </td>
                   <td>
                     <NavLink to={`/email/${emailMessage.id}`} exact>
                       {emailMessage.senderName || emailMessage.senderEmail}
@@ -97,7 +107,8 @@ class EmailMessages extends Component {
                   <td>{emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}</td> */}
                   <td>
                     <NavLink to={`/email/${emailMessage.id}`} exact>
-                      {(emailMessage.history && emailMessage.history.repliedWith) && <FontAwesomeIcon icon="reply" />}
+                      {emailMessage.history &&
+                        emailMessage.history.repliedWith && <FontAwesomeIcon icon="reply" />}
                     </NavLink>
                   </td>
                   <td>
@@ -110,7 +121,9 @@ class EmailMessages extends Component {
                       {emailMessage.subject}
                     </NavLink>
                   </td>
-                  <td><LilyDate date={emailMessage.sentDate} /></td>
+                  <td>
+                    <LilyDate date={emailMessage.sentDate} />
+                  </td>
                 </tr>
               ))}
             </tbody>

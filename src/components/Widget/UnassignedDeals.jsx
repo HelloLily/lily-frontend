@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Deal from 'models/Deal';
 import Editable from 'components/Editable';
 import Widget from 'components/Widget';
-import LilyDate from 'components/utils/LilyDate';
+import LilyDate from 'components/Utils/LilyDate';
 
 class UnassignedDeals extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class UnassignedDeals extends Component {
     );
 
     return (
-      <Widget title={title} component="unassignedDeals" expandable>
+      <Widget title={title} component="unassignedDeals" expandable closeable>
         <table className="hl-table">
           <thead>
             <tr>

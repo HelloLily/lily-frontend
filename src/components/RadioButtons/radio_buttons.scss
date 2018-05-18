@@ -1,0 +1,24 @@
+@import '~style/variables/colors';
+
+.radio-buttons {
+  .radio-button {
+    border: 1px $inner-border-color solid;
+    border-bottom-width: 2px;
+    line-height: 30px;
+    border-left-width: 0;
+    background: #fff;
+    margin: 0;
+    padding: 0 8px;
+    display: inline-block;
+    position: relative;
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+      border-left-width: 1px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}

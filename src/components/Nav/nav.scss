@@ -1,46 +1,55 @@
 @import '~style/variables/colors';
 
 .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 5;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5;
 
-    .main-nav {
-        background: $app-color-darkblue;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+  .main-nav {
+    background: $app-color-darkblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-        .main-nav-links {
-            display: flex;
-            align-items: center;
-            flex-direction: row;
+    .main-nav-links {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
 
-            li {
-                a {
-                    text-decoration: none;
-                    color: #9392a6;
-                    font-size: 16px;
-                    display: flex;
-                    align-items: center;
-                    padding: 12px 15px;
+      li {
+        a {
+          text-decoration: none;
+          color: #9392a6;
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          padding: 16px 4px;
 
-                    &.active,
-                    &:hover {
-                        color: #fff;
-                    }
-                }
-
-                .lilicon {
-                    font-size: 16px;
-                }
-
-                .hl-lily-icon {
-                    font-size: 1.85em;
-                    color: #fff;
-                }
-            }
+          &.active,
+          &:hover {
+            color: #fff;
+          }
         }
+
+        .lilicon {
+          font-size: 16px;
+        }
+
+        .hl-lily-icon {
+          font-size: 1.85em;
+          color: #fff;
+        }
+      }
     }
+  }
+
+  .nav-add-buttons {
+    margin-left: auto;
+    margin-right: 20px;
+
+    .hl-primary-btn {
+      margin-right: 5px;
+    }
+  }
 }
