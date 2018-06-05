@@ -24,12 +24,13 @@ $max-height: 400px;
   .widget-header {
     border-bottom: 1px $light-border-color solid;
     display: flex;
+    align-items: center;
     position: relative;
   }
 
   .widget-header,
-  .widget-footer {
-    padding: 10px 5px 10px 15px;
+  .widget-content {
+    padding: 10px 15px;
   }
 
   .widget-body {

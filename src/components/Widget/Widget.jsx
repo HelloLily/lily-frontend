@@ -75,19 +75,25 @@ class Widget extends Component {
 
   render() {
     const { status, expandHeight, loading, showFade } = this.state;
+    const { className } = this.props;
 
-    const widgetBodyClassName = cx('widget-body', {
+    const containerClass = cx('widget-container', {
+      expanded: status === EXPANDED_WIDTH,
+      [className]: className
+    });
+
+    const bodyClass = cx('widget-body', {
       'expanded-height': expandHeight
     });
 
     return (
-      <div className={`widget-container${status === EXPANDED_WIDTH ? ' expanded' : ''}`}>
+      <div className={containerClass}>
         {!loading && status !== HIDDEN ? (
           <div className="widget">
             <div className="widget-header">
               <div className="widget-title">{this.props.title}</div>
               <div className="widget-extra">{this.props.extra}</div>
-              <div className="widget-tools m-r-10">
+              <div className="widget-tools">
                 <button className="hl-interface-btn m-r-5" onClick={this.toggleCollapse}>
                   <i className={`lilicon ${statusIcons[status]}`} />
                 </button>
@@ -101,7 +107,7 @@ class Widget extends Component {
             </div>
             {status !== COLLAPSED && (
               <React.Fragment>
-                <div className={widgetBodyClassName} onScroll={this.handleScroll}>
+                <div className={bodyClass} onScroll={this.handleScroll}>
                   {this.props.children}
                 </div>
 

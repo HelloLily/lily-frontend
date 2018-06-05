@@ -50,6 +50,8 @@ class Case {
 
     return response;
   }
+
+  updateModel(data, field) {}
 }
 
 export default new Case();

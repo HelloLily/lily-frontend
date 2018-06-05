@@ -10,9 +10,9 @@
 }
 
 .editable-input-wrap {
-  display: flex;
+  display: inline-flex;
   position: relative;
-  min-width: 100px;
+  min-width: 150px;
 
   &.editable-multi {
     flex-direction: column;

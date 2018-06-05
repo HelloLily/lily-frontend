@@ -45,9 +45,13 @@ $large-button-size: 30px;
     text-decoration: none;
   }
 
+  &.selected {
+    color: $app-color-aqua;
+  }
+
   &.disabled {
-      pointer-events: none;
-      opacity: 0.50;
+    pointer-events: none;
+    opacity: 0.5;
   }
 
   &.round {
@@ -62,50 +66,50 @@ $large-button-size: 30px;
 }
 
 .hl-primary-btn-green {
-    @include hl-button($large-button-size);
-    background: $app-color-mint;
-    border-color: darken($app-color-mint, 15);
+  @include hl-button($large-button-size);
+  background: $app-color-mint;
+  border-color: darken($app-color-mint, 15);
+  color: #fff;
+  font-weight: 700;
+
+  &:hover {
     color: #fff;
-    font-weight: 700;
+    background: darken($app-color-mint, 10);
+  }
 
-    &:hover {
-        color: #fff;
-        background: darken($app-color-mint, 10);
-    }
-
-    &:focus {
-        color: #fff;
-    }
+  &:focus {
+    color: #fff;
+  }
 }
 
 .hl-primary-btn-blue {
-    @include hl-button($large-button-size);
-    background: $app-color-aqua;
-    border-color: darken($app-color-aqua, 10);
+  @include hl-button($large-button-size);
+  background: $app-color-aqua;
+  border-color: darken($app-color-aqua, 10);
+  color: #fff;
+  font-weight: 700;
+
+  &:hover {
     color: #fff;
-    font-weight: 700;
+    background: darken($app-color-aqua, 5);
+  }
 
-    &:hover {
-        color: #fff;
-        background: darken($app-color-aqua, 5);
-    }
-
-    &:focus {
-        color: #fff;
-    }
+  &:focus {
+    color: #fff;
+  }
 }
 
 .hl-primary-btn-red {
-    @include hl-button($large-button-size);
-    background: $app-color-red;
-    border-color: darken($app-color-red, 20);
-    color: #fff;
-    font-weight: 700;
+  @include hl-button($large-button-size);
+  background: $app-color-red;
+  border-color: darken($app-color-red, 20);
+  color: #fff;
+  font-weight: 700;
 
-    &:hover {
-        color: #fff;
-        background: darken($app-color-red, 5);
-    }
+  &:hover {
+    color: #fff;
+    background: darken($app-color-red, 5);
+  }
 }
 
 .hl-interface-btn {
@@ -118,6 +122,22 @@ $large-button-size: 30px;
     color: #fff;
     mix-blend-mode: difference;
     text-decoration: none;
+  }
+}
+
+.hl-btn-group {
+  .hl-primary-btn {
+    border-left-width: 0;
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+      border-left-width: 1px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
   }
 }
 

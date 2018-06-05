@@ -35,6 +35,18 @@ const selectConfig = {
     iconClass: 'step-type position-',
     iconDisplay: 'position'
   },
+  foundThrough: {
+    model: 'deals/found-through'
+  },
+  whyLost: {
+    model: 'deals/why-lost'
+  },
+  whyCustomer: {
+    model: 'deals/why-customer'
+  },
+  contactedBy: {
+    model: 'deals/contacted-by'
+  },
   status: {
     model: '/statuses'
   },

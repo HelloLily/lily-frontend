@@ -22,6 +22,12 @@ class Deal {
 
     return response;
   }
+
+  getStatuses() {
+    const response = get('/deals/statuses/');
+
+    return response;
+  }
 }
 
 export default new Deal();

@@ -6,14 +6,19 @@ import Widget from 'components/Widget';
 import Editable from 'components/Editable';
 
 const ContactDetailWidget = props => {
-  const { contact, submitCallback } = props;
+  const { contact, submitCallback, clickable } = props;
 
   const title = (
     <React.Fragment>
       <div className="widget-label" />
       <div className="widget-name">
         <i className="lilicon hl-entity-icon m-r-5" />
-        {contact.fullName}
+        {clickable &&
+          !contact.isDeleted && (
+            <NavLink to={`/contacts/${contact.id}`}>{contact.fullName}</NavLink>
+          )}
+
+        {(!clickable || contact.isDeleted) && <React.Fragment>{contact.name}</React.Fragment>}
       </div>
     </React.Fragment>
   );

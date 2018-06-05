@@ -1,4 +1,4 @@
-// Generates margins and padding for each side (top, bottom, left, right) with the given amount of pixels.
+// Generates margin, padding, and width percentages for each side (top, bottom, left, right) with the given amount of pixels.
 // Example: m-t-5 -> margin-top: 5px;
 // Credits to https://gist.github.com/jacurtis/30da4bf9a6c9b9b5cc0aebac512ca7c9.
 $spaceamounts: (
@@ -87,4 +87,17 @@ $sides: (
 
 .display-flex {
   display: flex;
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.grid-column-2 {
+  grid-column-start: 2 span;
+}
+
+.text-muted {
+  color: $text-muted;
 }

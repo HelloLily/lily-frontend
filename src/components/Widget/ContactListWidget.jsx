@@ -27,7 +27,7 @@ class ContactListWidget extends Component {
         <div className="widget-label" />
         <div className="widget-name">
           <i className="lilicon hl-entities-icon m-r-5" />
-          {!object.contentType ? (
+          {!object.contentType || object.contentType.model === 'account' ? (
             <div>
               Colleagues at <NavLink to={`/accounts/${object.id}`}>{object.name}</NavLink>
             </div>
@@ -58,7 +58,9 @@ class ContactListWidget extends Component {
                   <tr>
                     <td>
                       <NavLink to={`/contacts/${item.id}`}>{item.fullName}</NavLink>
-                      {!item.functions.filter(account => account.id === object.id).isActive}
+                      {!item.functions.filter(account => account.id === object.id).isActive && (
+                        <span> (inactive)</span>
+                      )}
                     </td>
                     <td>
                       {item.primaryEmail &&

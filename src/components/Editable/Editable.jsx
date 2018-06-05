@@ -325,7 +325,7 @@ class Editable extends Component {
             return <div key={item.id || `row-${index}`}>{row}</div>;
           });
         }
-      } else if (hasValue && config) {
+      } else if (hasValue && Object.keys(config).length) {
         // Certain fields have a custom field used as the displayed field.
         // If there is a custom endpoint, but no custom field just fall back to 'name'.
         display = value[config.display] || value.name;

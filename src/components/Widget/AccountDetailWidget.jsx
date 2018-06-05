@@ -1,18 +1,22 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import Widget from 'components/Widget';
 import Editable from 'components/Editable';
 
 const AccountDetailWidget = props => {
-  const { account, submitCallback } = props;
+  const { account, submitCallback, clickable } = props;
 
   const title = (
     <React.Fragment>
       <div className="widget-label" />
       <div className="widget-name">
         <i className="lilicon hl-company-icon m-r-5" />
-        {account.name}
+        {clickable &&
+          !account.isDeleted && <NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink>}
+
+        {(!clickable || account.isDeleted) && <React.Fragment>{account.name}</React.Fragment>}
       </div>
     </React.Fragment>
   );
