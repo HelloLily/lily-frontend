@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
+import { SELECT_STYLES } from 'lib/constants';
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
 import getSelectConfig from './getSelectConfig';
@@ -25,43 +26,6 @@ const components = {
   addresses: EditableAddresses,
   websites: EditableWebsites,
   tags: EditableTags
-};
-
-// General styling overwrite for Editable selects.
-const selectStyles = {
-  control: base => ({
-    ...base,
-    background: '#fff',
-    minHeight: '30px'
-  }),
-  valueContainer: base => ({
-    ...base,
-    padding: '0 8px'
-  }),
-  input: base => ({
-    ...base,
-    paddingTop: '0',
-    paddingBottom: '0',
-    margin: '0 2px'
-  }),
-  dropdownIndicator: base => ({
-    ...base,
-    padding: '4px'
-  }),
-  option: base => ({
-    ...base,
-    padding: '2px 12px'
-  }),
-  menuList: base => ({
-    ...base,
-    paddingTop: '0',
-    paddingBottom: '0'
-  }),
-  multiValueLabel: base => ({
-    ...base,
-    lineHeight: '24px',
-    padding: '0 4px'
-  })
 };
 
 class Editable extends Component {
@@ -285,7 +249,7 @@ class Editable extends Component {
     }
 
     if (type === 'select' || type === 'related' || type === 'tags') {
-      props.selectStyles = selectStyles;
+      props.selectStyles = SELECT_STYLES;
     }
 
     let display;

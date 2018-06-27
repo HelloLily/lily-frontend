@@ -1,19 +1,19 @@
-@import '~style/variables/measurements';
+@import '~style/variables/colors';
 
 .sidebar {
   position: absolute;
   right: -21%;
   top: 0;
   width: 20%;
-  height: 100%;
   z-index: 4;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin-top: $content-top;
-  transition: all 0.25s ease;
+  transition: all 0.25s ease-out;
 
   .sidebar-content {
-    padding: 10px;
+    .content-block {
+      border-style: none;
+    }
   }
 
   &.slide {
@@ -21,7 +21,22 @@
     right: 0;
   }
 
+  &.expanded {
+    width: 100%;
+    background: $app-bg-color;
+
+    .content-block-container {
+      max-width: 2000px;
+      margin: auto;
+
+      .content-block {
+        border-style: solid;
+      }
+    }
+  }
+
   .close-btn {
     padding: 10px;
+    background: none;
   }
 }

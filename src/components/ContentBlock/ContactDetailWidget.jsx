@@ -2,33 +2,42 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
-import Widget from 'components/Widget';
+import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const AccountDetailWidget = props => {
-  const { account, submitCallback, clickable } = props;
+const ContactDetailWidget = props => {
+  const { contact, submitCallback, clickable } = props;
 
   const title = (
     <React.Fragment>
-      <div className="widget-label" />
-      <div className="widget-name">
-        <i className="lilicon hl-company-icon m-r-5" />
+      <div className="content-block-label" />
+      <div className="content-block-name">
+        <i className="lilicon hl-entity-icon m-r-5" />
         {clickable &&
-          !account.isDeleted && <NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink>}
+          !contact.isDeleted && (
+            <NavLink to={`/contacts/${contact.id}`}>{contact.fullName}</NavLink>
+          )}
 
-        {(!clickable || account.isDeleted) && <React.Fragment>{account.name}</React.Fragment>}
+        {(!clickable || contact.isDeleted) && <React.Fragment>{contact.name}</React.Fragment>}
       </div>
     </React.Fragment>
   );
 
   return (
-    <Widget title={title} component="accountDetailWidget">
+    <ContentBlock title={title} component="contactDetailWidget">
       <div className="detail-row">
         <div>
-          <i className="lilicon hl-status-icon" /> Status
+          <FontAwesomeIcon icon="comment" /> Salutation
         </div>
         <div>
-          <Editable type="select" object={account} field="status" submitCallback={submitCallback} />
+          <Editable
+            type="select"
+            object={contact}
+            field="salutation"
+            submitCallback={submitCallback}
+          />
+          /
+          <Editable type="select" object={contact} field="gender" submitCallback={submitCallback} />
         </div>
       </div>
 
@@ -40,7 +49,7 @@ const AccountDetailWidget = props => {
           <Editable
             type="related"
             field="emailAddresses"
-            object={account}
+            object={contact}
             submitCallback={submitCallback}
           />
         </div>
@@ -54,35 +63,7 @@ const AccountDetailWidget = props => {
           <Editable
             type="related"
             field="phoneNumbers"
-            object={account}
-            submitCallback={submitCallback}
-          />
-        </div>
-      </div>
-
-      <div className="detail-row">
-        <div>
-          <FontAwesomeIcon icon="globe" /> Website
-        </div>
-        <div>
-          <Editable
-            type="related"
-            field="websites"
-            object={account}
-            submitCallback={submitCallback}
-          />
-        </div>
-      </div>
-
-      <div className="detail-row">
-        <div>
-          <i className="lilicon hl-entity-icon" /> Assigned to
-        </div>
-        <div>
-          <Editable
-            type="select"
-            field="assignedTo"
-            object={account}
+            object={contact}
             submitCallback={submitCallback}
           />
         </div>
@@ -96,9 +77,32 @@ const AccountDetailWidget = props => {
           <Editable
             type="related"
             field="addresses"
-            object={account}
+            object={contact}
             submitCallback={submitCallback}
           />
+        </div>
+      </div>
+
+      <div className="detail-row">
+        <div>
+          <i className="lilicon hl-company-icon" /> Works at
+        </div>
+        <div>
+          <Editable
+            multi
+            type="select"
+            object={contact}
+            field="accounts"
+            submitCallback={submitCallback}
+          >
+            {contact.functions.map(account => (
+              <div key={account.id}>
+                <NavLink to={`/accounts/${account.id}`}>{account.accountName}</NavLink>
+
+                {!account.isActive && <span> (inactive)</span>}
+              </div>
+            ))}
+          </Editable>
         </div>
       </div>
 
@@ -107,9 +111,9 @@ const AccountDetailWidget = props => {
           <FontAwesomeIcon icon={['fab', 'twitter']} /> Twitter
         </div>
         <div>
-          {account.twitter && (
-            <a href={account.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
-              {account.twitter.username}
+          {contact.twitter && (
+            <a href={contact.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
+              {contact.twitter.username}
             </a>
           )}
         </div>
@@ -117,15 +121,14 @@ const AccountDetailWidget = props => {
 
       <div className="detail-row">
         <div>
-          <i className="lilicon hl-entity-icon" /> Customer ID
+          <FontAwesomeIcon icon={['fab', 'linkedin']} /> LinkedIn
         </div>
         <div>
-          <Editable
-            type="text"
-            field="customerId"
-            object={account}
-            submitCallback={submitCallback}
-          />
+          {contact.linkedin && (
+            <a href={contact.linkedin.profileUrl} target="_blank" rel="noopener noreferrer">
+              {contact.linkedin.username}
+            </a>
+          )}
         </div>
       </div>
 
@@ -138,7 +141,7 @@ const AccountDetailWidget = props => {
             multi
             type="tags"
             field="tags"
-            object={account}
+            object={contact}
             submitCallback={submitCallback}
           />
         </div>
@@ -151,12 +154,12 @@ const AccountDetailWidget = props => {
         <Editable
           type="textarea"
           field="description"
-          object={account}
+          object={contact}
           submitCallback={submitCallback}
         />
       </div>
-    </Widget>
+    </ContentBlock>
   );
 };
 
-export default AccountDetailWidget;
+export default ContactDetailWidget;

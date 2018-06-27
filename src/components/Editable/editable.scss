@@ -112,7 +112,7 @@
   line-height: $default-line-height;
   border-color: $lily-grey;
   border-radius: $base-border-radius;
-  flex-grow: 1;
+  flex: 1;
 
   &:focus {
     border-color: $lily-grey;
@@ -173,17 +173,16 @@
 
 .editable-related-row {
   display: flex;
-  // flex-wrap: wrap;
   margin-bottom: 20px;
 
-  .hl-primary-btn {
-    align-self: flex-end;
-  }
+  // .hl-primary-btn {
+  // align-self: flex-end;
+  // }
 }
 
 .is-deleted {
-  // Undo buttons should be kept available.
-  > :not(button) {
+  // Buttons should be kept available (e.g. undo).
+  > :not(button):not(.form-related-actions) {
     pointer-events: none;
     opacity: 0.35;
   }

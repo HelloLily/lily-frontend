@@ -9,14 +9,15 @@ import Sidebar from 'components/Sidebar';
 import Dashboard from 'pages/Dashboard';
 import Login from 'pages/Login';
 import Inbox from 'pages/Inbox';
-import AccountList from 'pages/AccountList';
+import AccountForm from 'pages/AccountForm';
 import AccountDetail from 'pages/AccountDetail';
-import ContactList from 'pages/ContactList';
+import AccountList from 'pages/AccountList';
 import ContactDetail from 'pages/ContactDetail';
-import CaseList from 'pages/CaseList';
+import ContactList from 'pages/ContactList';
 import CaseDetail from 'pages/CaseDetail';
-import DealList from 'pages/DealList';
+import CaseList from 'pages/CaseList';
 import DealDetail from 'pages/DealDetail';
+import DealList from 'pages/DealList';
 import NotFound from 'pages/NotFound';
 import './icons';
 // import history from '../../utils/history';
@@ -66,7 +67,7 @@ class Lily extends Component {
                   <Nav sidebarRef={this.sidebar} />
                 </ErrorBoundry>
               </div>
-              <div className="column">
+              <div className="main">
                 <ErrorBoundry>
                   <Header />
                 </ErrorBoundry>
@@ -77,6 +78,7 @@ class Lily extends Component {
                   <ErrorBoundry>
                     <Switch>
                       <Route path="/email" component={Inbox} />
+                      <Route path="/accounts/create" component={AccountForm} />
                       <Route path="/accounts/:id" component={AccountDetail} />
                       <Route path="/accounts" component={AccountList} />
                       <Route path="/contacts/:id" component={ContactDetail} />

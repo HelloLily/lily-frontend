@@ -52,4 +52,11 @@
       margin-right: 5px;
     }
   }
+
+  // TODO: Temporary.
+  @media (max-width: 1600px) {
+    .nav-add-buttons {
+      display: none;
+    }
+  }
 }

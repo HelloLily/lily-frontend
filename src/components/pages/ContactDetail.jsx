@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import ContactDetailWidget from 'components/Widget/ContactDetailWidget';
-import DealListWidget from 'components/Widget/DealListWidget';
-import CaseListWidget from 'components/Widget/CaseListWidget';
-import ContactListWidget from 'components/Widget/ContactListWidget';
+import ContactDetailContentBlock from 'components/ContentBlock/ContactDetailWidget';
+import DealListContentBlock from 'components/ContentBlock/DealListWidget';
+import CaseListContentBlock from 'components/ContentBlock/CaseListWidget';
+import ContactListContentBlock from 'components/ContentBlock/ContactListWidget';
 import ActivityStream from 'components/ActivityStream';
 import Contact from 'models/Contact';
 
@@ -30,11 +30,11 @@ class AccountDetail extends Component {
       <React.Fragment>
         {contact ? (
           <div className="detail-page">
-            <ContactDetailWidget contact={contact} submitCallback={this.submitCallback} />
+            <ContactDetailContentBlock contact={contact} submitCallback={this.submitCallback} />
 
-            <DealListWidget object={contact} submitCallback={this.submitCallback} />
+            <DealListContentBlock object={contact} submitCallback={this.submitCallback} />
 
-            <CaseListWidget object={contact} submitCallback={this.submitCallback} />
+            <CaseListContentBlock object={contact} submitCallback={this.submitCallback} />
 
             <ActivityStream object={contact} />
 
@@ -42,12 +42,12 @@ class AccountDetail extends Component {
               <div>
                 {contact.accounts.map(account => (
                   <div className="m-b-25" key={account.id}>
-                    <ContactListWidget object={account} />
+                    <ContactListContentBlock object={account} />
                   </div>
                 ))}
               </div>
             ) : (
-              <ContactListWidget object={contact} />
+              <ContactListContentBlock object={contact} />
             )}
           </div>
         ) : (

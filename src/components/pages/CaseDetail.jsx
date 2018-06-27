@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import Editable from 'components/Editable';
-import Widget from 'components/Widget';
+import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
-import AccountDetailWidget from 'components/Widget/AccountDetailWidget';
+import AccountDetailContentBlock from 'components/ContentBlock/AccountDetailWidget';
 import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
@@ -77,8 +77,8 @@ class CaseDetail extends Component {
 
     const title = (
       <React.Fragment>
-        <div className="widget-label cases" />
-        <div className="widget-name">
+        <div className="content-block-label cases" />
+        <div className="content-block-name">
           <i className="lilicon hl-case-icon m-r-5" />
           Case details
         </div>
@@ -90,13 +90,9 @@ class CaseDetail extends Component {
         {caseObj ? (
           <div className="detail-page">
             <div>
-              <AccountDetailWidget account={caseObj.account} submitCallback={this.submitCallback} />
-
-              <Widget title={title} component="caseDetailWidget" className="m-t-25">
+              <ContentBlock title={title} component="caseDetailWidget" className="m-b-25">
                 <div className="detail-row">
-                  <div>
-                    <i className="lilicon hl-status-icon" /> Priority
-                  </div>
+                  <div>Priority</div>
                   <div>
                     <Editable
                       icon
@@ -109,9 +105,7 @@ class CaseDetail extends Component {
                 </div>
 
                 <div className="detail-row">
-                  <div>
-                    <i className="lilicon hl-status-icon" /> Type
-                  </div>
+                  <div>Type</div>
                   <div>
                     <Editable
                       type="select"
@@ -123,32 +117,25 @@ class CaseDetail extends Component {
                 </div>
 
                 <div className="detail-row">
-                  <div>
-                    <i className="lilicon hl-entity-icon" /> Expires on
-                  </div>
+                  <div>Expires on</div>
                   <div>
                     <LilyDate date={caseObj.expires} />
                   </div>
                 </div>
 
                 <div className="detail-row">
-                  <div>
-                    <i className="lilicon hl-entity-icon" /> Created by
-                  </div>
+                  <div>Created by</div>
                   <div>
                     {caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}
 
                     <span>
-                      {' '}
-                      on <LilyDate date={caseObj.created} />
+                      {' on '} <LilyDate date={caseObj.created} />
                     </span>
                   </div>
                 </div>
 
                 <div className="detail-row">
-                  <div>
-                    <i className="lilicon hl-entity-icon" /> Assigned to
-                  </div>
+                  <div>Assigned to</div>
                   <div>
                     <Editable
                       async
@@ -161,9 +148,7 @@ class CaseDetail extends Component {
                 </div>
 
                 <div className="detail-row">
-                  <div>
-                    <i className="lilicon hl-entities-icon" /> Assigned to teams
-                  </div>
+                  <div>Assigned to teams</div>
                   <div>
                     <Editable
                       multi
@@ -176,9 +161,7 @@ class CaseDetail extends Component {
                 </div>
 
                 <div className="detail-row">
-                  <div>
-                    <FontAwesomeIcon icon="tags" /> Tags
-                  </div>
+                  <div>Tags</div>
                   <div>
                     <Editable
                       multi
@@ -189,13 +172,18 @@ class CaseDetail extends Component {
                     />
                   </div>
                 </div>
-              </Widget>
+              </ContentBlock>
+
+              <AccountDetailContentBlock
+                account={caseObj.account}
+                submitCallback={this.submitCallback}
+              />
             </div>
 
             <div className="grid-column-2">
-              <div className="widget-container m-b-25">
-                <div className="widget">
-                  <div className="widget-header space-between">
+              <div className="content-block-container m-b-25">
+                <div className="content-block">
+                  <div className="content-block-header space-between">
                     <div className={`hl-btn-group${caseObj.isArchived ? ' is-disabled' : ''}`}>
                       {caseStatuses.map(status => (
                         <button
@@ -216,7 +204,7 @@ class CaseDetail extends Component {
                     </button>
                   </div>
 
-                  <div className="widget-content">
+                  <div className="content-block-content">
                     <div className="display-flex space-between">
                       <strong>
                         <Editable

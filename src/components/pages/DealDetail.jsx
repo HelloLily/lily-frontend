@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import Editable from 'components/Editable';
-import Widget from 'components/Widget';
+import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
-import AccountDetailWidget from 'components/Widget/AccountDetailWidget';
-import ContactDetailWidget from 'components/Widget/ContactDetailWidget';
+import AccountDetailContentBlock from 'components/ContentBlock/AccountDetailWidget';
+import ContactDetailContentBlock from 'components/ContentBlock/ContactDetailWidget';
 import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
@@ -78,8 +78,8 @@ class DealDetail extends Component {
 
     const title = (
       <React.Fragment>
-        <div className="widget-label deals" />
-        <div className="widget-name">
+        <div className="content-block-label deals" />
+        <div className="content-block-name">
           <i className="lilicon hl-deal-icon m-r-5" />
           Deal details
         </div>
@@ -91,7 +91,7 @@ class DealDetail extends Component {
         {deal ? (
           <div className="detail-page">
             <div>
-              <Widget title={title} component="dealDetailWidget">
+              <ContentBlock title={title} component="dealDetailWidget">
                 <div className="detail-row">
                   <div>One-time cost</div>
                   <div>{deal.amountOnce}</div>
@@ -179,15 +179,15 @@ class DealDetail extends Component {
                     />
                   </div>
                 </div>
-              </Widget>
+              </ContentBlock>
 
               <div className="m-b-25" />
 
-              <div className="widget-container">
-                <div className="widget">
-                  <div className="widget-header">
-                    <div className="widget-label" />
-                    <div className="widget-name">Involved</div>
+              <div className="content-block-container">
+                <div className="content-block">
+                  <div className="content-block-header">
+                    <div className="content-block-label" />
+                    <div className="content-block-name">Involved</div>
                   </div>
 
                   <div>
@@ -223,7 +223,6 @@ class DealDetail extends Component {
                         {deal.createdBy ? deal.createdBy.fullName : 'Unknown'}
 
                         <span>
-                          {' '}
                           on <LilyDate date={deal.created} />
                         </span>
                       </div>
@@ -263,9 +262,9 @@ class DealDetail extends Component {
             </div>
 
             <div className="grid-column-2">
-              <div className="widget-container m-b-25">
-                <div className="widget">
-                  <div className="widget-header space-between">
+              <div className="content-block-container m-b-25">
+                <div className="content-block">
+                  <div className="content-block-header space-between">
                     <div className={`hl-btn-group${deal.isArchived ? ' is-disabled' : ''}`}>
                       {dealStatuses.map(status => (
                         <button
@@ -285,7 +284,7 @@ class DealDetail extends Component {
                     </button>
                   </div>
 
-                  <div className="widget-header space-between">
+                  <div className="content-block-header space-between">
                     <div>
                       <strong>Next step: </strong>
                       <Editable
@@ -306,7 +305,7 @@ class DealDetail extends Component {
                       )}
                   </div>
 
-                  <div className="widget-content">
+                  <div className="content-block-content">
                     <div className="display-flex space-between">
                       <strong>
                         <Editable

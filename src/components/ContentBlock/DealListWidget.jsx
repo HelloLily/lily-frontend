@@ -6,9 +6,9 @@ import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
-import Case from 'models/Case';
+import Deal from 'models/Deal';
 
-class CaseListContentBlock extends Component {
+class DealListWidget extends Component {
   constructor(props) {
     super(props);
 
@@ -16,9 +16,9 @@ class CaseListContentBlock extends Component {
   }
 
   componentDidMount = async () => {
-    const caseRequest = await Case.query({ account: this.props.object });
+    const dealRequest = await Deal.query({ account: this.props.object });
 
-    this.setState({ items: caseRequest.results, loading: false });
+    this.setState({ items: dealRequest.results, loading: false });
   };
 
   toggleCollapse = index => {
@@ -35,31 +35,31 @@ class CaseListContentBlock extends Component {
 
     const title = (
       <React.Fragment>
-        <div className="content-block-label cases" />
+        <div className="content-block-label deals" />
         <div className="content-block-name">
-          <i className="lilicon hl-case-icon m-r-5" />
-          Cases
+          <i className="lilicon hl-deals-icon m-r-5" />
+          Deals
         </div>
       </React.Fragment>
     );
 
     const extra = (
       <button className="hl-primary-btn">
-        <FontAwesomeIcon icon="plus" /> Case
+        <FontAwesomeIcon icon="plus" /> Deal
       </button>
     );
 
     return (
       <div>
         <BlockUI blocking={loading}>
-          <ContentBlock title={title} extra={extra} component="caseListWidget">
+          <ContentBlock title={title} extra={extra} component="dealListWidget">
             <table className="hl-table">
               <thead>
                 <tr>
                   <th>Subject</th>
                   <th>Status</th>
-                  <th>Priority</th>
-                  <th>Expires</th>
+                  <th>Next step</th>
+                  <th>Next step date</th>
                   <th />
                 </tr>
               </thead>
@@ -68,20 +68,20 @@ class CaseListContentBlock extends Component {
                 <tbody key={item.id}>
                   <tr>
                     <td>
-                      <NavLink to={`/cases/${item.id}`}>{item.subject}</NavLink>
+                      <NavLink to={`/deals/${item.id}`}>{item.name}</NavLink>
                     </td>
                     <td>{item.status.name}</td>
                     <td>
                       <Editable
                         type="select"
                         object={item}
-                        field="priority"
+                        field="nextStep"
                         submitCallback={submitCallback}
                         icon
                       />
                     </td>
                     <td>
-                      <LilyDate date={item.expires} />
+                      <LilyDate date={item.nextStepDate} />
                     </td>
                     <td>
                       <button
@@ -96,11 +96,15 @@ class CaseListContentBlock extends Component {
                     <tr>
                       <td colSpan="5">
                         <div>
-                          <strong>Type: </strong>
-                          {item.type.name}
+                          <strong>Assigned to: </strong> {item.assignedTo.fullName || 'Nobody'}
                         </div>
                         <div>
-                          <strong>Assigned to: </strong> {item.assignedTo.fullName || 'Nobody'}
+                          <strong>Amount once: </strong>
+                          {item.amountOnce}
+                        </div>
+                        <div>
+                          <strong>Recurring amount: </strong>
+                          {item.amountRecurring}
                         </div>
                         <div>
                           <strong>Created by: </strong>
@@ -127,4 +131,4 @@ class CaseListContentBlock extends Component {
   }
 }
 
-export default CaseListWidget;
+export default DealListWidget;

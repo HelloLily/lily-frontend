@@ -5,20 +5,12 @@ import cx from 'classnames';
 
 import formatPhoneNumber from 'utils/formatPhoneNumber';
 
-const phoneTypes = [
-  { value: 'work', label: 'Work' },
-  { value: 'mobile', label: 'Mobile' },
-  { value: 'home', label: 'Home' },
-  { value: 'fax', label: 'Fax' },
-  { value: 'other', label: 'Other' }
-];
-
-const emptyRow = { number: '', type: 'work' };
+import { MOBILE_PHONE_TYPE, PHONE_TYPE_OPTIONS, PHONE_EMPTY_ROW } from 'lib/constants';
 
 class EditablePhoneNumbers extends Component {
   componentDidMount = () => {
     if (this.props.value.length === 0) {
-      this.props.addRow(emptyRow);
+      this.props.addRow(PHONE_EMPTY_ROW);
     }
   };
 
@@ -41,7 +33,7 @@ class EditablePhoneNumbers extends Component {
   };
 
   addRow = () => {
-    this.props.addRow(emptyRow);
+    this.props.addRow(PHONE_EMPTY_ROW);
   };
 
   handleSubmit = () => {
@@ -59,13 +51,13 @@ class EditablePhoneNumbers extends Component {
     // No need to format an empty value.
     if (items[index].number) {
       const address = this.props.object.addresses[0];
-      const { formatted, isMobile } = formatPhoneNumber(items[index], user, address);
+      const { formatted, isMobile } = formatPhoneNumber(items[index].number, user, address);
 
       if (formatted) {
         items[index].number = formatted;
 
         if (isMobile) {
-          items[index].type = 'mobile';
+          items[index].type = MOBILE_PHONE_TYPE;
         }
       }
 
@@ -102,7 +94,7 @@ class EditablePhoneNumbers extends Component {
                   name="type"
                   className="text-capitalize"
                   styles={selectStyles}
-                  options={phoneTypes}
+                  options={PHONE_TYPE_OPTIONS}
                   value={{ value: item.type, label: item.type }}
                   onChange={selected => this.handleChange(selected.value, index, 'type')}
                   onInputKeyDown={this.onInputKeyDown}

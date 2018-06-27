@@ -125,4 +125,4 @@ class ContentBlock extends Component {
   }
 }
 
-export default Widget;
+export default ContentBlock;

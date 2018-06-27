@@ -42,6 +42,7 @@ class EditableTags extends Component {
           allowCreateWhileLoading
           name="options"
           className="editable-input"
+          placeholder="Add tags..."
           value={options}
           styles={selectStyles}
           onChange={this.handleChange}

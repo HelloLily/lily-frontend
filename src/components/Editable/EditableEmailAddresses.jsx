@@ -3,20 +3,19 @@ import Select from 'react-select';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
-import { INACTIVE_EMAIL_STATUS, OTHER_EMAIL_STATUS, PRIMARY_EMAIL_STATUS } from 'lib/constants';
-
-const emailStatuses = ['Inactive', 'Other', 'Primary'];
-
-const statusOptions = emailStatuses
-  .map((status, index) => ({ value: index, label: status }))
-  .reverse();
-
-const emptyRow = { emailAddress: '', status: OTHER_EMAIL_STATUS };
+import {
+  INACTIVE_EMAIL_STATUS,
+  OTHER_EMAIL_STATUS,
+  PRIMARY_EMAIL_STATUS,
+  EMAIL_STATUSES,
+  EMAIL_STATUS_OPTIONS,
+  EMAIL_EMPTY_ROW
+} from 'lib/constants';
 
 class EditableEmailAddresses extends Component {
   componentDidMount = () => {
     if (this.props.value.length === 0) {
-      this.props.addRow(emptyRow);
+      this.props.addRow(EMAIL_EMPTY_ROW);
     }
   };
 
@@ -48,7 +47,7 @@ class EditableEmailAddresses extends Component {
   };
 
   addRow = () => {
-    this.props.addRow(emptyRow);
+    this.props.addRow(EMAIL_EMPTY_ROW);
   };
 
   handleSubmit = () => {
@@ -84,8 +83,8 @@ class EditableEmailAddresses extends Component {
                 <Select
                   name="status"
                   styles={selectStyles}
-                  options={statusOptions}
-                  value={{ label: emailStatuses[item.status], value: item.status }}
+                  options={EMAIL_STATUS_OPTIONS}
+                  value={{ label: EMAIL_STATUSES[item.status], value: item.status }}
                   onChange={selected => this.handleChange(selected.value, index, 'status')}
                   onInputKeyDown={this.onInputKeyDown}
                 />

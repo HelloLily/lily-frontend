@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import Widget from 'components/Widget';
+import ContentBlock from 'components/ContentBlock';
 import BlockUI from 'components/Utils/BlockUI';
 import Contact from 'models/Contact';
 
@@ -24,8 +24,8 @@ class ContactListWidget extends Component {
 
     const title = (
       <React.Fragment>
-        <div className="widget-label" />
-        <div className="widget-name">
+        <div className="content-block-label" />
+        <div className="content-block-name">
           <i className="lilicon hl-entities-icon m-r-5" />
           {!object.contentType || object.contentType.model === 'account' ? (
             <div>
@@ -44,7 +44,7 @@ class ContactListWidget extends Component {
     return (
       <div>
         <BlockUI blocking={loading}>
-          <Widget title={title} component="caseListWidget">
+          <ContentBlock title={title} component="caseListWidget">
             <table className="hl-table">
               <thead>
                 <tr>
@@ -101,7 +101,7 @@ class ContactListWidget extends Component {
                 </tbody>
               ))}
             </table>
-          </Widget>
+          </ContentBlock>
         </BlockUI>
       </div>
     );

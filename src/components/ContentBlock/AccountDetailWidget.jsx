@@ -5,39 +5,30 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const ContactDetailContentBlock = props => {
-  const { contact, submitCallback, clickable } = props;
+const AccountDetailWidget = props => {
+  const { account, submitCallback, clickable } = props;
 
   const title = (
     <React.Fragment>
       <div className="content-block-label" />
       <div className="content-block-name">
-        <i className="lilicon hl-entity-icon m-r-5" />
+        <i className="lilicon hl-company-icon m-r-5" />
         {clickable &&
-          !contact.isDeleted && (
-            <NavLink to={`/contacts/${contact.id}`}>{contact.fullName}</NavLink>
-          )}
+          !account.isDeleted && <NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink>}
 
-        {(!clickable || contact.isDeleted) && <React.Fragment>{contact.name}</React.Fragment>}
+        {(!clickable || account.isDeleted) && <React.Fragment>{account.name}</React.Fragment>}
       </div>
     </React.Fragment>
   );
 
   return (
-    <ContentBlock title={title} component="contactDetailWidget">
+    <ContentBlock title={title} component="accountDetailWidget">
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon="comment" /> Salutation
+          <i className="lilicon hl-status-icon" /> Status
         </div>
         <div>
-          <Editable
-            type="select"
-            object={contact}
-            field="salutation"
-            submitCallback={submitCallback}
-          />
-          /
-          <Editable type="select" object={contact} field="gender" submitCallback={submitCallback} />
+          <Editable type="select" object={account} field="status" submitCallback={submitCallback} />
         </div>
       </div>
 
@@ -49,7 +40,7 @@ const ContactDetailContentBlock = props => {
           <Editable
             type="related"
             field="emailAddresses"
-            object={contact}
+            object={account}
             submitCallback={submitCallback}
           />
         </div>
@@ -63,7 +54,35 @@ const ContactDetailContentBlock = props => {
           <Editable
             type="related"
             field="phoneNumbers"
-            object={contact}
+            object={account}
+            submitCallback={submitCallback}
+          />
+        </div>
+      </div>
+
+      <div className="detail-row">
+        <div>
+          <FontAwesomeIcon icon="globe" /> Website
+        </div>
+        <div>
+          <Editable
+            type="related"
+            field="websites"
+            object={account}
+            submitCallback={submitCallback}
+          />
+        </div>
+      </div>
+
+      <div className="detail-row">
+        <div>
+          <i className="lilicon hl-entity-icon" /> Assigned to
+        </div>
+        <div>
+          <Editable
+            type="select"
+            field="assignedTo"
+            object={account}
             submitCallback={submitCallback}
           />
         </div>
@@ -77,32 +96,9 @@ const ContactDetailContentBlock = props => {
           <Editable
             type="related"
             field="addresses"
-            object={contact}
+            object={account}
             submitCallback={submitCallback}
           />
-        </div>
-      </div>
-
-      <div className="detail-row">
-        <div>
-          <i className="lilicon hl-company-icon" /> Works at
-        </div>
-        <div>
-          <Editable
-            multi
-            type="select"
-            object={contact}
-            field="accounts"
-            submitCallback={submitCallback}
-          >
-            {contact.functions.map(account => (
-              <div key={account.id}>
-                <NavLink to={`/accounts/${account.id}`}>{account.accountName}</NavLink>
-
-                {!account.isActive && <span> (inactive)</span>}
-              </div>
-            ))}
-          </Editable>
         </div>
       </div>
 
@@ -111,9 +107,9 @@ const ContactDetailContentBlock = props => {
           <FontAwesomeIcon icon={['fab', 'twitter']} /> Twitter
         </div>
         <div>
-          {contact.twitter && (
-            <a href={contact.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
-              {contact.twitter.username}
+          {account.twitter && (
+            <a href={account.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
+              {account.twitter.username}
             </a>
           )}
         </div>
@@ -121,14 +117,15 @@ const ContactDetailContentBlock = props => {
 
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon={['fab', 'linkedin']} /> LinkedIn
+          <i className="lilicon hl-entity-icon" /> Customer ID
         </div>
         <div>
-          {contact.linkedin && (
-            <a href={contact.linkedin.profileUrl} target="_blank" rel="noopener noreferrer">
-              {contact.linkedin.username}
-            </a>
-          )}
+          <Editable
+            type="text"
+            field="customerId"
+            object={account}
+            submitCallback={submitCallback}
+          />
         </div>
       </div>
 
@@ -141,7 +138,7 @@ const ContactDetailContentBlock = props => {
             multi
             type="tags"
             field="tags"
-            object={contact}
+            object={account}
             submitCallback={submitCallback}
           />
         </div>
@@ -154,7 +151,7 @@ const ContactDetailContentBlock = props => {
         <Editable
           type="textarea"
           field="description"
-          object={contact}
+          object={account}
           submitCallback={submitCallback}
         />
       </div>
@@ -162,4 +159,4 @@ const ContactDetailContentBlock = props => {
   );
 };
 
-export default ContactDetailWidget;
+export default AccountDetailWidget;

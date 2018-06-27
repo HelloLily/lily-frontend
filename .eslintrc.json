@@ -11,20 +11,14 @@
       "modules": true
     }
   },
-  "extends": [
-    "airbnb",
-    "prettier"
-  ],
-  "plugins": [
-    "react",
-    "import"
-  ],
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["react", "import"],
   "rules": {
-    "max-len": ["error", {"code": 120, "tabWidth": 2}],
+    "max-len": ["error", { "code": 120, "tabWidth": 2 }],
     "arrow-parens": [2, "as-needed"],
     "comma-dangle": ["error", "never"],
-    "no-param-reassign": ["error", {"props": false}],
-    "object-curly-newline": ["error", {"consistent": true}],
+    "no-param-reassign": ["error", { "props": false }],
+    "object-curly-newline": ["error", { "consistent": true }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "class-methods-use-this": 0,
     "no-prototype-builtins": 0,
@@ -38,6 +32,9 @@
 
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/no-autofocus": 0,
-    "jsx-a11y/click-events-have-key-events": 0
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/label-has-for": {
+      "required": "id"
+    }
   }
 }

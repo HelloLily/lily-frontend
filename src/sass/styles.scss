@@ -17,7 +17,7 @@
   background: #fff;
   line-height: $height;
   height: $height;
-  padding: 0 6px;
+  padding: 6px 12px;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
 
@@ -71,7 +71,17 @@ textarea {
 }
 
 input {
-  @include input-field(30px);
+  @include input-field(34px);
+}
+
+input,
+textarea {
+  border-radius: $base-border-radius;
+  border: 1px $inner-border-color solid;
+
+  &::placeholder {
+    color: $text-muted;
+  }
 }
 
 .block-overlay {
@@ -136,7 +146,7 @@ input {
     }
 
     > :first-child {
-      width: 35%;
+      width: 30%;
       font-weight: bold;
     }
 
@@ -154,7 +164,7 @@ input {
     padding: 14px 16px;
   }
 
-  .widget-body {
+  .content-block-body {
     height: 300px;
 
     &.expanded-height {

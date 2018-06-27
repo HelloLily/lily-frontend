@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
@@ -11,7 +12,5 @@
       "lib/*": ["./src/lib*"]
     }
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

@@ -28,6 +28,30 @@ class Account {
 
     return response;
   }
+
+  getDataproviderInfo(url) {
+    const response = post('/provide/dataprovider/', { url });
+
+    return response;
+  }
+
+  searchByEmailAddress(emailAddress) {
+    const response = get(`/search/emailaddress/${emailAddress}`);
+
+    return response;
+  }
+
+  searchByPhoneNumber(phoneNumber) {
+    const response = get(`/search/number/${phoneNumber}`);
+
+    return response;
+  }
+
+  searchByWebsite(website) {
+    const response = get(`/search/website/${website}`);
+
+    return response;
+  }
 }
 
 export default new Account();

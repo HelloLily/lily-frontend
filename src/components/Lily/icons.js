@@ -28,6 +28,8 @@ import faGlobe from '@fortawesome/fontawesome-free-solid/faGlobe';
 import faTags from '@fortawesome/fontawesome-free-solid/faTags';
 import faMapMarkerAlt from '@fortawesome/fontawesome-free-solid/faMapMarkerAlt';
 import faComment from '@fortawesome/fontawesome-free-solid/faComment';
+import faMagic from '@fortawesome/fontawesome-free-solid/faMagic';
+import faExpandArrowsAlt from '@fortawesome/fontawesome-free-solid/faExpandArrowsAlt';
 
 fontawesome.library.add(
   brands,
@@ -58,5 +60,7 @@ fontawesome.library.add(
   faGlobe,
   faTags,
   faMapMarkerAlt,
-  faComment
+  faComment,
+  faMagic,
+  faExpandArrowsAlt
 );
