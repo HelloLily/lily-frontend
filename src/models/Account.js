@@ -52,6 +52,15 @@ class Account {
 
     return response;
   }
+
+  // TODO: Temporary code. Actual search will be different.
+  search(filterquery) {
+    const url = `/search/search/?type=accounts_account&filterquery=${filterquery}&key=superuser1`;
+
+    const response = get(url);
+
+    return response;
+  }
 }
 
 export default new Account();

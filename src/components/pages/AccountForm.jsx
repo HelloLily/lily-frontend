@@ -15,7 +15,8 @@ import {
   PRIMARY_EMAIL_STATUS,
   VISITING_ADDRESS_TYPE,
   MOBILE_PHONE_TYPE,
-  WORK_PHONE_TYPE
+  WORK_PHONE_TYPE,
+  TWITTER_EMPTY_ROW
 } from 'lib/constants';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
 import BlockUI from 'components/Utils/BlockUI';
@@ -137,17 +138,26 @@ class InnerAccountForm extends Component {
     return request.results;
   };
 
-  checkExistingAccount = () => {
+  searchName = async () => {
     const { accountSuggestions, showSuggestions } = this.state;
-    if (!this.props.values.id) {
-      const filterquery = `domain:"${this.props.values.primaryWebsite}" OR name:"${
-        this.props.values.name
-      }"`;
+    const { name } = this.props.values;
 
-      Account.search({ filterquery }).$promise.then(results => {
-        accountSuggestions.name = results.objects;
-        showSuggestions.name = true;
-      });
+    if (!this.props.values.id) {
+      const filterquery = `name:"${name}"`;
+
+      // TODO: Change this to new way of searching.
+      const response = await Account.search(filterquery);
+      const exists = accountSuggestions.name.some(
+        suggestion => suggestion.account.id === response.data.id
+      );
+
+      if (!exists && response.hits.length > 0) {
+        accountSuggestions.name.push({ name, account: response.hits[0] });
+      }
+
+      showSuggestions.name = true;
+
+      this.setState({ accountSuggestions, showSuggestions });
     }
   };
 
@@ -163,14 +173,20 @@ class InnerAccountForm extends Component {
         const exists = accountSuggestions.email.some(
           suggestion => suggestion.account.id === response.data.id
         );
-        if (!exists) accountSuggestions.email.push({ emailAddress, account: response.data });
+
+        if (!exists) {
+          accountSuggestions.email.push({ emailAddress, account: response.data });
+        }
 
         showSuggestions.email = true;
       } else if (type === 'contact') {
         const exists = contactSuggestions.email.some(
           suggestion => suggestion.contact.id === response.data.id
         );
-        if (!exists) contactSuggestions.email.push({ emailAddress, contact: response.data });
+
+        if (!exists) {
+          contactSuggestions.email.push({ emailAddress, contact: response.data });
+        }
 
         showSuggestions.email = true;
       }
@@ -192,7 +208,9 @@ class InnerAccountForm extends Component {
           suggestion => suggestion.account.id === account.id
         );
 
-        if (!exists) accountSuggestions.phone.push({ phoneNumber, account });
+        if (!exists) {
+          accountSuggestions.phone.push({ phoneNumber, account });
+        }
 
         showSuggestions.phone = true;
       } else if (response.data.contact) {
@@ -201,7 +219,9 @@ class InnerAccountForm extends Component {
           suggestion => suggestion.contact.id === contact.id
         );
 
-        if (!exists) contactSuggestions.phone.push({ phoneNumber, contact });
+        if (!exists) {
+          contactSuggestions.phone.push({ phoneNumber, contact });
+        }
 
         showSuggestions.phone = true;
       }
@@ -212,6 +232,31 @@ class InnerAccountForm extends Component {
 
   handleRelated = (type, items) => {
     this.props.setFieldValue(type, items);
+  };
+
+  handleCustomerID = event => {
+    const { status } = this.props.values;
+
+    if (status && status.name === ACCOUNT_RELATION_STATUS) {
+      // Setting a customer ID usually means the account is already an active customer.
+      const activeStatus = this.state.accountStatuses.find(
+        statusItem => statusItem.name === ACCOUNT_ACTIVE_STATUS
+      );
+      this.props.setFieldValue('status', activeStatus);
+    }
+
+    this.props.handleChange(event);
+  };
+
+  handleSocialMedia = event => {
+    // Get the ID of the input and change the value based on that ID.
+    const socialMediaProfile = this.props.values.socialMedia.find(
+      profile => profile.name === event.target.id
+    );
+
+    socialMediaProfile.username = event.target.value;
+
+    this.props.setFieldValue('socialMedia', [...this.props.values.socialMedia, socialMediaProfile]);
   };
 
   merge = async accountId => {
@@ -228,7 +273,7 @@ class InnerAccountForm extends Component {
 
   render() {
     const { accountStatuses, accountSuggestions, contactSuggestions, showSuggestions } = this.state;
-    const { values, touched, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -262,7 +307,7 @@ class InnerAccountForm extends Component {
                     </div>
                   </div>
 
-                  <div className="form-field">
+                  <div className={`form-field${errors.name ? ' has-error' : ''}`}>
                     <label htmlFor="name" required>
                       Company name
                     </label>
@@ -272,8 +317,19 @@ class InnerAccountForm extends Component {
                       type="text"
                       value={values.name}
                       onChange={handleChange}
+                      onBlur={this.searchName}
                     />
+
+                    {errors.name && <div className="error-message">{errors.name}</div>}
                   </div>
+
+                  <Suggestions
+                    field="name"
+                    type="account"
+                    suggestions={accountSuggestions.name}
+                    display={showSuggestions.name}
+                    handleMerge={this.merge}
+                  />
 
                   <div className="form-field">
                     <label htmlFor="description">Description</label>
@@ -293,11 +349,11 @@ class InnerAccountForm extends Component {
                       placeholder="Customer ID"
                       type="text"
                       value={values.customerId}
-                      onChange={handleChange}
+                      onChange={this.handleCustomerID}
                     />
                   </div>
 
-                  <div className="form-field">
+                  <div className={`form-field${errors.status ? ' has-error' : ''}`}>
                     <label htmlFor="status">Status</label>
                     <Select
                       name="status"
@@ -309,11 +365,13 @@ class InnerAccountForm extends Component {
                       getOptionLabel={option => option.name}
                       getOptionValue={option => option.name}
                     />
+
+                    {errors.status && <div className="error-message">{errors.status}</div>}
                   </div>
                 </FormSection>
 
                 <FormSection header="Who is handling the account?">
-                  <div className="form-field">
+                  <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
                     <label htmlFor="assignedTo">Assigned to</label>
                     <AsyncSelect
                       defaultOptions
@@ -326,6 +384,8 @@ class InnerAccountForm extends Component {
                       getOptionLabel={option => option.fullName}
                       getOptionValue={option => option.fullName}
                     />
+
+                    {errors.assignedTo && <div className="error-message">{errors.assignedTo}</div>}
                   </div>
                 </FormSection>
 
@@ -336,6 +396,7 @@ class InnerAccountForm extends Component {
                       items={values.emailAddresses}
                       handleRelated={this.handleRelated}
                       onInputBlur={this.searchEmailAddress}
+                      errors={errors}
                     />
                   </div>
 
@@ -361,6 +422,7 @@ class InnerAccountForm extends Component {
                       handleRelated={this.handleRelated}
                       addresses={values.addresses}
                       onInputBlur={this.searchPhoneNumber}
+                      errors={errors}
                     />
                   </div>
 
@@ -381,12 +443,20 @@ class InnerAccountForm extends Component {
 
                   <div className="form-field">
                     <label>Address</label>
-                    <AddressField items={values.addresses} handleRelated={this.handleRelated} />
+                    <AddressField
+                      items={values.addresses}
+                      handleRelated={this.handleRelated}
+                      errors={errors}
+                    />
                   </div>
 
                   <div className="form-field">
                     <label>Extra website</label>
-                    <WebsiteField items={values.websites} handleRelated={this.handleRelated} />
+                    <WebsiteField
+                      items={values.websites}
+                      handleRelated={this.handleRelated}
+                      errors={errors}
+                    />
                   </div>
                 </FormSection>
 
@@ -404,8 +474,8 @@ class InnerAccountForm extends Component {
                       id="twitter"
                       placeholder="Twitter"
                       type="text"
-                      value={values.twitter}
-                      onChange={handleChange}
+                      value={values.socialMedia[0].username}
+                      onChange={this.handleSocialMedia}
                     />
                   </div>
                 </FormSection>
@@ -446,7 +516,7 @@ const AccountForm = withRouter(
       addresses: [],
       websites: [],
       tags: [],
-      socialMedia: [],
+      socialMedia: [TWITTER_EMPTY_ROW],
       twitter: ''
     }),
     // validationSchema: Yup.object().shape({
@@ -454,7 +524,7 @@ const AccountForm = withRouter(
     //     .email('Invalid email address')
     //     .required('Email is required!'),
     // }),
-    handleSubmit: (values, { props, setSubmitting }) => {
+    handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const cleanedValues = cleanRelatedFields(values);
 
       // TODO: Clean this up (util function or w/e).
@@ -477,8 +547,8 @@ const AccountForm = withRouter(
 
           props.history.push(`/accounts/${response.id}`);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(errors => {
+          setErrors(errors.data);
           setSubmitting(false);
         });
     },

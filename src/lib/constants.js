@@ -96,3 +96,5 @@ export const ADDRESS_EMPTY_ROW = { address: '', type: 'visiting' };
 
 export const ACCOUNT_ACTIVE_STATUS = 'Active';
 export const ACCOUNT_RELATION_STATUS = 'Relation';
+
+export const TWITTER_EMPTY_ROW = { name: 'twitter', username: '' };

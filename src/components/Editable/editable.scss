@@ -174,10 +174,7 @@
 .editable-related-row {
   display: flex;
   margin-bottom: 20px;
-
-  // .hl-primary-btn {
-  // align-self: flex-end;
-  // }
+  flex-wrap: wrap;
 }
 
 .is-deleted {
