@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';

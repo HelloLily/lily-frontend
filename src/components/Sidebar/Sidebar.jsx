@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import AccountForm from 'pages/AccountForm';
@@ -53,7 +53,7 @@ class Sidebar extends Component {
               </button>
 
               <button onClick={this.expandSidebar} className="hl-interface-btn">
-                <FontAwesomeIcon icon="expand-arrows-alt" />
+                <FontAwesomeIcon icon="expand-alt" />
               </button>
             </div>
             <div className="sidebar-content">

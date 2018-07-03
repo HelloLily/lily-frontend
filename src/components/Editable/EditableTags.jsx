@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Tag from 'models/Tag';
 

@@ -22,6 +22,15 @@ class Contact {
 
     return response;
   }
+
+  // TODO: Temporary code. Actual search will be different.
+  search(filterquery) {
+    const url = `/search/search/?type=contacts_contact&filterquery=${filterquery}`;
+
+    const response = get(url);
+
+    return response;
+  }
 }
 
 export default new Contact();

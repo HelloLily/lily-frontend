@@ -79,6 +79,10 @@ export const SELECT_STYLES = {
     ...base,
     lineHeight: '24px',
     padding: '0 4px'
+  }),
+  placeholder: base => ({
+    ...base,
+    color: '#b5b5b5'
   })
 };
 
@@ -98,3 +102,4 @@ export const ACCOUNT_ACTIVE_STATUS = 'Active';
 export const ACCOUNT_RELATION_STATUS = 'Relation';
 
 export const TWITTER_EMPTY_ROW = { name: 'twitter', username: '' };
+export const LINKEDIN_EMPTY_ROW = { name: 'linkedin', username: '' };

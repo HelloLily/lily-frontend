@@ -1,34 +1,8 @@
 // Generates margin, padding, and width percentages for each side (top, bottom, left, right) with the given amount of pixels.
 // Example: m-t-5 -> margin-top: 5px;
 // Credits to https://gist.github.com/jacurtis/30da4bf9a6c9b9b5cc0aebac512ca7c9.
-$spaceamounts: (
-  5,
-  10,
-  15,
-  20,
-  25,
-  30,
-  35,
-  40,
-  45,
-  50,
-  55,
-  60,
-  65,
-  70,
-  75,
-  80,
-  85,
-  90,
-  95,
-  100
-);
-$sides: (
-  top,
-  bottom,
-  left,
-  right
-);
+$spaceamounts: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100);
+$sides: (top, bottom, left, right);
 
 // We put theses classes on the app ID to ensure precedence over other styling.
 #app {
@@ -88,6 +62,10 @@ $sides: (
 .display-flex {
   display: flex;
   align-items: center;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .space-between {

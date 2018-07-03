@@ -55,7 +55,7 @@ class Account {
 
   // TODO: Temporary code. Actual search will be different.
   search(filterquery) {
-    const url = `/search/search/?type=accounts_account&filterquery=${filterquery}&key=superuser1`;
+    const url = `/search/search/?type=accounts_account&filterquery=${filterquery}`;
 
     const response = get(url);
 

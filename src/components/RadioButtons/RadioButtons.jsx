@@ -4,6 +4,9 @@ class RadioButton extends Component {
   constructor(props) {
     super(props);
 
+    // Generate a random number so we can differentiate between radio button groups.
+    this.fieldId = Math.floor(Math.random() * 1000 + 1);
+
     this.state = { selected: 0 };
   }
 
@@ -17,19 +20,30 @@ class RadioButton extends Component {
     const { options } = this.props;
 
     return (
-      <div className="radio-buttons">
-        {options.map((option, index) => (
-          <label className="radio-button" key={option} htmlFor={`radio-${index}`}>
-            <input
-              type="radio"
-              id={`radio-${index}`}
-              checked={selected === index}
-              onChange={() => this.setSelection(index)}
-            />
+      <div className="radio-button-group">
+        {options.map((option, index) => {
+          const isSelected = selected === index;
+          const radioId = `radio-${this.fieldId}-${index}`;
 
-            {option}
-          </label>
-        ))}
+          return (
+            <label
+              className={`radio-button${isSelected ? ' active' : ''}`}
+              key={option}
+              htmlFor={radioId}
+            >
+              <input
+                type="radio"
+                id={radioId}
+                className="radio-button-input"
+                checked={isSelected}
+                onChange={() => this.setSelection(index)}
+              />
+
+              {isSelected && <span className="radio-button-checkmark" />}
+              <span className="radio-button-label">{option}</span>
+            </label>
+          );
+        })}
       </div>
     );
   }

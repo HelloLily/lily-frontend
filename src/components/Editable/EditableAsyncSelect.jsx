@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { get } from 'src/lib/api';
 

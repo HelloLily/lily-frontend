@@ -2,10 +2,11 @@
   "name": "lily-react",
   "version": "1.0.0",
   "dependencies": {
-    "@fortawesome/fontawesome": "^1.1.5",
-    "@fortawesome/fontawesome-free-brands": "^5.0.13",
-    "@fortawesome/fontawesome-free-solid": "^5.0.9",
-    "@fortawesome/react-fontawesome": "^0.0.18",
+    "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
+    "@fortawesome/free-brands-svg-icons": "^5.1.0",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
+    "@fortawesome/pro-solid-svg-icons": "^5.1.0-11",
+    "@fortawesome/react-fontawesome": "^0.1.0-11",
     "classnames": "^2.2.5",
     "date-fns": "^1.29.0",
     "eslint": "^4.19.1",
@@ -24,7 +25,7 @@
     "react-js-pagination": "^3.0.2",
     "react-markdown": "^3.3.0",
     "react-router-dom": "^4.2.2",
-    "react-select": "^2.0.0-beta.6"
+    "react-select": "^2.0.0-beta.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -57,7 +58,10 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx,json,scss}": ["prettier --write", "git add"]
+    "*.{js,jsx,json,scss}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "prettier": {
     "printWidth": 100,

@@ -12,6 +12,7 @@ import Inbox from 'pages/Inbox';
 import AccountForm from 'pages/AccountForm';
 import AccountDetail from 'pages/AccountDetail';
 import AccountList from 'pages/AccountList';
+import ContactForm from 'pages/ContactForm';
 import ContactDetail from 'pages/ContactDetail';
 import ContactList from 'pages/ContactList';
 import CaseDetail from 'pages/CaseDetail';
@@ -81,6 +82,7 @@ class Lily extends Component {
                       <Route path="/accounts/create" component={AccountForm} />
                       <Route path="/accounts/:id" component={AccountDetail} />
                       <Route path="/accounts" component={AccountList} />
+                      <Route path="/contacts/create" component={ContactForm} />
                       <Route path="/contacts/:id" component={ContactDetail} />
                       <Route path="/contacts" component={ContactList} />
                       <Route path="/deals/:id" component={DealDetail} />

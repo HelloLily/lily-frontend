@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import navItems from 'src/config/nav.json';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ObjectLimit from 'components/Billing/ObjectLimit';
 import NavDropdown from './NavDropdown';

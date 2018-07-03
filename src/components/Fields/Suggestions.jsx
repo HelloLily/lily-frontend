@@ -19,7 +19,7 @@ class Suggestions extends Component {
   }
 
   close = () => {
-    console.log('closed');
+    this.props.handleClose(this.props.field);
   };
 
   render() {
@@ -29,25 +29,33 @@ class Suggestions extends Component {
     return (
       <React.Fragment>
         {suggestions.length > 0 && display ? (
-          <div className="form-suggestion">
+          <div className="form-suggestions">
             <div className="form-suggestion-title">
               <div>{`${label} found in existing ${type}`}</div>
 
-              <button className="hl-interface-btn" onClick={this.close}>
+              <button className="hl-interface-btn" onClick={this.close} type="button">
                 <i className="lilicon hl-close-icon" />
               </button>
             </div>
 
             <div className="form-suggestion-items">
               {suggestions.map(suggestion => {
-                const item = suggestion[type];
+                const item = suggestion[type] || suggestion;
+                const simpleDisplay = !suggestion.hasOwnProperty(type);
+                const navLink = (
+                  <NavLink to={`/${model}/${item.id}`}>{item.name || item.fullName}</NavLink>
+                );
 
                 return (
-                  <React.Fragment key={item.id}>
-                    <div className="form-suggestion-item">
-                      <span>{suggestion[field]} is used by </span>
-
-                      <NavLink to={`/${model}/${item.id}`}>{item.name || item.fullName}</NavLink>
+                  <div className="form-suggestion-row" key={item.id}>
+                    <div className="form-suggestion-info">
+                      {simpleDisplay ? (
+                        <React.Fragment>Is this {navLink}?</React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          {suggestion[field]} is used by {navLink}
+                        </React.Fragment>
+                      )}
                     </div>
 
                     <div className="form-suggestion-action">
@@ -59,7 +67,7 @@ class Suggestions extends Component {
                         <button className="hl-primary-btn">Edit {type}</button>
                       )}
                     </div>
-                  </React.Fragment>
+                  </div>
                 );
               })}
             </div>

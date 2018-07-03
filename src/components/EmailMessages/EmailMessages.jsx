@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE } from 'lib/constants';
 import List from 'components/List';

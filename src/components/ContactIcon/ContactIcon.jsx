@@ -1,5 +1,5 @@
 import React from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT } from 'lib/constants';
 
@@ -23,11 +23,7 @@ const ContactIcon = props => {
       break;
   }
 
-  return (
-    <React.Fragment>
-      {icon}
-    </React.Fragment>
-  );
+  return <React.Fragment>{icon}</React.Fragment>;
 };
 
 export default ContactIcon;

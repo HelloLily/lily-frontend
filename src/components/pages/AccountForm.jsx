@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import Select from 'react-select';
@@ -35,9 +35,9 @@ class InnerAccountForm extends Component {
 
     this.state = {
       accountStatuses: [],
-      accountSuggestions: { name: [], email: [], phone: [] },
-      contactSuggestions: { name: [], email: [], phone: [] },
-      showSuggestions: { name: true, email: true, phone: true }
+      accountSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
+      contactSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
+      showSuggestions: { name: true, emailAddress: true, phoneNumber: true }
     };
   }
 
@@ -147,12 +147,9 @@ class InnerAccountForm extends Component {
 
       // TODO: Change this to new way of searching.
       const response = await Account.search(filterquery);
-      const exists = accountSuggestions.name.some(
-        suggestion => suggestion.account.id === response.data.id
-      );
 
-      if (!exists && response.hits.length > 0) {
-        accountSuggestions.name.push({ name, account: response.hits[0] });
+      if (response.hits.length > 0) {
+        accountSuggestions.name = response.hits;
       }
 
       showSuggestions.name = true;
@@ -170,25 +167,25 @@ class InnerAccountForm extends Component {
       const { type } = response;
 
       if (type === 'account') {
-        const exists = accountSuggestions.email.some(
+        const exists = accountSuggestions.emailAddress.some(
           suggestion => suggestion.account.id === response.data.id
         );
 
         if (!exists) {
-          accountSuggestions.email.push({ emailAddress, account: response.data });
+          accountSuggestions.emailAddress.push({ emailAddress, account: response.data });
         }
 
-        showSuggestions.email = true;
+        showSuggestions.emailAddress = true;
       } else if (type === 'contact') {
-        const exists = contactSuggestions.email.some(
+        const exists = contactSuggestions.emailAddress.some(
           suggestion => suggestion.contact.id === response.data.id
         );
 
         if (!exists) {
-          contactSuggestions.email.push({ emailAddress, contact: response.data });
+          contactSuggestions.emailAddress.push({ emailAddress, contact: response.data });
         }
 
-        showSuggestions.email = true;
+        showSuggestions.emailAddress = true;
       }
     }
 
@@ -204,26 +201,26 @@ class InnerAccountForm extends Component {
 
       if (response.data.account) {
         const { account } = response.data;
-        const exists = accountSuggestions.phone.some(
+        const exists = accountSuggestions.phoneNumber.some(
           suggestion => suggestion.account.id === account.id
         );
 
         if (!exists) {
-          accountSuggestions.phone.push({ phoneNumber, account });
+          accountSuggestions.phoneNumber.push({ phoneNumber, account });
         }
 
-        showSuggestions.phone = true;
+        showSuggestions.phoneNumber = true;
       } else if (response.data.contact) {
         const { contact } = response.data;
-        const exists = contactSuggestions.phone.some(
+        const exists = contactSuggestions.phoneNumber.some(
           suggestion => suggestion.contact.id === contact.id
         );
 
         if (!exists) {
-          contactSuggestions.phone.push({ phoneNumber, contact });
+          contactSuggestions.phoneNumber.push({ phoneNumber, contact });
         }
 
-        showSuggestions.phone = true;
+        showSuggestions.phoneNumber = true;
       }
 
       this.setState({ accountSuggestions, contactSuggestions, showSuggestions });
@@ -329,6 +326,7 @@ class InnerAccountForm extends Component {
                     suggestions={accountSuggestions.name}
                     display={showSuggestions.name}
                     handleMerge={this.merge}
+                    handleClose={this.handleClose}
                   />
 
                   <div className="form-field">
@@ -403,16 +401,18 @@ class InnerAccountForm extends Component {
                   <Suggestions
                     field="emailAddress"
                     type="account"
-                    suggestions={accountSuggestions.email}
-                    display={showSuggestions.email}
+                    suggestions={accountSuggestions.emailAddress}
+                    display={showSuggestions.emailAddress}
                     handleMerge={this.merge}
+                    handleClose={this.handleClose}
                   />
 
                   <Suggestions
                     field="emailAddress"
                     type="contact"
-                    suggestions={contactSuggestions.email}
-                    display={showSuggestions.email}
+                    suggestions={contactSuggestions.emailAddress}
+                    display={showSuggestions.emailAddress}
+                    handleClose={this.handleClose}
                   />
 
                   <div className="form-field">
@@ -429,16 +429,18 @@ class InnerAccountForm extends Component {
                   <Suggestions
                     field="phoneNumber"
                     type="account"
-                    suggestions={accountSuggestions.phone}
-                    display={showSuggestions.phone}
+                    suggestions={accountSuggestions.phoneNumber}
+                    display={showSuggestions.phoneNumber}
                     handleMerge={this.merge}
+                    handleClose={this.handleClose}
                   />
 
                   <Suggestions
                     field="phoneNumber"
                     type="contact"
-                    suggestions={contactSuggestions.phone}
-                    display={showSuggestions.phone}
+                    suggestions={contactSuggestions.phoneNumber}
+                    display={showSuggestions.phoneNumber}
+                    handleClose={this.handleClose}
                   />
 
                   <div className="form-field">
@@ -470,13 +472,19 @@ class InnerAccountForm extends Component {
                 <FormSection header="Social">
                   <div className="form-field">
                     <label htmlFor="twitter">Twitter</label>
-                    <input
-                      id="twitter"
-                      placeholder="Twitter"
-                      type="text"
-                      value={values.socialMedia[0].username}
-                      onChange={this.handleSocialMedia}
-                    />
+
+                    <div className="input-addon">
+                      <div className="input-addon-icon">
+                        <FontAwesomeIcon icon={['fab', 'twitter']} />
+                      </div>
+                      <input
+                        id="twitter"
+                        placeholder="Twitter"
+                        type="text"
+                        value={values.socialMedia[0].username}
+                        onChange={this.handleSocialMedia}
+                      />
+                    </div>
                   </div>
                 </FormSection>
 
