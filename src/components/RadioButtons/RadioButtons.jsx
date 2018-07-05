@@ -39,8 +39,11 @@ class RadioButton extends Component {
                 onChange={() => this.setSelection(index)}
               />
 
-              {isSelected && <span className="radio-button-checkmark" />}
-              <span className="radio-button-label">{option}</span>
+              <span className="radio-button-label">
+                {isSelected && <span className="radio-button-checkmark" />}
+
+                {option}
+              </span>
             </label>
           );
         })}
