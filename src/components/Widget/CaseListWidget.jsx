@@ -8,7 +8,7 @@ import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
 import Case from 'models/Case';
 
-class CaseListContentBlock extends Component {
+class CaseListWidget extends Component {
   constructor(props) {
     super(props);
 

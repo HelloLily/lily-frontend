@@ -78,4 +78,9 @@ $sides: (top, bottom, left, right);
 
 .text-muted {
   color: $text-muted;
+  font-weight: normal;
+
+  &.small {
+    font-size: 0.85em;
+  }
 }

@@ -15,10 +15,12 @@ import AccountList from 'pages/AccountList';
 import ContactForm from 'pages/ContactForm';
 import ContactDetail from 'pages/ContactDetail';
 import ContactList from 'pages/ContactList';
-import CaseDetail from 'pages/CaseDetail';
-import CaseList from 'pages/CaseList';
+import DealForm from 'pages/DealForm';
 import DealDetail from 'pages/DealDetail';
 import DealList from 'pages/DealList';
+import CaseForm from 'pages/CaseForm';
+import CaseDetail from 'pages/CaseDetail';
+import CaseList from 'pages/CaseList';
 import NotFound from 'pages/NotFound';
 import './icons';
 // import history from '../../utils/history';
@@ -85,8 +87,10 @@ class Lily extends Component {
                       <Route path="/contacts/create" component={ContactForm} />
                       <Route path="/contacts/:id" component={ContactDetail} />
                       <Route path="/contacts" component={ContactList} />
+                      <Route path="/deals/create" component={DealForm} />
                       <Route path="/deals/:id" component={DealDetail} />
                       <Route path="/deals" component={DealList} />
+                      <Route path="/cases/create" component={CaseForm} />
                       <Route path="/cases/:id" component={CaseDetail} />
                       <Route path="/cases" component={CaseList} />
                       <Route path="/" component={Dashboard} />

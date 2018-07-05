@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const ContactDetailContentBlock = props => {
+const ContactDetailWidget = props => {
   const { contact, submitCallback, clickable } = props;
 
   const title = (

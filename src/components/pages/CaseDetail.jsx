@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
-import AccountDetailContentBlock from 'components/ContentBlock/AccountDetailWidget';
+import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
@@ -20,7 +20,7 @@ class CaseDetail extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
     const caseObj = await Case.get(id);
-    const statusRequest = await Case.getStatuses();
+    const statusRequest = await Case.statuses();
 
     if (caseObj.account) {
       caseObj.account = await Account.get(caseObj.account.id);
@@ -62,12 +62,6 @@ class CaseDetail extends Component {
 
       this.setState({ caseObj });
     });
-  };
-
-  updateModel = (data, field) => {
-    const { caseObj } = this.state;
-
-    const args = {};
   };
 
   submitCallback = args => Case.patch(args);
@@ -174,10 +168,7 @@ class CaseDetail extends Component {
                 </div>
               </ContentBlock>
 
-              <AccountDetailContentBlock
-                account={caseObj.account}
-                submitCallback={this.submitCallback}
-              />
+              <AccountDetailWidget account={caseObj.account} submitCallback={this.submitCallback} />
             </div>
 
             <div className="grid-column-2">

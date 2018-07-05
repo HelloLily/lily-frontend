@@ -57,7 +57,7 @@ class InnerAccountForm extends Component {
     // TODO: Actual user should be used here.
     const user = { country: 'NL' };
     const { values } = this.props;
-    const data = await Account.getDataproviderInfo(values.primaryWebsite);
+    const data = await Account.dataproviderInfo(values.primaryWebsite);
 
     // Filter out empty items (default form values).
     const emailAddresses = values.emailAddresses.filter(emailAddress => emailAddress.email_address);
@@ -358,7 +358,7 @@ class InnerAccountForm extends Component {
                       classNamePrefix="editable-input"
                       value={values.status}
                       styles={SELECT_STYLES}
-                      onChange={handleChange}
+                      onChange={value => this.props.setFieldValue('status', value)}
                       options={accountStatuses}
                       getOptionLabel={option => option.name}
                       getOptionValue={option => option.name}

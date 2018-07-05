@@ -29,7 +29,7 @@ class Account {
     return response;
   }
 
-  getDataproviderInfo(url) {
+  dataproviderInfo(url) {
     const response = post('/provide/dataprovider/', { url });
 
     return response;

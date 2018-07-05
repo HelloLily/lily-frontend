@@ -23,8 +23,38 @@ class Deal {
     return response;
   }
 
-  getStatuses() {
+  statuses() {
     const response = get('/deals/statuses/');
+
+    return response;
+  }
+
+  nextSteps() {
+    const response = get('/deals/next-steps/');
+
+    return response;
+  }
+
+  foundThrough() {
+    const response = get('/deals/found-through/');
+
+    return response;
+  }
+
+  contactedBy() {
+    const response = get('/deals/contacted-by/');
+
+    return response;
+  }
+
+  whyCustomer() {
+    const response = get('/deals/why-customer/');
+
+    return response;
+  }
+
+  whyLost() {
+    const response = get('/deals/why-lost/');
 
     return response;
   }

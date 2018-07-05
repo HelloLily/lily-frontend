@@ -5,6 +5,10 @@ class User {
     return get(`/users/${id}/`);
   }
 
+  me() {
+    return get(`/users/me/`);
+  }
+
   patch(data) {
     return patch(`/users/${data.id}/`, data);
   }

@@ -142,3 +142,52 @@ label {
     background: $lily-white-tone-hover;
   }
 }
+
+.case-priority-buttons {
+  border-radius: $base-border-radius;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+
+  .hl-primary-btn {
+    text-transform: unset;
+    position: relative;
+    border-radius: $base-border-radius;
+    text-align: left;
+
+    &:before {
+      content: '';
+      width: 6px;
+      position: absolute;
+      border-radius: $base-border-radius 0 0 $base-border-radius;
+      top: -1px;
+      bottom: -2px;
+      left: -1px;
+    }
+
+    &.low-priority {
+      &:before {
+        background: $low-prio-color;
+      }
+    }
+
+    &.medium-priority {
+      &:before {
+        background: $medium-prio-color;
+      }
+    }
+
+    &.high-priority {
+      &:before {
+        background: $high-prio-color;
+      }
+    }
+
+    &.critical-priority {
+      &:before {
+        background: $critical-prio-color;
+      }
+    }
+  }
+}

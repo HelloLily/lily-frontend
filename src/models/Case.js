@@ -39,19 +39,23 @@ class Case {
     return response;
   }
 
-  getCaseTypes() {
+  caseTypes() {
     const response = get('/cases/types/');
 
     return response;
   }
 
-  getStatuses() {
+  statuses() {
     const response = get('/cases/statuses/');
 
     return response;
   }
 
-  updateModel(data, field) {}
+  priorities() {
+    const response = get('/cases/priorities/');
+
+    return response;
+  }
 }
 
 export default new Case();

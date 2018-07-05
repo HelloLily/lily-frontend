@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import AccountDetailContentBlock from 'components/ContentBlock/AccountDetailWidget';
-import DealListContentBlock from 'components/ContentBlock/DealListWidget';
-import CaseListContentBlock from 'components/ContentBlock/CaseListWidget';
-import ContactListContentBlock from 'components/ContentBlock/ContactListWidget';
+import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
+import DealListWidget from 'components/ContentBlock/DealListWidget';
+import CaseListWidget from 'components/ContentBlock/CaseListWidget';
+import ContactListWidget from 'components/ContentBlock/ContactListWidget';
 import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
 
@@ -30,15 +30,15 @@ class AccountDetail extends Component {
       <React.Fragment>
         {account ? (
           <div className="detail-page">
-            <AccountDetailContentBlock account={account} submitCallback={this.submitCallback} />
+            <AccountDetailWidget account={account} submitCallback={this.submitCallback} />
 
-            <DealListContentBlock object={account} submitCallback={this.submitCallback} />
+            <DealListWidget object={account} submitCallback={this.submitCallback} />
 
-            <CaseListContentBlock object={account} submitCallback={this.submitCallback} />
+            <CaseListWidget object={account} submitCallback={this.submitCallback} />
 
             <ActivityStream object={account} />
 
-            <ContactListContentBlock object={account} />
+            <ContactListWidget object={account} />
           </div>
         ) : (
           <div>Loading</div>

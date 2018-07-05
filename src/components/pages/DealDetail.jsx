@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
-import AccountDetailContentBlock from 'components/ContentBlock/AccountDetailWidget';
-import ContactDetailContentBlock from 'components/ContentBlock/ContactDetailWidget';
+import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
+import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
@@ -21,7 +21,7 @@ class DealDetail extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
     const deal = await Deal.get(id);
-    const statusRequest = await Deal.getStatuses();
+    const statusRequest = await Deal.statuses();
 
     if (deal.account) {
       deal.account = await Account.get(deal.account.id);
