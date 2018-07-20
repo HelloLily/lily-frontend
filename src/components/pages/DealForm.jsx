@@ -589,7 +589,6 @@ const DealForm = withRouter(
           props.history.push(`/deals/${response.id}`);
         })
         .catch(errors => {
-          console.log(errors.data);
           setErrors(errors.data);
           setSubmitting(false);
         });

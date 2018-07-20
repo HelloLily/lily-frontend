@@ -123,9 +123,15 @@ $large-button-size: 31px;
     mix-blend-mode: difference;
     text-decoration: none;
   }
+
+  &.larger {
+    font-size: initial;
+  }
 }
 
 .hl-btn-group {
+  display: inline-block;
+
   .hl-primary-btn {
     border-left-width: 0;
     border-radius: 0;

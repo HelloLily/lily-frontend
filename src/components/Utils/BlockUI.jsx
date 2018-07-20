@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
 class BlockUI extends Component {
-  static getDerivedStateFromProps = nextProps => ({ blocking: nextProps.blocking });
-
   constructor(props) {
     super(props);
 
@@ -10,6 +8,8 @@ class BlockUI extends Component {
       blocking: false
     };
   }
+
+  static getDerivedStateFromProps = nextProps => ({ blocking: nextProps.blocking });
 
   render() {
     const className = this.state.blocking ? 'block-overlay' : '';

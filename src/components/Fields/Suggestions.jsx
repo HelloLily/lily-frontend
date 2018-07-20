@@ -13,8 +13,6 @@ class Suggestions extends Component {
     // Model is the plural version of the given type.
     const model = `${props.type}s`;
 
-    // ctrl.isSidebar = $scope.$parent.settings.email.sidebar.form;
-
     this.state = { label, model };
   }
 

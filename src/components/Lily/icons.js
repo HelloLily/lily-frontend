@@ -29,8 +29,13 @@ import {
   faTags,
   faMapMarkerAlt,
   faComment,
-  faMagic
+  faMagic,
+  faEye,
+  faEyeSlash,
+  faSyncAlt,
+  faAngleDown
 } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
 import { faExpandAlt } from '@fortawesome/pro-solid-svg-icons';
 
 library.add(
@@ -64,5 +69,10 @@ library.add(
   faMapMarkerAlt,
   faComment,
   faMagic,
+  faEye,
+  faEyeSlash,
+  faSyncAlt,
+  faStarOpen,
+  faAngleDown,
   faExpandAlt
 );

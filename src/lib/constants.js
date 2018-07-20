@@ -80,6 +80,10 @@ export const SELECT_STYLES = {
     lineHeight: '24px',
     padding: '0 4px'
   }),
+  multiValueRemove: base => ({
+    ...base,
+    cursor: 'pointer'
+  }),
   placeholder: base => ({
     ...base,
     color: '#b5b5b5'

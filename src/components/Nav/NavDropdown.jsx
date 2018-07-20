@@ -144,7 +144,7 @@ class NavDropdown extends Component {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FontAwesomeIcon icon="trophy" /> What's new
+                <FontAwesomeIcon icon="trophy" /> {"What's new"}
               </a>
             </li>
 

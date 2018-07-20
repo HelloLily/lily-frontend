@@ -5,8 +5,8 @@
     "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"],
-      "components/*": ["./src/components/*"],
       "pages/*": ["./src/components/pages/*"],
+      "components/*": ["./src/components/*"],
       "models/*": ["./src/models*"],
       "utils/*": ["./src/utils*"],
       "lib/*": ["./src/lib*"]

@@ -73,8 +73,8 @@ module.exports = {
     alias: {
       src: path.resolve(__dirname, 'src/'),
       style: path.resolve(__dirname, 'src/sass/'),
-      components: path.resolve(__dirname, 'src/components/'),
       pages: path.resolve(__dirname, 'src/components/pages/'),
+      components: path.resolve(__dirname, 'src/components/'),
       models: path.resolve(__dirname, 'src/models/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       lib: path.resolve(__dirname, 'src/lib')

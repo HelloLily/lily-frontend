@@ -10,11 +10,31 @@
 
   a {
     color: initial;
+    display: block;
+  }
+
+  td {
+    &:first-of-type {
+      display: flex;
+      justify-content: center;
+    }
+
+    &.navigation-cell {
+      padding: 0;
+
+      a {
+        padding: 10px 12px;
+      }
+    }
   }
 
   .list-header {
     font-size: 18px;
     font-weight: 400;
+
+    &:last-of-type {
+      border-bottom: 2px $inner-border-color solid;
+    }
   }
 }
 
@@ -38,9 +58,16 @@
 
   .email-subject,
   .email-actions,
-  .email-info,
   .email-content {
     padding: 10px 15px;
+  }
+
+  .email-content {
+    iframe {
+      width: 100%;
+      min-height: 1000px;
+      border: none;
+    }
   }
 
   .email-subject,
@@ -52,8 +79,13 @@
     border-bottom: 2px $inner-border-color solid;
   }
 
+  .email-info {
+    padding: 5px 15px 10px 15px;
+  }
+
   .email-info-top {
     display: flex;
+    align-items: center;
 
     .email-sender-email {
       flex-grow: 1;
@@ -64,7 +96,7 @@
     display: flex;
 
     .email-recipients {
-      font-size: 0.90em;
+      font-size: 0.9em;
       color: $text-muted;
       flex-grow: 1;
     }

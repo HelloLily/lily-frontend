@@ -43,6 +43,28 @@ class EmailDetail extends Component {
     this.setState({ plainText: !plainText });
   };
 
+  toggleStarred = () => {
+    const { emailMessage } = this.state;
+    const data = { id: emailMessage.id, starred: !emailMessage.isStarred };
+
+    EmailMessage.star(data).then(response => {
+      emailMessage.isStarred = response.isStarred;
+
+      this.setState({ emailMessage });
+    });
+  };
+
+  archive = () => {
+    const { emailMessage } = this.state;
+    const data = { id: emailMessage.id, starred: !emailMessage.isStarred };
+
+    EmailMessage.star(data).then(response => {
+      emailMessage.isStarred = response.isStarred;
+
+      this.setState({ emailMessage });
+    });
+  };
+
   render() {
     const { emailMessage, recipients, thread, plainText } = this.state;
 
@@ -57,18 +79,16 @@ class EmailDetail extends Component {
                 {recipient.name}
               </NavLink>
 
-              <span> &lt;{recipient.emailAddress}&gt;</span>
+              {` <${recipient.emailAddress}>`}
             </React.Fragment>
           );
         } else {
           element = (
-            <span>
-              {recipient.name} &lt;{recipient.emailAddress}&gt;
-            </span>
+            <React.Fragment>{`${recipient.name} <${recipient.emailAddress}>`}</React.Fragment>
           );
         }
       } else {
-        element = <span>{recipient.emailAddress}</span>;
+        element = recipient.emailAddress;
       }
 
       return <React.Fragment key={recipient.id}>{element}</React.Fragment>;
@@ -83,17 +103,27 @@ class EmailDetail extends Component {
             </div>
 
             <div className="email-actions">
+              <div className="hl-btn-group m-r-10">
+                <button className="hl-primary-btn">
+                  <FontAwesomeIcon icon="reply" /> Reply
+                </button>
+
+                <button className="hl-primary-btn">
+                  <FontAwesomeIcon icon="angle-down" />
+                </button>
+              </div>
+
+              <div className="hl-btn-group m-r-10">
+                <button className="hl-primary-btn">
+                  <FontAwesomeIcon icon="archive" /> Archive
+                </button>
+                <button className="hl-primary-btn">
+                  <i className="lilicon hl-trashcan-icon" /> Delete
+                </button>
+              </div>
+
               <button className="hl-primary-btn">
-                <FontAwesomeIcon icon="reply" /> Reply
-              </button>
-              <button className="hl-primary-btn">
-                <FontAwesomeIcon icon="archive" /> Archive
-              </button>
-              <button className="hl-primary-btn">
-                <i className="lilicon hl-trashcan-icon" /> Delete
-              </button>
-              <button className="hl-primary-btn">
-                <FontAwesomeIcon icon="folder" /> Move to
+                <FontAwesomeIcon icon="folder" /> Move to <FontAwesomeIcon icon="angle-down" />
               </button>
             </div>
 
@@ -104,7 +134,14 @@ class EmailDetail extends Component {
                   &lt;{emailMessage.sender.emailAddress}&gt;
                 </span>
 
-                <FontAwesomeIcon icon="star" className="yellow" />
+                <button className="hl-interface-btn larger" onClick={this.toggleStarred}>
+                  {emailMessage.isStarred ? (
+                    <FontAwesomeIcon icon="star" className="yellow" />
+                  ) : (
+                    <FontAwesomeIcon icon={['far', 'star']} />
+                  )}
+                </button>
+
                 <LilyDate date={emailMessage.sentDate} />
               </div>
 
@@ -130,7 +167,7 @@ class EmailDetail extends Component {
               {plainText ? (
                 <div>{emailMessage.bodyText}</div>
               ) : (
-                <div dangerouslySetInnerHTML={{ __html: emailMessage.bodyHtml }} />
+                <iframe srcDoc={emailMessage.bodyHtml} title="Email message" />
               )}
             </div>
           </div>

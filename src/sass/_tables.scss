@@ -20,6 +20,12 @@
     padding: 8px 12px;
   }
 
+  &.compact {
+    td {
+      padding: 2px 12px;
+    }
+  }
+
   tbody {
     tr {
       border-bottom: 1px $inner-border-color solid;
@@ -41,7 +47,7 @@
       background: #eaffe9;
 
       &:hover {
-          background: #e7f9e6;
+        background: #e7f9e6;
       }
 
       td {

@@ -1,4 +1,4 @@
-import { get, post, patch, del } from 'src/lib/api';
+import { get, post, put, patch, del } from 'src/lib/api';
 
 class EmailMessage {
   get(id) {
@@ -19,7 +19,8 @@ class EmailMessage {
 
   query() {
     // TODO: Temporary until there's a proper email message API.
-    const url = '/search/search/?filterquery=&size=20&sort=-sent_date&type=email_emailmessage&user_email_related=1&key=superuser1';
+    const url =
+      '/search/search/?filterquery=&size=20&sort=-sent_date&type=email_emailmessage&user_email_related=1&key=superuser1';
 
     const response = get(url);
 
@@ -47,6 +48,46 @@ class EmailMessage {
     const url = `/messaging/email/email/${id}/thread/`;
 
     const response = get(url);
+
+    return response;
+  }
+
+  star(data) {
+    const url = `/messaging/email/email/${data.id}/star/`;
+
+    const response = patch(url, data);
+
+    return response;
+  }
+
+  archive(data) {
+    const url = `/messaging/email/email/${data.id}/archive/`;
+
+    const response = patch(url, data);
+
+    return response;
+  }
+
+  trash(data) {
+    const url = `/messaging/email/email/${data.id}/trash/`;
+
+    const response = put(url, data);
+
+    return response;
+  }
+
+  move(data) {
+    const url = `/messaging/email/email/${data.id}/move/`;
+
+    const response = patch(url, data);
+
+    return response;
+  }
+
+  extract(data) {
+    const url = `/messaging/email/email/${data.id}/extract/`;
+
+    const response = post(url, data);
 
     return response;
   }

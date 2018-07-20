@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import getColorCode from 'utils/getColorCode';
 import EmailAccount from 'models/EmailAccount';
+import Settings from 'models/Settings';
 import EmailCompose from 'pages/EmailCompose';
 import EmailDetail from 'pages/EmailDetail';
 import EmailAccounts from 'components/EmailAccounts';
@@ -12,6 +14,8 @@ class Inbox extends Component {
   constructor(props) {
     super(props);
 
+    this.settings = new Settings('inbox');
+
     this.state = { loading: true, label: null };
   }
 
@@ -20,6 +24,12 @@ class Inbox extends Component {
     const colorCodes = {};
     // TODO: Fetch settings for label.
     const labelSettings = {};
+
+    const settingsRequest = await this.settings.get();
+
+    const settings = { ...settingsRequest.results };
+
+    let initialAccount = null;
 
     const accountRequest = await EmailAccount.mine();
     // TODO: This should be accountRequest.results once the API is changed.`
@@ -72,12 +82,18 @@ class Inbox extends Component {
 
       emailAccount.labels = labelList;
 
+      if (emailAccount.id === settings.emailAccount) {
+        initialAccount = emailAccount;
+      }
+
       return emailAccount;
     });
 
     // TODO: Load previous label from database.
     this.setState({
+      ...settings,
       colorCodes,
+      emailAccount: initialAccount,
       emailAccounts,
       loading: false
     });
@@ -118,7 +134,19 @@ class Inbox extends Component {
   };
 
   setInbox = (emailAccount, label) => {
-    this.setState({ emailAccount, label });
+    const data = {
+      emailAccount: emailAccount ? emailAccount.id : null,
+      label: {
+        id: label.id || null,
+        labelId: label.labelId,
+        name: label.name
+      }
+    };
+
+    this.settings.store(data).then(() => {
+      this.setState({ emailAccount, label });
+      this.props.history.push('/email');
+    });
   };
 
   render() {
@@ -133,7 +161,12 @@ class Inbox extends Component {
                 <i className="lilicon hl-email-icon m-r-5" /> Compose
               </button>
 
-              <EmailAccounts emailAccounts={emailAccounts} setInbox={this.setInbox} />
+              <EmailAccounts
+                emailAccount={emailAccount}
+                emailAccounts={emailAccounts}
+                label={label}
+                setInbox={this.setInbox}
+              />
             </div>
 
             <div className="w-100">
@@ -155,7 +188,14 @@ class Inbox extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <span>Loading</span>
+          <div className="inbox-loading">
+            <div className="loading-header m-l-10">
+              Loading your inbox
+              <div className="text-center m-t-10">
+                <FontAwesomeIcon icon="spinner" spin />
+              </div>
+            </div>
+          </div>
         )}
       </div>
     );

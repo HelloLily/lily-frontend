@@ -130,6 +130,21 @@ textarea {
   display: flex;
 }
 
+.inbox-loading {
+  width: 100%;
+  height: 750px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-header {
+  font-size: 1.5em;
+  font-weight: 400;
+  color: $app-color-darkblue;
+}
+
 .detail-page {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

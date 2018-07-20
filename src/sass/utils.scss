@@ -4,7 +4,7 @@
 $spaceamounts: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100);
 $sides: (top, bottom, left, right);
 
-// We put theses classes on the app ID to ensure precedence over other styling.
+// We put theses classes on the main content's ID to ensure precedence over other styling.
 #app {
   @each $space in $spaceamounts {
     @each $side in $sides {
@@ -24,63 +24,67 @@ $sides: (top, bottom, left, right);
       width: percentage($space / 100);
     }
   }
-}
 
-.float-left {
-  float: left;
-}
-
-.float-right {
-  float: right;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.no-background {
-  background: none;
-}
-
-.no-border {
-  border: 0;
-}
-
-.is-disabled {
-  pointer-events: none;
-  opacity: 0.35;
-
-  :first-child {
-    pointer-events: none;
+  .float-left {
+    float: left;
   }
-}
 
-.text-capitalize {
-  text-transform: capitalize;
-}
+  .float-right {
+    float: right;
+  }
 
-.display-flex {
-  display: flex;
-  align-items: center;
-}
+  .clickable {
+    cursor: pointer;
+  }
 
-.flex-grow {
-  flex-grow: 1;
-}
+  .no-background {
+    background: none;
+  }
 
-.space-between {
-  justify-content: space-between;
-}
+  .no-border {
+    border: 0;
+  }
 
-.grid-column-2 {
-  grid-column-start: 2 span;
-}
+  .is-disabled {
+    pointer-events: none;
+    opacity: 0.35;
 
-.text-muted {
-  color: $text-muted;
-  font-weight: normal;
+    :first-child {
+      pointer-events: none;
+    }
+  }
 
-  &.small {
-    font-size: 0.85em;
+  .text-capitalize {
+    text-transform: capitalize;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .display-flex {
+    display: flex;
+    align-items: center;
+  }
+
+  .flex-grow {
+    flex-grow: 1;
+  }
+
+  .space-between {
+    justify-content: space-between;
+  }
+
+  .grid-column-2 {
+    grid-column-start: 2 span;
+  }
+
+  .text-muted {
+    color: $text-muted;
+    font-weight: normal;
+
+    &.small {
+      font-size: 0.85em;
+    }
   }
 }
