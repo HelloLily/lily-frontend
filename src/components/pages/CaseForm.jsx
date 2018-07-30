@@ -263,6 +263,8 @@ class InnerCaseForm extends Component {
                           dateIncrementText = '(today)';
                         }
 
+                        const isSelected = values.priority === priority.id;
+
                         return (
                           <button
                             key={priority.id}
@@ -270,7 +272,20 @@ class InnerCaseForm extends Component {
                             className={`hl-primary-btn ${priority.name.toLowerCase()}-priority`}
                             onClick={() => this.handlePriority(priority)}
                           >
-                            {priority.name}
+                            <label className={`radio-button${isSelected ? ' active' : ''} m-l-5`}>
+                              <input
+                                type="radio"
+                                id={`priority-${priority.id}`}
+                                className="radio-button-input"
+                                checked={isSelected}
+                              />
+
+                              <span className="radio-button-label">
+                                {isSelected && <span className="radio-button-checkmark" />}
+
+                                {priority.name}
+                              </span>
+                            </label>
                             <span className="text-muted small"> {dateIncrementText}</span>
                           </button>
                         );

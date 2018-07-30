@@ -18,6 +18,11 @@
 
   td {
     padding: 8px 12px;
+    line-height: 30px;
+
+    &.indented-cell {
+      padding-left: 50px;
+    }
   }
 
   &.compact {
@@ -28,7 +33,9 @@
 
   tbody {
     tr {
-      border-bottom: 1px $inner-border-color solid;
+      &:not(:last-of-type) {
+        border-bottom: 1px $inner-border-color solid;
+      }
 
       &:hover {
         background-color: $lily-white-tone-hover;
@@ -40,6 +47,11 @@
         td {
           padding: 5px 12px;
         }
+      }
+
+      &.email-template-folder-header {
+        border-top: 1px $inner-border-color solid;
+        border-bottom: 2px $inner-border-color solid;
       }
     }
 

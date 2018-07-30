@@ -22,6 +22,7 @@ import TagField from 'components/Fields/TagField';
 // import Suggestions from 'components/Fields/Suggestions';
 // import Account from 'models/Account';
 // import Contact from 'models/Contact';
+import LilyDatepicker from 'components/Utils/LilyDatePicker';
 import Deal from 'models/Deal';
 import User from 'models/User';
 
@@ -449,6 +450,9 @@ class InnerDealForm extends Component {
                       type="text"
                       value={values.nextStepDate}
                       onChange={handleChange}
+                    />
+                    <LilyDatepicker
+                      onChange={value => this.props.setFieldValue('nextStepDate', value)}
                     />
 
                     {errors.nextStepDate && (

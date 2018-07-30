@@ -72,34 +72,18 @@ class EmailMessages extends Component {
     return status;
   };
 
-  handleSelect = (event, index) => {
-    const { emailMessages, lastSelected } = this.state;
+  getEmailHeader = () => {
+    const { emailAccount, label } = this.props;
 
-    // Set the last selected item.
-    this.setState({ lastSelected: index });
+    // Display the account's email address if there's an account selected.
+    let header = emailAccount ? emailAccount.emailAddress : 'All mailboxes';
 
-    emailMessages[index].checked = !emailMessages[index].checked;
-
-    // Check if someone wants to select multiple items.
-    // If so, we want to (un)check all messages between the last and current selected message.
-    if (event.shiftKey) {
-      if (lastSelected < index) {
-        //  We're going from top to bottom, so increment i.
-        for (let i = lastSelected; i < index; i++) {
-          emailMessages[i].checked = emailMessages[index].checked;
-        }
-      } else {
-        // Going from bottom to top, so decrement i.
-        for (let i = lastSelected; i > index; i--) {
-          emailMessages[i].checked = emailMessages[index].checked;
-        }
-      }
+    // Don't display 'All mail' text when there's no email account selected.
+    if (!(!emailAccount && !label.labelId)) {
+      header += ` - ${label.name}`;
     }
 
-    // It's not possible to reply to multiple messages at the same time.
-    const showReplyActions = emailMessages.filter(message => message.checked).length === 1;
-
-    this.setState({ emailMessages, showReplyActions });
+    return header;
   };
 
   toggleSelectAll = () => {
@@ -146,18 +130,34 @@ class EmailMessages extends Component {
     this.setState({ emailMessages });
   };
 
-  getEmailHeader = () => {
-    const { emailAccount, label } = this.props;
+  handleSelect = (event, index) => {
+    const { emailMessages, lastSelected } = this.state;
 
-    // Display the account's email address if there's an account selected.
-    let header = emailAccount ? emailAccount.emailAddress : 'All mailboxes';
+    // Set the last selected item.
+    this.setState({ lastSelected: index });
 
-    // Don't display 'All mail' text when there's no email account selected.
-    if (!(!emailAccount && !label.labelId)) {
-      header += ` - ${label.name}`;
+    emailMessages[index].checked = !emailMessages[index].checked;
+
+    // Check if someone wants to select multiple items.
+    // If so, we want to (un)check all messages between the last and current selected message.
+    if (event.shiftKey) {
+      if (lastSelected < index) {
+        //  We're going from top to bottom, so increment i.
+        for (let i = lastSelected; i < index; i++) {
+          emailMessages[i].checked = emailMessages[index].checked;
+        }
+      } else {
+        // Going from bottom to top, so decrement i.
+        for (let i = lastSelected; i > index; i--) {
+          emailMessages[i].checked = emailMessages[index].checked;
+        }
+      }
     }
 
-    return header;
+    // It's not possible to reply to multiple messages at the same time.
+    const showReplyActions = emailMessages.filter(message => message.checked).length === 1;
+
+    this.setState({ emailMessages, showReplyActions });
   };
 
   render() {
@@ -168,7 +168,9 @@ class EmailMessages extends Component {
       <BlockUI blocking={loading}>
         <div className="email-messages">
           <List>
-            <div className="list-header">{this.getEmailHeader()}</div>
+            <div className="list-header">
+              <div className="list-title">{this.getEmailHeader()}</div>
+            </div>
 
             <div className="list-header">
               <input

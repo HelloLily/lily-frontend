@@ -119,15 +119,6 @@
   }
 }
 
-.editable-has-buttons {
-  line-height: $default-line-height;
-  height: $default-line-height;
-  border: 1px $lily-grey solid;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right: 0;
-}
-
 .editable-stretched {
   flex-direction: column;
 

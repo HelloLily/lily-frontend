@@ -9,24 +9,19 @@ const FeatureUnavailableMarker = props => {
   const currentTier = 0;
 
   return (
-    <div>
-      {currentTier < tier ?
-        (
-          <div>
-            <span className="is-disabled">
-              {props.children}
-            </span>
+    <React.Fragment>
+      {currentTier < tier ? (
+        <React.Fragment>
+          <span className="is-disabled">{props.children}</span>
 
-            <NavLink to="/preferences/billing" exact className="unavailable-marker m-r-10">
-              Unavailable
-            </NavLink>
-          </div>
-        ) :
-        (
-          <div>{props.children}</div>
-        )
-      }
-    </div>
+          <NavLink to="/preferences/billing" exact className="unavailable-marker m-r-10">
+            Unavailable
+          </NavLink>
+        </React.Fragment>
+      ) : (
+        <div>{props.children}</div>
+      )}
+    </React.Fragment>
   );
 };
 

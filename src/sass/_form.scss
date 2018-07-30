@@ -15,13 +15,18 @@ form {
   }
 
   label {
-    display: block;
     padding-bottom: 0.1rem;
   }
 
-  input,
   textarea {
     width: 100%;
+  }
+
+  input {
+    &[type='text'],
+    &[type='password'] {
+      width: 100%;
+    }
   }
 
   .form-field {
@@ -155,6 +160,10 @@ label {
     position: relative;
     border-radius: $base-border-radius;
     text-align: left;
+
+    .radio-button-label {
+      cursor: pointer;
+    }
 
     &:before {
       content: '';

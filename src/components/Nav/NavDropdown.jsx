@@ -49,26 +49,26 @@ class NavDropdown extends Component {
             }}
           >
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/profile" exact>
                 <i className="lilicon hl-entity-icon" /> My profile
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/account" exact>
                 <i className="lilicon hl-cog-icon" /> My account
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/security" exact>
                 <FontAwesomeIcon icon="lock" /> Security
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
               <FeatureUnavailableMarker tier="2">
-                <NavLink to="/" exact>
+                <NavLink to="/preferences/token" exact>
                   <FontAwesomeIcon icon="key" /> My API token
                 </NavLink>
               </FeatureUnavailableMarker>
@@ -76,7 +76,7 @@ class NavDropdown extends Component {
 
             <li className="dropdown-menu-item">
               <FeatureUnavailableMarker tier="2">
-                <NavLink to="/" exact>
+                <NavLink to="/preferences/webhook" exact>
                   <FontAwesomeIcon icon="rocket" /> My webhook
                 </NavLink>
               </FeatureUnavailableMarker>
@@ -85,19 +85,19 @@ class NavDropdown extends Component {
             <div className="divider" />
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/emailaccounts" exact>
                 <i className="lilicon hl-email-icon" /> Email accounts
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/emailtemplates" exact>
                 <FontAwesomeIcon icon="envelope-open" /> Email templates
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/templatevariables" exact>
                 <FontAwesomeIcon icon="code" /> Template variables
               </NavLink>
             </li>
@@ -105,33 +105,33 @@ class NavDropdown extends Component {
             <div className="divider" />
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/users" exact>
                 <i className="lilicon hl-entities-icon" /> Users
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
               <FeatureUnavailableMarker tier="2">
-                <NavLink to="/" exact>
+                <NavLink to="/preferences/integrations" exact>
                   <FontAwesomeIcon icon="plug" /> Integrations
                 </NavLink>
               </FeatureUnavailableMarker>
             </li>
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/billing" exact>
                 <FontAwesomeIcon icon="credit-card" /> Billing
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/import" exact>
                 <i className="lilicon hl-entities-icon" /> Import
               </NavLink>
             </li>
 
             <li className="dropdown-menu-item">
-              <NavLink to="/" exact>
+              <NavLink to="/preferences/settings" exact>
                 <i className="lilicon hl-cog-icon" /> Settings
               </NavLink>
             </li>

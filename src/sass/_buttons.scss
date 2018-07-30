@@ -8,6 +8,7 @@ button {
   }
 }
 
+$small-button-size: 21px;
 $large-button-size: 31px;
 
 @mixin hl-button($button-size) {
@@ -62,6 +63,11 @@ $large-button-size: 31px;
   &.round {
     margin: 0;
     border-radius: 50%;
+  }
+
+  &.small {
+    line-height: $small-button-size;
+    padding: 0 ($small-button-size / 4);
   }
 }
 

@@ -9,6 +9,7 @@ import Sidebar from 'components/Sidebar';
 import Dashboard from 'pages/Dashboard';
 import Login from 'pages/Login';
 import Inbox from 'pages/Inbox';
+import Preferences from 'pages/Preferences';
 import AccountForm from 'pages/AccountForm';
 import AccountDetail from 'pages/AccountDetail';
 import AccountList from 'pages/AccountList';
@@ -81,6 +82,7 @@ class Lily extends Component {
                   <ErrorBoundry>
                     <Switch>
                       <Route path="/email" component={Inbox} />
+                      <Route path="/preferences/*" component={Preferences} />
                       <Route path="/accounts/create" component={AccountForm} />
                       <Route path="/accounts/:id" component={AccountDetail} />
                       <Route path="/accounts" component={AccountList} />

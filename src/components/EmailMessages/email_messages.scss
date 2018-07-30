@@ -29,9 +29,6 @@
   }
 
   .list-header {
-    font-size: 18px;
-    font-weight: 400;
-
     &:last-of-type {
       border-bottom: 2px $inner-border-color solid;
     }
@@ -50,6 +47,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 20px;
 }
 
 .email-detail {

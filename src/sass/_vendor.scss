@@ -1,51 +1,52 @@
 @import '~style/variables/measurements';
+@import '~style/variables/colors';
+@import '~react-tabs/style/react-tabs.scss';
 
-// .Select {
-//   &.is-focused:not(.is-open) {
-//     .Select-control {
-//         border-color: $base-border-color;
-//         box-shadow: none;
-//     }
-//   }
-// }
+.DayPicker {
+  .DayPicker-Day {
+    padding: 8px 10px;
 
-// .Select-control {
-//   display: flex;
-//   border: 1px $base-border-color solid;
+    &.DayPicker-Day--selected {
+      padding: 4px 5px;
+      background: red;
+    }
+  }
 
-//   .Select-multi-value-wrapper {
-//     flex-grow: 1;
-//   }
+  .DayPicker-Footer {
+    text-align: center;
+  }
+}
 
-//   input {
-//     padding: 0;
-//   }
+.react-tabs {
+  border: 1px $base-border-color solid;
+  border-radius: $base-border-radius;
 
-//   &:hover {
-//     box-shadow: none;
-//   }
-// }
+  .react-tabs__tab-list {
+    background: $lily-grey;
+    border-bottom: 1px solid $base-border-color;
 
-// .Select--single {
-//   .Select-control {
-//     .Select-value {
-//       line-height: $default-line-height;
-//       padding-left: 6px;
-//     }
-//   }
-// }
+    .react-tabs__tab {
+      border: 0;
+      border-right: 1px solid $base-border-color;
+      border-radius: 0;
+      margin-right: 0;
+      padding: 10px 15px;
+      bottom: 0;
+      margin-bottom: -1px;
+      font-weight: 500;
 
-// .Select--multi {
-//   .Select-value {
-//     margin-top: 3px;
-//   }
-// }
+      &:first-of-type {
+        border-top-left-radius: $base-border-radius;
+      }
+    }
+  }
 
-// .Select-control,
-// .Select-input {
-//   height: $default-line-height;
-// }
+  .react-tabs__tab-panel {
+    padding: 15px;
+  }
 
-// .Select-placeholder {
-//   line-height: $default-line-height;
-// }
+  .privacy-more-info {
+    padding: 10px 15px;
+    float: right;
+  }
+}

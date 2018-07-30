@@ -28,7 +28,7 @@ class EmailAccounts extends Component {
       this.state.label && this.state.label.id === label.id ? ' active' : ''
     }`;
     // Construct the label's class with a padding of 15 per depth level.
-    const labelClassName = `label p-l-${15 + label.level * 15}`;
+    const labelClassName = `email-label p-l-${15 + label.level * 15}`;
 
     return (
       <React.Fragment>
@@ -114,7 +114,10 @@ class EmailAccounts extends Component {
                 return (
                   <li key={`default-${label.labelId}`}>
                     <div className={defaultLabelClass}>
-                      <button className="label" onClick={() => this.props.setInbox(null, label)}>
+                      <button
+                        className="email-label"
+                        onClick={() => this.props.setInbox(null, label)}
+                      >
                         {label.name}
                       </button>
                     </div>
@@ -165,7 +168,7 @@ class EmailAccounts extends Component {
                         <li key={`default-${emailAccount.id}-${label.labelId}`}>
                           <div className={defaultLabelClass}>
                             <button
-                              className="label"
+                              className="email-label"
                               onClick={() => this.props.setInbox(emailAccount, label)}
                             >
                               {label.name}
