@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import List from 'components/List';
@@ -83,15 +83,15 @@ class AccountList extends Component {
               {accounts.map(account => (
                 <tr key={account.id}>
                   <td>
-                    <NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink>
+                    <Link to={`/accounts/${account.id}`}>{account.name}</Link>
                   </td>
                   <td>
                     {account.emailAddresses.map(emailAddress => (
                       <div key={emailAddress.id}>
                         {emailAddress.status !== 0 ? (
-                          <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
+                          <Link to={`/email/compose/${emailAddress.emailAddress}`}>
                             <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
-                          </NavLink>
+                          </Link>
                         ) : null}
                       </div>
                     ))}

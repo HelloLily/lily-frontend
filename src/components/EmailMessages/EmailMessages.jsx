@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE } from 'lib/constants';
@@ -252,27 +252,25 @@ class EmailMessages extends Component {
                       <ContactIcon emailMessage={emailMessage} />
                     </td>
                     <td className="navigation-cell">
-                      <NavLink to={`/email/${emailMessage.id}`} exact>
+                      <Link to={`/email/${emailMessage.id}`}>
                         {emailMessage.senderName || emailMessage.senderEmail}
-                      </NavLink>
+                      </Link>
                     </td>
                     {/* <td>{emailMessage.receivedByName && emailMessage.receivedByName.join(', ')}</td>
                     <td>{emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}</td> */}
                     <td className="navigation-cell">
-                      <NavLink to={`/email/${emailMessage.id}`} exact>
+                      <Link to={`/email/${emailMessage.id}`}>
                         {emailMessage.history &&
                           emailMessage.history.repliedWith && <FontAwesomeIcon icon="reply" />}
-                      </NavLink>
+                      </Link>
                     </td>
                     <td className="navigation-cell">
-                      <NavLink to={`/email/${emailMessage.id}`} exact>
+                      <Link to={`/email/${emailMessage.id}`}>
                         {emailMessage.hasAttachment && <i className="lilicon hl-paperclip-icon" />}
-                      </NavLink>
+                      </Link>
                     </td>
                     <td className="navigation-cell">
-                      <NavLink to={`/email/${emailMessage.id}`} exact>
-                        {emailMessage.subject}
-                      </NavLink>
+                      <Link to={`/email/${emailMessage.id}`}>{emailMessage.subject}</Link>
                     </td>
                     <td>
                       <LilyDate date={emailMessage.sentDate} />

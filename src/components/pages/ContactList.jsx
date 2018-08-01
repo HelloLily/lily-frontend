@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { INACTIVE_EMAIL_STATUS } from 'lib/constants';
@@ -44,9 +44,9 @@ class ContactList extends Component {
       <React.Fragment key={account.id}>
         {!contact.primaryEmail &&
           account.primaryEmail && (
-            <NavLink to={`/email/compose/${account.primaryEmail.emailAddress}`}>
+            <Link to={`/email/compose/${account.primaryEmail.emailAddress}`}>
               <i className="lilicon hl-email-icon" /> {account.primaryEmail.emailAddress}
-            </NavLink>
+            </Link>
           )}
         {!contact.phoneNumber &&
           account.phoneNumber && (
@@ -92,15 +92,15 @@ class ContactList extends Component {
               {contacts.map(contact => (
                 <tr key={contact.id}>
                   <td>
-                    <NavLink to={`/contacts/${contact.id}`}>{contact.fullName}</NavLink>
+                    <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link>
                   </td>
                   <td>
                     {contact.emailAddresses.map(emailAddress => (
                       <div key={emailAddress.id}>
                         {emailAddress.status !== INACTIVE_EMAIL_STATUS ? (
-                          <NavLink to={`/email/compose/${emailAddress.emailAddress}`}>
+                          <Link to={`/email/compose/${emailAddress.emailAddress}`}>
                             <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
-                          </NavLink>
+                          </Link>
                         ) : null}
                       </div>
                     ))}
@@ -125,7 +125,7 @@ class ContactList extends Component {
                   <td>
                     {contact.functions.map(account => (
                       <div key={account.id}>
-                        <NavLink to={`/accounts/${account.id}`}>{account.accountName}</NavLink>
+                        <Link to={`/accounts/${account.id}`}>{account.accountName}</Link>
                         {!account.isActive && <span> (inactive)</span>}
                       </div>
                     ))}

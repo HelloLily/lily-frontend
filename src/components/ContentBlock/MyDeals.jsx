@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Deal from 'models/Deal';
@@ -62,15 +62,15 @@ class MyDeals extends Component {
           {items[key].map(item => (
             <tr key={item.id} className={newlyAssigned ? 'newly-assigned' : ''}>
               <td>
-                <NavLink to={`/deals/${item.id}`}>{item.name}</NavLink>
+                <Link to={`/deals/${item.id}`}>{item.name}</Link>
               </td>
               <td>
                 {item.contact && (
-                  <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
+                  <Link to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</Link>
                 )}
                 {item.contact && item.account && <span> at </span>}
                 {item.account && (
-                  <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
+                  <Link to={`/accounts/${item.account.id}`}>{item.account.name}</Link>
                 )}
               </td>
               <td>

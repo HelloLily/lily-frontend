@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Deal from 'models/Deal';
 import Editable from 'components/Editable';
@@ -59,15 +59,15 @@ class UnassignedDeals extends Component {
             {items.map(item => (
               <tr key={item.id}>
                 <td>
-                  <NavLink to={`/deals/${item.id}`}>{item.name}</NavLink>
+                  <Link to={`/deals/${item.id}`}>{item.name}</Link>
                 </td>
                 <td>
                   {item.contact && (
-                    <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
+                    <Link to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</Link>
                   )}
                   {item.contact && item.account && <span> at </span>}
                   {item.account && (
-                    <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
+                    <Link to={`/accounts/${item.account.id}`}>{item.account.name}</Link>
                   )}
                 </td>
                 <td>

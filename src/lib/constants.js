@@ -70,6 +70,10 @@ export const SELECT_STYLES = {
     ...base,
     padding: '6px 12px'
   }),
+  menu: base => ({
+    ...base,
+    zIndex: '10'
+  }),
   menuList: base => ({
     ...base,
     paddingTop: '0',

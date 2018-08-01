@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Editable from 'components/Editable';
 import List from 'components/List';
@@ -71,19 +71,15 @@ class CaseList extends Component {
                 <tr key={caseObj.id}>
                   <td>{caseObj.id}</td>
                   <td>
-                    <NavLink to={`/cases/${caseObj.id}`}>{caseObj.subject}</NavLink>
+                    <Link to={`/cases/${caseObj.id}`}>{caseObj.subject}</Link>
                   </td>
                   <td>
                     {caseObj.contact && (
-                      <NavLink to={`/contacts/${caseObj.contact.id}`}>
-                        {caseObj.contact.fullName}
-                      </NavLink>
+                      <Link to={`/contacts/${caseObj.contact.id}`}>{caseObj.contact.fullName}</Link>
                     )}
                     {caseObj.contact && caseObj.account && <span>at</span>}
                     {caseObj.account && (
-                      <NavLink to={`/accounts/${caseObj.account.id}`}>
-                        {caseObj.account.name}
-                      </NavLink>
+                      <Link to={`/accounts/${caseObj.account.id}`}>{caseObj.account.name}</Link>
                     )}
                   </td>
                   <td>{caseObj.type.name}</td>

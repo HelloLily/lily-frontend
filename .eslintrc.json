@@ -14,7 +14,7 @@
   "extends": ["airbnb", "prettier"],
   "plugins": ["react", "import"],
   "rules": {
-    "max-len": ["error", { "code": 120, "tabWidth": 2 }],
+    "max-len": ["error", { "code": 100, "tabWidth": 2 }],
     "arrow-parens": [2, "as-needed"],
     "comma-dangle": ["error", "never"],
     "no-param-reassign": ["error", { "props": false }],
@@ -35,6 +35,14 @@
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/label-has-for": {
       "required": "id"
-    }
+    },
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to", "hrefLeft", "hrefRight"],
+        "aspects": ["noHref", "invalidHref", "preferButton"]
+      }
+    ]
   }
 }

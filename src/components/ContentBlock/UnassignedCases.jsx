@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Case from 'models/Case';
@@ -64,15 +64,15 @@ class UnassignedCases extends Component {
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>
-                  <NavLink to={`/cases/${item.id}`}>{item.subject}</NavLink>
+                  <Link to={`/cases/${item.id}`}>{item.subject}</Link>
                 </td>
                 <td>
                   {item.contact && (
-                    <NavLink to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</NavLink>
+                    <Link to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</Link>
                   )}
                   {item.contact && item.account && <span> at </span>}
                   {item.account && (
-                    <NavLink to={`/accounts/${item.account.id}`}>{item.account.name}</NavLink>
+                    <Link to={`/accounts/${item.account.id}`}>{item.account.name}</Link>
                   )}
                 </td>
                 <td>

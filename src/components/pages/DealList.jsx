@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
@@ -68,15 +68,15 @@ class DealList extends Component {
               {deals.map(deal => (
                 <tr key={deal.id}>
                   <td>
-                    <NavLink to={`/deals/${deal.id}`}>{deal.name}</NavLink>
+                    <Link to={`/deals/${deal.id}`}>{deal.name}</Link>
                   </td>
                   <td>
                     {deal.contact && (
-                      <NavLink to={`/contacts/${deal.contact.id}`}>{deal.contact.fullName}</NavLink>
+                      <Link to={`/contacts/${deal.contact.id}`}>{deal.contact.fullName}</Link>
                     )}
                     {deal.contact && deal.account && ' at '}
                     {deal.account && (
-                      <NavLink to={`/accounts/${deal.account.id}`}>{deal.account.name}</NavLink>
+                      <Link to={`/accounts/${deal.account.id}`}>{deal.account.name}</Link>
                     )}
                   </td>
                   <td>{deal.status.name}</td>

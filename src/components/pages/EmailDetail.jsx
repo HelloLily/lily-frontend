@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import EmailMessage from 'models/EmailMessage';
@@ -75,9 +75,9 @@ class EmailDetail extends Component {
         if (recipient.contactId) {
           element = (
             <React.Fragment>
-              <NavLink to={`/contacts/${recipient.contactId}`} exact>
+              <Link to={`/contacts/${recipient.contactId}`} exact>
                 {recipient.name}
-              </NavLink>
+              </Link>
 
               {` <${recipient.emailAddress}>`}
             </React.Fragment>

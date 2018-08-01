@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
 import { SELECT_STYLES } from 'lib/constants';
@@ -268,9 +268,7 @@ class Editable extends Component {
 
             switch (field) {
               case 'emailAddresses':
-                row = (
-                  <NavLink to={`/email/compose/${item.emailAddress}`}>{item.emailAddress}</NavLink>
-                );
+                row = <Link to={`/email/compose/${item.emailAddress}`}>{item.emailAddress}</Link>;
                 break;
               case 'phoneNumbers':
                 row = <a href={`tel:${item.number}`}>{item.number}</a>;

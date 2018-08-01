@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ContentBlock from 'components/ContentBlock';
@@ -14,7 +14,7 @@ const AccountDetailWidget = props => {
       <div className="content-block-name">
         <i className="lilicon hl-company-icon m-r-5" />
         {clickable &&
-          !account.isDeleted && <NavLink to={`/accounts/${account.id}`}>{account.name}</NavLink>}
+          !account.isDeleted && <Link to={`/accounts/${account.id}`}>{account.name}</Link>}
 
         {(!clickable || account.isDeleted) && <React.Fragment>{account.name}</React.Fragment>}
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ContentBlock from 'components/ContentBlock';
@@ -14,9 +14,7 @@ const ContactDetailWidget = props => {
       <div className="content-block-name">
         <i className="lilicon hl-entity-icon m-r-5" />
         {clickable &&
-          !contact.isDeleted && (
-            <NavLink to={`/contacts/${contact.id}`}>{contact.fullName}</NavLink>
-          )}
+          !contact.isDeleted && <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link>}
 
         {(!clickable || contact.isDeleted) && <React.Fragment>{contact.name}</React.Fragment>}
       </div>
@@ -97,7 +95,7 @@ const ContactDetailWidget = props => {
           >
             {contact.functions.map(account => (
               <div key={account.id}>
-                <NavLink to={`/accounts/${account.id}`}>{account.accountName}</NavLink>
+                <Link to={`/accounts/${account.id}`}>{account.accountName}</Link>
 
                 {!account.isActive && <span> (inactive)</span>}
               </div>

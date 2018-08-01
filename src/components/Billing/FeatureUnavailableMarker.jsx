@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './feature_unavailable.scss';
 
@@ -14,9 +14,9 @@ const FeatureUnavailableMarker = props => {
         <React.Fragment>
           <span className="is-disabled">{props.children}</span>
 
-          <NavLink to="/preferences/billing" exact className="unavailable-marker m-r-10">
+          <Link to="/preferences/billing" className="unavailable-marker m-r-10">
             Unavailable
-          </NavLink>
+          </Link>
         </React.Fragment>
       ) : (
         <div>{props.children}</div>

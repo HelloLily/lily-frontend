@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Suggestions extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class Suggestions extends Component {
                 const item = suggestion[type] || suggestion;
                 const simpleDisplay = !suggestion.hasOwnProperty(type);
                 const navLink = (
-                  <NavLink to={`/${model}/${item.id}`}>{item.name || item.fullName}</NavLink>
+                  <Link to={`/${model}/${item.id}`}>{item.name || item.fullName}</Link>
                 );
 
                 return (

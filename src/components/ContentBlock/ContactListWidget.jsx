@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import ContentBlock from 'components/ContentBlock';
 import BlockUI from 'components/Utils/BlockUI';
@@ -29,11 +29,11 @@ class ContactListWidget extends Component {
           <i className="lilicon hl-entities-icon m-r-5" />
           {!object.contentType || object.contentType.model === 'account' ? (
             <div>
-              Colleagues at <NavLink to={`/accounts/${object.id}`}>{object.name}</NavLink>
+              Colleagues at <Link to={`/accounts/${object.id}`}>{object.name}</Link>
             </div>
           ) : (
             <React.Fragment>
-              <NavLink to={`/contacts/${object.id}/edit`}>Edit</NavLink>
+              <Link to={`/contacts/${object.id}/edit`}>Edit</Link>
               <span className="m-l-5">to link with an account</span>
             </React.Fragment>
           )}
@@ -57,7 +57,7 @@ class ContactListWidget extends Component {
                 <tbody key={item.id}>
                   <tr>
                     <td>
-                      <NavLink to={`/contacts/${item.id}`}>{item.fullName}</NavLink>
+                      <Link to={`/contacts/${item.id}`}>{item.fullName}</Link>
                       {!item.functions.filter(account => account.id === object.id).isActive && (
                         <span> (inactive)</span>
                       )}
@@ -67,17 +67,17 @@ class ContactListWidget extends Component {
                         object.primaryEmail && (
                           <div>
                             <i className="lilicon hl-company-icon m-r-5" />
-                            <NavLink to={`/email/compose/${object.primaryEmail.emailAddress}`}>
+                            <Link to={`/email/compose/${object.primaryEmail.emailAddress}`}>
                               {object.primaryEmail.emailAddress}
-                            </NavLink>
+                            </Link>
                           </div>
                         )}
 
                       {item.primaryEmail && (
                         <div>
-                          <NavLink to={`/email/compose/${item.primaryEmail.emailAddress}`}>
+                          <Link to={`/email/compose/${item.primaryEmail.emailAddress}`}>
                             {item.primaryEmail.emailAddress}
-                          </NavLink>
+                          </Link>
                         </div>
                       )}
 

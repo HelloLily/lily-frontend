@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ContentBlock from 'components/ContentBlock';
@@ -68,7 +68,7 @@ class CaseListWidget extends Component {
                 <tbody key={item.id}>
                   <tr>
                     <td>
-                      <NavLink to={`/cases/${item.id}`}>{item.subject}</NavLink>
+                      <Link to={`/cases/${item.id}`}>{item.subject}</Link>
                     </td>
                     <td>{item.status.name}</td>
                     <td>
