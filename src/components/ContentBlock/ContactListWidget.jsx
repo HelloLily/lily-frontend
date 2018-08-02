@@ -44,7 +44,7 @@ class ContactListWidget extends Component {
     return (
       <div>
         <BlockUI blocking={loading}>
-          <ContentBlock title={title} component="caseListWidget">
+          <ContentBlock title={title} component="contactListWidget">
             <table className="hl-table">
               <thead>
                 <tr>

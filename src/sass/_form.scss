@@ -23,18 +23,15 @@ form {
     width: 100%;
   }
 
-  input {
-    &[type='text'],
-    &[type='password'] {
-      width: 100%;
-    }
-  }
-
   .form-field {
     &:not(:last-of-type) {
       margin-bottom: 20px;
     }
   }
+}
+
+.hl-input {
+  width: 100%;
 }
 
 label {

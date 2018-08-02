@@ -79,7 +79,7 @@ class EditableEmailAddresses extends Component {
                 placeholder="Email address"
               />
 
-              <div className="w-30 m-l-10 m-r-10">
+              <div className="m-l-10 m-r-10">
                 <Select
                   name="status"
                   styles={selectStyles}

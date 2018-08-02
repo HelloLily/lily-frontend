@@ -135,7 +135,7 @@ class EmailTemplateList extends Component {
                   <td colSpan="2">
                     <input
                       type="text"
-                      className="editable-has-buttons"
+                      className="hl-input editable-has-buttons"
                       onChange={this.handleName}
                     />
                     <span className="editable-buttons">

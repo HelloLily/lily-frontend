@@ -6,6 +6,7 @@ import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ActivityStream from 'components/ActivityStream';
+import BlockUI from 'components/Utils/BlockUI';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import Case from 'models/Case';
@@ -14,7 +15,7 @@ class CaseDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { caseObj: null, caseStatuses: [] };
+    this.state = { caseObj: null, caseStatuses: [], loading: true };
   }
 
   async componentDidMount() {
@@ -30,7 +31,7 @@ class CaseDetail extends Component {
       caseObj.contact = await Contact.get(caseObj.contact.id);
     }
 
-    this.setState({ caseObj, caseStatuses: statusRequest.results });
+    this.setState({ caseObj, caseStatuses: statusRequest.results, loading: false });
   }
 
   toggleArchive = () => {
@@ -64,10 +65,16 @@ class CaseDetail extends Component {
     });
   };
 
-  submitCallback = args => Case.patch(args);
+  submitCallback = args => {
+    this.setState({ loading: true });
+
+    return Case.patch(args).then(() => {
+      this.setState({ loading: false });
+    });
+  };
 
   render() {
-    const { caseObj, caseStatuses } = this.state;
+    const { caseObj, caseStatuses, loading } = this.state;
 
     const title = (
       <React.Fragment>
@@ -84,10 +91,15 @@ class CaseDetail extends Component {
         {caseObj ? (
           <div className="detail-page">
             <div>
-              <ContentBlock title={title} component="caseDetailWidget" className="m-b-25">
+              <ContentBlock
+                title={title}
+                component="caseDetailWidget"
+                className="m-b-25"
+                fullHeight
+              >
                 <div className="detail-row">
                   <div>Priority</div>
-                  <div>
+                  <div className="has-editable">
                     <Editable
                       icon
                       type="select"
@@ -100,7 +112,7 @@ class CaseDetail extends Component {
 
                 <div className="detail-row">
                   <div>Type</div>
-                  <div>
+                  <div className="has-editable">
                     <Editable
                       type="select"
                       field="type"
@@ -130,7 +142,7 @@ class CaseDetail extends Component {
 
                 <div className="detail-row">
                   <div>Assigned to</div>
-                  <div>
+                  <div className="has-editable">
                     <Editable
                       async
                       type="select"
@@ -143,7 +155,7 @@ class CaseDetail extends Component {
 
                 <div className="detail-row">
                   <div>Assigned to teams</div>
-                  <div>
+                  <div className="has-editable">
                     <Editable
                       multi
                       type="select"
@@ -156,7 +168,7 @@ class CaseDetail extends Component {
 
                 <div className="detail-row">
                   <div>Tags</div>
-                  <div>
+                  <div className="has-editable">
                     <Editable
                       multi
                       type="tags"
@@ -172,54 +184,56 @@ class CaseDetail extends Component {
             </div>
 
             <div className="grid-column-2">
-              <div className="content-block-container m-b-25">
-                <div className="content-block">
-                  <div className="content-block-header space-between">
-                    <div className={`hl-btn-group${caseObj.isArchived ? ' is-disabled' : ''}`}>
-                      {caseStatuses.map(status => (
-                        <button
-                          key={status.id}
-                          className={`hl-primary-btn${
-                            status.id === caseObj.status.id ? ' selected' : ''
-                          }`}
-                          onClick={() => this.changeStatus(status)}
-                        >
-                          {status.name}
-                        </button>
-                      ))}
-                    </div>
-
-                    <button className="hl-primary-btn" onClick={this.toggleArchive}>
-                      <FontAwesomeIcon icon="archive" />{' '}
-                      {caseObj.isArchived ? 'Unarchive' : 'Archive'}
-                    </button>
-                  </div>
-
-                  <div className="content-block-content">
-                    <div className="display-flex space-between">
-                      <strong>
-                        <Editable
-                          type="text"
-                          object={caseObj}
-                          field="subject"
-                          submitCallback={this.submitCallback}
-                        />
-                      </strong>
-
-                      <div className="text-muted">
-                        <LilyDate date={caseObj.created} format="D MMM. YYYY HH:MM" />
+              <BlockUI blocking={loading}>
+                <div className="content-block-container m-b-25">
+                  <div className="content-block">
+                    <div className="content-block-header space-between">
+                      <div className={`hl-btn-group${caseObj.isArchived ? ' is-disabled' : ''}`}>
+                        {caseStatuses.map(status => (
+                          <button
+                            key={status.id}
+                            className={`hl-primary-btn${
+                              status.id === caseObj.status.id ? ' selected' : ''
+                            }`}
+                            onClick={() => this.changeStatus(status)}
+                          >
+                            {status.name}
+                          </button>
+                        ))}
                       </div>
+
+                      <button className="hl-primary-btn" onClick={this.toggleArchive}>
+                        <FontAwesomeIcon icon="archive" />{' '}
+                        {caseObj.isArchived ? 'Unarchive' : 'Archive'}
+                      </button>
                     </div>
 
-                    <Editable
-                      type="textarea"
-                      object={caseObj}
-                      field="description"
-                      submitCallback={this.submitCallback}
-                    />
+                    <div className="content-block-content">
+                      <div className="display-flex space-between">
+                        <strong>
+                          <Editable
+                            type="text"
+                            object={caseObj}
+                            field="subject"
+                            submitCallback={this.submitCallback}
+                          />
+                        </strong>
+
+                        <div className="text-muted">
+                          <LilyDate date={caseObj.created} format="d MMM. YYYY HH:MM" />
+                        </div>
+                      </div>
+
+                      <Editable
+                        type="textarea"
+                        object={caseObj}
+                        field="description"
+                        submitCallback={this.submitCallback}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </BlockUI>
 
               <ActivityStream object={caseObj} />
             </div>

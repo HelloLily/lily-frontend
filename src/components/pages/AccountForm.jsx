@@ -289,8 +289,9 @@ class InnerAccountForm extends Component {
                     <div className="input-addon">
                       <input
                         id="primaryWebsite"
-                        placeholder="www.example.com"
                         type="text"
+                        className="hl-input"
+                        placeholder="www.example.com"
                         value={values.primaryWebsite}
                         onChange={handleChange}
                       />
@@ -310,8 +311,9 @@ class InnerAccountForm extends Component {
                     </label>
                     <input
                       id="name"
-                      placeholder="Company name"
                       type="text"
+                      className="hl-input"
+                      placeholder="Company name"
                       value={values.name}
                       onChange={handleChange}
                       onBlur={this.searchName}
@@ -344,8 +346,9 @@ class InnerAccountForm extends Component {
                     <label htmlFor="customerId">Customer ID</label>
                     <input
                       id="customerId"
-                      placeholder="Customer ID"
                       type="text"
+                      className="hl-input"
+                      placeholder="Customer ID"
                       value={values.customerId}
                       onChange={this.handleCustomerID}
                     />
@@ -479,8 +482,9 @@ class InnerAccountForm extends Component {
                       </div>
                       <input
                         id="twitter"
-                        placeholder="Twitter"
                         type="text"
+                        className="hl-input"
+                        placeholder="Twitter"
                         value={values.socialMedia[0].username}
                         onChange={this.handleSocialMedia}
                       />

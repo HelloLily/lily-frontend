@@ -36,8 +36,9 @@ class InnerProfileForm extends Component {
                     </label>
                     <input
                       id="firstName"
-                      placeholder="First name"
                       type="text"
+                      className="hl-input"
+                      placeholder="First name"
                       value={values.firstName}
                       onChange={handleChange}
                     />
@@ -51,8 +52,9 @@ class InnerProfileForm extends Component {
                     </label>
                     <input
                       id="lastName"
-                      placeholder="Last name"
                       type="text"
+                      className="hl-input"
+                      placeholder="Last name"
                       value={values.lastName}
                       onChange={handleChange}
                     />
@@ -64,8 +66,9 @@ class InnerProfileForm extends Component {
                     <label htmlFor="position">Position</label>
                     <input
                       id="position"
-                      placeholder="Position"
                       type="text"
+                      className="hl-input"
+                      placeholder="Position"
                       value={values.position}
                       onChange={handleChange}
                     />
@@ -98,8 +101,9 @@ class InnerProfileForm extends Component {
                     </label>
                     <input
                       id="phoneNumber"
-                      placeholder="Phone number"
                       type="text"
+                      className="hl-input"
+                      placeholder="Phone number"
                       value={values.phoneNumber}
                       onChange={handleChange}
                     />
@@ -115,8 +119,9 @@ class InnerProfileForm extends Component {
                     </label>
                     <input
                       id="internalNumber"
-                      placeholder="Internal number"
                       type="text"
+                      className="hl-input"
+                      placeholder="Internal number"
                       value={values.internalNumber}
                       onChange={handleChange}
                     />

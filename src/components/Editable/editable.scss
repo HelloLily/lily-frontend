@@ -10,7 +10,7 @@
 }
 
 .editable-input-wrap {
-  display: inline-flex;
+  display: flex;
   position: relative;
   min-width: 150px;
 
@@ -19,7 +19,8 @@
   }
 
   .hl-primary-btn {
-    line-height: 27px;
+    align-self: flex-start;
+    line-height: 31px;
   }
 }
 
@@ -27,7 +28,7 @@
   border-top-left-radius: $base-border-radius;
   border-bottom-left-radius: $base-border-radius;
   display: inline-block;
-  line-height: $default-line-height - 2px;
+  line-height: $default-line-height + 2;
   position: relative;
   padding: 0 6px;
   border: 1px transparent solid;
@@ -46,7 +47,7 @@
     overflow: hidden;
     font-family: 'lilicon';
     content: $hl-edit-icon;
-    line-height: $default-line-height - 2px;
+    line-height: $default-line-height + 2;
     visibility: hidden;
     width: 0;
     right: 0;
@@ -110,12 +111,18 @@
 
 .editable-input {
   line-height: $default-line-height;
-  border-color: $lily-grey;
+  border-color: $inner-border-color;
   border-radius: $base-border-radius;
   flex: 1;
 
   &:focus {
-    border-color: $lily-grey;
+    outline: none;
+  }
+}
+
+input {
+  &.editable-input {
+    padding: 0 12px;
   }
 }
 
@@ -160,6 +167,7 @@
   height: $default-line-height;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .editable-related-row {

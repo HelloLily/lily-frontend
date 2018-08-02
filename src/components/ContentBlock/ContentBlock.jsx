@@ -75,7 +75,7 @@ class ContentBlock extends Component {
 
   render() {
     const { status, expandHeight, loading, showFade } = this.state;
-    const { className } = this.props;
+    const { className, fullHeight } = this.props;
 
     const containerClass = cx('content-block-container', {
       expanded: status === EXPANDED_WIDTH,
@@ -83,7 +83,8 @@ class ContentBlock extends Component {
     });
 
     const bodyClass = cx('content-block-body', {
-      'expanded-height': expandHeight
+      'expanded-height': expandHeight,
+      'height-100': fullHeight
     });
 
     return (
@@ -111,11 +112,15 @@ class ContentBlock extends Component {
                   {this.props.children}
                 </div>
 
-                {showFade && (
-                  <div className="content-block-scroll-fade clickable" onClick={this.heightToggle}>
-                    <i className={`lilicon hl-toggle-${expandHeight ? 'up' : 'down'}-icon`} />
-                  </div>
-                )}
+                {!fullHeight &&
+                  showFade && (
+                    <div
+                      className="content-block-scroll-fade clickable"
+                      onClick={this.heightToggle}
+                    >
+                      <i className={`lilicon hl-toggle-${expandHeight ? 'up' : 'down'}-icon`} />
+                    </div>
+                  )}
               </React.Fragment>
             )}
           </div>

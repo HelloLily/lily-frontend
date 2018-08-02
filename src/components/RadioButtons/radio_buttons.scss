@@ -5,21 +5,26 @@
   display: inline-block;
   margin: 0;
   padding: 0;
+  border: 1px $inner-border-color solid;
+  border-bottom-width: 2px;
+  border-radius: $base-border-radius;
 
   .radio-button {
     line-height: 31px;
-    border: 1px $base-border-color solid;
-    border-bottom-width: 2px;
     color: $app-color-darkblue;
-    border-left-width: 0;
     background: #fff;
     margin: 0;
     padding: 0 8px;
     display: inline-block;
     position: relative;
+    cursor: pointer;
 
     &:hover {
       color: $app-color-mint;
+    }
+
+    &:not(:first-child) {
+      border-left: 1px $inner-border-color solid;
     }
 
     &:first-child {
@@ -33,6 +38,23 @@
 
     &.active {
       background: $lily-white-tone-hover;
+    }
+
+    &.vertical {
+      display: block;
+      border-left: 0;
+
+      &:not(:first-child) {
+        border-top: 1px $inner-border-color solid;
+      }
+
+      &:first-child {
+        border-radius: $base-border-radius $base-border-radius 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 $base-border-radius $base-border-radius;
+      }
     }
 
     // &.disabled {
@@ -107,6 +129,7 @@
     line-height: 16px;
     position: relative;
     margin-left: 21px;
+    cursor: pointer;
 
     &:after {
       position: absolute;

@@ -262,8 +262,9 @@ class InnerContactForm extends Component {
                       <div className="flex-grow m-r-10">
                         <input
                           id="firstName"
-                          placeholder="First name"
                           type="text"
+                          className="hl-input"
+                          placeholder="First name"
                           value={values.firstName}
                           onChange={handleChange}
                           onBlur={this.searchName}
@@ -277,8 +278,9 @@ class InnerContactForm extends Component {
                       <div className="flex-grow">
                         <input
                           id="lastName"
-                          placeholder="Last name"
                           type="text"
+                          className="hl-input"
+                          placeholder="Last name"
                           value={values.lastName}
                           onChange={handleChange}
                           onBlur={this.searchName}
@@ -419,8 +421,9 @@ class InnerContactForm extends Component {
                       </div>
                       <input
                         id="twitter"
-                        placeholder="Twitter"
                         type="text"
+                        className="hl-input"
+                        placeholder="Twitter"
                         value={values.socialMedia[0].username}
                         onChange={this.handleSocialMedia}
                       />
@@ -436,8 +439,9 @@ class InnerContactForm extends Component {
                       </div>
                       <input
                         id="twitter"
-                        placeholder="Twitter"
                         type="text"
+                        className="hl-input"
+                        placeholder="Twitter"
                         value={values.socialMedia[0].username}
                         onChange={this.handleSocialMedia}
                       />

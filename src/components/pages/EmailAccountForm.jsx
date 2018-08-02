@@ -6,6 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import BlockUI from 'components/Utils/BlockUI';
 import UserShare from 'components/UserShare';
+import RadioButtons from 'components/RadioButtons';
 import EmailAccount from 'models/EmailAccount';
 
 class InnerEmailAccountForm extends Component {
@@ -33,6 +34,7 @@ class InnerEmailAccountForm extends Component {
 
   render() {
     const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { shareAdditions } = this.state;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -50,8 +52,9 @@ class InnerEmailAccountForm extends Component {
                   </label>
                   <input
                     id="fromName"
-                    placeholder="From name"
                     type="text"
+                    className="hl-input"
+                    placeholder="From name"
                     value={values.fromName}
                     onChange={handleChange}
                   />
@@ -65,8 +68,9 @@ class InnerEmailAccountForm extends Component {
                   </label>
                   <input
                     id="label"
-                    placeholder="Label"
                     type="text"
+                    className="hl-input"
+                    placeholder="Label"
                     value={values.label}
                     onChange={handleChange}
                   />
@@ -88,7 +92,24 @@ class InnerEmailAccountForm extends Component {
                   {errors.color && <div className="error-message">{errors.color}</div>}
                 </div>
 
+                <div className={`form-field${errors.onlyNew ? ' has-error' : ''}`}>
+                  <label htmlFor="onlyNew">Load all email into Lily?</label>
+
+                  <RadioButtons
+                    vertical
+                    options={[
+                      'Yes, load all email into Lily',
+                      'No, only load email received from now on'
+                    ]}
+                    setSelection={value => this.props.setFieldValue('onlyNew', value)}
+                  />
+
+                  {errors.onlyNew && <div className="error-message">{errors.onlyNew}</div>}
+                </div>
+
                 <div className="m-b-20">
+                  <div className="content-block-name">Share your email</div>
+
                   <Tabs>
                     <TabList>
                       <Tab>Basic</Tab>
@@ -132,15 +153,11 @@ class InnerEmailAccountForm extends Component {
 
                       <div className="privacy-examples">
                         {(values.privacy === EmailAccount.PUBLIC ||
-                          values.privacy === EmailAccount.READONLY) && (
-                          <div>{'Example public'}</div>
-                        )}
+                          values.privacy === EmailAccount.READONLY) && <div>Example public</div>}
 
-                        {values.privacy === EmailAccount.METADATA && (
-                          <div>{'Example metadata'}</div>
-                        )}
+                        {values.privacy === EmailAccount.METADATA && <div>Example metadata</div>}
 
-                        {values.privacy === EmailAccount.PRIVATE && <div>{'Example private'}</div>}
+                        {values.privacy === EmailAccount.PRIVATE && <div>Example private</div>}
                       </div>
                     </TabPanel>
 
@@ -151,6 +168,7 @@ class InnerEmailAccountForm extends Component {
                         handleAdditions={this.handleAdditions}
                         addAdditions={this.addAdditions}
                         emailAccount={values}
+                        shareAdditions={shareAdditions}
                       />
                     </TabPanel>
                   </Tabs>
@@ -195,8 +213,8 @@ const EmailAccountForm = withRouter(
       const request = EmailAccount.patch(values);
 
       request
-        .then(response => {
-          // props.history.push(`/accounts/${response.id}`);
+        .then(() => {
+          props.history.push('/preferences/emailaccounts');
         })
         .catch(errors => {
           setErrors(errors.data);

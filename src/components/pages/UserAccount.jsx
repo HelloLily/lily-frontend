@@ -32,8 +32,9 @@ class InnerUserAccountForm extends Component {
                     <label htmlFor="email">Email address</label>
                     <input
                       id="email"
-                      placeholder="Email address"
                       type="text"
+                      className="hl-input"
+                      placeholder="Email address"
                       value={values.email}
                       onChange={handleChange}
                     />

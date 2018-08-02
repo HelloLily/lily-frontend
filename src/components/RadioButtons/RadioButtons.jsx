@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import cx from 'classnames';
 
-class RadioButton extends Component {
+class RadioButtons extends Component {
   constructor(props) {
     super(props);
 
@@ -17,20 +18,20 @@ class RadioButton extends Component {
 
   render() {
     const { selected } = this.state;
-    const { options } = this.props;
+    const { options, vertical } = this.props;
 
     return (
       <div className="radio-button-group">
         {options.map((option, index) => {
           const isSelected = selected === index;
           const radioId = `radio-${this.fieldId}-${index}`;
+          const className = cx('radio-button', {
+            active: isSelected,
+            vertical: vertical
+          });
 
           return (
-            <label
-              className={`radio-button${isSelected ? ' active' : ''}`}
-              key={option}
-              htmlFor={radioId}
-            >
+            <label className={className} key={option} htmlFor={radioId}>
               <input
                 type="radio"
                 id={radioId}
@@ -52,4 +53,4 @@ class RadioButton extends Component {
   }
 }
 
-export default RadioButton;
+export default RadioButtons;

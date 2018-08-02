@@ -187,8 +187,9 @@ class InnerCaseForm extends Component {
                     </label>
                     <input
                       id="subject"
-                      placeholder="Subject"
                       type="text"
+                      className="hl-input"
+                      placeholder="Subject"
                       value={values.subject}
                       onChange={handleChange}
                       onBlur={this.searchName}
@@ -303,8 +304,9 @@ class InnerCaseForm extends Component {
                     </label>
                     <input
                       id="expires"
-                      placeholder="Expiry date"
                       type="text"
+                      className="hl-input"
+                      placeholder="Expiry date"
                       value={values.expires}
                       onChange={handleChange}
                     />

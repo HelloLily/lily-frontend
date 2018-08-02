@@ -317,8 +317,9 @@ class InnerDealForm extends Component {
                     </label>
                     <input
                       id="name"
-                      placeholder="Name"
                       type="text"
+                      className="hl-input"
+                      placeholder="Name"
                       value={values.name}
                       onChange={handleChange}
                       onBlur={this.searchName}
@@ -344,8 +345,9 @@ class InnerDealForm extends Component {
                     </label>
                     <input
                       id="amountOnce"
-                      placeholder="One-time cost"
                       type="text"
+                      className="hl-input"
+                      placeholder="One-time cost"
                       value={values.amountOnce}
                       onChange={handleChange}
                     />
@@ -359,8 +361,9 @@ class InnerDealForm extends Component {
                     </label>
                     <input
                       id="amountRecurring"
-                      placeholder="Recurring costs"
                       type="text"
+                      className="hl-input"
+                      placeholder="Recurring costs"
                       value={values.amountRecurring}
                       onChange={handleChange}
                     />
@@ -374,8 +377,9 @@ class InnerDealForm extends Component {
                     <label htmlFor="name">Freedom quote ID</label>
                     <input
                       id="quoteId"
-                      placeholder="Freedom quote ID"
                       type="text"
+                      className="hl-input"
+                      placeholder="Freedom quote ID"
                       value={values.quoteId}
                       onChange={handleChange}
                     />
@@ -446,8 +450,9 @@ class InnerDealForm extends Component {
                     <label htmlFor="nextStepDate">Next step date</label>
                     <input
                       id="nextStepDate"
-                      placeholder="Next step date"
                       type="text"
+                      className="hl-input"
+                      placeholder="Next step date"
                       value={values.nextStepDate}
                       onChange={handleChange}
                     />

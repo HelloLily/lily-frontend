@@ -8,13 +8,16 @@
 
     &.DayPicker-Day--selected {
       padding: 4px 5px;
-      background: red;
     }
   }
 
   .DayPicker-Footer {
     text-align: center;
   }
+}
+
+.DayPickerInput {
+  display: block;
 }
 
 .react-tabs {

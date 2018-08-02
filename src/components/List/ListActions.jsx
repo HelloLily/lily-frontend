@@ -6,7 +6,7 @@ const ListActions = props => {
 
   return (
     <div>
-      <Link to={url} exact className="hl-primary-btn no-background no-border">
+      <Link to={url} className="hl-primary-btn no-background no-border">
         <i className="lilicon hl-edit-icon" />
       </Link>
 

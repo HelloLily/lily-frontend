@@ -88,7 +88,7 @@ class PhoneNumberField extends Component {
                 type="text"
                 value={item.number}
                 onChange={event => this.handleChange(event.target.value, index, 'number')}
-                className="editable-input"
+                className="hl-input"
                 placeholder="Phone number"
                 onBlur={() => this.handleBlur(item, index)}
               />

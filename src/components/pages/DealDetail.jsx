@@ -10,12 +10,13 @@ import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import Deal from 'models/Deal';
+import BlockUI from 'src/components/Utils/BlockUI';
 
 class DealDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { deal: null, dealStatuses: [] };
+    this.state = { deal: null, dealStatuses: [], loading: true };
   }
 
   async componentDidMount() {
@@ -31,7 +32,7 @@ class DealDetail extends Component {
       deal.contact = await Contact.get(deal.contact.id);
     }
 
-    this.setState({ deal, dealStatuses: statusRequest.results });
+    this.setState({ deal, dealStatuses: statusRequest.results, loading: false });
   }
 
   toggleArchive = () => {
@@ -71,10 +72,16 @@ class DealDetail extends Component {
     const args = {};
   };
 
-  submitCallback = args => Deal.patch(args);
+  submitCallback = args => {
+    this.setState({ loading: true });
+
+    return Deal.patch(args).then(() => {
+      this.setState({ loading: false });
+    });
+  };
 
   render() {
-    const { deal, dealStatuses } = this.state;
+    const { deal, dealStatuses, loading } = this.state;
 
     const title = (
       <React.Fragment>
@@ -91,7 +98,7 @@ class DealDetail extends Component {
         {deal ? (
           <div className="detail-page">
             <div>
-              <ContentBlock title={title} component="dealDetailWidget">
+              <ContentBlock title={title} component="dealDetailWidget" fullHeight>
                 <div className="detail-row">
                   <div>One-time cost</div>
                   <div>{deal.amountOnce}</div>
@@ -105,7 +112,7 @@ class DealDetail extends Component {
                 {deal.whyLost && (
                   <div className="detail-row">
                     <div>Why lost</div>
-                    <div>
+                    <div className="has-editable">
                       <Editable
                         type="select"
                         field="whyLost"
@@ -129,7 +136,7 @@ class DealDetail extends Component {
                   <React.Fragment>
                     <div className="detail-row">
                       <div>Found through</div>
-                      <div>
+                      <div className="has-editable">
                         <Editable
                           type="select"
                           field="foundThrough"
@@ -141,7 +148,7 @@ class DealDetail extends Component {
 
                     <div className="detail-row">
                       <div>Contacted by</div>
-                      <div>
+                      <div className="has-editable">
                         <Editable
                           type="select"
                           field="contactedBy"
@@ -153,7 +160,7 @@ class DealDetail extends Component {
 
                     <div className="detail-row">
                       <div>Why customer</div>
-                      <div>
+                      <div className="has-editable">
                         <Editable
                           type="select"
                           field="whyCustomer"
@@ -166,10 +173,8 @@ class DealDetail extends Component {
                 )}
 
                 <div className="detail-row">
-                  <div>
-                    <FontAwesomeIcon icon="tags" /> Tags
-                  </div>
-                  <div>
+                  <div>Tags</div>
+                  <div className="has-editable">
                     <Editable
                       multi
                       type="tags"
@@ -193,7 +198,7 @@ class DealDetail extends Component {
                   <div>
                     <div className="detail-row">
                       <div>Assigned to</div>
-                      <div>
+                      <div className="has-editable">
                         <Editable
                           async
                           type="select"
@@ -206,7 +211,7 @@ class DealDetail extends Component {
 
                     <div className="detail-row">
                       <div>Assigned to teams</div>
-                      <div>
+                      <div className="has-editable">
                         <Editable
                           multi
                           type="select"
@@ -223,7 +228,7 @@ class DealDetail extends Component {
                         {deal.createdBy ? deal.createdBy.fullName : 'Unknown'}
 
                         <span>
-                          on <LilyDate date={deal.created} />
+                          {' on '} <LilyDate date={deal.created} />
                         </span>
                       </div>
                     </div>
@@ -231,7 +236,7 @@ class DealDetail extends Component {
                     <div className="detail-row">
                       <div>Last edited</div>
                       <div>
-                        <LilyDate date={deal.modified} format="D MMM. YYYY" />
+                        <LilyDate date={deal.modified} format="d MMM. YYYY" />
                       </div>
                     </div>
                   </div>
@@ -262,74 +267,77 @@ class DealDetail extends Component {
             </div>
 
             <div className="grid-column-2">
-              <div className="content-block-container m-b-25">
-                <div className="content-block">
-                  <div className="content-block-header space-between">
-                    <div className={`hl-btn-group${deal.isArchived ? ' is-disabled' : ''}`}>
-                      {dealStatuses.map(status => (
-                        <button
-                          key={status.id}
-                          className={`hl-primary-btn${
-                            status.id === deal.status.id ? ' selected' : ''
-                          }`}
-                          onClick={() => this.changeStatus(status)}
-                        >
-                          {status.name}
-                        </button>
-                      ))}
+              <BlockUI blocking={loading}>
+                <div className="content-block-container m-b-25">
+                  <div className="content-block">
+                    <div className="content-block-header space-between">
+                      <div className={`hl-btn-group${deal.isArchived ? ' is-disabled' : ''}`}>
+                        {dealStatuses.map(status => (
+                          <button
+                            key={status.id}
+                            className={`hl-primary-btn${
+                              status.id === deal.status.id ? ' selected' : ''
+                            }`}
+                            onClick={() => this.changeStatus(status)}
+                          >
+                            {status.name}
+                          </button>
+                        ))}
+                      </div>
+
+                      <button className="hl-primary-btn" onClick={this.toggleArchive}>
+                        <FontAwesomeIcon icon="archive" />{' '}
+                        {deal.isArchived ? 'Unarchive' : 'Archive'}
+                      </button>
                     </div>
 
-                    <button className="hl-primary-btn" onClick={this.toggleArchive}>
-                      <FontAwesomeIcon icon="archive" /> {deal.isArchived ? 'Unarchive' : 'Archive'}
-                    </button>
-                  </div>
+                    <div className="content-block-header space-between">
+                      <div>
+                        <strong>Next step: </strong>
+                        <Editable
+                          icon
+                          type="select"
+                          field="nextStep"
+                          object={deal}
+                          submitCallback={this.submitCallback}
+                        />
+                      </div>
 
-                  <div className="content-block-header space-between">
-                    <div>
-                      <strong>Next step: </strong>
+                      {deal.nextStepDate &&
+                        deal.nextStep.name !== 'None' && (
+                          <div>
+                            <strong>Next step date: </strong>
+                            <LilyDate date={deal.nextStepDate} />.
+                          </div>
+                        )}
+                    </div>
+
+                    <div className="content-block-content">
+                      <div className="display-flex space-between">
+                        <strong>
+                          <Editable
+                            type="text"
+                            object={deal}
+                            field="name"
+                            submitCallback={this.submitCallback}
+                          />
+                        </strong>
+
+                        <div className="text-muted">
+                          <LilyDate date={deal.created} format="d MMM. YYYY HH:MM" />
+                        </div>
+                      </div>
+
                       <Editable
-                        icon
-                        type="select"
-                        field="nextStep"
+                        type="textarea"
                         object={deal}
+                        field="description"
                         submitCallback={this.submitCallback}
                       />
                     </div>
-
-                    {deal.nextStepDate &&
-                      deal.nextStep.name !== 'None' && (
-                        <div>
-                          <strong>Next step date: </strong>
-                          <LilyDate date={deal.nextStepDate} />.
-                        </div>
-                      )}
-                  </div>
-
-                  <div className="content-block-content">
-                    <div className="display-flex space-between">
-                      <strong>
-                        <Editable
-                          type="text"
-                          object={deal}
-                          field="name"
-                          submitCallback={this.submitCallback}
-                        />
-                      </strong>
-
-                      <div className="text-muted">
-                        <LilyDate date={deal.created} format="D MMM. YYYY HH:MM" />
-                      </div>
-                    </div>
-
-                    <Editable
-                      type="textarea"
-                      object={deal}
-                      field="description"
-                      submitCallback={this.submitCallback}
-                    />
                   </div>
                 </div>
-              </div>
+              </BlockUI>
 
               <ActivityStream object={deal} />
             </div>

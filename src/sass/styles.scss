@@ -70,11 +70,8 @@ textarea {
   padding: 0.375rem 0.75rem;
 }
 
-input {
-  &[type='text'],
-  &[type='password'] {
-    @include input-field(34px);
-  }
+.hl-input {
+  @include input-field(34px);
 }
 
 input,
@@ -141,9 +138,14 @@ textarea {
     display: flex;
     align-items: center;
     border-bottom: 1px $inner-border-color solid;
+    line-height: 34px;
 
     > * {
-      padding: 14px 16px;
+      padding: 8px 16px;
+
+      &.has-editable {
+        padding: 8px 9px;
+      }
     }
 
     > :first-child {
@@ -170,6 +172,14 @@ textarea {
 
     &.expanded-height {
       height: 500px;
+    }
+  }
+
+  .content-block {
+    .detail-row {
+      &:last-of-type {
+        border-bottom: 0;
+      }
     }
   }
 }
