@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 
-import { get } from 'lib/api';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
+import FormFooter from 'components/Utils/FormFooter';
 import User from 'models/User';
 
 class InnerProfileForm extends Component {
@@ -17,7 +16,7 @@ class InnerProfileForm extends Component {
   }
 
   render() {
-    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -132,19 +131,7 @@ class InnerProfileForm extends Component {
                   </div>
                 </FormSection>
 
-                <div className="form-footer">
-                  <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                    <FontAwesomeIcon icon="check" /> Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hl-primary-btn m-l-10"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <FormFooter {...this.props} />
               </form>
             </div>
           </div>

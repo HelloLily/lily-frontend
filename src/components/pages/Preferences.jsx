@@ -8,6 +8,7 @@ import UserProfile from './UserProfile';
 import UserAccount from './UserAccount';
 import EmailAccountList from './EmailAccountList';
 import EmailAccountForm from './EmailAccountForm';
+import EmailTemplateForm from './EmailTemplateForm';
 import EmailTemplateList from './EmailTemplateList';
 import TemplateVariableList from './TemplateVariableList';
 import UserList from './UserList';
@@ -138,6 +139,7 @@ class Preferences extends Component {
               <Route path="/preferences/account" component={UserAccount} />
               <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
               <Route path="/preferences/emailaccounts" component={EmailAccountList} />
+              <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
               <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
               <Route path="/preferences/templatevariables" component={TemplateVariableList} />
               <Route path="/preferences/users" component={UserList} />

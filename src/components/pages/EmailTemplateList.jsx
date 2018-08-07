@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import List from 'components/List';
@@ -79,8 +80,8 @@ class EmailTemplateList extends Component {
   saveNewFolder = () => {
     const { folders, newFolder } = this.state;
 
-    EmailTemplateFolder.post(newFolder).then(() => {
-      folders.unshift(newFolder);
+    EmailTemplateFolder.post(newFolder).then(response => {
+      folders.unshift(response);
 
       this.setState({ folders, newFolder: null });
     });
@@ -118,9 +119,9 @@ class EmailTemplateList extends Component {
               <FontAwesomeIcon icon="plus" /> Template folder
             </button>
 
-            <button className="hl-primary-btn">
+            <Link to="/preferences/emailtemplates/create" className="hl-primary-btn">
               <FontAwesomeIcon icon="plus" /> Email template
-            </button>
+            </Link>
           </div>
           <table className="hl-table">
             <thead>
@@ -133,19 +134,21 @@ class EmailTemplateList extends Component {
               <tbody>
                 <tr>
                   <td colSpan="2">
-                    <input
-                      type="text"
-                      className="hl-input editable-has-buttons"
-                      onChange={this.handleName}
-                    />
-                    <span className="editable-buttons">
-                      <button onClick={this.saveNewFolder}>
-                        <FontAwesomeIcon icon="check" />
-                      </button>
-                      <button onClick={this.cancelNewFolder}>
-                        <FontAwesomeIcon icon="times" />
-                      </button>
-                    </span>
+                    <div className="editable-wrap display-flex">
+                      <input
+                        type="text"
+                        className="editable-input editable-has-buttons"
+                        onChange={this.handleName}
+                      />
+                      <span className="editable-buttons">
+                        <button onClick={this.saveNewFolder}>
+                          <FontAwesomeIcon icon="check" />
+                        </button>
+                        <button onClick={this.cancelNewFolder}>
+                          <FontAwesomeIcon icon="times" />
+                        </button>
+                      </span>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -155,7 +158,7 @@ class EmailTemplateList extends Component {
                 folder.id || (!folder.id && folder.emailTemplates.length > 0) ? (
                   <tbody key={folder.id || 'noFolder'}>
                     <tr className="email-template-folder-header">
-                      <td colSpan="2">
+                      <td colSpan="2" className={folder.id ? 'has-editable' : ''}>
                         <strong>
                           {folder.id ? (
                             <React.Fragment>

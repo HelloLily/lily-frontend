@@ -20,7 +20,7 @@ class EditableText extends Component {
           type="text"
           value={value}
           onChange={this.handleChange}
-          className="editable-has-buttons editable-input"
+          className="editable-input editable-has-buttons"
           placeholder={this.props.field}
         />
 

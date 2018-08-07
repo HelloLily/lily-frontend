@@ -37,7 +37,7 @@ class EditableTextarea extends Component {
           autoFocus
           value={value}
           onChange={this.handleChange}
-          className="editable-has-buttons editable-input"
+          className="editable-input editable-has-buttons"
           ref={this.textareaRef}
         />
 

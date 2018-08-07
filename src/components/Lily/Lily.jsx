@@ -83,18 +83,27 @@ class Lily extends Component {
                     <Switch>
                       <Route path="/email" component={Inbox} />
                       <Route path="/preferences/*" component={Preferences} />
+
                       <Route path="/accounts/create" component={AccountForm} />
+                      <Route path="/accounts/:id/edit" component={AccountForm} />
                       <Route path="/accounts/:id" component={AccountDetail} />
                       <Route path="/accounts" component={AccountList} />
+
                       <Route path="/contacts/create" component={ContactForm} />
+                      <Route path="/contacts/:id/edit" component={ContactForm} />
                       <Route path="/contacts/:id" component={ContactDetail} />
                       <Route path="/contacts" component={ContactList} />
+
                       <Route path="/deals/create" component={DealForm} />
+                      <Route path="/deals/:id/edit" component={DealForm} />
                       <Route path="/deals/:id" component={DealDetail} />
                       <Route path="/deals" component={DealList} />
+
                       <Route path="/cases/create" component={CaseForm} />
+                      <Route path="/cases/:id/edit" component={CaseForm} />
                       <Route path="/cases/:id" component={CaseDetail} />
                       <Route path="/cases" component={CaseList} />
+
                       <Route path="/" component={Dashboard} />
                       <Redirect from="/" to="/" exact />
                       <Route path="*" component={NotFound} />

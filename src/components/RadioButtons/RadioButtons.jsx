@@ -27,7 +27,7 @@ class RadioButtons extends Component {
           const radioId = `radio-${this.fieldId}-${index}`;
           const className = cx('radio-button', {
             active: isSelected,
-            vertical: vertical
+            vertical
           });
 
           return (

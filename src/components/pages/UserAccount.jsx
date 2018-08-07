@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
+import FormFooter from 'components/Utils/FormFooter';
 import User from 'models/User';
 
 class InnerUserAccountForm extends Component {
@@ -15,7 +15,7 @@ class InnerUserAccountForm extends Component {
   }
 
   render() {
-    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -48,8 +48,9 @@ class InnerUserAccountForm extends Component {
                     <label htmlFor="password">New password</label>
                     <input
                       id="password"
-                      placeholder="New password"
                       type="password"
+                      className="hl-input"
+                      placeholder="New password"
                       value={values.password}
                       onChange={handleChange}
                     />
@@ -61,8 +62,9 @@ class InnerUserAccountForm extends Component {
                     <label htmlFor="passwordCheck">Confirm new password</label>
                     <input
                       id="passwordCheck"
-                      placeholder="Confirm password"
                       type="password"
+                      className="hl-input"
+                      placeholder="Confirm password"
                       value={values.passwordCheck}
                       onChange={handleChange}
                     />
@@ -80,8 +82,9 @@ class InnerUserAccountForm extends Component {
                     </label>
                     <input
                       id="passwordConfirmation"
-                      placeholder="Current password"
                       type="password"
+                      className="hl-input"
+                      placeholder="Current password"
                       value={values.passwordConfirmation}
                       onChange={handleChange}
                     />
@@ -92,19 +95,7 @@ class InnerUserAccountForm extends Component {
                   </div>
                 </FormSection>
 
-                <div className="form-footer">
-                  <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                    <FontAwesomeIcon icon="check" /> Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hl-primary-btn m-l-10"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <FormFooter {...this.props} />
               </form>
             </div>
           </div>

@@ -23,6 +23,10 @@
     &.indented-cell {
       padding-left: 50px;
     }
+
+    &.has-editable {
+      padding: 7px 5px;
+    }
   }
 
   &.compact {
@@ -33,9 +37,7 @@
 
   tbody {
     tr {
-      &:not(:last-of-type) {
-        border-bottom: 1px $inner-border-color solid;
-      }
+      border-bottom: 1px $inner-border-color solid;
 
       &:hover {
         background-color: $lily-white-tone-hover;

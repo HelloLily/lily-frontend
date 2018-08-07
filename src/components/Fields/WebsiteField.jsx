@@ -52,7 +52,7 @@ class WebsiteField extends Component {
                 type="text"
                 value={item.website}
                 onChange={event => this.handleChange(event.target.value, index, 'website')}
-                className="hl-input m-r-10"
+                className="editable-input m-r-10"
                 placeholder="Website"
               />
 

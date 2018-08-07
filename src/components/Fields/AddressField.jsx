@@ -75,7 +75,7 @@ class AddressField extends Component {
                       type="text"
                       value={item.address}
                       onChange={event => this.handleChange(event.target.value, index, 'address')}
-                      className="hl-input"
+                      className="editable-input"
                       placeholder="Address"
                     />
 
@@ -83,7 +83,7 @@ class AddressField extends Component {
                       type="text"
                       value={item.postalCode}
                       onChange={event => this.handleChange(event.target.value, index, 'postalCode')}
-                      className="hl-input w-30 m-l-10 m-r-10"
+                      className="editable-input w-30 m-l-10 m-r-10"
                       placeholder="Postal code"
                     />
                   </div>
@@ -93,7 +93,7 @@ class AddressField extends Component {
                       type="text"
                       value={item.city}
                       onChange={event => this.handleChange(event.target.value, index, 'city')}
-                      className="hl-input w-30"
+                      className="editable-input w-30"
                       placeholder="City"
                     />
 

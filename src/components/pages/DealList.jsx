@@ -97,7 +97,7 @@ class DealList extends Component {
                   <td>{deal.createdBy ? deal.createdBy.fullName : 'Unknown'}</td>
                   <td>{deal.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
                   <td>
-                    <ListActions />
+                    <ListActions object={deal} {...this.props} />
                   </td>
                 </tr>
               ))}

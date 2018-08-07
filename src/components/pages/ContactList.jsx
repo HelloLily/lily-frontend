@@ -138,7 +138,7 @@ class ContactList extends Component {
                   </td>
                   <td>{contact.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
                   <td>
-                    <ListActions />
+                    <ListActions object={contact} {...this.props} />
                   </td>
                 </tr>
               ))}

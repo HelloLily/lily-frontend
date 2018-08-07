@@ -104,7 +104,7 @@ class CaseList extends Component {
                   <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
                   <td>{caseObj.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
                   <td>
-                    <ListActions />
+                    <ListActions object={caseObj} {...this.props} />
                   </td>
                 </tr>
               ))}

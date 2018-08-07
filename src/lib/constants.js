@@ -45,12 +45,12 @@ export const PHONE_EMPTY_ROW = { number: '', type: WORK_PHONE_TYPE };
 
 // General styling overwrite for react-select selects.
 export const SELECT_STYLES = {
-  control: base => ({
+  control: (base, state) => ({
     ...base,
     background: '#fff',
     minHeight: '30px',
     height: '34px',
-    borderColor: '#e1e6ef'
+    borderColor: state.isFocused ? '#27244c' : '#e1e6ef'
   }),
   valueContainer: base => ({
     ...base,

@@ -12,19 +12,12 @@
 @import 'selects';
 
 @mixin input-field($height) {
-  border-style: solid;
-  border-radius: $base-border-radius;
   background: #fff;
   line-height: $height;
   height: $height;
   padding: 6px 12px;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
-
-  &:focus {
-    outline: none;
-    border-color: darken($base-border-color, 20);
-  }
 }
 
 * {
@@ -74,16 +67,27 @@ textarea {
   @include input-field(34px);
 }
 
-input,
+.hl-input,
+.editable-input,
 textarea {
-  &:not([type='file']):not([type='checkbox']) {
-    border-radius: $base-border-radius;
-    border: 1px $inner-border-color solid;
+  border-radius: $base-border-radius;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: $app-color-darkblue;
   }
 
   &::placeholder {
     color: $text-muted;
   }
+}
+
+.hl-input,
+input.editable-input,
+textarea {
+  border: 1px $inner-border-color solid;
 }
 
 .block-overlay {
@@ -126,6 +130,14 @@ textarea {
   font-size: 18px;
   font-weight: 400;
   color: $app-color-darkblue;
+}
+
+.detail-page-header {
+  float: right;
+
+  .hl-interface-btn {
+    font-size: 20px;
+  }
 }
 
 .detail-page {

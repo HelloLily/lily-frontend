@@ -21,6 +21,7 @@ import {
 import cleanRelatedFields from 'utils/cleanRelatedFields';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
+import FormFooter from 'components/Utils/FormFooter';
 import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
 import AddressField from 'components/Fields/AddressField';
@@ -42,15 +43,25 @@ class InnerAccountForm extends Component {
   }
 
   async componentDidMount() {
-    const statusData = await Account.statuses();
+    const { id } = this.props.match.params;
 
-    const relation = statusData.results.find(status => status.name === ACCOUNT_RELATION_STATUS);
+    const statusResponse = await Account.statuses();
 
-    if (relation) {
-      this.props.setFieldValue('status', relation);
+    if (id) {
+      const accountResponse = await Account.get(id);
+
+      this.props.setValues(accountResponse);
+    } else {
+      const relation = statusResponse.results.find(
+        status => status.name === ACCOUNT_RELATION_STATUS
+      );
+
+      if (relation) {
+        this.props.setFieldValue('status', relation);
+      }
     }
 
-    this.setState({ accountStatuses: statusData.results });
+    this.setState({ accountStatuses: statusResponse.results });
   }
 
   getDataproviderInfo = async () => {
@@ -270,7 +281,10 @@ class InnerAccountForm extends Component {
 
   render() {
     const { accountStatuses, accountSuggestions, contactSuggestions, showSuggestions } = this.state;
-    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+
+    const twitterProfile = values.socialMedia.find(profile => profile.type === 'twitter');
+    const twitterUsername = twitterProfile ? twitterProfile.username : '';
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -485,26 +499,14 @@ class InnerAccountForm extends Component {
                         type="text"
                         className="hl-input"
                         placeholder="Twitter"
-                        value={values.socialMedia[0].username}
+                        value={twitterUsername}
                         onChange={this.handleSocialMedia}
                       />
                     </div>
                   </div>
                 </FormSection>
 
-                <div className="form-footer">
-                  <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                    <FontAwesomeIcon icon="check" /> Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hl-primary-btn m-l-10"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <FormFooter {...this.props} />
               </form>
             </div>
           </div>
@@ -549,7 +551,7 @@ const AccountForm = withRouter(
         cleanedValues.assignedTo = { id: cleanedValues.assignedTo.id };
       }
 
-      const request = Account.post(cleanedValues);
+      const request = values.id ? Account.patch(cleanedValues) : Account.post(cleanedValues);
 
       request
         .then(response => {

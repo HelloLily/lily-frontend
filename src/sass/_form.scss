@@ -86,16 +86,13 @@ label {
     padding-bottom: 7px;
     padding-top: 6px;
     text-align: right;
-    flex-basis: 20%;
     margin-right: 25px;
     margin-bottom: 10px;
-    flex-grow: 1;
+    flex: 1 1 20%;
   }
 
   .form-section-content {
-    flex-shrink: 1;
-    flex-grow: 1;
-    flex-basis: 75%;
+    flex: 1 1 75%;
   }
 }
 

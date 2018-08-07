@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import Select, { components } from 'react-select';
@@ -18,6 +17,7 @@ import addBusinessDays from 'utils/addBusinessDays';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
+import FormFooter from 'components/Utils/FormFooter';
 import TagField from 'components/Fields/TagField';
 // import Suggestions from 'components/Fields/Suggestions';
 // import Account from 'models/Account';
@@ -66,8 +66,16 @@ class InnerDealForm extends Component {
     this.lostStatus = statusResponse.results.find(status => status.name === DEAL_LOST_STATUS);
     this.noneStep = nextStepResponse.results.find(nextStep => nextStep.name === DEAL_NONE_STEP);
 
-    this.props.setFieldValue('assignedToTeams', user.teams);
-    this.props.setFieldValue('assignedTo', user);
+    const { id } = this.props.match.params;
+
+    if (id) {
+      const dealResponse = await Deal.get(id);
+
+      this.props.setValues(dealResponse);
+    } else {
+      this.props.setFieldValue('assignedToTeams', user.teams);
+      this.props.setFieldValue('assignedTo', user);
+    }
   }
 
   IconValue = props => (
@@ -194,7 +202,7 @@ class InnerDealForm extends Component {
 
   render() {
     const { nextSteps, foundThrough, contactedBy, whyCustomer, whyLost, statuses } = this.state;
-    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -511,19 +519,7 @@ class InnerDealForm extends Component {
                   </div>
                 </FormSection>
 
-                <div className="form-footer">
-                  <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                    <FontAwesomeIcon icon="check" /> Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hl-primary-btn m-l-10"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <FormFooter {...this.props} />
               </form>
             </div>
           </div>
@@ -587,7 +583,7 @@ const DealForm = withRouter(
         // cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, 'YYYY-MM-dd');
       }
 
-      const request = Deal.post(cleanedValues);
+      const request = values.id ? Deal.patch(cleanedValues) : Deal.post(cleanedValues);
 
       request
         .then(response => {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
@@ -25,21 +26,33 @@ class AccountDetail extends Component {
 
   render() {
     const { account } = this.state;
+    const { id } = this.props.match.params;
 
     return (
       <React.Fragment>
         {account ? (
-          <div className="detail-page">
-            <AccountDetailWidget account={account} submitCallback={this.submitCallback} />
+          <React.Fragment>
+            <div className="detail-page-header">
+              <Link to={`/accounts/${id}/edit`} className="hl-interface-btn">
+                <i className="lilicon hl-edit-icon" />
+              </Link>
 
-            <DealListWidget object={account} submitCallback={this.submitCallback} />
+              <button className="hl-interface-btn">
+                <i className="lilicon hl-trashcan-icon" />
+              </button>
+            </div>
+            <div className="detail-page">
+              <AccountDetailWidget account={account} submitCallback={this.submitCallback} />
 
-            <CaseListWidget object={account} submitCallback={this.submitCallback} />
+              <DealListWidget object={account} submitCallback={this.submitCallback} />
 
-            <ActivityStream object={account} />
+              <CaseListWidget object={account} submitCallback={this.submitCallback} />
 
-            <ContactListWidget object={account} />
-          </div>
+              <ActivityStream object={account} />
+
+              <ContactListWidget object={account} />
+            </div>
+          </React.Fragment>
         ) : (
           <div>Loading</div>
         )}

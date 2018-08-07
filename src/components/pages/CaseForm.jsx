@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import Select from 'react-select';
@@ -11,6 +10,7 @@ import { SELECT_STYLES, FORM_DATE_FORMAT } from 'lib/constants';
 import addBusinessDays from 'utils/addBusinessDays';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
+import FormFooter from 'components/Utils/FormFooter';
 import TagField from 'components/Fields/TagField';
 // import Suggestions from 'components/Fields/Suggestions';
 // import Account from 'models/Account';
@@ -45,10 +45,17 @@ class InnerCaseForm extends Component {
       casePriorities: priorityData.results
     });
 
-    this.props.setFieldValue('assignedToTeams', user.teams);
-    this.props.setFieldValue('assignedTo', user);
+    const { id } = this.props.match.params;
 
-    this.props.setFieldValue('status', statusData.results[0]);
+    if (id) {
+      const caseResponse = await Case.get(id);
+
+      this.props.setValues(caseResponse);
+    } else {
+      this.props.setFieldValue('assignedToTeams', user.teams);
+      this.props.setFieldValue('assignedTo', user);
+      this.props.setFieldValue('status', statusData.results[0]);
+    }
   }
 
   searchName = async () => {
@@ -132,7 +139,7 @@ class InnerCaseForm extends Component {
 
   render() {
     const { caseTypes, caseStatuses, casePriorities } = this.state;
-    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -360,19 +367,7 @@ class InnerCaseForm extends Component {
                   </div>
                 </FormSection>
 
-                <div className="form-footer">
-                  <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                    <FontAwesomeIcon icon="check" /> Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hl-primary-btn m-l-10"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <FormFooter {...this.props} />
               </form>
             </div>
           </div>
@@ -414,7 +409,7 @@ const CaseForm = withRouter(
 
       cleanedValues.expires = format(cleanedValues.expires, 'YYYY-MM-dd');
 
-      const request = Case.post(cleanedValues);
+      const request = values.id ? Case.patch(cleanedValues) : Case.post(cleanedValues);
 
       request
         .then(response => {

@@ -123,7 +123,7 @@ class AccountList extends Component {
                   <td>{account.status.name}</td>
                   <td>{account.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
                   <td>
-                    <ListActions />
+                    <ListActions object={account} {...this.props} />
                   </td>
                 </tr>
               ))}

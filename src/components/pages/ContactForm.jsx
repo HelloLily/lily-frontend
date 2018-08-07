@@ -15,10 +15,10 @@ import cleanRelatedFields from 'utils/cleanRelatedFields';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
+import FormFooter from 'components/Utils/FormFooter';
 import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
 import AddressField from 'components/Fields/AddressField';
-import WebsiteField from 'components/Fields/WebsiteField';
 import TagField from 'components/Fields/TagField';
 import Suggestions from 'components/Fields/Suggestions';
 import Account from 'models/Account';
@@ -33,6 +33,16 @@ class InnerContactForm extends Component {
       contactSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
       showSuggestions: { name: true, emailAddress: true, phoneNumber: true }
     };
+  }
+
+  async componentDidMount() {
+    const { id } = this.props.match.params;
+
+    if (id) {
+      const contactResponse = await Contact.get(id);
+
+      this.props.setValues(contactResponse);
+    }
   }
 
   NoOptionsMessage = props => {
@@ -220,7 +230,13 @@ class InnerContactForm extends Component {
 
   render() {
     const { accountSuggestions, contactSuggestions, showSuggestions } = this.state;
-    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+
+    const twitterProfile = values.socialMedia.find(profile => profile.type === 'twitter');
+    const twitterUsername = twitterProfile ? twitterProfile.username : '';
+
+    const linkedInProfile = values.socialMedia.find(profile => profile.type === 'linkedin');
+    const linkedInUsername = linkedInProfile ? linkedInProfile.username : '';
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -394,15 +410,6 @@ class InnerContactForm extends Component {
                       errors={errors}
                     />
                   </div>
-
-                  <div className="form-field">
-                    <label>Extra website</label>
-                    <WebsiteField
-                      items={values.websites}
-                      handleRelated={this.handleRelated}
-                      errors={errors}
-                    />
-                  </div>
                 </FormSection>
 
                 <FormSection header="Tags">
@@ -424,44 +431,32 @@ class InnerContactForm extends Component {
                         type="text"
                         className="hl-input"
                         placeholder="Twitter"
-                        value={values.socialMedia[0].username}
+                        value={twitterUsername}
                         onChange={this.handleSocialMedia}
                       />
                     </div>
                   </div>
 
                   <div className="form-field">
-                    <label htmlFor="twitter">LinkedIn</label>
+                    <label htmlFor="linkedin">LinkedIn</label>
 
                     <div className="input-addon">
                       <div className="input-addon-icon">
                         <FontAwesomeIcon icon={['fab', 'linkedin-in']} />
                       </div>
                       <input
-                        id="twitter"
+                        id="linkedin"
                         type="text"
                         className="hl-input"
-                        placeholder="Twitter"
-                        value={values.socialMedia[0].username}
+                        placeholder="LinkedIn"
+                        value={linkedInUsername}
                         onChange={this.handleSocialMedia}
                       />
                     </div>
                   </div>
                 </FormSection>
 
-                <div className="form-footer">
-                  <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                    <FontAwesomeIcon icon="check" /> Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hl-primary-btn m-l-10"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <FormFooter {...this.props} />
               </form>
             </div>
           </div>
@@ -498,7 +493,7 @@ const ContactForm = withRouter(
 
       cleanedValues.accounts = cleanedValues.accounts.map(account => ({ id: account.id }));
 
-      const request = Contact.post(cleanedValues);
+      const request = values.id ? Contact.patch(cleanedValues) : Contact.post(cleanedValues);
 
       request
         .then(response => {

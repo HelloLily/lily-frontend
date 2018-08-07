@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import BlockUI from 'components/Utils/BlockUI';
+import FormFooter from 'components/Utils/FormFooter';
 import UserShare from 'components/UserShare';
 import RadioButtons from 'components/RadioButtons';
 import EmailAccount from 'models/EmailAccount';
@@ -33,7 +33,7 @@ class InnerEmailAccountForm extends Component {
   };
 
   render() {
-    const { values, errors, dirty, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
     const { shareAdditions } = this.state;
 
     return (
@@ -174,19 +174,7 @@ class InnerEmailAccountForm extends Component {
                   </Tabs>
                 </div>
 
-                <div className="form-footer">
-                  <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                    <FontAwesomeIcon icon="check" /> Save
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hl-primary-btn m-l-10"
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <FormFooter {...this.props} />
               </form>
             </div>
           </div>
