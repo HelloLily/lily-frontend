@@ -77,8 +77,7 @@ class EditableIconSelect extends Component {
           onChange={this.handleChange}
           options={this.state.options}
           onInputKeyDown={this.onInputKeyDown}
-          // onBlur={this.props.cancel}
-          menuIsOpen
+          onBlur={this.props.cancel}
         />
       </span>
     );

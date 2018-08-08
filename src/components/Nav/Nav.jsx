@@ -4,6 +4,7 @@ import { translate } from 'react-i18next';
 import navItems from 'src/config/nav.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import ObjectLimit from 'components/Billing/ObjectLimit';
 import NavDropdown from './NavDropdown';
 
@@ -13,10 +14,6 @@ class Nav extends Component {
 
     this.navRef = React.createRef();
   }
-
-  setSidebar = type => {
-    this.props.sidebarRef.current.setState({ sidebar: type });
-  };
 
   render() {
     const { t } = this.props;
@@ -49,22 +46,22 @@ class Nav extends Component {
             </button>
 
             <ObjectLimit model="accounts">
-              <button className="hl-primary-btn" onClick={() => this.setSidebar('account')}>
+              <button className="hl-primary-btn" onClick={() => this.props.setSidebar('account')}>
                 <FontAwesomeIcon icon="plus" /> Account
               </button>
             </ObjectLimit>
 
             <ObjectLimit model="contacts">
-              <button className="hl-primary-btn" onClick={() => this.setSidebar('contact')}>
+              <button className="hl-primary-btn" onClick={() => this.props.setSidebar('contact')}>
                 <FontAwesomeIcon icon="plus" /> Contact
               </button>
             </ObjectLimit>
 
-            <button className="hl-primary-btn" onClick={() => this.setSidebar('deal')}>
+            <button className="hl-primary-btn" onClick={() => this.props.setSidebar('deal')}>
               <FontAwesomeIcon icon="plus" /> Deal
             </button>
 
-            <button className="hl-primary-btn" onClick={() => this.setSidebar('case')}>
+            <button className="hl-primary-btn" onClick={() => this.props.setSidebar('case')}>
               <FontAwesomeIcon icon="plus" /> Case
             </button>
           </div>
@@ -76,4 +73,4 @@ class Nav extends Component {
   }
 }
 
-export default translate(['shared', 'nav'])(Nav);
+export default translate(['shared', 'nav'])(withContext(Nav));

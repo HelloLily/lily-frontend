@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import ErrorBoundry from 'components/ErrorBoundry';
+import withContext from 'src/withContext';
 import Header from 'components/Header';
 import Breadcrumbs from 'components/Breadcrumbs';
 import Nav from 'components/Nav';
@@ -23,6 +24,7 @@ import CaseForm from 'pages/CaseForm';
 import CaseDetail from 'pages/CaseDetail';
 import CaseList from 'pages/CaseList';
 import NotFound from 'pages/NotFound';
+import User from 'models/User';
 import './icons';
 // import history from '../../utils/history';
 // import { get } from '../../lib/api/';
@@ -31,12 +33,14 @@ class Lily extends Component {
   constructor(props) {
     super(props);
 
-    this.sidebar = React.createRef();
-
     this.state = { loading: true, data: undefined };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const currentUser = await User.me();
+
+    this.props.setCurrentUser(currentUser);
+
     this.getData();
   }
 
@@ -68,7 +72,7 @@ class Lily extends Component {
             <Fragment>
               <div className="column">
                 <ErrorBoundry>
-                  <Nav sidebarRef={this.sidebar} />
+                  <Nav />
                 </ErrorBoundry>
               </div>
               <div className="main">
@@ -111,7 +115,7 @@ class Lily extends Component {
                   </ErrorBoundry>
                 </main>
 
-                <Sidebar ref={this.sidebar} />
+                <Sidebar />
               </div>
             </Fragment>
           </Route>
@@ -123,4 +127,4 @@ class Lily extends Component {
 
 Lily.propTypes = {};
 
-export default Lily;
+export default withContext(Lily);

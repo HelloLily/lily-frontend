@@ -3,8 +3,8 @@ import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
+import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
-
 import { MOBILE_PHONE_TYPE, PHONE_TYPE_OPTIONS, PHONE_EMPTY_ROW } from 'lib/constants';
 
 class EditablePhoneNumbers extends Component {
@@ -43,15 +43,16 @@ class EditablePhoneNumbers extends Component {
   };
 
   formatPhoneNumber = index => {
-    // TODO: Actual user should be used here.
-    const user = { country: 'NL' };
-
     const items = this.props.value;
 
     // No need to format an empty value.
     if (items[index].number) {
       const address = this.props.object.addresses[0];
-      const { formatted, isMobile } = formatPhoneNumber(items[index].number, user, address);
+      const { formatted, isMobile } = formatPhoneNumber(
+        items[index].number,
+        this.props.currentUser,
+        address
+      );
 
       if (formatted) {
         items[index].number = formatted;
@@ -130,4 +131,4 @@ class EditablePhoneNumbers extends Component {
   }
 }
 
-export default EditablePhoneNumbers;
+export default withContext(EditablePhoneNumbers);

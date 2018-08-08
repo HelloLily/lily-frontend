@@ -5,7 +5,7 @@ import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import { format } from 'date-fns';
 
-import { get } from 'lib/api';
+import withContext from 'src/withContext';
 import { SELECT_STYLES, FORM_DATE_FORMAT } from 'lib/constants';
 import addBusinessDays from 'utils/addBusinessDays';
 import BlockUI from 'components/Utils/BlockUI';
@@ -13,10 +13,11 @@ import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
 import TagField from 'components/Fields/TagField';
 // import Suggestions from 'components/Fields/Suggestions';
-// import Account from 'models/Account';
-// import Contact from 'models/Contact';
-import Case from 'models/Case';
+import Account from 'models/Account';
+import Contact from 'models/Contact';
 import User from 'models/User';
+import UserTeam from 'models/UserTeam';
+import Case from 'models/Case';
 
 class InnerCaseForm extends Component {
   constructor(props) {
@@ -32,9 +33,7 @@ class InnerCaseForm extends Component {
   }
 
   async componentDidMount() {
-    // TODO: This call will probably be different in the future.
-    const user = await User.me();
-
+    const { currentUser, data } = this.props;
     const typeData = await Case.caseTypes();
     const statusData = await Case.statuses();
     const priorityData = await Case.priorities();
@@ -52,9 +51,13 @@ class InnerCaseForm extends Component {
 
       this.props.setValues(caseResponse);
     } else {
-      this.props.setFieldValue('assignedToTeams', user.teams);
-      this.props.setFieldValue('assignedTo', user);
+      this.props.setFieldValue('assignedToTeams', currentUser.teams);
+      this.props.setFieldValue('assignedTo', currentUser);
       this.props.setFieldValue('status', statusData.results[0]);
+
+      if (data.account) {
+        this.props.setFieldValue('account', data.account);
+      }
     }
   }
 
@@ -81,7 +84,7 @@ class InnerCaseForm extends Component {
   searchAccounts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/accounts/`);
+    const request = await Account.query({ query });
 
     return request.results;
   };
@@ -89,7 +92,7 @@ class InnerCaseForm extends Component {
   searchContacts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/contacts/`);
+    const request = await Contact.query({ query });
 
     return request.results;
   };
@@ -97,7 +100,7 @@ class InnerCaseForm extends Component {
   searchTeams = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/users/team`);
+    const request = await UserTeam.query({ query });
 
     return request.results;
   };
@@ -105,7 +108,7 @@ class InnerCaseForm extends Component {
   searchUsers = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/users`);
+    const request = await User.query({ query });
 
     return request.results;
   };
@@ -428,4 +431,4 @@ const CaseForm = withRouter(
   })(InnerCaseForm)
 );
 
-export default CaseForm;
+export default withContext(CaseForm);

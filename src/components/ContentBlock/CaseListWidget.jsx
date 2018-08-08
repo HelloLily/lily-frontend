@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 import BlockUI from 'components/Utils/BlockUI';
@@ -21,6 +22,10 @@ class CaseListWidget extends Component {
     this.setState({ items: caseRequest.results, loading: false });
   };
 
+  setSidebar = () => {
+    this.props.setSidebar('case', { object: this.props.object });
+  };
+
   toggleCollapse = index => {
     const { items } = this.state;
 
@@ -31,7 +36,7 @@ class CaseListWidget extends Component {
 
   render() {
     const { items, loading } = this.state;
-    const { object, submitCallback } = this.props;
+    const { submitCallback } = this.props;
 
     const title = (
       <React.Fragment>
@@ -44,7 +49,7 @@ class CaseListWidget extends Component {
     );
 
     const extra = (
-      <button className="hl-primary-btn">
+      <button className="hl-primary-btn" onClick={this.setSidebar}>
         <FontAwesomeIcon icon="plus" /> Case
       </button>
     );
@@ -127,4 +132,4 @@ class CaseListWidget extends Component {
   }
 }
 
-export default CaseListWidget;
+export default withContext(CaseListWidget);

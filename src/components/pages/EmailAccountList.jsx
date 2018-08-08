@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
@@ -15,10 +16,10 @@ class EmailAccountList extends Component {
   }
 
   async componentDidMount() {
-    const user = await User.me();
-    const ownedAccountsResponse = await EmailAccount.query({ owner: user.id });
+    const { currentUser } = this.props;
+    const ownedAccountsResponse = await EmailAccount.query({ owner: currentUser.id });
     const sharedAccountsResponse = await EmailAccount.query({
-      sharedemailconfig__user__id: user.id
+      sharedemailconfig__user__id: currentUser.id
     });
     const publicAccountsResponse = await EmailAccount.query({ privacy: EmailAccount.PUBLIC });
 
@@ -129,4 +130,4 @@ class EmailAccountList extends Component {
   }
 }
 
-export default EmailAccountList;
+export default withContext(EmailAccountList);

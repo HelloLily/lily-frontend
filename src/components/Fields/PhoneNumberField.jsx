@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 import Select from 'react-select';
 
+import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
 
 import {
@@ -49,14 +50,12 @@ class PhoneNumberField extends Component {
   };
 
   formatPhoneNumber = index => {
-    // TODO: Actual user should be used here.
-    const user = { country: 'NL' };
-    const { items } = this.props;
+    const { items, currentUser } = this.props;
 
     // No need to format an empty value.
     if (items[index].number) {
       const address = this.props.addresses[0];
-      const { formatted, isMobile } = formatPhoneNumber(items[index].number, user, address);
+      const { formatted, isMobile } = formatPhoneNumber(items[index].number, currentUser, address);
 
       if (formatted) {
         items[index].number = formatted;
@@ -135,4 +134,4 @@ class PhoneNumberField extends Component {
   }
 }
 
-export default PhoneNumberField;
+export default withContext(PhoneNumberField);

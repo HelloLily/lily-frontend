@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import Case from 'models/Case';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
@@ -25,7 +26,7 @@ class MyCases extends Component {
     const total = request.results.length;
     const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY)
       .length;
-    const items = timeCategorize(request.results, 'expires', { id: 22 });
+    const items = timeCategorize(request.results, 'expires', this.props.currentUser);
 
     this.setState({ items, total, criticalCount });
   };
@@ -131,4 +132,4 @@ class MyCases extends Component {
   }
 }
 
-export default MyCases;
+export default withContext(MyCases);

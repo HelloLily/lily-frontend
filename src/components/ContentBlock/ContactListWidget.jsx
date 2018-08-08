@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import ContentBlock from 'components/ContentBlock';
 import BlockUI from 'components/Utils/BlockUI';
 import Contact from 'models/Contact';
@@ -16,6 +18,10 @@ class ContactListWidget extends Component {
     const contactRequest = await Contact.query({ account: this.props.object });
 
     this.setState({ items: contactRequest.results, loading: false });
+  };
+
+  setSidebar = () => {
+    this.props.setSidebar('contact', { object: this.props.object });
   };
 
   render() {
@@ -41,10 +47,16 @@ class ContactListWidget extends Component {
       </React.Fragment>
     );
 
+    const extra = (
+      <button className="hl-primary-btn" onClick={this.setSidebar}>
+        <FontAwesomeIcon icon="plus" /> Contact
+      </button>
+    );
+
     return (
       <div>
         <BlockUI blocking={loading}>
-          <ContentBlock title={title} component="contactListWidget">
+          <ContentBlock title={title} extra={extra} component="contactListWidget">
             <table className="hl-table">
               <thead>
                 <tr>
@@ -108,4 +120,4 @@ class ContactListWidget extends Component {
   }
 }
 
-export default ContactListWidget;
+export default withContext(ContactListWidget);

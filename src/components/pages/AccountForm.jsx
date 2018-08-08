@@ -5,7 +5,7 @@ import { withFormik } from 'formik';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 
-import { get } from 'lib/api';
+import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
 import {
   SELECT_STYLES,
@@ -28,6 +28,7 @@ import AddressField from 'components/Fields/AddressField';
 import WebsiteField from 'components/Fields/WebsiteField';
 import TagField from 'components/Fields/TagField';
 import Suggestions from 'components/Fields/Suggestions';
+import User from 'models/User';
 import Account from 'models/Account';
 
 class InnerAccountForm extends Component {
@@ -61,13 +62,13 @@ class InnerAccountForm extends Component {
       }
     }
 
+    this.props.setFieldValue('assignedTo', this.props.currentUser);
+
     this.setState({ accountStatuses: statusResponse.results });
   }
 
   getDataproviderInfo = async () => {
-    // TODO: Actual user should be used here.
-    const user = { country: 'NL' };
-    const { values } = this.props;
+    const { values, currentUser } = this.props;
     const data = await Account.dataproviderInfo(values.primaryWebsite);
 
     // Filter out empty items (default form values).
@@ -121,7 +122,7 @@ class InnerAccountForm extends Component {
 
       if (!exists) {
         const address = data.addresses.length ? data.addresses[0] : null;
-        const { formatted, isMobile } = formatPhoneNumber(phoneNumber, user, address);
+        const { formatted, isMobile } = formatPhoneNumber(phoneNumber, currentUser, address);
 
         if (formatted) {
           phoneNumbers.push({
@@ -144,7 +145,7 @@ class InnerAccountForm extends Component {
   search = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/users/`);
+    const request = await User.query({ query });
 
     return request.results;
   };
@@ -570,4 +571,4 @@ const AccountForm = withRouter(
   })(InnerAccountForm)
 );
 
-export default AccountForm;
+export default withContext(AccountForm);

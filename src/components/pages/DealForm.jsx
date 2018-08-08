@@ -5,7 +5,7 @@ import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import { format } from 'date-fns';
 
-import { get } from 'lib/api';
+import withContext from 'src/withContext';
 import {
   SELECT_STYLES,
   FORM_DATE_FORMAT,
@@ -19,12 +19,13 @@ import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
 import TagField from 'components/Fields/TagField';
-// import Suggestions from 'components/Fields/Suggestions';
-// import Account from 'models/Account';
-// import Contact from 'models/Contact';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
-import Deal from 'models/Deal';
+// import Suggestions from 'components/Fields/Suggestions';
+import Account from 'models/Account';
+import Contact from 'models/Contact';
 import User from 'models/User';
+import UserTeam from 'models/UserTeam';
+import Deal from 'models/Deal';
 
 class InnerDealForm extends Component {
   constructor(props) {
@@ -43,8 +44,7 @@ class InnerDealForm extends Component {
   }
 
   async componentDidMount() {
-    // TODO: This call will probably be different in the future.
-    const user = await User.me();
+    const { currentUser, data } = this.props;
 
     const nextStepResponse = await Deal.nextSteps();
     const foundThroughResponse = await Deal.foundThrough();
@@ -73,8 +73,12 @@ class InnerDealForm extends Component {
 
       this.props.setValues(dealResponse);
     } else {
-      this.props.setFieldValue('assignedToTeams', user.teams);
-      this.props.setFieldValue('assignedTo', user);
+      this.props.setFieldValue('assignedToTeams', currentUser.teams);
+      this.props.setFieldValue('assignedTo', currentUser);
+
+      if (data.object) {
+        this.props.setFieldValue(data.object.contentType.model, data.model);
+      }
     }
   }
 
@@ -121,7 +125,7 @@ class InnerDealForm extends Component {
   searchAccounts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/accounts/`);
+    const request = await Account.query({ query });
 
     return request.results;
   };
@@ -129,7 +133,7 @@ class InnerDealForm extends Component {
   searchContacts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/contacts/`);
+    const request = await Contact.query({ query });
 
     return request.results;
   };
@@ -137,7 +141,7 @@ class InnerDealForm extends Component {
   searchTeams = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/users/team`);
+    const request = await UserTeam.query({ query });
 
     return request.results;
   };
@@ -145,7 +149,7 @@ class InnerDealForm extends Component {
   searchUsers = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/users`);
+    const request = await User.query({ query });
 
     return request.results;
   };
@@ -602,4 +606,4 @@ const DealForm = withRouter(
   })(InnerDealForm)
 );
 
-export default DealForm;
+export default withContext(DealForm);

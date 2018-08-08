@@ -35,25 +35,7 @@ class UserShare extends Component {
 
     return (
       <div>
-        {/* <div ng-repeat="config in vm.emailAccount.shared_email_configs" ng-if="!config.is_deleted" class="user-row">
-            <div class="user-info">
-                <div class="user-avatar display-inline-block" ng-style="{'background-image': 'url(' + config.user.profile_picture + ')'}"></div>
-                <span class="m-l-15">{{ config.user.full_name }}</span>
-            </div>
-
-            <div class="sharing-actions">
-                <ui-select ng-model="config.privacy" theme="select2" class="form-control email-account-share-privacy" name="privacy" append-to-body="true" search-enabled="false">
-                    <ui-select-match placeholder="Privacy">{{ $select.selected.name }}</ui-select-match>
-                    <ui-select-choices repeat="option.id as option in vm.privacyOptions">
-                        <div ng-bind-html="option.name"></div>
-                    </ui-select-choices>
-                </ui-select>
-
-                <div class="clickable m-l-10" ng-click="config.is_deleted = true"><i class="lilicon hl-close-icon"></i></div>
-            </div>
-        </div> */}
-
-        {this.props.emailAccount.sharedEmailConfigs.map(config => {
+        {/* {this.props.emailAccount.sharedEmailConfigs.map(config => {
           {
             !config.isDeleted ? (
               <div className="user-info">
@@ -62,7 +44,7 @@ class UserShare extends Component {
               </div>
             ) : null;
           }
-        })}
+        })} */}
 
         <div className="display-flex">
           <AsyncSelect

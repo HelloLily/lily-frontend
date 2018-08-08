@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Deal from 'models/Deal';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import timeCategorize from 'utils/timeCategorize';
+import withContext from 'src/withContext';
+import Deal from 'models/Deal';
 
 class MyDeals extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class MyDeals extends Component {
     const request = await Deal.query();
 
     const total = request.results.length;
-    const items = timeCategorize(request.results, 'expires', { id: 22 });
+    const items = timeCategorize(request.results, 'expires', this.props.currentUser);
 
     this.setState({ items, total });
   };
@@ -120,4 +121,4 @@ class MyDeals extends Component {
   }
 }
 
-export default MyDeals;
+export default withContext(MyDeals);

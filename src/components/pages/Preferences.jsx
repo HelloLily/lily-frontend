@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import User from 'models/User';
+import withContext from 'src/withContext';
 import FeatureUnavailableMarker from 'components/Billing/FeatureUnavailableMarker';
 import UserProfile from './UserProfile';
 import UserAccount from './UserAccount';
@@ -14,142 +14,128 @@ import TemplateVariableList from './TemplateVariableList';
 import UserList from './UserList';
 import TenantSettings from './TenantSettings';
 
-class Preferences extends Component {
-  constructor(props) {
-    super(props);
+const Preferences = props => {
+  const { currentUser } = props;
 
-    this.state = { user: {} };
-  }
+  return (
+    <div className="preferences">
+      <React.Fragment>
+        <div className="preferences-navigation">
+          <ul>
+            <img
+              className="preferences-profile-picture"
+              src={currentUser.profilePicture}
+              alt="User avatar"
+            />
 
-  async componentDidMount() {
-    const user = await User.me();
+            <div className="preferences-username m-b-10">{currentUser.fullName}</div>
 
-    this.setState({ user });
-  }
+            <li>
+              <NavLink to="/preferences/profile" exact>
+                <i className="lilicon hl-entity-icon" /> My profile
+              </NavLink>
+            </li>
 
-  render() {
-    const { user } = this.state;
+            <li>
+              <NavLink to="/preferences/account" exact>
+                <i className="lilicon hl-cog-icon" /> My account
+              </NavLink>
+            </li>
 
-    return (
-      <div className="preferences">
-        <React.Fragment>
-          <div className="preferences-navigation">
-            <ul>
-              <img
-                className="preferences-profile-picture"
-                src={user.profilePicture}
-                alt="User avatar"
-              />
+            <li>
+              <NavLink to="/preferences/security" exact>
+                <FontAwesomeIcon icon="lock" /> Security
+              </NavLink>
+            </li>
 
-              <div className="preferences-username m-b-10">{user.fullName}</div>
-
-              <li>
-                <NavLink to="/preferences/profile" exact>
-                  <i className="lilicon hl-entity-icon" /> My profile
+            <li>
+              <FeatureUnavailableMarker tier="2">
+                <NavLink to="/preferences/token" exact>
+                  <FontAwesomeIcon icon="key" /> My API token
                 </NavLink>
-              </li>
+              </FeatureUnavailableMarker>
+            </li>
 
-              <li>
-                <NavLink to="/preferences/account" exact>
-                  <i className="lilicon hl-cog-icon" /> My account
+            <li>
+              <FeatureUnavailableMarker tier="2">
+                <NavLink to="/preferences/webhook" exact>
+                  <FontAwesomeIcon icon="rocket" /> My webhook
                 </NavLink>
-              </li>
+              </FeatureUnavailableMarker>
+            </li>
+          </ul>
 
-              <li>
-                <NavLink to="/preferences/security" exact>
-                  <FontAwesomeIcon icon="lock" /> Security
+          <ul>
+            <li>
+              <NavLink to="/preferences/emailaccounts" exact>
+                <i className="lilicon hl-email-icon" /> Email accounts
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/preferences/emailtemplates" exact>
+                <FontAwesomeIcon icon="envelope-open" /> Email templates
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/preferences/templatevariables" exact>
+                <FontAwesomeIcon icon="code" /> Template variables
+              </NavLink>
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <NavLink to="/preferences/users" exact>
+                <i className="lilicon hl-entities-icon" /> Users
+              </NavLink>
+            </li>
+
+            <li>
+              <FeatureUnavailableMarker tier="2">
+                <NavLink to="/preferences/integrations" exact>
+                  <FontAwesomeIcon icon="plug" /> Integrations
                 </NavLink>
-              </li>
+              </FeatureUnavailableMarker>
+            </li>
 
-              <li>
-                <FeatureUnavailableMarker tier="2">
-                  <NavLink to="/preferences/token" exact>
-                    <FontAwesomeIcon icon="key" /> My API token
-                  </NavLink>
-                </FeatureUnavailableMarker>
-              </li>
+            <li>
+              <NavLink to="/preferences/billing" exact>
+                <FontAwesomeIcon icon="credit-card" /> Billing
+              </NavLink>
+            </li>
 
-              <li>
-                <FeatureUnavailableMarker tier="2">
-                  <NavLink to="/preferences/webhook" exact>
-                    <FontAwesomeIcon icon="rocket" /> My webhook
-                  </NavLink>
-                </FeatureUnavailableMarker>
-              </li>
-            </ul>
+            <li>
+              <NavLink to="/preferences/import" exact>
+                <i className="lilicon hl-entities-icon" /> Import
+              </NavLink>
+            </li>
 
-            <ul>
-              <li>
-                <NavLink to="/preferences/emailaccounts" exact>
-                  <i className="lilicon hl-email-icon" /> Email accounts
-                </NavLink>
-              </li>
+            <li>
+              <NavLink to="/preferences/settings" exact>
+                <i className="lilicon hl-cog-icon" /> Settings
+              </NavLink>
+            </li>
+          </ul>
+        </div>
 
-              <li>
-                <NavLink to="/preferences/emailtemplates" exact>
-                  <FontAwesomeIcon icon="envelope-open" /> Email templates
-                </NavLink>
-              </li>
+        <div className="w-100">
+          <Switch>
+            <Route path="/preferences/profile" component={UserProfile} />
+            <Route path="/preferences/account" component={UserAccount} />
+            <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
+            <Route path="/preferences/emailaccounts" component={EmailAccountList} />
+            <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
+            <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
+            <Route path="/preferences/templatevariables" component={TemplateVariableList} />
+            <Route path="/preferences/users" component={UserList} />
+            <Route path="/preferences/settings" component={TenantSettings} />
+          </Switch>
+        </div>
+      </React.Fragment>
+    </div>
+  );
+};
 
-              <li>
-                <NavLink to="/preferences/templatevariables" exact>
-                  <FontAwesomeIcon icon="code" /> Template variables
-                </NavLink>
-              </li>
-            </ul>
-
-            <ul>
-              <li>
-                <NavLink to="/preferences/users" exact>
-                  <i className="lilicon hl-entities-icon" /> Users
-                </NavLink>
-              </li>
-
-              <li>
-                <FeatureUnavailableMarker tier="2">
-                  <NavLink to="/preferences/integrations" exact>
-                    <FontAwesomeIcon icon="plug" /> Integrations
-                  </NavLink>
-                </FeatureUnavailableMarker>
-              </li>
-
-              <li>
-                <NavLink to="/preferences/billing" exact>
-                  <FontAwesomeIcon icon="credit-card" /> Billing
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/preferences/import" exact>
-                  <i className="lilicon hl-entities-icon" /> Import
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/preferences/settings" exact>
-                  <i className="lilicon hl-cog-icon" /> Settings
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-
-          <div className="w-100">
-            <Switch>
-              <Route path="/preferences/profile" component={UserProfile} />
-              <Route path="/preferences/account" component={UserAccount} />
-              <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
-              <Route path="/preferences/emailaccounts" component={EmailAccountList} />
-              <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
-              <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
-              <Route path="/preferences/templatevariables" component={TemplateVariableList} />
-              <Route path="/preferences/users" component={UserList} />
-              <Route path="/preferences/settings" component={TenantSettings} />
-            </Switch>
-          </div>
-        </React.Fragment>
-      </div>
-    );
-  }
-}
-
-export default Preferences;
+export default withContext(Preferences);

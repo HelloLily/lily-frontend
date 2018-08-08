@@ -5,6 +5,7 @@ import { withFormik } from 'formik';
 import AsyncSelect from 'react-select/lib/Async';
 
 import { get } from 'lib/api';
+import withContext from 'src/withContext';
 import {
   SELECT_STYLES,
   TWITTER_EMPTY_ROW,
@@ -165,8 +166,6 @@ class InnerContactForm extends Component {
 
   addAccount = async props => {
     const name = props.selectProps.inputValue;
-    // TODO: Change to actual user.
-    const currentUser = { id: 449 };
 
     // TODO: Implement filtering through url parameter;
     const statusRequest = await Account.statuses();
@@ -177,7 +176,7 @@ class InnerContactForm extends Component {
     const data = {
       name,
       status: relationStatus.id,
-      assignedTo: currentUser
+      assignedTo: this.props.currentUser
     };
 
     // Create a new account and add it to the 'Works at' field.
@@ -512,4 +511,4 @@ const ContactForm = withRouter(
   })(InnerContactForm)
 );
 
-export default ContactForm;
+export default withContext(ContactForm);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
+import withContext from 'src/withContext';
 import AccountForm from 'pages/AccountForm';
 import ContactForm from 'pages/ContactForm';
 import DealForm from 'pages/DealForm';
@@ -19,13 +20,18 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      sidebar: null,
       expanded: false
     };
   }
 
+  static getDerivedStateFromProps = nextProps => ({
+    sidebar: nextProps.sidebar,
+    setSidebar: nextProps.setSidebar
+  });
+
   closeSidebar = () => {
-    this.setState({ sidebar: null, expanded: false });
+    this.state.setSidebar(null);
+    this.setState({ expanded: false });
   };
 
   expandSidebar = () => {
@@ -66,4 +72,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export default withContext(Sidebar);

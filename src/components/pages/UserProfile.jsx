@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 
+import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -9,10 +10,8 @@ import FormFooter from 'components/Utils/FormFooter';
 import User from 'models/User';
 
 class InnerProfileForm extends Component {
-  async componentDidMount() {
-    const user = await User.me();
-
-    this.props.setValues(user);
+  componentDidMount() {
+    this.props.setValues(this.props.currentUser);
   }
 
   render() {
@@ -177,7 +176,7 @@ const ProfileForm = withRouter(
       const request = User.patch(values);
 
       request
-        .then(response => {
+        .then(() => {
           // props.history.push(`/accounts/${response.id}`);
         })
         .catch(errors => {
@@ -189,4 +188,4 @@ const ProfileForm = withRouter(
   })(InnerProfileForm)
 );
 
-export default ProfileForm;
+export default withContext(ProfileForm);

@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import FeatureUnavailableMarker from 'components/Billing/FeatureUnavailableMarker';
+import withContext from 'src/withContext';
 
 class NavDropdown extends Component {
   constructor() {
@@ -33,11 +34,7 @@ class NavDropdown extends Component {
     return (
       <div>
         <div className="header-avatar clickable m-r-20" onClick={this.showMenu}>
-          <img
-            src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
-            className="m-r-5"
-            alt="User avatar"
-          />
+          <img src={this.props.currentUser.profilePicture} className="m-r-5" alt="User avatar" />
           <i className="lilicon hl-arrow-down-smll-icon" />
         </div>
 
@@ -162,4 +159,4 @@ class NavDropdown extends Component {
   }
 }
 
-export default NavDropdown;
+export default withContext(NavDropdown);

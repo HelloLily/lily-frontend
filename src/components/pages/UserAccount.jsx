@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 
+import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
 import User from 'models/User';
 
 class InnerUserAccountForm extends Component {
-  async componentDidMount() {
-    const user = await User.me();
-
-    this.props.setValues(user);
+  componentDidMount() {
+    this.props.setValues(this.props.currentUser);
   }
 
   render() {
@@ -134,4 +133,4 @@ const UserAccountForm = withRouter(
   })(InnerUserAccountForm)
 );
 
-export default UserAccountForm;
+export default withContext(UserAccountForm);
