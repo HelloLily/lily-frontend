@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
-import User from 'models/User';
 import TemplateVariable from 'models/TemplateVariable';
 
 class TemplateVariableList extends Component {

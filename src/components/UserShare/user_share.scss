@@ -1,0 +1,64 @@
+@import '~style/variables/colors';
+
+.shared-with-users {
+  .user-row {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px $inner-border-color solid;
+    padding: 6px 20px;
+
+    &:not(:first-of-type) {
+      border-bottom: 1px $inner-border-color solid;
+    }
+
+    .user-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .sharing-actions {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: $app-color-darkblue;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+}
+
+.user-share {
+  display: flex;
+  background: lighten($app-bg-color, 2);
+  border: 1px $inner-border-color solid;
+  border-radius: 3px;
+  padding: 15px;
+}
+
+.user-share-container {
+  flex: 1;
+
+  &:not(:last-of-type) {
+    .user-share__control {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  &:not(:first-of-type) {
+    .user-share__control {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}

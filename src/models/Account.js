@@ -1,4 +1,4 @@
-import { get, post, patch, del, createParams } from 'src/lib/api';
+import { get, post, patch, del } from 'src/lib/api';
 
 class Account {
   get(id) {
@@ -18,7 +18,7 @@ class Account {
   }
 
   query(params) {
-    const response = get(`/accounts/?${createParams(params)}`);
+    const response = get('/accounts/', params);
 
     return response;
   }

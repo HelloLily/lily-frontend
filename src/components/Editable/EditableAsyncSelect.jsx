@@ -104,7 +104,7 @@ class EditableSelect extends Component {
             <div>
               <button
                 type="submit"
-                className="hl-primary-btn no-background no-border"
+                className="hl-primary-btn borderless"
                 onClick={this.handleMultiSubmit}
               >
                 <FontAwesomeIcon icon="check" />
@@ -112,7 +112,7 @@ class EditableSelect extends Component {
 
               <button
                 type="button"
-                className="hl-primary-btn no-background no-border"
+                className="hl-primary-btn borderless"
                 onClick={this.props.cancel}
               >
                 <FontAwesomeIcon icon="times" />

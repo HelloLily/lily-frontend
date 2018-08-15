@@ -192,11 +192,6 @@ const EmailAccountForm = withRouter(
       color: '',
       privacy: EmailAccount.READONLY
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const request = EmailAccount.patch(values);
 

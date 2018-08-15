@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import List from 'components/List';
-import BlockUI from 'components/Utils/BlockUI';
 import Tenant from 'models/Tenant';
 
 class TenantSettings extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { tenant: {}, loading: true };
+    this.state = { tenant: {} };
   }
 
   async componentDidMount() {
     const tenantResponse = await Tenant.get();
 
     this.setState({
-      tenant: tenantResponse[0],
-      loading: false
+      tenant: tenantResponse[0]
     });
   }
 
@@ -33,63 +30,60 @@ class TenantSettings extends Component {
   saveSettings = () => {
     const { tenant } = this.state;
 
-    this.setState({ loading: true });
-
     Tenant.patch(tenant).then(() => {
-      this.setState({ loading: false });
+      // TODO: Show success message.
     });
   };
 
   render() {
-    const { tenant, loading } = this.state;
+    const { tenant } = this.state;
 
     return (
-      <BlockUI blocking={loading}>
-        <List>
-          <div className="list-header">
-            <div className="list-title flex-grow">Additional features</div>
-          </div>
+      <List>
+        <div className="list-header">
+          <div className="list-title flex-grow">Additional features</div>
+        </div>
 
-          <table className="hl-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Status</th>
-              </tr>
-            </thead>
+        <table className="hl-table">
+          <thead>
+            <tr>
+              <th className="w-20">Name</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
 
-            <tbody>
+          <tbody>
+            <tr>
+              <td>Time logging</td>
+              <td>Enable this feature so users can log hours on cases and deals.</td>
+              <td>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={tenant.timeloggingEnabled || false}
+                    onChange={() => this.toggleField('timeloggingEnabled')}
+                  />
+                  <div className="slider round" />
+                </label>
+              </td>
+            </tr>
+
+            {tenant.timeloggingEnabled && (
               <tr>
-                <td>Time logging</td>
-                <td>Enable this feature so users can log hours on cases and deals.</td>
+                <td>Billable default value</td>
+                <td>{"Sets the default for the 'Billable' value for logged hours."}</td>
                 <td>
                   <label className="switch">
-                    <input
-                      type="checkbox"
-                      onChange={() => this.toggleField('timeLoggingEnabled')}
-                    />
+                    <input type="checkbox" onChange={() => this.toggleField('billingDefault')} />
                     <div className="slider round" />
                   </label>
                 </td>
               </tr>
-
-              {tenant.timeLoggingEnabled && (
-                <tr>
-                  <td>Billable default value</td>
-                  <td>{"Sets the default for the 'Billable' value for logged hours."}</td>
-                  <td>
-                    <label className="switch">
-                      <input type="checkbox" onChange={() => this.toggleField('billingDefault')} />
-                      <div className="slider round" />
-                    </label>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </List>
-      </BlockUI>
+            )}
+          </tbody>
+        </table>
+      </List>
     );
   }
 }

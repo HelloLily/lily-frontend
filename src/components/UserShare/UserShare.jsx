@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { get } from 'lib/api';
 import { SELECT_STYLES } from 'lib/constants';
 import User from 'models/User';
 import EmailAccount from 'models/EmailAccount';
@@ -12,60 +12,100 @@ class UserShare extends Component {
     super(props);
 
     this.state = {
-      users: []
+      emailAccount: {},
+      privacyOptions: EmailAccount.privacyOptions()
     };
   }
 
-  async componentDidMount() {
-    const userResponse = User.query();
+  static getDerivedStateFromProps = nextProps => ({ emailAccount: nextProps.emailAccount });
 
-    this.setState({ users: userResponse });
-  }
+  toggleDelete = config => {
+    const { emailAccount } = this.state;
+
+    const foundConfig = emailAccount.sharedEmailConfigs.find(
+      emailConfig => emailConfig.id === config.id
+    );
+
+    if (foundConfig) {
+      foundConfig.isDeleted = !foundConfig.isDeleted;
+    }
+
+    this.setState({ emailAccount });
+  };
 
   searchUsers = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/users`);
+    const request = await User.query({ query });
 
     return request.results;
   };
 
   render() {
-    const { users } = this.state;
+    const { privacyOptions } = this.state;
 
     return (
-      <div>
-        {/* {this.props.emailAccount.sharedEmailConfigs.map(config => {
-          {
-            !config.isDeleted ? (
-              <div className="user-info">
-                <div className="user-avatar" />
-                <div className="m-l-15">{config.user.fullName}</div>
-              </div>
-            ) : null;
-          }
-        })} */}
+      <div className="shared-with-users">
+        {this.state.emailAccount.sharedEmailConfigs.map(config => (
+          <div className={`user-row${config.isDeleted ? ' is-deleted' : ''}`} key={config.id}>
+            <div className="user-info">
+              <img
+                className="user-avatar m-r-15"
+                src={config.user.profilePicture}
+                alt="User avatar"
+              />
+              <div>{config.user.fullName}</div>
+            </div>
 
-        <div className="display-flex">
+            <Select
+              styles={SELECT_STYLES}
+              options={EmailAccount.privacyOptions()}
+              getOptionLabel={option => option.name}
+              className="user-share-container"
+            />
+
+            <button
+              type="button"
+              className="hl-primary-btn m-l-15"
+              onClick={() => this.toggleDelete(config)}
+            >
+              {config.isDeleted ? (
+                <FontAwesomeIcon icon="undo" />
+              ) : (
+                <i className="lilicon hl-trashcan-icon" />
+              )}
+            </button>
+          </div>
+        ))}
+
+        <div className="user-share m-t-25">
           <AsyncSelect
             isMulti
             defaultOptions
-            // value={values.assignedTo}
             styles={SELECT_STYLES}
             placeholder="Select people to share the account with"
             onChange={value => this.props.handleAdditions(value)}
             loadOptions={this.searchUsers}
             getOptionLabel={option => option.fullName}
             getOptionValue={option => option.fullName}
+            className="user-share-container"
+            classNamePrefix="user-share"
           />
 
           <Select
+            value={privacyOptions[0]}
             styles={SELECT_STYLES}
-            options={EmailAccount.privacyOptions()}
+            options={privacyOptions}
             getOptionLabel={option => option.name}
+            className="user-share-container"
+            classNamePrefix="user-share"
           />
 
-          <button className="hl-primary-btn-green" onClick={this.props.addAdditions} type="button">
+          <button
+            className="hl-primary-btn-green m-l-5"
+            onClick={this.props.addAdditions}
+            type="button"
+          >
             Add
           </button>
         </div>

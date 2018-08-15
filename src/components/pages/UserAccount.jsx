@@ -112,24 +112,19 @@ const UserAccountForm = withRouter(
       passwordCheck: '',
       passwordConfirmation: ''
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
-    handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+    handleSubmit: (values, { setSubmitting, setErrors }) => {
       const request = User.patch(values);
 
       request
-        .then(response => {
-          // props.history.push(`/accounts/${response.id}`);
+        .then(() => {
+          window.location.reload();
         })
         .catch(errors => {
           setErrors(errors.data);
           setSubmitting(false);
         });
     },
-    displayName: 'ProfileForm'
+    displayName: 'UserAccountForm'
   })(InnerUserAccountForm)
 );
 

@@ -6,7 +6,7 @@ const FormFooter = props => (
     <div className="form-section-heading no-border" />
     <div className="form-section-content">
       <button type="submit" disabled={props.isSubmitting} className="hl-primary-btn-blue">
-        <FontAwesomeIcon icon="check" /> Save
+        <FontAwesomeIcon icon="check" /> {props.confirmText || 'Save'}
       </button>
 
       <button

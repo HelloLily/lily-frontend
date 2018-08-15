@@ -97,7 +97,11 @@ class InnerDealForm extends Component {
       {props.data.name}
 
       {props.data.dateIncrement > 0 && (
-        <span className="text-muted small"> (+{props.data.dateIncrement} days)</span>
+        <span className="text-muted small">
+          {' '}
+          (+
+          {props.data.dateIncrement} days)
+        </span>
       )}
     </components.Option>
   );
@@ -559,11 +563,6 @@ const DealForm = withRouter(
       quoteChecked: 0,
       tags: []
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const cleanedValues = Object.assign({}, values);
 

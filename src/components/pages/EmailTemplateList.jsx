@@ -57,10 +57,12 @@ class EmailTemplateList extends Component {
     });
 
     const showMoveTo =
-      folders.reduce((acc, folder) => {
-        // Count the amount of selected email template.
-        return acc + folder.emailTemplates.filter(template => template.checked).length;
-      }, 0) > 0;
+      folders.reduce(
+        (acc, folder) =>
+          // Count the amount of selected email template.
+          acc + folder.emailTemplates.filter(template => template.checked).length,
+        0
+      ) > 0;
 
     this.setState({ folders, showMoveTo });
   };
@@ -80,10 +82,12 @@ class EmailTemplateList extends Component {
   saveNewFolder = () => {
     const { folders, newFolder } = this.state;
 
+    this.setState({ loading: true });
+
     EmailTemplateFolder.post(newFolder).then(response => {
       folders.unshift(response);
 
-      this.setState({ folders, newFolder: null });
+      this.setState({ folders, newFolder: null, loading: false });
     });
   };
 
@@ -226,9 +230,9 @@ class EmailTemplateList extends Component {
                               <span> {emailTemplate.name}</span>
 
                               {emailTemplate.defaultFor.length > 0 && (
-                                <span className="label m-l-5">
+                                <div className="label m-l-5">
                                   Default for {emailTemplate.defaultFor.length} address(es)
-                                </span>
+                                </div>
                               )}
                             </td>
                             <td className="float-right">

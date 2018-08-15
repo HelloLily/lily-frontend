@@ -39,6 +39,18 @@ body {
   overflow-x: hidden;
 }
 
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.17em;
+}
+
 ul {
   list-style: none;
 }
@@ -116,6 +128,7 @@ textarea {
 
 .error-message {
   color: $app-color-red;
+  flex-basis: 100%;
 }
 
 .lilicon {
@@ -194,6 +207,37 @@ textarea {
       }
     }
   }
+}
+
+.lily-modal {
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  right: 25%;
+  bottom: 10%;
+  border: 1px $base-border-color solid;
+  background: #fff;
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  max-height: 90%;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(39, 36, 76, 0.5);
 }
 
 // TODO: Move the inbox and preference styling somewhere else.
@@ -292,13 +336,17 @@ li {
   text-transform: uppercase;
   font-weight: 400;
   font-size: 11px;
-  padding: 3px 8px;
+  line-height: 20px;
   margin: 2px;
   color: #fff;
   text-align: center;
 
   &.success {
     background: $app-color-mint;
+  }
+
+  &.info {
+    background: $lily-blue;
   }
 }
 

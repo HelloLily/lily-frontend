@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Editable from 'components/Editable';
 import List from 'components/List';
+import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
@@ -47,7 +48,7 @@ class CaseList extends Component {
       <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
-            <h1>Case list</h1>
+            <ColumnDisplay className="flex-grow" />
           </div>
           <table className="hl-table">
             <thead>
@@ -102,7 +103,11 @@ class CaseList extends Component {
                   </td>
                   <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
-                  <td>{caseObj.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
+                  <td>
+                    {caseObj.tags.map(tag => (
+                      <div key={tag.id}>{tag.name}</div>
+                    ))}
+                  </td>
                   <td>
                     <ListActions object={caseObj} {...this.props} />
                   </td>

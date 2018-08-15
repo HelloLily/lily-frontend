@@ -1,8 +1,12 @@
-import { get, patch } from 'src/lib/api';
+import { get, post, patch } from 'src/lib/api';
 
 class UserTeam {
   get(id) {
     return get(`/users/team/${id}/`);
+  }
+
+  post(data) {
+    return post('/users/team/', data);
   }
 
   patch(data) {

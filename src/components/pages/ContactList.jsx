@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { INACTIVE_EMAIL_STATUS } from 'lib/constants';
+import { INACTIVE_EMAIL_STATUS, MOBILE_PHONE_TYPE, WORK_PHONE_TYPE } from 'lib/constants';
 import List from 'components/List';
-import LilyDate from 'components/Utils/LilyDate';
-import LilyPagination from 'components/LilyPagination';
+import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
+import LilyPagination from 'components/LilyPagination';
+import LilyDate from 'components/Utils/LilyDate';
 import BlockUI from 'components/Utils/BlockUI';
 import Contact from 'models/Contact';
 
@@ -51,9 +52,10 @@ class ContactList extends Component {
         {!contact.phoneNumber &&
           account.phoneNumber && (
             <React.Fragment>
-              {account.phoneNumber.type === 'mobile' || account.phoneNumber.type === 'work' ? (
+              {account.phoneNumber.type === MOBILE_PHONE_TYPE ||
+              account.phoneNumber.type === 'work' ? (
                 <a href={`tel:${account.phoneNumber.number}`}>
-                  {account.phoneNumber.type === 'mobile' ? (
+                  {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
                     <FontAwesomeIcon icon="mobile" />
                   ) : (
                     <i className="lilicon hl-phone-filled-icon" />
@@ -74,7 +76,7 @@ class ContactList extends Component {
       <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
-            <h1>Contact list</h1>
+            <ColumnDisplay className="flex-grow" />
           </div>
           <table className="hl-table">
             <thead>
@@ -106,9 +108,9 @@ class ContactList extends Component {
                     ))}
                     {contact.phoneNumbers.map(phone => (
                       <div key={phone.id}>
-                        {phone.type === 'mobile' || phone.type === 'work' ? (
+                        {phone.type === MOBILE_PHONE_TYPE || phone.type === WORK_PHONE_TYPE ? (
                           <a href={`tel:${phone.number}`}>
-                            {phone.type === 'mobile' ? (
+                            {phone.type === MOBILE_PHONE_TYPE ? (
                               <FontAwesomeIcon icon="mobile" />
                             ) : (
                               <i className="lilicon hl-phone-filled-icon" />
@@ -136,7 +138,11 @@ class ContactList extends Component {
                   <td>
                     <LilyDate date={contact.modified} />
                   </td>
-                  <td>{contact.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
+                  <td>
+                    {contact.tags.map(tag => (
+                      <div key={tag.id}>{tag.name}</div>
+                    ))}
+                  </td>
                   <td>
                     <ListActions object={contact} {...this.props} />
                   </td>

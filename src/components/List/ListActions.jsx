@@ -6,11 +6,11 @@ const ListActions = props => {
 
   return (
     <div>
-      <Link to={url} className="hl-primary-btn no-background no-border">
+      <Link to={url} className="hl-primary-btn borderless">
         <i className="lilicon hl-edit-icon" />
       </Link>
 
-      <button className="hl-primary-btn no-background no-border m-l-10">
+      <button className="hl-primary-btn borderless m-l-10">
         <i className="lilicon hl-trashcan-icon" />
       </button>
     </div>

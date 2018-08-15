@@ -117,3 +117,5 @@ export const FORM_DATE_FORMAT = 'dd/MM/YYYY';
 export const DEAL_WON_STATUS = 'Won';
 export const DEAL_LOST_STATUS = 'Lost';
 export const DEAL_NONE_STEP = 'None';
+
+export const INVITE_EMPTY_ROW = { firstName: '', email: '' };

@@ -113,11 +113,6 @@ const EmailTemplateForm = withRouter(
       bodyHtml: '',
       attachments: []
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const request = EmailTemplate.post(values);
 

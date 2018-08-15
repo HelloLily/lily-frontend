@@ -482,11 +482,6 @@ const ContactForm = withRouter(
       socialMedia: [TWITTER_EMPTY_ROW, LINKEDIN_EMPTY_ROW],
       twitter: ''
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const cleanedValues = cleanRelatedFields(values);
 

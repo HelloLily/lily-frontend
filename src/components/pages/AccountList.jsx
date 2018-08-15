@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { MOBILE_PHONE_TYPE, WORK_PHONE_TYPE } from 'lib/constants';
 import List from 'components/List';
+import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
 import LilyPagination from 'components/LilyPagination';
@@ -53,14 +55,9 @@ class AccountList extends Component {
       <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
-            {/* TODO: This should be some generic List thing. */}
-            <button className="hl-primary-btn m-r-10">
-              <FontAwesomeIcon icon="columns" />
-              <span className="m-l-5 m-r-5">Columns</span>
-              <i className="lilicon hl-toggle-down-icon small" />
-            </button>
+            <ColumnDisplay />
 
-            <button className="hl-primary-btn m-r-10" onClick={this.export}>
+            <button className="hl-primary-btn m-l-10 m-r-10" onClick={this.export}>
               Export accounts
             </button>
 
@@ -97,9 +94,9 @@ class AccountList extends Component {
                     ))}
                     {account.phoneNumbers.map(phone => (
                       <div key={phone.id}>
-                        {phone.type === 'mobile' || phone.type === 'work' ? (
+                        {phone.type === MOBILE_PHONE_TYPE || phone.type === WORK_PHONE_TYPE ? (
                           <a href={`tel:${phone.number}`}>
-                            {phone.type === 'mobile' ? (
+                            {phone.type === MOBILE_PHONE_TYPE ? (
                               <FontAwesomeIcon icon="mobile" />
                             ) : (
                               <i className="lilicon hl-phone-filled-icon" />
@@ -121,7 +118,11 @@ class AccountList extends Component {
                     <LilyDate date={account.modified} />
                   </td>
                   <td>{account.status.name}</td>
-                  <td>{account.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
+                  <td>
+                    {account.tags.map(tag => (
+                      <div key={tag.id}>{tag.name}</div>
+                    ))}
+                  </td>
                   <td>
                     <ListActions object={account} {...this.props} />
                   </td>

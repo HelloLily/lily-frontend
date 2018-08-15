@@ -26,6 +26,7 @@
     "react-i18next": "^7.5.1",
     "react-js-pagination": "^3.0.2",
     "react-markdown": "^3.3.0",
+    "react-modal": "^3.5.1",
     "react-router-dom": "^4.2.2",
     "react-select": "^2.0.0",
     "react-tabs": "^2.2.2",

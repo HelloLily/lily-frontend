@@ -4,15 +4,32 @@ import convertKeys from './utils';
 import handleResponse from './handleResponse';
 import setupRequestOptions from './setupRequestOptions';
 
-export function get(path, _options) {
+export function createParams(params = {}) {
+  const convertedParams = convertKeys(params, true);
+
+  return Object.keys(convertedParams)
+    .map(key => {
+      const encodedKey = encodeURIComponent(key);
+      const encodedParam = encodeURIComponent(convertedParams[key]);
+
+      return `${encodedKey}=${encodedParam}`;
+    })
+    .join('&');
+}
+
+export function get(path, params, _options) {
   const { uri, options } = setupRequestOptions(path, _options);
 
-  if (cache.isCached(uri)) {
-    return cache.get(uri);
+  // TODO: Temporary work around because email messages don't have a proper API yet.
+  let url = uri.includes('search/') ? uri.replace('/api', '') : uri;
+
+  if (params) {
+    url += `&${createParams(params)}`;
   }
 
-  // TODO: Temporary work around because email messages don't have a proper API yet.
-  const url = uri.includes('search/') ? uri.replace('/api', '') : uri;
+  if (cache.isCached(url)) {
+    return cache.get(url);
+  }
 
   const promise = fetch(url, options).then(handleResponse);
 
@@ -63,17 +80,4 @@ export function patch(path, body) {
 export function del(path) {
   const { uri, options } = setupRequestOptions(path, { method: 'DELETE' });
   return fetch(uri, options).then(handleResponse);
-}
-
-export function createParams(params = {}) {
-  const convertedParams = convertKeys(params, true);
-
-  return Object.keys(convertedParams)
-    .map(key => {
-      const encodedKey = encodeURIComponent(key);
-      const encodedParam = encodeURIComponent(convertedParams[key]);
-
-      return `${encodedKey}=${encodedParam}`;
-    })
-    .join('&');
 }

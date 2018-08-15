@@ -33,8 +33,8 @@ class EmailAccount {
     return del(`/messaging/email/accounts/${id}/`);
   }
 
-  query() {
-    const response = get('/messaging/email/accounts/');
+  query(params) {
+    const response = get('/messaging/email/accounts/', params);
 
     return response;
   }

@@ -66,12 +66,6 @@ class DealDetail extends Component {
     });
   };
 
-  updateModel = (data, field) => {
-    const { deal } = this.state;
-
-    const args = {};
-  };
-
   submitCallback = args => {
     this.setState({ loading: true });
 

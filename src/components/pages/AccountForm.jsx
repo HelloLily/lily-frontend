@@ -174,7 +174,8 @@ class InnerAccountForm extends Component {
     const { accountSuggestions, contactSuggestions, showSuggestions } = this.state;
 
     if (!this.props.values.id && emailAddress) {
-      // There was a call for the current user, so try to find an account with the given email address.
+      // There was a call for the current user,
+      // so try to find an account with the given email address.
       const response = await Account.searchByEmailAddress(emailAddress);
       const { type } = response;
 
@@ -208,7 +209,8 @@ class InnerAccountForm extends Component {
     const { accountSuggestions, contactSuggestions, showSuggestions } = this.state;
 
     if (!this.props.values.id && phoneNumber) {
-      // There was a call for the current user, so try to find an account or contact with the given number.
+      // There was a call for the current user,
+      // so try to find an account or contact with the given number.
       const response = await Account.searchByPhoneNumber(phoneNumber);
 
       if (response.data.account) {
@@ -534,11 +536,6 @@ const AccountForm = withRouter(
       socialMedia: [TWITTER_EMPTY_ROW],
       twitter: ''
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const cleanedValues = cleanRelatedFields(values);
 

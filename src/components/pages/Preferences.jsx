@@ -12,6 +12,7 @@ import EmailTemplateForm from './EmailTemplateForm';
 import EmailTemplateList from './EmailTemplateList';
 import TemplateVariableList from './TemplateVariableList';
 import UserList from './UserList';
+import InviteForm from './InviteForm';
 import TenantSettings from './TenantSettings';
 
 const Preferences = props => {
@@ -130,6 +131,7 @@ const Preferences = props => {
             <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
             <Route path="/preferences/templatevariables" component={TemplateVariableList} />
             <Route path="/preferences/users" component={UserList} />
+            <Route path="/preferences/invite" component={InviteForm} />
             <Route path="/preferences/settings" component={TenantSettings} />
           </Switch>
         </div>

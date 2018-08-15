@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import withContext from 'src/withContext';
 import './feature_unavailable.scss';
 
 const FeatureUnavailableMarker = props => {
-  const { tier } = props;
-  // TODO: Change to actual value.
-  const currentTier = 0;
+  const { tier, currentUser } = props;
+  const currentTier = currentUser.tenant.billing.plan.tier;
 
   return (
     <React.Fragment>
@@ -25,4 +25,4 @@ const FeatureUnavailableMarker = props => {
   );
 };
 
-export default FeatureUnavailableMarker;
+export default withContext(FeatureUnavailableMarker);

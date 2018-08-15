@@ -69,6 +69,11 @@ $large-button-size: 31px;
     line-height: $small-button-size;
     padding: 0 ($small-button-size / 4);
   }
+
+  &.borderless {
+    border: 0;
+    background: none;
+  }
 }
 
 .hl-primary-btn-green {
@@ -149,6 +154,24 @@ $large-button-size: 31px;
 
     &:last-child {
       border-radius: 0 4px 4px 0;
+    }
+  }
+}
+
+.filter-group {
+  display: flex;
+
+  .hl-primary-btn {
+    border-color: transparent;
+    min-width: 50px;
+
+    &:not(:last-of-type) {
+      margin-right: 5px;
+    }
+
+    &.active {
+      color: $app-color-aqua;
+      border-color: $inner-border-color;
     }
   }
 }

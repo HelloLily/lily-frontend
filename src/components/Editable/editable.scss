@@ -28,7 +28,7 @@
   border-top-left-radius: $base-border-radius;
   border-bottom-left-radius: $base-border-radius;
   display: inline-block;
-  line-height: $default-line-height + 2;
+  line-height: $default-line-height;
   position: relative;
   padding: 0 6px;
   border: 1px transparent solid;
@@ -47,7 +47,7 @@
     overflow: hidden;
     font-family: 'lilicon';
     content: $hl-edit-icon;
-    line-height: $default-line-height + 2;
+    line-height: $default-line-height;
     visibility: hidden;
     width: 0;
     right: 0;
@@ -61,7 +61,7 @@
     &:after {
       transition: all ease-in-out 0.3s;
       visibility: visible;
-      width: $default-line-height + 2;
+      width: $default-line-height;
       right: -$default-line-height - 2;
       z-index: 99;
     }
@@ -75,8 +75,8 @@
     border: 1px $lily-grey solid;
     margin-left: 0;
     border-radius: 0;
-    height: $default-line-height + 4;
-    width: $default-line-height + 4;
+    height: $default-line-height + 2;
+    width: $default-line-height + 2;
     text-align: center;
     padding: 0;
     line-height: $default-line-height;

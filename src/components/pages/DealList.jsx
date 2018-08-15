@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import List from 'components/List';
+import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import BlockUI from 'components/Utils/BlockUI';
@@ -44,7 +45,7 @@ class DealList extends Component {
       <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
-            <h1>Deal list</h1>
+            <ColumnDisplay className="flex-grow" />
           </div>
           <table className="hl-table">
             <thead>
@@ -95,7 +96,11 @@ class DealList extends Component {
                     <LilyDate date={deal.created} />
                   </td>
                   <td>{deal.createdBy ? deal.createdBy.fullName : 'Unknown'}</td>
-                  <td>{deal.tags.map(tag => <div key={tag.id}>{tag.name}</div>)}</td>
+                  <td>
+                    {deal.tags.map(tag => (
+                      <div key={tag.id}>{tag.name}</div>
+                    ))}
+                  </td>
                   <td>
                     <ListActions object={deal} {...this.props} />
                   </td>

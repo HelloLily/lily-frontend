@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 
 import withContext from 'src/withContext';
-import formatPhoneNumber from 'utils/formatPhoneNumber';
+// import formatPhoneNumber from 'utils/formatPhoneNumber';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
@@ -150,13 +150,9 @@ const ProfileForm = withRouter(
       phoneNumber: '',
       internalNumber: ''
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
-    handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-      // Show message if notifications are supported by the browser, but haven't been accepted/declined.
+    handleSubmit: (values, { setSubmitting, setErrors }) => {
+      // Show message if notifications are supported by the browser,
+      // but haven't been accepted/declined.
       if (
         'Notification' in window &&
         Notification.permission !== 'granted' &&
@@ -177,7 +173,7 @@ const ProfileForm = withRouter(
 
       request
         .then(() => {
-          // props.history.push(`/accounts/${response.id}`);
+          window.location.reload();
         })
         .catch(errors => {
           setErrors(errors.data);

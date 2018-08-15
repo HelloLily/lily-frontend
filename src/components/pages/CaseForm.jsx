@@ -393,11 +393,6 @@ const CaseForm = withRouter(
       expires: format(new Date(), FORM_DATE_FORMAT),
       tags: []
     }),
-    // validationSchema: Yup.object().shape({
-    //   email: Yup.string()
-    //     .email('Invalid email address')
-    //     .required('Email is required!'),
-    // }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const cleanedValues = Object.assign({}, values);
 

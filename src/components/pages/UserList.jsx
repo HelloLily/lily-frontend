@@ -1,28 +1,48 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import List from 'components/List';
+import withContext from 'src/withContext';
 import Editable from 'components/Editable';
+import List from 'components/List';
+import ColumnDisplay from 'components/List/ColumnDisplay';
 import LilyPagination from 'components/LilyPagination';
 import BlockUI from 'components/Utils/BlockUI';
+import Settings from 'models/Settings';
+import UserInvite from 'models/UserInvite';
+import UserTeam from 'models/UserTeam';
 import User from 'models/User';
 
 class UserList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { users: [], pagination: {}, loading: true };
+    this.settings = new Settings('userList');
+
+    this.state = {
+      users: [],
+      invites: [],
+      pagination: {},
+      loading: true,
+      statusFilter: 0
+    };
   }
 
   async componentDidMount() {
     const userResponse = await User.query({ pageSize: 20 });
+    const inviteResponse = await UserInvite.query({ pageSize: 20 });
 
     this.setState({
       users: userResponse.results,
+      invites: inviteResponse.results,
       pagination: userResponse.pagination,
       loading: false
     });
   }
+
+  setFilter = value => {
+    this.setState({ statusFilter: value });
+  };
 
   setPage = async page => {
     this.setState({ loading: true });
@@ -36,10 +56,36 @@ class UserList extends Component {
     });
   };
 
-  addTeam = () => {};
+  handleName = event => {
+    const { newTeam } = this.state;
+
+    newTeam.name = event.target.value;
+
+    this.setState({ newTeam });
+  };
+
+  addTeam = () => {
+    this.setState({ newTeam: { name: '' } });
+  };
+
+  saveNewTeam = () => {
+    const { newTeam } = this.state;
+
+    this.setState({ loading: true });
+
+    UserTeam.post(newTeam).then(() => {
+      this.setState({ newTeam: null, loading: false });
+    });
+  };
+
+  cancelNewTeam = () => {
+    this.setState({ newTeam: null });
+  };
 
   render() {
-    const { users, pagination, loading } = this.state;
+    const { users, invites, pagination, loading, statusFilter, newTeam } = this.state;
+
+    const filterOptions = ['All', 'Active', 'Inactive', 'Invited'];
 
     return (
       <BlockUI blocking={loading}>
@@ -47,22 +93,34 @@ class UserList extends Component {
           <div className="list-header">
             <div className="list-title flex-grow">Users</div>
 
-            <button className="hl-primary-btn m-r-10">
+            <Link to="/preferences/invite" className="hl-primary-btn m-r-10">
               <FontAwesomeIcon icon="plus" /> User
-            </button>
+            </Link>
 
             <button className="hl-primary-btn" onClick={this.addTeam}>
               <FontAwesomeIcon icon="plus" /> Team
             </button>
           </div>
           <div className="list-header">
-            {/* TODO: This should be some generic List thing. */}
-            <button className="hl-primary-btn m-r-10">
-              <FontAwesomeIcon icon="columns" />
-              <span className="m-l-5 m-r-5">Columns</span>
-              <i className="lilicon hl-toggle-down-icon small" />
-            </button>
+            <ColumnDisplay className="flex-grow" />
+
+            <div className="filter-group">
+              {filterOptions.map((option, index) => {
+                const buttonClassName = `hl-primary-btn${statusFilter === index ? ' active' : ''}`;
+
+                return (
+                  <button
+                    key={`option-${option.toLowerCase()}`}
+                    className={buttonClassName}
+                    onClick={() => this.setFilter(index)}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
           <table className="hl-table">
             <thead>
               <tr>
@@ -76,18 +134,76 @@ class UserList extends Component {
                 <th>Actions</th>
               </tr>
             </thead>
+
+            {newTeam && (
+              <tbody>
+                <tr>
+                  <td colSpan="8">
+                    <div className="editable-wrap display-flex">
+                      <input
+                        type="text"
+                        className="editable-input editable-has-buttons"
+                        onChange={this.handleName}
+                      />
+                      <span className="editable-buttons">
+                        <button onClick={this.saveNewTeam}>
+                          <FontAwesomeIcon icon="check" />
+                        </button>
+                        <button onClick={this.cancelNewTeam}>
+                          <FontAwesomeIcon icon="times" />
+                        </button>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            )}
+
             <tbody>
+              {invites.map(invite => (
+                <tr key={invite.id}>
+                  <td>{invite.firstName}</td>
+                  <td />
+                  <td>{invite.email}</td>
+                  <td colSpan="2" />
+                  <td>
+                    <div className="label info">Invited</div>
+                  </td>
+                  <td />
+                  <td>
+                    <button className="hl-primary-btn borderless" type="button">
+                      <FontAwesomeIcon icon="undo" />
+                    </button>
+
+                    <button className="hl-primary-btn borderless" type="button">
+                      <i className="lilicon hl-trashcan-icon" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
               {users.map(user => (
                 <tr key={user.id}>
                   <td>{user.fullName}</td>
-                  <td>{user.teams.map(team => <div key={team.id}>{team.name}</div>)}</td>
+                  <td>
+                    {user.teams.map(team => (
+                      <div key={team.id}>{team.name}</div>
+                    ))}
+                  </td>
                   <td>{user.email}</td>
                   <td>{user.phoneNumber}</td>
-                  <td>{user.internalNumber}</td>
                   <td>
-                    <span className={`label ${user.isActive ? 'success' : ''}`}>
+                    <Editable
+                      type="text"
+                      object={user}
+                      field="internalNumber"
+                      // submitCallback={submitCallback}
+                    />
+                  </td>
+                  <td>
+                    <div className={`label ${user.isActive ? 'success' : ''}`}>
                       {user.isActive ? 'Active' : 'Inactive'}
-                    </span>
+                    </div>
                   </td>
                   <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
                   <td />
@@ -104,4 +220,4 @@ class UserList extends Component {
   }
 }
 
-export default UserList;
+export default withContext(UserList);
