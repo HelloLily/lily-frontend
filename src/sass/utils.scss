@@ -35,6 +35,10 @@ $sides: (top, bottom, left, right);
 
   .clickable {
     cursor: pointer;
+
+    > * {
+      cursor: pointer;
+    }
   }
 
   .no-background {

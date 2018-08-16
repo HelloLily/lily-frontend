@@ -19,7 +19,18 @@ class UserList extends Component {
 
     this.settings = new Settings('userList');
 
+    const columns = [
+      { key: 'fullName', text: 'Name', selected: true },
+      { key: 'teams', text: 'Team(s)', selected: true },
+      { key: 'email', text: 'Email address', selected: true },
+      { key: 'phoneNumber', text: 'Phone number', selected: true },
+      { key: 'internalNumber', text: 'Internal number', selected: true },
+      { key: 'isActive', text: 'Status', selected: true },
+      { key: 'twoFactor', text: '2FA Active', selected: true }
+    ];
+
     this.state = {
+      columns,
       users: [],
       invites: [],
       pagination: {},
@@ -82,8 +93,18 @@ class UserList extends Component {
     this.setState({ newTeam: null });
   };
 
+  toggleColumn = index => {
+    const { columns } = this.state;
+
+    columns[index].selected = !columns[index].selected;
+
+    this.settings.store({ columns }).then(() => {
+      this.setState({ columns });
+    });
+  };
+
   render() {
-    const { users, invites, pagination, loading, statusFilter, newTeam } = this.state;
+    const { columns, users, invites, pagination, loading, statusFilter, newTeam } = this.state;
 
     const filterOptions = ['All', 'Active', 'Inactive', 'Invited'];
 
@@ -102,7 +123,11 @@ class UserList extends Component {
             </button>
           </div>
           <div className="list-header">
-            <ColumnDisplay className="flex-grow" />
+            <ColumnDisplay
+              className="flex-grow"
+              columns={columns}
+              toggleColumn={this.toggleColumn}
+            />
 
             <div className="filter-group">
               {filterOptions.map((option, index) => {
@@ -124,13 +149,13 @@ class UserList extends Component {
           <table className="hl-table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Team(s)</th>
-                <th>Email</th>
-                <th>Phone number</th>
-                <th>Internal number</th>
-                <th>Status</th>
-                <th>2FA Active</th>
+                {columns[0].selected && <th>Name</th>}
+                {columns[1].selected && <th>Team(s)</th>}
+                {columns[2].selected && <th>Email address</th>}
+                {columns[3].selected && <th>Phone number</th>}
+                {columns[4].selected && <th>Internal number</th>}
+                {columns[5].selected && <th>Status</th>}
+                {columns[6].selected && <th>2FA Active</th>}
                 <th>Actions</th>
               </tr>
             </thead>
@@ -184,28 +209,36 @@ class UserList extends Component {
 
               {users.map(user => (
                 <tr key={user.id}>
-                  <td>{user.fullName}</td>
-                  <td>
-                    {user.teams.map(team => (
-                      <div key={team.id}>{team.name}</div>
-                    ))}
-                  </td>
-                  <td>{user.email}</td>
-                  <td>{user.phoneNumber}</td>
-                  <td>
-                    <Editable
-                      type="text"
-                      object={user}
-                      field="internalNumber"
-                      // submitCallback={submitCallback}
-                    />
-                  </td>
-                  <td>
-                    <div className={`label ${user.isActive ? 'success' : ''}`}>
-                      {user.isActive ? 'Active' : 'Inactive'}
-                    </div>
-                  </td>
-                  <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
+                  {columns[0].selected && <td>{user.fullName}</td>}
+                  {columns[1].selected && (
+                    <td>
+                      {user.teams.map(team => (
+                        <div key={team.id}>{team.name}</div>
+                      ))}
+                    </td>
+                  )}
+                  {columns[2].selected && <td>{user.email}</td>}
+                  {columns[3].selected && <td>{user.phoneNumber}</td>}
+                  {columns[4].selected && (
+                    <td>
+                      <Editable
+                        type="text"
+                        object={user}
+                        field="internalNumber"
+                        // submitCallback={submitCallback}
+                      />
+                    </td>
+                  )}
+                  {columns[5].selected && (
+                    <td>
+                      <div className={`label ${user.isActive ? 'success' : ''}`}>
+                        {user.isActive ? 'Active' : 'Inactive'}
+                      </div>
+                    </td>
+                  )}
+                  {columns[6].selected && (
+                    <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
+                  )}
                   <td />
                 </tr>
               ))}

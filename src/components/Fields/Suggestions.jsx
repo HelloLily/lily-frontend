@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import convertFromCamelCase from 'utils/convertFromCamelCase';
+
 class Suggestions extends Component {
   constructor(props) {
     super(props);
 
-    // Convert camelCase to normal spaced word.
-    let label = props.field.replace(/([A-Z])/g, ' $1').toLowerCase();
-    // Uppercase the first letter.
-    label = label.charAt(0).toUpperCase() + label.slice(1);
+    const label = convertFromCamelCase(props.field);
 
     // Model is the plural version of the given type.
     const model = `${props.type}s`;

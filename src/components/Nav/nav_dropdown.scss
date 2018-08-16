@@ -1,7 +1,26 @@
 @import '~style/variables/colors';
 @import '~style/variables/measurements';
 
-.dropdown-menu {
+.header-avatar {
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: #fff;
+  }
+
+  img {
+    height: 30px;
+    width: 30px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+  }
+}
+
+.nav-dropdown-menu {
   background: #fff;
   padding: 0;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -20,8 +39,8 @@
         white-space: nowrap;
 
         &:hover {
-            background-color: $app-color-aqua;
-            color: #fff;
+          background-color: $app-color-aqua;
+          color: #fff;
         }
       }
     }
@@ -56,24 +75,5 @@
         width: 150px;
       }
     }
-  }
-}
-
-.header-avatar {
-  color: $text-muted;
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    color: #fff;
-  }
-
-  img {
-    height: 30px;
-    width: 30px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 50%;
   }
 }
