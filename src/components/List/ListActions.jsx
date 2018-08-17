@@ -10,7 +10,7 @@ const ListActions = props => {
         <i className="lilicon hl-edit-icon" />
       </Link>
 
-      <button className="hl-primary-btn borderless m-l-10">
+      <button className="hl-primary-btn borderless m-l-5">
         <i className="lilicon hl-trashcan-icon" />
       </button>
     </div>

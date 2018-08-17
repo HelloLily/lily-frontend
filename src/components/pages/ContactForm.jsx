@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import AsyncSelect from 'react-select/lib/Async';
 
-import { get } from 'lib/api';
 import withContext from 'src/withContext';
 import {
   SELECT_STYLES,
@@ -32,7 +31,8 @@ class InnerContactForm extends Component {
     this.state = {
       accountSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
       contactSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
-      showSuggestions: { name: true, emailAddress: true, phoneNumber: true }
+      showSuggestions: { name: true, emailAddress: true, phoneNumber: true },
+      loading: true
     };
   }
 
@@ -44,6 +44,8 @@ class InnerContactForm extends Component {
 
       this.props.setValues(contactResponse);
     }
+
+    this.setState({ loading: false });
   }
 
   NoOptionsMessage = props => {
@@ -80,7 +82,8 @@ class InnerContactForm extends Component {
     const { accountSuggestions, contactSuggestions, showSuggestions } = this.state;
 
     if (!this.props.values.id && emailAddress) {
-      // There was a call for the current user, so try to find an account with the given email address.
+      // There was a call for the current user,
+      // so try to find an account with the given email address.
       const response = await Account.searchByEmailAddress(emailAddress);
       const { type } = response;
 
@@ -118,7 +121,8 @@ class InnerContactForm extends Component {
     const { accountSuggestions, contactSuggestions, showSuggestions } = this.state;
 
     if (!this.props.values.id && phoneNumber) {
-      // There was a call for the current user, so try to find an account or contact with the given number.
+      // There was a call for the current user,
+      // so try to find an account or contact with the given number.
       const response = await Account.searchByPhoneNumber(phoneNumber);
 
       if (response.data.account) {
@@ -155,7 +159,7 @@ class InnerContactForm extends Component {
   searchAccounts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/accounts/`);
+    const request = await Account.query({ query });
 
     return request.results;
   };
@@ -228,7 +232,7 @@ class InnerContactForm extends Component {
   };
 
   render() {
-    const { accountSuggestions, contactSuggestions, showSuggestions } = this.state;
+    const { accountSuggestions, contactSuggestions, showSuggestions, loading } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     const twitterProfile = values.socialMedia.find(profile => profile.type === 'twitter');
@@ -238,229 +242,237 @@ class InnerContactForm extends Component {
     const linkedInUsername = linkedInProfile ? linkedInProfile.username : '';
 
     return (
-      <BlockUI blocking={isSubmitting}>
-        <div className="content-block-container">
-          <div className="content-block">
-            <div className="content-block-header">
-              <div className="content-block-name">Add contact</div>
-            </div>
+      <React.Fragment>
+        {!loading ? (
+          <BlockUI blocking={isSubmitting}>
+            <div className="content-block-container">
+              <div className="content-block">
+                <div className="content-block-header">
+                  <div className="content-block-name">Add contact</div>
+                </div>
 
-            <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
-                <FormSection header="Who was it?">
-                  <div className="form-field">
-                    <label required>Salutation</label>
-                    <RadioButtons
-                      options={['Formal', 'Informal']}
-                      setSelection={this.handleSalutation}
-                    />
-                  </div>
-
-                  <div className="form-field">
-                    <label required>Gender</label>
-                    <RadioButtons
-                      options={['Male', 'Female', 'Unknown/Other']}
-                      setSelection={this.handleGender}
-                    />
-                  </div>
-
-                  <div
-                    className={`form-field${
-                      errors.firstName || errors.lastName ? ' has-error' : ''
-                    }`}
-                  >
-                    <label htmlFor="name" required>
-                      Name
-                    </label>
-
-                    <div className="display-flex">
-                      <div className="flex-grow m-r-10">
-                        <input
-                          id="firstName"
-                          type="text"
-                          className="hl-input"
-                          placeholder="First name"
-                          value={values.firstName}
-                          onChange={handleChange}
-                          onBlur={this.searchName}
+                <div className="content-block-content">
+                  <form onSubmit={handleSubmit}>
+                    <FormSection header="Who was it?">
+                      <div className="form-field">
+                        <label required>Salutation</label>
+                        <RadioButtons
+                          options={['Formal', 'Informal']}
+                          setSelection={this.handleSalutation}
                         />
-
-                        {errors.firstName && (
-                          <div className="error-message">{errors.firstName}</div>
-                        )}
                       </div>
 
-                      <div className="flex-grow">
-                        <input
-                          id="lastName"
-                          type="text"
-                          className="hl-input"
-                          placeholder="Last name"
-                          value={values.lastName}
-                          onChange={handleChange}
-                          onBlur={this.searchName}
+                      <div className="form-field">
+                        <label required>Gender</label>
+                        <RadioButtons
+                          options={['Male', 'Female', 'Unknown/Other']}
+                          setSelection={this.handleGender}
                         />
-
-                        {errors.lastName && <div className="error-message">{errors.lastName}</div>}
                       </div>
-                    </div>
-                  </div>
 
-                  <Suggestions
-                    field="name"
-                    type="contact"
-                    suggestions={contactSuggestions.name}
-                    display={showSuggestions.name}
-                    handleMerge={this.merge}
-                    handleClose={this.handleClose}
-                  />
+                      <div
+                        className={`form-field${
+                          errors.firstName || errors.lastName ? ' has-error' : ''
+                        }`}
+                      >
+                        <label htmlFor="name" required>
+                          Name
+                        </label>
 
-                  <div className="form-field">
-                    <label htmlFor="accounts">Works at</label>
-                    <AsyncSelect
-                      defaultOptions
-                      isMulti
-                      name="accounts"
-                      classNamePrefix="editable-input"
-                      placeholder="Select one or more account(s)"
-                      value={values.accounts}
-                      styles={SELECT_STYLES}
-                      onChange={this.handleAccounts}
-                      loadOptions={this.searchAccounts}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      components={{ NoOptionsMessage: this.NoOptionsMessage }}
-                    />
-                  </div>
+                        <div className="display-flex">
+                          <div className="flex-grow m-r-10">
+                            <input
+                              id="firstName"
+                              type="text"
+                              className="hl-input"
+                              placeholder="First name"
+                              value={values.firstName}
+                              onChange={handleChange}
+                              onBlur={this.searchName}
+                            />
 
-                  <div className="form-field">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                      id="description"
-                      placeholder="Description"
-                      rows="3"
-                      value={values.description}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </FormSection>
+                            {errors.firstName && (
+                              <div className="error-message">{errors.firstName}</div>
+                            )}
+                          </div>
 
-                <FormSection header="Contact information">
-                  <div className="form-field">
-                    <label>Email address</label>
-                    <EmailAddressField
-                      items={values.emailAddresses}
-                      handleRelated={this.handleRelated}
-                      onInputBlur={this.searchEmailAddress}
-                      errors={errors}
-                    />
-                  </div>
+                          <div className="flex-grow">
+                            <input
+                              id="lastName"
+                              type="text"
+                              className="hl-input"
+                              placeholder="Last name"
+                              value={values.lastName}
+                              onChange={handleChange}
+                              onBlur={this.searchName}
+                            />
 
-                  <Suggestions
-                    field="emailAddress"
-                    type="account"
-                    suggestions={accountSuggestions.emailAddress}
-                    display={showSuggestions.emailAddress}
-                    handleMerge={this.merge}
-                    handleClose={this.handleClose}
-                  />
-
-                  <Suggestions
-                    field="emailAddress"
-                    type="contact"
-                    suggestions={contactSuggestions.emailAddress}
-                    display={showSuggestions.emailAddress}
-                    handleClose={this.handleClose}
-                  />
-
-                  <div className="form-field">
-                    <label>Phone number</label>
-                    <PhoneNumberField
-                      items={values.phoneNumbers}
-                      handleRelated={this.handleRelated}
-                      addresses={values.addresses}
-                      onInputBlur={this.searchPhoneNumber}
-                      errors={errors}
-                    />
-                  </div>
-
-                  <Suggestions
-                    field="phoneNumber"
-                    type="account"
-                    suggestions={accountSuggestions.phoneNumber}
-                    display={showSuggestions.phoneNumber}
-                    handleMerge={this.merge}
-                    handleClose={this.handleClose}
-                  />
-
-                  <Suggestions
-                    field="phoneNumber"
-                    type="contact"
-                    suggestions={contactSuggestions.phoneNumber}
-                    display={showSuggestions.phoneNumber}
-                    handleClose={this.handleClose}
-                  />
-
-                  <div className="form-field">
-                    <label>Address</label>
-                    <AddressField
-                      items={values.addresses}
-                      handleRelated={this.handleRelated}
-                      errors={errors}
-                    />
-                  </div>
-                </FormSection>
-
-                <FormSection header="Tags">
-                  <div className="form-field">
-                    <label>Tags</label>
-                    <TagField items={values.tags} handleRelated={this.handleRelated} />
-                  </div>
-                </FormSection>
-
-                <FormSection header="Social">
-                  <div className="form-field">
-                    <label htmlFor="twitter">Twitter</label>
-                    <div className="input-addon">
-                      <div className="input-addon-icon">
-                        <FontAwesomeIcon icon={['fab', 'twitter']} />
+                            {errors.lastName && (
+                              <div className="error-message">{errors.lastName}</div>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <input
-                        id="twitter"
-                        type="text"
-                        className="hl-input"
-                        placeholder="Twitter"
-                        value={twitterUsername}
-                        onChange={this.handleSocialMedia}
+
+                      <Suggestions
+                        field="name"
+                        type="contact"
+                        suggestions={contactSuggestions.name}
+                        display={showSuggestions.name}
+                        handleMerge={this.merge}
+                        handleClose={this.handleClose}
                       />
-                    </div>
-                  </div>
 
-                  <div className="form-field">
-                    <label htmlFor="linkedin">LinkedIn</label>
-
-                    <div className="input-addon">
-                      <div className="input-addon-icon">
-                        <FontAwesomeIcon icon={['fab', 'linkedin-in']} />
+                      <div className="form-field">
+                        <label htmlFor="accounts">Works at</label>
+                        <AsyncSelect
+                          defaultOptions
+                          isMulti
+                          name="accounts"
+                          classNamePrefix="editable-input"
+                          placeholder="Select one or more account(s)"
+                          value={values.accounts}
+                          styles={SELECT_STYLES}
+                          onChange={this.handleAccounts}
+                          loadOptions={this.searchAccounts}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          components={{ NoOptionsMessage: this.NoOptionsMessage }}
+                        />
                       </div>
-                      <input
-                        id="linkedin"
-                        type="text"
-                        className="hl-input"
-                        placeholder="LinkedIn"
-                        value={linkedInUsername}
-                        onChange={this.handleSocialMedia}
-                      />
-                    </div>
-                  </div>
-                </FormSection>
 
-                <FormFooter {...this.props} />
-              </form>
+                      <div className="form-field">
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                          id="description"
+                          placeholder="Description"
+                          rows="3"
+                          value={values.description}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Contact information">
+                      <div className="form-field">
+                        <label>Email address</label>
+                        <EmailAddressField
+                          items={values.emailAddresses}
+                          handleRelated={this.handleRelated}
+                          onInputBlur={this.searchEmailAddress}
+                          errors={errors}
+                        />
+                      </div>
+
+                      <Suggestions
+                        field="emailAddress"
+                        type="account"
+                        suggestions={accountSuggestions.emailAddress}
+                        display={showSuggestions.emailAddress}
+                        handleMerge={this.merge}
+                        handleClose={this.handleClose}
+                      />
+
+                      <Suggestions
+                        field="emailAddress"
+                        type="contact"
+                        suggestions={contactSuggestions.emailAddress}
+                        display={showSuggestions.emailAddress}
+                        handleClose={this.handleClose}
+                      />
+
+                      <div className="form-field">
+                        <label>Phone number</label>
+                        <PhoneNumberField
+                          items={values.phoneNumbers}
+                          handleRelated={this.handleRelated}
+                          addresses={values.addresses}
+                          onInputBlur={this.searchPhoneNumber}
+                          errors={errors}
+                        />
+                      </div>
+
+                      <Suggestions
+                        field="phoneNumber"
+                        type="account"
+                        suggestions={accountSuggestions.phoneNumber}
+                        display={showSuggestions.phoneNumber}
+                        handleMerge={this.merge}
+                        handleClose={this.handleClose}
+                      />
+
+                      <Suggestions
+                        field="phoneNumber"
+                        type="contact"
+                        suggestions={contactSuggestions.phoneNumber}
+                        display={showSuggestions.phoneNumber}
+                        handleClose={this.handleClose}
+                      />
+
+                      <div className="form-field">
+                        <label>Address</label>
+                        <AddressField
+                          items={values.addresses}
+                          handleRelated={this.handleRelated}
+                          errors={errors}
+                        />
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Tags">
+                      <div className="form-field">
+                        <label>Tags</label>
+                        <TagField items={values.tags} handleRelated={this.handleRelated} />
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Social">
+                      <div className="form-field">
+                        <label htmlFor="twitter">Twitter</label>
+                        <div className="input-addon">
+                          <div className="input-addon-icon">
+                            <FontAwesomeIcon icon={['fab', 'twitter']} />
+                          </div>
+                          <input
+                            id="twitter"
+                            type="text"
+                            className="hl-input"
+                            placeholder="Twitter"
+                            value={twitterUsername}
+                            onChange={this.handleSocialMedia}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-field">
+                        <label htmlFor="linkedin">LinkedIn</label>
+
+                        <div className="input-addon">
+                          <div className="input-addon-icon">
+                            <FontAwesomeIcon icon={['fab', 'linkedin-in']} />
+                          </div>
+                          <input
+                            id="linkedin"
+                            type="text"
+                            className="hl-input"
+                            placeholder="LinkedIn"
+                            value={linkedInUsername}
+                            onChange={this.handleSocialMedia}
+                          />
+                        </div>
+                      </div>
+                    </FormSection>
+
+                    <FormFooter {...this.props} />
+                  </form>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </BlockUI>
+          </BlockUI>
+        ) : (
+          <div>Loading</div>
+        )}
+      </React.Fragment>
     );
   }
 }

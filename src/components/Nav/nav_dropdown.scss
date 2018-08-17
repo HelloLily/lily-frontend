@@ -10,9 +10,11 @@
     color: #fff;
   }
 
-  img {
+  img,
+  .avatar-placeholder {
     height: 30px;
     width: 30px;
+    background: $app-color-grey;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

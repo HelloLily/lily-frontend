@@ -11,8 +11,12 @@ const NavDropdown = props => (
     <Dropdown
       clickable={
         <div className="header-avatar m-r-20">
-          <img src={props.currentUser.profilePicture} className="m-r-5" alt="User avatar" />
-          <i className="lilicon hl-arrow-down-smll-icon" />
+          {props.currentUser.profilePicture ? (
+            <img src={props.currentUser.profilePicture} alt="User avatar" />
+          ) : (
+            <div className="avatar-placeholder" />
+          )}
+          <i className="lilicon hl-arrow-down-smll-icon m-l-5" />
         </div>
       }
       menu={

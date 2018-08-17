@@ -28,7 +28,8 @@ class InnerCaseForm extends Component {
     this.state = {
       caseTypes: [],
       caseStatuses: [],
-      casePriorities: []
+      casePriorities: [],
+      loading: true
     };
   }
 
@@ -59,6 +60,8 @@ class InnerCaseForm extends Component {
         this.props.setFieldValue('account', data.account);
       }
     }
+
+    this.setState({ loading: false });
   }
 
   searchName = async () => {
@@ -141,241 +144,250 @@ class InnerCaseForm extends Component {
   };
 
   render() {
-    const { caseTypes, caseStatuses, casePriorities } = this.state;
+    const { caseTypes, caseStatuses, casePriorities, loading } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
-      <BlockUI blocking={isSubmitting}>
-        <div className="content-block-container">
-          <div className="content-block">
-            <div className="content-block-header">
-              <div className="content-block-name">Add case</div>
+      <React.Fragment>
+        {!loading ? (
+          <BlockUI blocking={isSubmitting}>
+            <div className="content-block-container">
+              <div className="content-block">
+                <div className="content-block-header">
+                  <div className="content-block-name">Add case</div>
+                </div>
+
+                <div className="content-block-content">
+                  <form onSubmit={handleSubmit}>
+                    <FormSection header="Who was it?">
+                      <div className={`form-field${errors.account ? ' has-error' : ''}`}>
+                        <label htmlFor="account">Account</label>
+                        <AsyncSelect
+                          defaultOptions
+                          name="account"
+                          value={values.account}
+                          styles={SELECT_STYLES}
+                          onChange={this.handleAccount}
+                          loadOptions={this.searchAccounts}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          placeholder="Select an account"
+                        />
+
+                        {errors.account && <div className="error-message">{errors.account}</div>}
+                      </div>
+
+                      <div className={`form-field${errors.contact ? ' has-error' : ''}`}>
+                        <label htmlFor="contact">Contact</label>
+                        <AsyncSelect
+                          defaultOptions
+                          name="contact"
+                          value={values.contact}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('contact', value)}
+                          loadOptions={this.searchContacts}
+                          getOptionLabel={option => option.fullName}
+                          getOptionValue={option => option.fullName}
+                          placeholder="Select a contact"
+                        />
+
+                        {errors.contact && <div className="error-message">{errors.contact}</div>}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="What to do?">
+                      <div className={`form-field${errors.subject ? ' has-error' : ''}`}>
+                        <label htmlFor="subject" required>
+                          Subject
+                        </label>
+                        <input
+                          id="subject"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Subject"
+                          value={values.subject}
+                          onChange={handleChange}
+                          onBlur={this.searchName}
+                        />
+
+                        {errors.subject && <div className="error-message">{errors.subject}</div>}
+                      </div>
+
+                      <div className="form-field">
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                          id="description"
+                          placeholder="Description"
+                          rows="3"
+                          value={values.description}
+                          onChange={handleChange}
+                        />
+                      </div>
+
+                      <div className={`form-field${errors.type ? ' has-error' : ''}`}>
+                        <label htmlFor="type" required>
+                          Type
+                        </label>
+                        <Select
+                          name="type"
+                          value={values.type}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('type', value)}
+                          options={caseTypes}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          placeholder="Select a type"
+                        />
+
+                        {errors.type && <div className="error-message">{errors.type}</div>}
+                      </div>
+
+                      <div className={`form-field${errors.status ? ' has-error' : ''}`}>
+                        <label htmlFor="status" required>
+                          Status
+                        </label>
+                        <Select
+                          name="status"
+                          classNamePrefix="editable-input"
+                          value={values.status}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('status', value)}
+                          options={caseStatuses}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                        />
+
+                        {errors.status && <div className="error-message">{errors.status}</div>}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="When to do it?">
+                      <div className="form-field">
+                        <label htmlFor="priority" required>
+                          Priority
+                        </label>
+
+                        <div className="case-priority-buttons">
+                          {casePriorities.map(priority => {
+                            let dateIncrementText = '';
+
+                            if (priority.dateIncrement > 1) {
+                              dateIncrementText = `(in ${priority.dateIncrement} days)`;
+                            } else if (priority.dateIncrement === 1) {
+                              dateIncrementText = '(tomorrow)';
+                            } else {
+                              dateIncrementText = '(today)';
+                            }
+
+                            const isSelected = values.priority === priority.id;
+
+                            return (
+                              <button
+                                key={priority.id}
+                                type="button"
+                                className={`hl-primary-btn ${priority.name.toLowerCase()}-priority`}
+                                onClick={() => this.handlePriority(priority)}
+                              >
+                                <label
+                                  className={`radio-button${
+                                    isSelected ? ' active' : ''
+                                  } m-l-5 display-inline-block`}
+                                >
+                                  <input
+                                    readOnly
+                                    type="radio"
+                                    id={`priority-${priority.id}`}
+                                    className="radio-button-input"
+                                    checked={isSelected}
+                                  />
+
+                                  <span className="radio-button-label">
+                                    {isSelected && <span className="radio-button-checkmark" />}
+
+                                    {priority.name}
+                                  </span>
+                                </label>
+                                <span className="text-muted small"> {dateIncrementText}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className={`form-field${errors.expires ? ' has-error' : ''}`}>
+                        <label htmlFor="expires" required>
+                          Expiry date
+                        </label>
+                        <input
+                          id="expires"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Expiry date"
+                          value={values.expires}
+                          onChange={handleChange}
+                        />
+
+                        {errors.expires && <div className="error-message">{errors.expires}</div>}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Who is going to do this?">
+                      <div className={`form-field${errors.assignedToTeams ? ' has-error' : ''}`}>
+                        <label htmlFor="assignedToTeams">Assigned to teams</label>
+                        <AsyncSelect
+                          isMulti
+                          defaultOptions
+                          name="assignedToTeams"
+                          value={values.assignedToTeams}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('assignedToTeams', value)}
+                          loadOptions={this.searchTeams}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                        />
+
+                        {errors.assignedToTeams && (
+                          <div className="error-message">{errors.assignedToTeams}</div>
+                        )}
+                      </div>
+
+                      <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
+                        <label htmlFor="assignedTo">Assigned to</label>
+                        <AsyncSelect
+                          defaultOptions
+                          name="assignedTo"
+                          classNamePrefix="editable-input"
+                          value={values.assignedTo}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('assignedTo', value)}
+                          loadOptions={this.searchUsers}
+                          getOptionLabel={option => option.fullName}
+                          getOptionValue={option => option.fullName}
+                        />
+
+                        {errors.assignedTo && (
+                          <div className="error-message">{errors.assignedTo}</div>
+                        )}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Tags">
+                      <div className="form-field">
+                        <label>Tags</label>
+                        <TagField items={values.tags} handleRelated={this.handleRelated} />
+                      </div>
+                    </FormSection>
+
+                    <FormFooter {...this.props} />
+                  </form>
+                </div>
+              </div>
             </div>
-
-            <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
-                <FormSection header="Who was it?">
-                  <div className={`form-field${errors.account ? ' has-error' : ''}`}>
-                    <label htmlFor="account">Account</label>
-                    <AsyncSelect
-                      defaultOptions
-                      name="account"
-                      value={values.account}
-                      styles={SELECT_STYLES}
-                      onChange={this.handleAccount}
-                      loadOptions={this.searchAccounts}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      placeholder="Select an account"
-                    />
-
-                    {errors.account && <div className="error-message">{errors.account}</div>}
-                  </div>
-
-                  <div className={`form-field${errors.contact ? ' has-error' : ''}`}>
-                    <label htmlFor="contact">Contact</label>
-                    <AsyncSelect
-                      defaultOptions
-                      name="contact"
-                      value={values.contact}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('contact', value)}
-                      loadOptions={this.searchContacts}
-                      getOptionLabel={option => option.fullName}
-                      getOptionValue={option => option.fullName}
-                      placeholder="Select a contact"
-                    />
-
-                    {errors.contact && <div className="error-message">{errors.contact}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="What to do?">
-                  <div className={`form-field${errors.subject ? ' has-error' : ''}`}>
-                    <label htmlFor="subject" required>
-                      Subject
-                    </label>
-                    <input
-                      id="subject"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Subject"
-                      value={values.subject}
-                      onChange={handleChange}
-                      onBlur={this.searchName}
-                    />
-
-                    {errors.subject && <div className="error-message">{errors.subject}</div>}
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                      id="description"
-                      placeholder="Description"
-                      rows="3"
-                      value={values.description}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className={`form-field${errors.type ? ' has-error' : ''}`}>
-                    <label htmlFor="type" required>
-                      Type
-                    </label>
-                    <Select
-                      name="type"
-                      value={values.type}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('type', value)}
-                      options={caseTypes}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      placeholder="Select a type"
-                    />
-
-                    {errors.type && <div className="error-message">{errors.type}</div>}
-                  </div>
-
-                  <div className={`form-field${errors.status ? ' has-error' : ''}`}>
-                    <label htmlFor="status" required>
-                      Status
-                    </label>
-                    <Select
-                      name="status"
-                      classNamePrefix="editable-input"
-                      value={values.status}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('status', value)}
-                      options={caseStatuses}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                    />
-
-                    {errors.status && <div className="error-message">{errors.status}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="When to do it?">
-                  <div className="form-field">
-                    <label htmlFor="priority" required>
-                      Priority
-                    </label>
-
-                    <div className="case-priority-buttons">
-                      {casePriorities.map(priority => {
-                        let dateIncrementText = '';
-
-                        if (priority.dateIncrement > 1) {
-                          dateIncrementText = `(in ${priority.dateIncrement} days)`;
-                        } else if (priority.dateIncrement === 1) {
-                          dateIncrementText = '(tomorrow)';
-                        } else {
-                          dateIncrementText = '(today)';
-                        }
-
-                        const isSelected = values.priority === priority.id;
-
-                        return (
-                          <button
-                            key={priority.id}
-                            type="button"
-                            className={`hl-primary-btn ${priority.name.toLowerCase()}-priority`}
-                            onClick={() => this.handlePriority(priority)}
-                          >
-                            <label
-                              className={`radio-button${
-                                isSelected ? ' active' : ''
-                              } m-l-5 display-inline-block`}
-                            >
-                              <input
-                                type="radio"
-                                id={`priority-${priority.id}`}
-                                className="radio-button-input"
-                                checked={isSelected}
-                              />
-
-                              <span className="radio-button-label">
-                                {isSelected && <span className="radio-button-checkmark" />}
-
-                                {priority.name}
-                              </span>
-                            </label>
-                            <span className="text-muted small"> {dateIncrementText}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className={`form-field${errors.expires ? ' has-error' : ''}`}>
-                    <label htmlFor="expires" required>
-                      Expiry date
-                    </label>
-                    <input
-                      id="expires"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Expiry date"
-                      value={values.expires}
-                      onChange={handleChange}
-                    />
-
-                    {errors.expires && <div className="error-message">{errors.expires}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="Who is going to do this?">
-                  <div className={`form-field${errors.assignedToTeams ? ' has-error' : ''}`}>
-                    <label htmlFor="assignedToTeams">Assigned to teams</label>
-                    <AsyncSelect
-                      isMulti
-                      defaultOptions
-                      name="assignedToTeams"
-                      value={values.assignedToTeams}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('assignedToTeams', value)}
-                      loadOptions={this.searchTeams}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                    />
-
-                    {errors.assignedToTeams && (
-                      <div className="error-message">{errors.assignedToTeams}</div>
-                    )}
-                  </div>
-
-                  <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
-                    <label htmlFor="assignedTo">Assigned to</label>
-                    <AsyncSelect
-                      defaultOptions
-                      name="assignedTo"
-                      classNamePrefix="editable-input"
-                      value={values.assignedTo}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('assignedTo', value)}
-                      loadOptions={this.searchUsers}
-                      getOptionLabel={option => option.fullName}
-                      getOptionValue={option => option.fullName}
-                    />
-
-                    {errors.assignedTo && <div className="error-message">{errors.assignedTo}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="Tags">
-                  <div className="form-field">
-                    <label>Tags</label>
-                    <TagField items={values.tags} handleRelated={this.handleRelated} />
-                  </div>
-                </FormSection>
-
-                <FormFooter {...this.props} />
-              </form>
-            </div>
-          </div>
-        </div>
-      </BlockUI>
+          </BlockUI>
+        ) : (
+          <div>Loading</div>
+        )}
+      </React.Fragment>
     );
   }
 }

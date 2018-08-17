@@ -39,7 +39,8 @@ class InnerAccountForm extends Component {
       accountStatuses: [],
       accountSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
       contactSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
-      showSuggestions: { name: true, emailAddress: true, phoneNumber: true }
+      showSuggestions: { name: true, emailAddress: true, phoneNumber: true },
+      loading: true
     };
   }
 
@@ -50,6 +51,11 @@ class InnerAccountForm extends Component {
 
     if (id) {
       const accountResponse = await Account.get(id);
+
+      const primaryWebsite = accountResponse.websites.find(website => website.isPrimary);
+
+      accountResponse.primaryWebsite = primaryWebsite ? primaryWebsite.website : '';
+      accountResponse.websites = accountResponse.websites.filter(website => !website.isPrimary);
 
       this.props.setValues(accountResponse);
     } else {
@@ -64,7 +70,7 @@ class InnerAccountForm extends Component {
 
     this.props.setFieldValue('assignedTo', this.props.currentUser);
 
-    this.setState({ accountStatuses: statusResponse.results });
+    this.setState({ accountStatuses: statusResponse.results, loading: false });
   }
 
   getDataproviderInfo = async () => {
@@ -283,238 +289,252 @@ class InnerAccountForm extends Component {
   };
 
   render() {
-    const { accountStatuses, accountSuggestions, contactSuggestions, showSuggestions } = this.state;
+    const {
+      accountStatuses,
+      accountSuggestions,
+      contactSuggestions,
+      showSuggestions,
+      loading
+    } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     const twitterProfile = values.socialMedia.find(profile => profile.type === 'twitter');
     const twitterUsername = twitterProfile ? twitterProfile.username : '';
 
     return (
-      <BlockUI blocking={isSubmitting}>
-        <div className="content-block-container">
-          <div className="content-block">
-            <div className="content-block-header">
-              <div className="content-block-name">Add account</div>
-            </div>
+      <React.Fragment>
+        {!loading ? (
+          <BlockUI blocking={isSubmitting}>
+            <div className="content-block-container">
+              <div className="content-block">
+                <div className="content-block-header">
+                  <div className="content-block-name">Add account</div>
+                </div>
 
-            <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
-                <FormSection header="Who was it?">
-                  <div className="form-field">
-                    <label htmlFor="primaryWebsite">Primary website</label>
+                <div className="content-block-content">
+                  <form onSubmit={handleSubmit}>
+                    <FormSection header="Who was it?">
+                      <div className="form-field">
+                        <label htmlFor="primaryWebsite">Primary website</label>
 
-                    <div className="input-addon">
-                      <input
-                        id="primaryWebsite"
-                        type="text"
-                        className="hl-input"
-                        placeholder="www.example.com"
-                        value={values.primaryWebsite}
-                        onChange={handleChange}
-                      />
-                      <button
-                        className="hl-primary-btn"
-                        onClick={this.getDataproviderInfo}
-                        type="button"
-                      >
-                        <FontAwesomeIcon icon="magic" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className={`form-field${errors.name ? ' has-error' : ''}`}>
-                    <label htmlFor="name" required>
-                      Company name
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Company name"
-                      value={values.name}
-                      onChange={handleChange}
-                      onBlur={this.searchName}
-                    />
-
-                    {errors.name && <div className="error-message">{errors.name}</div>}
-                  </div>
-
-                  <Suggestions
-                    field="name"
-                    type="account"
-                    suggestions={accountSuggestions.name}
-                    display={showSuggestions.name}
-                    handleMerge={this.merge}
-                    handleClose={this.handleClose}
-                  />
-
-                  <div className="form-field">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                      id="description"
-                      placeholder="Description"
-                      rows="3"
-                      value={values.description}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="customerId">Customer ID</label>
-                    <input
-                      id="customerId"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Customer ID"
-                      value={values.customerId}
-                      onChange={this.handleCustomerID}
-                    />
-                  </div>
-
-                  <div className={`form-field${errors.status ? ' has-error' : ''}`}>
-                    <label htmlFor="status">Status</label>
-                    <Select
-                      name="status"
-                      classNamePrefix="editable-input"
-                      value={values.status}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('status', value)}
-                      options={accountStatuses}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                    />
-
-                    {errors.status && <div className="error-message">{errors.status}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="Who is handling the account?">
-                  <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
-                    <label htmlFor="assignedTo">Assigned to</label>
-                    <AsyncSelect
-                      defaultOptions
-                      name="assignedTo"
-                      classNamePrefix="editable-input"
-                      value={values.assignedTo}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('assignedTo', value)}
-                      loadOptions={this.search}
-                      getOptionLabel={option => option.fullName}
-                      getOptionValue={option => option.fullName}
-                    />
-
-                    {errors.assignedTo && <div className="error-message">{errors.assignedTo}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="Contact information">
-                  <div className="form-field">
-                    <label>Email address</label>
-                    <EmailAddressField
-                      items={values.emailAddresses}
-                      handleRelated={this.handleRelated}
-                      onInputBlur={this.searchEmailAddress}
-                      errors={errors}
-                    />
-                  </div>
-
-                  <Suggestions
-                    field="emailAddress"
-                    type="account"
-                    suggestions={accountSuggestions.emailAddress}
-                    display={showSuggestions.emailAddress}
-                    handleMerge={this.merge}
-                    handleClose={this.handleClose}
-                  />
-
-                  <Suggestions
-                    field="emailAddress"
-                    type="contact"
-                    suggestions={contactSuggestions.emailAddress}
-                    display={showSuggestions.emailAddress}
-                    handleClose={this.handleClose}
-                  />
-
-                  <div className="form-field">
-                    <label>Phone number</label>
-                    <PhoneNumberField
-                      items={values.phoneNumbers}
-                      handleRelated={this.handleRelated}
-                      addresses={values.addresses}
-                      onInputBlur={this.searchPhoneNumber}
-                      errors={errors}
-                    />
-                  </div>
-
-                  <Suggestions
-                    field="phoneNumber"
-                    type="account"
-                    suggestions={accountSuggestions.phoneNumber}
-                    display={showSuggestions.phoneNumber}
-                    handleMerge={this.merge}
-                    handleClose={this.handleClose}
-                  />
-
-                  <Suggestions
-                    field="phoneNumber"
-                    type="contact"
-                    suggestions={contactSuggestions.phoneNumber}
-                    display={showSuggestions.phoneNumber}
-                    handleClose={this.handleClose}
-                  />
-
-                  <div className="form-field">
-                    <label>Address</label>
-                    <AddressField
-                      items={values.addresses}
-                      handleRelated={this.handleRelated}
-                      errors={errors}
-                    />
-                  </div>
-
-                  <div className="form-field">
-                    <label>Extra website</label>
-                    <WebsiteField
-                      items={values.websites}
-                      handleRelated={this.handleRelated}
-                      errors={errors}
-                    />
-                  </div>
-                </FormSection>
-
-                <FormSection header="Tags">
-                  <div className="form-field">
-                    <label>Tags</label>
-                    <TagField items={values.tags} handleRelated={this.handleRelated} />
-                  </div>
-                </FormSection>
-
-                <FormSection header="Social">
-                  <div className="form-field">
-                    <label htmlFor="twitter">Twitter</label>
-
-                    <div className="input-addon">
-                      <div className="input-addon-icon">
-                        <FontAwesomeIcon icon={['fab', 'twitter']} />
+                        <div className="input-addon">
+                          <input
+                            id="primaryWebsite"
+                            type="text"
+                            className="hl-input"
+                            placeholder="www.example.com"
+                            value={values.primaryWebsite || ''}
+                            onChange={handleChange}
+                          />
+                          <button
+                            className="hl-primary-btn"
+                            onClick={this.getDataproviderInfo}
+                            type="button"
+                          >
+                            <FontAwesomeIcon icon="magic" />
+                          </button>
+                        </div>
                       </div>
-                      <input
-                        id="twitter"
-                        type="text"
-                        className="hl-input"
-                        placeholder="Twitter"
-                        value={twitterUsername}
-                        onChange={this.handleSocialMedia}
-                      />
-                    </div>
-                  </div>
-                </FormSection>
 
-                <FormFooter {...this.props} />
-              </form>
+                      <div className={`form-field${errors.name ? ' has-error' : ''}`}>
+                        <label htmlFor="name" required>
+                          Company name
+                        </label>
+                        <input
+                          id="name"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Company name"
+                          value={values.name}
+                          onChange={handleChange}
+                          onBlur={this.searchName}
+                        />
+
+                        {errors.name && <div className="error-message">{errors.name}</div>}
+                      </div>
+
+                      <Suggestions
+                        field="name"
+                        type="account"
+                        suggestions={accountSuggestions.name}
+                        display={showSuggestions.name}
+                        handleMerge={this.merge}
+                        handleClose={this.handleClose}
+                      />
+
+                      <div className="form-field">
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                          id="description"
+                          placeholder="Description"
+                          rows="3"
+                          value={values.description}
+                          onChange={handleChange}
+                        />
+                      </div>
+
+                      <div className="form-field">
+                        <label htmlFor="customerId">Customer ID</label>
+                        <input
+                          id="customerId"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Customer ID"
+                          value={values.customerId}
+                          onChange={this.handleCustomerID}
+                        />
+                      </div>
+
+                      <div className={`form-field${errors.status ? ' has-error' : ''}`}>
+                        <label htmlFor="status">Status</label>
+                        <Select
+                          name="status"
+                          classNamePrefix="editable-input"
+                          value={values.status}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('status', value)}
+                          options={accountStatuses}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                        />
+
+                        {errors.status && <div className="error-message">{errors.status}</div>}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Who is handling the account?">
+                      <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
+                        <label htmlFor="assignedTo">Assigned to</label>
+                        <AsyncSelect
+                          defaultOptions
+                          name="assignedTo"
+                          classNamePrefix="editable-input"
+                          value={values.assignedTo}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('assignedTo', value)}
+                          loadOptions={this.search}
+                          getOptionLabel={option => option.fullName}
+                          getOptionValue={option => option.fullName}
+                        />
+
+                        {errors.assignedTo && (
+                          <div className="error-message">{errors.assignedTo}</div>
+                        )}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Contact information">
+                      <div className="form-field">
+                        <label>Email address</label>
+                        <EmailAddressField
+                          items={values.emailAddresses}
+                          handleRelated={this.handleRelated}
+                          onInputBlur={this.searchEmailAddress}
+                          errors={errors}
+                        />
+                      </div>
+
+                      <Suggestions
+                        field="emailAddress"
+                        type="account"
+                        suggestions={accountSuggestions.emailAddress}
+                        display={showSuggestions.emailAddress}
+                        handleMerge={this.merge}
+                        handleClose={this.handleClose}
+                      />
+
+                      <Suggestions
+                        field="emailAddress"
+                        type="contact"
+                        suggestions={contactSuggestions.emailAddress}
+                        display={showSuggestions.emailAddress}
+                        handleClose={this.handleClose}
+                      />
+
+                      <div className="form-field">
+                        <label>Phone number</label>
+                        <PhoneNumberField
+                          items={values.phoneNumbers}
+                          handleRelated={this.handleRelated}
+                          addresses={values.addresses}
+                          onInputBlur={this.searchPhoneNumber}
+                          errors={errors}
+                        />
+                      </div>
+
+                      <Suggestions
+                        field="phoneNumber"
+                        type="account"
+                        suggestions={accountSuggestions.phoneNumber}
+                        display={showSuggestions.phoneNumber}
+                        handleMerge={this.merge}
+                        handleClose={this.handleClose}
+                      />
+
+                      <Suggestions
+                        field="phoneNumber"
+                        type="contact"
+                        suggestions={contactSuggestions.phoneNumber}
+                        display={showSuggestions.phoneNumber}
+                        handleClose={this.handleClose}
+                      />
+
+                      <div className="form-field">
+                        <label>Address</label>
+                        <AddressField
+                          items={values.addresses}
+                          handleRelated={this.handleRelated}
+                          errors={errors}
+                        />
+                      </div>
+
+                      <div className="form-field">
+                        <label>Extra website</label>
+                        <WebsiteField
+                          items={values.websites}
+                          handleRelated={this.handleRelated}
+                          errors={errors}
+                        />
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Tags">
+                      <div className="form-field">
+                        <label>Tags</label>
+                        <TagField items={values.tags} handleRelated={this.handleRelated} />
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Social">
+                      <div className="form-field">
+                        <label htmlFor="twitter">Twitter</label>
+
+                        <div className="input-addon">
+                          <div className="input-addon-icon">
+                            <FontAwesomeIcon icon={['fab', 'twitter']} />
+                          </div>
+                          <input
+                            id="twitter"
+                            type="text"
+                            className="hl-input"
+                            placeholder="Twitter"
+                            value={twitterUsername}
+                            onChange={this.handleSocialMedia}
+                          />
+                        </div>
+                      </div>
+                    </FormSection>
+
+                    <FormFooter {...this.props} />
+                  </form>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </BlockUI>
+          </BlockUI>
+        ) : (
+          <div>Loading</div>
+        )}
+      </React.Fragment>
     );
   }
 }

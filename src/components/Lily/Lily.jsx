@@ -41,22 +41,20 @@ class Lily extends Component {
 
     this.props.setCurrentUser(currentUser);
 
-    this.getData();
+    this.setState({ loading: false });
   }
-
-  getData = () => {
-    this.setState({ loading: true });
-
-    Promise.resolve().then(() => {
-      this.setState({ data: {}, loading: false });
-    });
-  };
 
   render() {
     const { loading } = this.state;
 
     if (loading) {
-      return <div>Loading</div>;
+      return (
+        <div className="column">
+          <ErrorBoundry>
+            <Nav />
+          </ErrorBoundry>
+        </div>
+      );
     }
 
     return (
@@ -64,7 +62,7 @@ class Lily extends Component {
         <Switch>
           <Route path="/login" exact>
             <ErrorBoundry>
-              <Login handler={this.getData} />
+              <Login />
             </ErrorBoundry>
           </Route>
 

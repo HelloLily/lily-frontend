@@ -150,12 +150,17 @@ class CaseList extends Component {
                     </td>
                   )}
                   {columns[8].selected && (
-                    <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
+                    <td>
+                      <LilyDate date={caseObj.modified} />
+                    </td>
                   )}
                   {columns[9].selected && (
-                    <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
+                    <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   )}
                   {columns[10].selected && (
+                    <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
+                  )}
+                  {columns[11].selected && (
                     <td>
                       {caseObj.tags.map(tag => (
                         <div key={tag.id}>{tag.name}</div>

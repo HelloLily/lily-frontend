@@ -39,7 +39,8 @@ class InnerDealForm extends Component {
       contactedBy: [],
       whyCustomer: [],
       whyLost: [],
-      statuses: []
+      statuses: [],
+      loading: true
     };
   }
 
@@ -80,6 +81,8 @@ class InnerDealForm extends Component {
         this.props.setFieldValue(data.object.contentType.model, data.model);
       }
     }
+
+    this.setState({ loading: false });
   }
 
   IconValue = props => (
@@ -209,330 +212,348 @@ class InnerDealForm extends Component {
   };
 
   render() {
-    const { nextSteps, foundThrough, contactedBy, whyCustomer, whyLost, statuses } = this.state;
+    const {
+      nextSteps,
+      foundThrough,
+      contactedBy,
+      whyCustomer,
+      whyLost,
+      statuses,
+      loading
+    } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
-      <BlockUI blocking={isSubmitting}>
-        <div className="content-block-container">
-          <div className="content-block">
-            <div className="content-block-header">
-              <div className="content-block-name">Add deal</div>
+      <React.Fragment>
+        {!loading ? (
+          <BlockUI blocking={isSubmitting}>
+            <div className="content-block-container">
+              <div className="content-block">
+                <div className="content-block-header">
+                  <div className="content-block-name">Add deal</div>
+                </div>
+
+                <div className="content-block-content">
+                  <form onSubmit={handleSubmit}>
+                    <FormSection header="Who is it?">
+                      <div className={`form-field${errors.account ? ' has-error' : ''}`}>
+                        <label htmlFor="account">Account</label>
+                        <AsyncSelect
+                          defaultOptions
+                          name="account"
+                          value={values.account}
+                          styles={SELECT_STYLES}
+                          onChange={this.handleAccount}
+                          loadOptions={this.searchAccounts}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          placeholder="Select an account"
+                        />
+
+                        {errors.account && <div className="error-message">{errors.account}</div>}
+                      </div>
+
+                      <div className={`form-field${errors.contact ? ' has-error' : ''}`}>
+                        <label htmlFor="contact">Contact</label>
+                        <AsyncSelect
+                          defaultOptions
+                          name="contact"
+                          value={values.contact}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('contact', value)}
+                          loadOptions={this.searchContacts}
+                          getOptionLabel={option => option.fullName}
+                          getOptionValue={option => option.fullName}
+                          placeholder="Select a contact"
+                        />
+
+                        {errors.contact && <div className="error-message">{errors.contact}</div>}
+                      </div>
+
+                      <div className="form-field">
+                        <label required>Business</label>
+                        <RadioButtons
+                          options={['New', 'Existing']}
+                          setSelection={value => this.props.setFieldValue('newBusiness', value)}
+                        />
+                      </div>
+
+                      <div className={`form-field${errors.foundThrough ? ' has-error' : ''}`}>
+                        <label htmlFor="foundThrough" required>
+                          Found us through
+                        </label>
+                        <Select
+                          name="foundThrough"
+                          value={values.foundThrough}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('foundThrough', value)}
+                          options={foundThrough}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          placeholder="Select a channel"
+                        />
+
+                        {errors.foundThrough && (
+                          <div className="error-message">{errors.foundThrough}</div>
+                        )}
+                      </div>
+
+                      <div className={`form-field${errors.contactedBy ? ' has-error' : ''}`}>
+                        <label htmlFor="type" required>
+                          Contacted us by
+                        </label>
+                        <Select
+                          name="contactedBy"
+                          value={values.contactedBy}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('contactedBy', value)}
+                          options={contactedBy}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          placeholder="Select a medium"
+                        />
+
+                        {errors.contactedBy && (
+                          <div className="error-message">{errors.contactedBy}</div>
+                        )}
+                      </div>
+
+                      <div className={`form-field${errors.whyCustomer ? ' has-error' : ''}`}>
+                        <label htmlFor="type" required>
+                          Why customer
+                        </label>
+                        <Select
+                          name="whyCustomer"
+                          value={values.whyCustomer}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('whyCustomer', value)}
+                          options={whyCustomer}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          placeholder="Select a reason"
+                        />
+
+                        {errors.whyCustomer && (
+                          <div className="error-message">{errors.whyCustomer}</div>
+                        )}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="What to do?">
+                      <div className={`form-field${errors.name ? ' has-error' : ''}`}>
+                        <label htmlFor="name" required>
+                          Name
+                        </label>
+                        <input
+                          id="name"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Name"
+                          value={values.name}
+                          onChange={handleChange}
+                          onBlur={this.searchName}
+                        />
+
+                        {errors.name && <div className="error-message">{errors.name}</div>}
+                      </div>
+
+                      <div className="form-field">
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                          id="description"
+                          placeholder="Description"
+                          rows="3"
+                          value={values.description}
+                          onChange={handleChange}
+                        />
+                      </div>
+
+                      <div className={`form-field${errors.amountOnce ? ' has-error' : ''}`}>
+                        <label htmlFor="amountOnce" required>
+                          One-time cost
+                        </label>
+                        <input
+                          id="amountOnce"
+                          type="text"
+                          className="hl-input"
+                          placeholder="One-time cost"
+                          value={values.amountOnce}
+                          onChange={handleChange}
+                        />
+
+                        {errors.amountOnce && (
+                          <div className="error-message">{errors.amountOnce}</div>
+                        )}
+                      </div>
+
+                      <div className={`form-field${errors.amountRecurring ? ' has-error' : ''}`}>
+                        <label htmlFor="amountRecurring" required>
+                          Recurring costs
+                        </label>
+                        <input
+                          id="amountRecurring"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Recurring costs"
+                          value={values.amountRecurring}
+                          onChange={handleChange}
+                        />
+
+                        {errors.amountRecurring && (
+                          <div className="error-message">{errors.amountRecurring}</div>
+                        )}
+                      </div>
+
+                      <div className={`form-field${errors.quoteId ? ' has-error' : ''}`}>
+                        <label htmlFor="name">Freedom quote ID</label>
+                        <input
+                          id="quoteId"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Freedom quote ID"
+                          value={values.quoteId}
+                          onChange={handleChange}
+                        />
+
+                        {errors.quoteId && <div className="error-message">{errors.quoteId}</div>}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="What's the status?">
+                      <div className={`form-field${errors.status ? ' has-error' : ''}`}>
+                        <label htmlFor="status" required>
+                          Status
+                        </label>
+                        <Select
+                          name="status"
+                          value={values.status}
+                          styles={SELECT_STYLES}
+                          onChange={this.handleStatus}
+                          options={statuses}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          placeholder="Select a status"
+                        />
+
+                        {errors.status && <div className="error-message">{errors.status}</div>}
+                      </div>
+
+                      {values.status === this.lostStatus && (
+                        <div className={`form-field${errors.whyLost ? ' has-error' : ''}`}>
+                          <label htmlFor="whyLost" required>
+                            Why lost
+                          </label>
+                          <Select
+                            name="whyLost"
+                            value={values.whyLost}
+                            styles={SELECT_STYLES}
+                            onChange={value => this.props.setFieldValue('whyLost', value)}
+                            options={whyLost}
+                            getOptionLabel={option => option.name}
+                            getOptionValue={option => option.name}
+                            placeholder="Select a reason"
+                          />
+
+                          {errors.whyLost && <div className="error-message">{errors.whyLost}</div>}
+                        </div>
+                      )}
+
+                      <div className={`form-field${errors.nextStep ? ' has-error' : ''}`}>
+                        <label htmlFor="nextStep" required>
+                          Next step
+                        </label>
+                        <Select
+                          name="nextStep"
+                          value={values.nextStep}
+                          styles={SELECT_STYLES}
+                          onChange={this.handleNextStep}
+                          options={nextSteps}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                          components={{ SingleValue: this.IconValue, Option: this.IconOption }}
+                          placeholder="Select a reason"
+                        />
+
+                        {errors.nextStep && <div className="error-message">{errors.nextStep}</div>}
+                      </div>
+
+                      <div className={`form-field${errors.nextStepDate ? ' has-error' : ''}`}>
+                        <label htmlFor="nextStepDate">Next step date</label>
+                        <input
+                          id="nextStepDate"
+                          type="text"
+                          className="hl-input"
+                          placeholder="Next step date"
+                          value={values.nextStepDate || ''}
+                          onChange={handleChange}
+                        />
+                        {/* <LilyDatepicker
+                          onChange={value => this.props.setFieldValue('nextStepDate', value)}
+                        /> */}
+
+                        {errors.nextStepDate && (
+                          <div className="error-message">{errors.nextStepDate}</div>
+                        )}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Who is going to do this?">
+                      <div className={`form-field${errors.assignedToTeams ? ' has-error' : ''}`}>
+                        <label htmlFor="assignedToTeams">Assigned to teams</label>
+                        <AsyncSelect
+                          isMulti
+                          defaultOptions
+                          name="assignedToTeams"
+                          value={values.assignedToTeams}
+                          styles={SELECT_STYLES}
+                          onChange={value => this.props.setFieldValue('assignedToTeams', value)}
+                          loadOptions={this.searchTeams}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.name}
+                        />
+
+                        {errors.assignedToTeams && (
+                          <div className="error-message">{errors.assignedToTeams}</div>
+                        )}
+                      </div>
+
+                      <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
+                        <label htmlFor="assignedTo">Assigned to</label>
+                        <AsyncSelect
+                          defaultOptions
+                          name="assignedTo"
+                          classNamePrefix="editable-input"
+                          value={values.assignedTo}
+                          styles={SELECT_STYLES}
+                          onChange={this.handleAssignedTo}
+                          loadOptions={this.searchUsers}
+                          getOptionLabel={option => option.fullName}
+                          getOptionValue={option => option.fullName}
+                        />
+
+                        {errors.assignedTo && (
+                          <div className="error-message">{errors.assignedTo}</div>
+                        )}
+                      </div>
+                    </FormSection>
+
+                    <FormSection header="Tags">
+                      <div className="form-field">
+                        <label>Tags</label>
+                        <TagField items={values.tags} handleRelated={this.handleRelated} />
+                      </div>
+                    </FormSection>
+
+                    <FormFooter {...this.props} />
+                  </form>
+                </div>
+              </div>
             </div>
-
-            <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
-                <FormSection header="Who is it?">
-                  <div className={`form-field${errors.account ? ' has-error' : ''}`}>
-                    <label htmlFor="account">Account</label>
-                    <AsyncSelect
-                      defaultOptions
-                      name="account"
-                      value={values.account}
-                      styles={SELECT_STYLES}
-                      onChange={this.handleAccount}
-                      loadOptions={this.searchAccounts}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      placeholder="Select an account"
-                    />
-
-                    {errors.account && <div className="error-message">{errors.account}</div>}
-                  </div>
-
-                  <div className={`form-field${errors.contact ? ' has-error' : ''}`}>
-                    <label htmlFor="contact">Contact</label>
-                    <AsyncSelect
-                      defaultOptions
-                      name="contact"
-                      value={values.contact}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('contact', value)}
-                      loadOptions={this.searchContacts}
-                      getOptionLabel={option => option.fullName}
-                      getOptionValue={option => option.fullName}
-                      placeholder="Select a contact"
-                    />
-
-                    {errors.contact && <div className="error-message">{errors.contact}</div>}
-                  </div>
-
-                  <div className="form-field">
-                    <label required>Business</label>
-                    <RadioButtons
-                      options={['New', 'Existing']}
-                      setSelection={value => this.props.setFieldValue('business', value)}
-                    />
-                  </div>
-
-                  <div className={`form-field${errors.foundThrough ? ' has-error' : ''}`}>
-                    <label htmlFor="foundThrough" required>
-                      Found us through
-                    </label>
-                    <Select
-                      name="foundThrough"
-                      value={values.foundThrough}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('foundThrough', value)}
-                      options={foundThrough}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      placeholder="Select a channel"
-                    />
-
-                    {errors.foundThrough && (
-                      <div className="error-message">{errors.foundThrough}</div>
-                    )}
-                  </div>
-
-                  <div className={`form-field${errors.contactedBy ? ' has-error' : ''}`}>
-                    <label htmlFor="type" required>
-                      Contacted us by
-                    </label>
-                    <Select
-                      name="contactedBy"
-                      value={values.contactedBy}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('contactedBy', value)}
-                      options={contactedBy}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      placeholder="Select a medium"
-                    />
-
-                    {errors.contactedBy && (
-                      <div className="error-message">{errors.contactedBy}</div>
-                    )}
-                  </div>
-
-                  <div className={`form-field${errors.whyCustomer ? ' has-error' : ''}`}>
-                    <label htmlFor="type" required>
-                      Why customer
-                    </label>
-                    <Select
-                      name="whyCustomer"
-                      value={values.whyCustomer}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('whyCustomer', value)}
-                      options={whyCustomer}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      placeholder="Select a reason"
-                    />
-
-                    {errors.whyCustomer && (
-                      <div className="error-message">{errors.whyCustomer}</div>
-                    )}
-                  </div>
-                </FormSection>
-
-                <FormSection header="What to do?">
-                  <div className={`form-field${errors.name ? ' has-error' : ''}`}>
-                    <label htmlFor="name" required>
-                      Name
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Name"
-                      value={values.name}
-                      onChange={handleChange}
-                      onBlur={this.searchName}
-                    />
-
-                    {errors.name && <div className="error-message">{errors.name}</div>}
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                      id="description"
-                      placeholder="Description"
-                      rows="3"
-                      value={values.description}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className={`form-field${errors.amountOnce ? ' has-error' : ''}`}>
-                    <label htmlFor="amountOnce" required>
-                      One-time cost
-                    </label>
-                    <input
-                      id="amountOnce"
-                      type="text"
-                      className="hl-input"
-                      placeholder="One-time cost"
-                      value={values.amountOnce}
-                      onChange={handleChange}
-                    />
-
-                    {errors.amountOnce && <div className="error-message">{errors.amountOnce}</div>}
-                  </div>
-
-                  <div className={`form-field${errors.amountRecurring ? ' has-error' : ''}`}>
-                    <label htmlFor="amountRecurring" required>
-                      Recurring costs
-                    </label>
-                    <input
-                      id="amountRecurring"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Recurring costs"
-                      value={values.amountRecurring}
-                      onChange={handleChange}
-                    />
-
-                    {errors.amountRecurring && (
-                      <div className="error-message">{errors.amountRecurring}</div>
-                    )}
-                  </div>
-
-                  <div className={`form-field${errors.quoteId ? ' has-error' : ''}`}>
-                    <label htmlFor="name">Freedom quote ID</label>
-                    <input
-                      id="quoteId"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Freedom quote ID"
-                      value={values.quoteId}
-                      onChange={handleChange}
-                    />
-
-                    {errors.quoteId && <div className="error-message">{errors.quoteId}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="What's the status?">
-                  <div className={`form-field${errors.status ? ' has-error' : ''}`}>
-                    <label htmlFor="status" required>
-                      Status
-                    </label>
-                    <Select
-                      name="status"
-                      value={values.status}
-                      styles={SELECT_STYLES}
-                      onChange={this.handleStatus}
-                      options={statuses}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      placeholder="Select a status"
-                    />
-
-                    {errors.status && <div className="error-message">{errors.status}</div>}
-                  </div>
-
-                  {values.status === this.lostStatus && (
-                    <div className={`form-field${errors.whyLost ? ' has-error' : ''}`}>
-                      <label htmlFor="status" required>
-                        Why lost
-                      </label>
-                      <Select
-                        name="whyLost"
-                        value={values.whyLost}
-                        styles={SELECT_STYLES}
-                        onChange={value => this.props.setFieldValue('whyLost', value)}
-                        options={whyLost}
-                        getOptionLabel={option => option.name}
-                        getOptionValue={option => option.name}
-                        placeholder="Select a reason"
-                      />
-
-                      {errors.whyLost && <div className="error-message">{errors.whyLost}</div>}
-                    </div>
-                  )}
-
-                  <div className={`form-field${errors.nextStep ? ' has-error' : ''}`}>
-                    <label htmlFor="type" required>
-                      Next step
-                    </label>
-                    <Select
-                      name="nextStep"
-                      value={values.nextStep}
-                      styles={SELECT_STYLES}
-                      onChange={this.handleNextStep}
-                      options={nextSteps}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                      components={{ SingleValue: this.IconValue, Option: this.IconOption }}
-                      placeholder="Select a reason"
-                    />
-
-                    {errors.nextStep && <div className="error-message">{errors.nextStep}</div>}
-                  </div>
-
-                  <div className={`form-field${errors.nextStepDate ? ' has-error' : ''}`}>
-                    <label htmlFor="nextStepDate">Next step date</label>
-                    <input
-                      id="nextStepDate"
-                      type="text"
-                      className="hl-input"
-                      placeholder="Next step date"
-                      value={values.nextStepDate}
-                      onChange={handleChange}
-                    />
-                    <LilyDatepicker
-                      onChange={value => this.props.setFieldValue('nextStepDate', value)}
-                    />
-
-                    {errors.nextStepDate && (
-                      <div className="error-message">{errors.nextStepDate}</div>
-                    )}
-                  </div>
-                </FormSection>
-
-                <FormSection header="Who is going to do this?">
-                  <div className={`form-field${errors.assignedToTeams ? ' has-error' : ''}`}>
-                    <label htmlFor="assignedToTeams">Assigned to teams</label>
-                    <AsyncSelect
-                      isMulti
-                      defaultOptions
-                      name="assignedToTeams"
-                      value={values.assignedToTeams}
-                      styles={SELECT_STYLES}
-                      onChange={value => this.props.setFieldValue('assignedToTeams', value)}
-                      loadOptions={this.searchTeams}
-                      getOptionLabel={option => option.name}
-                      getOptionValue={option => option.name}
-                    />
-
-                    {errors.assignedToTeams && (
-                      <div className="error-message">{errors.assignedToTeams}</div>
-                    )}
-                  </div>
-
-                  <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
-                    <label htmlFor="assignedTo">Assigned to</label>
-                    <AsyncSelect
-                      defaultOptions
-                      name="assignedTo"
-                      classNamePrefix="editable-input"
-                      value={values.assignedTo}
-                      styles={SELECT_STYLES}
-                      onChange={this.handleAssignedTo}
-                      loadOptions={this.searchUsers}
-                      getOptionLabel={option => option.fullName}
-                      getOptionValue={option => option.fullName}
-                    />
-
-                    {errors.assignedTo && <div className="error-message">{errors.assignedTo}</div>}
-                  </div>
-                </FormSection>
-
-                <FormSection header="Tags">
-                  <div className="form-field">
-                    <label>Tags</label>
-                    <TagField items={values.tags} handleRelated={this.handleRelated} />
-                  </div>
-                </FormSection>
-
-                <FormFooter {...this.props} />
-              </form>
-            </div>
-          </div>
-        </div>
-      </BlockUI>
+          </BlockUI>
+        ) : (
+          <div>Loading</div>
+        )}
+      </React.Fragment>
     );
   }
 }
@@ -542,7 +563,7 @@ const DealForm = withRouter(
     mapPropsToValues: () => ({
       account: null,
       contact: null,
-      business: 1,
+      newBusiness: 1,
       foundThrough: null,
       contactedBy: null,
       whyCustomer: null,

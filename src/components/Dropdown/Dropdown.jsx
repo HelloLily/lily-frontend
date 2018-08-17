@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -28,7 +27,7 @@ class Dropdown extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div>
         <div className="clickable" onClick={this.showMenu}>
           {this.props.clickable}
         </div>
@@ -43,7 +42,7 @@ class Dropdown extends Component {
             {this.props.menu}
           </div>
         ) : null}
-      </React.Fragment>
+      </div>
     );
   }
 }
