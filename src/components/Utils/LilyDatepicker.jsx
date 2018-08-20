@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { format } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
 
-const LilyDatepicker = props => {
-  const { date } = props;
-  const dateFormat = props.format || 'dd MMM. YYYY';
+class LilyDatepicker extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <DayPickerInput
-      dayPickerProps={{
-        todayButton: 'Today'
-      }}
-      onDayChange={props.onChange}
-      showOverlay
-    />
-  );
-};
+    this.datepicker = React.createRef();
+    this.dateFormat = this.props.format || 'dd/MM/YYYY';
+  }
+
+  openDatepicker = () => {
+    this.datepicker.current.focus();
+  };
+
+  formatDate = dateObject => format(dateObject, this.dateFormat);
+
+  render() {
+    return (
+      <div className="input-addon">
+        <DayPickerInput
+          inputProps={{
+            className: 'hl-input',
+            ref: this.datepicker
+          }}
+          dayPickerProps={{
+            todayButton: 'Today',
+            showOutsideDays: true
+          }}
+          onDayChange={this.props.onChange}
+          placeholder={this.props.placeholder || 'Select a date'}
+          formatDate={this.formatDate}
+          value={this.props.date}
+        />
+
+        <button className="hl-primary-btn" onClick={this.openDatepicker} type="button">
+          <i className="lilicon hl-calendar-icon" />
+        </button>
+      </div>
+    );
+  }
+}
 
 export default LilyDatepicker;

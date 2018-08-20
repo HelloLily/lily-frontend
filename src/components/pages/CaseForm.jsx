@@ -11,6 +11,7 @@ import addBusinessDays from 'utils/addBusinessDays';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
+import LilyDatepicker from 'components/Utils/LilyDatePicker';
 import TagField from 'components/Fields/TagField';
 // import Suggestions from 'components/Fields/Suggestions';
 import Account from 'models/Account';
@@ -318,13 +319,10 @@ class InnerCaseForm extends Component {
                         <label htmlFor="expires" required>
                           Expiry date
                         </label>
-                        <input
-                          id="expires"
-                          type="text"
-                          className="hl-input"
+                        <LilyDatepicker
+                          date={values.expires}
+                          onChange={value => this.props.setFieldValue('expires', value)}
                           placeholder="Expiry date"
-                          value={values.expires}
-                          onChange={handleChange}
                         />
 
                         {errors.expires && <div className="error-message">{errors.expires}</div>}

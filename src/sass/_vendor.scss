@@ -1,14 +1,11 @@
 @import '~style/variables/measurements';
 @import '~style/variables/colors';
 @import '~react-tabs/style/react-tabs.scss';
+@import '~react-day-picker/lib/style';
 
 .DayPicker {
   .DayPicker-Day {
-    padding: 8px 10px;
-
-    &.DayPicker-Day--selected {
-      padding: 4px 5px;
-    }
+    padding: 6px 9px;
   }
 
   .DayPicker-Footer {
@@ -17,7 +14,7 @@
 }
 
 .DayPickerInput {
-  display: block;
+  flex-grow: 1;
 }
 
 .react-tabs {

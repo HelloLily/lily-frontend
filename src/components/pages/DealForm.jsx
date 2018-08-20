@@ -479,17 +479,12 @@ class InnerDealForm extends Component {
 
                       <div className={`form-field${errors.nextStepDate ? ' has-error' : ''}`}>
                         <label htmlFor="nextStepDate">Next step date</label>
-                        <input
-                          id="nextStepDate"
-                          type="text"
-                          className="hl-input"
-                          placeholder="Next step date"
-                          value={values.nextStepDate || ''}
-                          onChange={handleChange}
-                        />
-                        {/* <LilyDatepicker
+
+                        <LilyDatepicker
+                          date={values.nextStepDate}
                           onChange={value => this.props.setFieldValue('nextStepDate', value)}
-                        /> */}
+                          placeholder="Next step date"
+                        />
 
                         {errors.nextStepDate && (
                           <div className="error-message">{errors.nextStepDate}</div>
@@ -604,7 +599,7 @@ const DealForm = withRouter(
       if (cleanedValues.nextStepDate === '') {
         cleanedValues.nextStepDate = null;
       } else {
-        // cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, 'YYYY-MM-dd');
+        cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, 'YYYY-MM-dd');
       }
 
       const request = values.id ? Deal.patch(cleanedValues) : Deal.post(cleanedValues);

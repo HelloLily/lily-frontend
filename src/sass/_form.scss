@@ -61,7 +61,8 @@ label {
     padding: 6px 10px;
   }
 
-  > :first-child {
+  > :first-child,
+  .hl-input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
