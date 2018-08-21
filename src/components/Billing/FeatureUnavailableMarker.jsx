@@ -19,7 +19,7 @@ const FeatureUnavailableMarker = props => {
           </Link>
         </React.Fragment>
       ) : (
-        <div>{props.children}</div>
+        <React.Fragment>{props.children}</React.Fragment>
       )}
     </React.Fragment>
   );

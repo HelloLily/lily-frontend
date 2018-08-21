@@ -192,7 +192,7 @@ class UserList extends Component {
                   <td>{invite.email}</td>
                   <td colSpan="2" />
                   <td>
-                    <div className="label info">Invited</div>
+                    <div className="label info w-100">Invited</div>
                   </td>
                   <td />
                   <td>
@@ -231,7 +231,7 @@ class UserList extends Component {
                   )}
                   {columns[5].selected && (
                     <td>
-                      <div className={`label ${user.isActive ? 'success' : ''}`}>
+                      <div className={`label w-100 ${user.isActive ? 'success' : ''}`}>
                         {user.isActive ? 'Active' : 'Inactive'}
                       </div>
                     </td>

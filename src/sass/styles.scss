@@ -159,30 +159,6 @@ textarea {
   grid-gap: 25px;
   grid-auto-rows: min-content;
 
-  .detail-row {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px $inner-border-color solid;
-    line-height: 34px;
-
-    > * {
-      padding: 8px 16px;
-
-      &.has-editable {
-        padding: 8px 9px;
-      }
-    }
-
-    > :first-child {
-      width: 30%;
-      font-weight: bold;
-    }
-
-    > :last-child {
-      flex: 1;
-    }
-  }
-
   .detail-row-info {
     width: 35%;
     font-weight: bold;
@@ -209,24 +185,27 @@ textarea {
   }
 }
 
-.lily-modal {
-  position: absolute;
-  top: 10%;
-  left: 25%;
-  right: 25%;
-  bottom: 10%;
-  border: 1px $base-border-color solid;
-  background: #fff;
-  overflow: auto;
-  border-radius: 4px;
-  outline: none;
-  padding: 20px;
-  max-height: 90%;
+.detail-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px $inner-border-color solid;
+  line-height: 34px;
 
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  > * {
+    padding: 8px 16px;
+
+    &.has-editable {
+      padding: 8px 9px;
+    }
+  }
+
+  > :first-child {
+    width: 30%;
+    font-weight: bold;
+  }
+
+  > :last-child {
+    flex: 1;
   }
 }
 
@@ -238,6 +217,27 @@ textarea {
   right: 0px;
   bottom: 0px;
   background-color: rgba(39, 36, 76, 0.5);
+  display: flex;
+  justify-content: center;
+}
+
+.lily-modal {
+  width: 100%;
+  margin-top: 3%;
+  max-width: 800px;
+  border: 1px $base-border-color solid;
+  background: #fff;
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  max-height: 85%;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 // TODO: Move the inbox and preference styling somewhere else.
@@ -336,10 +336,12 @@ li {
   text-transform: uppercase;
   font-weight: 400;
   font-size: 11px;
-  line-height: 20px;
+  padding: 0 5px;
+  line-height: 21px;
   margin: 2px;
   color: #fff;
   text-align: center;
+  display: inline-block;
 
   &.success {
     background: $app-color-mint;
@@ -347,6 +349,27 @@ li {
 
   &.info {
     background: $lily-blue;
+  }
+
+  // Billing labels.
+  &.future {
+    background: $app-color-purple;
+  }
+
+  &.in-trial {
+    background: $app-color-yellow;
+  }
+
+  &.active {
+    background: $app-color-mint;
+  }
+
+  &.non-renewing {
+    background: $lily-grey;
+  }
+
+  &.cancelled {
+    background: $app-color-red;
   }
 }
 

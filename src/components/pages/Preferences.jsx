@@ -6,13 +6,18 @@ import withContext from 'src/withContext';
 import FeatureUnavailableMarker from 'components/Billing/FeatureUnavailableMarker';
 import UserProfile from './UserProfile';
 import UserAccount from './UserAccount';
+import TokenForm from './TokenForm';
+import WebhookForm from './WebhookForm';
 import EmailAccountList from './EmailAccountList';
 import EmailAccountForm from './EmailAccountForm';
 import EmailTemplateForm from './EmailTemplateForm';
 import EmailTemplateList from './EmailTemplateList';
 import TemplateVariableList from './TemplateVariableList';
 import UserList from './UserList';
+import Integrations from './Integrations';
+import BillingOverview from './BillingOverview';
 import InviteForm from './InviteForm';
+import Import from './Import';
 import TenantSettings from './TenantSettings';
 
 const Preferences = props => {
@@ -59,7 +64,7 @@ const Preferences = props => {
 
             <li>
               <FeatureUnavailableMarker tier="2">
-                <NavLink to="/preferences/webhook" exact>
+                <NavLink to="/preferences/webhooks" exact>
                   <FontAwesomeIcon icon="rocket" /> My webhook
                 </NavLink>
               </FeatureUnavailableMarker>
@@ -125,13 +130,18 @@ const Preferences = props => {
           <Switch>
             <Route path="/preferences/profile" component={UserProfile} />
             <Route path="/preferences/account" component={UserAccount} />
+            <Route path="/preferences/token" component={TokenForm} />
+            <Route path="/preferences/webhooks" component={WebhookForm} />
             <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
             <Route path="/preferences/emailaccounts" component={EmailAccountList} />
             <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
             <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
             <Route path="/preferences/templatevariables" component={TemplateVariableList} />
             <Route path="/preferences/users" component={UserList} />
+            <Route path="/preferences/integrations" component={Integrations} />
+            <Route path="/preferences/billing" component={BillingOverview} />
             <Route path="/preferences/invite" component={InviteForm} />
+            <Route path="/preferences/import" component={Import} />
             <Route path="/preferences/settings" component={TenantSettings} />
           </Switch>
         </div>

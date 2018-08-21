@@ -8,6 +8,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
     "@fortawesome/pro-solid-svg-icons": "^5.1.0-11",
     "@fortawesome/react-fontawesome": "^0.1.0-11",
+    "@uppy/core": "^0.27.0",
+    "@uppy/react": "^0.27.1",
     "classnames": "^2.2.5",
     "date-fns": "^2.0.0-alpha.16",
     "eslint": "^4.19.1",

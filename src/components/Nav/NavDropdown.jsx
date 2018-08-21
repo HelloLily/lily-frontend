@@ -49,7 +49,7 @@ const NavDropdown = props => (
 
           <li className="dropdown-menu-item">
             <FeatureUnavailableMarker tier="2">
-              <NavLink to="/preferences/webhook" exact>
+              <NavLink to="/preferences/webhooks" exact>
                 <FontAwesomeIcon icon="rocket" /> My webhook
               </NavLink>
             </FeatureUnavailableMarker>

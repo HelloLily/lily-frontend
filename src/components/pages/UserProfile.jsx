@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 
 import withContext from 'src/withContext';
-// import formatPhoneNumber from 'utils/formatPhoneNumber';
+import formatPhoneNumber from 'utils/formatPhoneNumber';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
@@ -11,8 +11,19 @@ import User from 'models/User';
 
 class InnerProfileForm extends Component {
   componentDidMount() {
-    this.props.setValues(this.props.currentUser);
+    const data = { ...this.props.currentUser };
+    // TODO: This fixes the uncontrolled input error, change to proper value later.
+    data.picture = '';
+
+    this.props.setValues(data);
   }
+
+  formatPhoneNumber = () => {
+    const { values, currentUser } = this.props;
+    const { formatted } = formatPhoneNumber(values.phoneNumber, currentUser);
+
+    this.props.setFieldValue('phoneNumber', formatted);
+  };
 
   render() {
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
@@ -103,6 +114,7 @@ class InnerProfileForm extends Component {
                       className="hl-input"
                       placeholder="Phone number"
                       value={values.phoneNumber}
+                      onBlur={this.formatPhoneNumber}
                       onChange={handleChange}
                     />
 

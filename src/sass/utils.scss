@@ -49,6 +49,10 @@ $sides: (top, bottom, left, right);
     border: 0;
   }
 
+  .no-padding {
+    padding: 0;
+  }
+
   .is-disabled {
     pointer-events: none;
     opacity: 0.35;
