@@ -8,15 +8,9 @@
     background: $lily-white-tone-hover;
   }
 
-  a {
-    color: initial;
-    display: block;
-  }
-
   td {
     &:first-of-type {
-      display: flex;
-      justify-content: center;
+      text-align: center;
     }
 
     &.navigation-cell {
@@ -24,6 +18,8 @@
 
       a {
         padding: 10px 12px;
+        color: initial;
+        display: block;
       }
     }
   }

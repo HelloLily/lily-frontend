@@ -158,6 +158,19 @@ $large-button-size: 31px;
   }
 }
 
+.dropdown-menu {
+  .dropdown-button {
+    @include hl-button($large-button-size);
+    padding: 0;
+    border: none;
+    background: none;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    text-transform: initial;
+  }
+}
+
 .filter-group {
   display: flex;
 

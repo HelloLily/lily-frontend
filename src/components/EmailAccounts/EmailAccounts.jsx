@@ -1,34 +1,123 @@
 import React, { Component } from 'react';
 
+import { DEFAULT_LABELS, INBOX_LABEL } from 'lib/constants';
+import getColorCode from 'utils/getColorCode';
 import Settings from 'models/Settings';
+import EmailAccount from 'models/EmailAccount';
 
 class EmailAccounts extends Component {
   constructor(props) {
     super(props);
 
-    this.settings = new Settings('inboxAccounts');
+    this.settings = new Settings('inbox');
 
     // TODO: Implement loading of previously selected inbox.
-    this.state = { emailAccount: props.emailAccount, label: props.label, collapsed: {} };
+    this.state = {
+      currentEmailAccount: props.currentEmailAccount,
+      currentLabel: props.currentLabel,
+      emailAccounts: [],
+      collapsed: { emailAccounts: {}, labels: {} }
+    };
   }
 
   static getDerivedStateFromProps = nextProps => ({
-    emailAccount: nextProps.emailAccount,
-    label: nextProps.label || {}
+    currentEmailAccount: nextProps.currentEmailAccount,
+    currentLabel: nextProps.currentLabel || {}
   });
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
+    const accountRequest = await EmailAccount.mine();
+    // TODO: Fetch settings for label.
+    const emailAccounts = accountRequest.map(emailAccount => {
+      // Sort the labels by name.
+      emailAccount.labels = emailAccount.labels.sort((a, b) => a.name.localeCompare(b.name));
+      emailAccount.labels = emailAccount.labels.filter(label => label.labelType !== 0);
 
-    this.setState({ ...settingsResponse.results });
+      const labelList = [];
+      let previousLabel = null;
+
+      emailAccount.labels.forEach(label => {
+        label.children = [];
+
+        if (!label.parent) {
+          // Initial indentation level.
+          label.level = 0;
+        }
+
+        let addToList = true;
+
+        if (previousLabel) {
+          const parent = this.getParent(previousLabel, label);
+
+          if (parent) {
+            // Increase indentation level.
+            label.level = parent.level + 1;
+            parent.children.push(label);
+            // It's a child, so don't render it as part of the list,
+            // but part of the parent.
+            addToList = false;
+          }
+        }
+
+        previousLabel = label;
+
+        if (addToList) {
+          labelList.push(label);
+        }
+      });
+
+      emailAccount.labels = labelList;
+
+      return emailAccount;
+    });
+
+    this.setState({ emailAccounts, ...settingsResponse.results });
   }
 
+  getParentLabelName = label => {
+    let name = '';
+
+    if (label.parent) {
+      name = this.getParentLabelName(label.parent);
+    }
+
+    name += `${label.name}/`;
+
+    return name;
+  };
+
+  getParent = (parentLabel, label) => {
+    const parentLabelName = this.getParentLabelName(parentLabel);
+
+    let parent;
+
+    if (label.name.includes(parentLabelName)) {
+      // We've reached the final parent and it seems the label is a child.
+      parent = parentLabel;
+      label.name = label.name.replace(parentLabelName, '');
+    } else if (parentLabel.parent) {
+      // The given parentLabel doesn't seem to be the label's parent.
+      // So recursively check if the given parent's parent is the label's parent.
+      parent = this.getParent(parentLabel.parent, label);
+    }
+
+    if (parent) {
+      label.parent = parent;
+    }
+
+    return parent;
+  };
+
   labelRenderer = (emailAccount, label) => {
+    const { collapsed, currentLabel } = this.state;
+    const isCollapsed = collapsed.labels[label.id];
     const className = `email-account-label${
-      this.state.label && this.state.label.id === label.id ? ' active' : ''
+      currentLabel && currentLabel.id === label.id ? ' active' : ''
     }`;
     // Construct the label's class with a padding of 15 per depth level.
     const labelClassName = `email-label p-l-${15 + label.level * 15}`;
+    const iconClassName = `lilicon hl-toggle-${isCollapsed ? 'down' : 'up'}-icon`;
 
     return (
       <React.Fragment>
@@ -41,14 +130,14 @@ class EmailAccounts extends Component {
           </button>
 
           {label.children.length > 0 && (
-            <button onClick={() => this.toggleLabel(label)} className="hl-interface-btn m-r-5">
-              <i className={`lilicon hl-toggle-${label.collapsed ? 'up' : 'down'}-icon`} />
+            <button onClick={() => this.toggleLabel(label.id)} className="hl-interface-btn m-r-5">
+              <i className={iconClassName} />
             </button>
           )}
         </div>
 
         {label.children.length > 0 &&
-          !label.collapsed && (
+          !isCollapsed && (
             <ul>
               {label.children.map(child => (
                 <li key={child.id}>{this.labelRenderer(emailAccount, child)}</li>
@@ -59,10 +148,20 @@ class EmailAccounts extends Component {
     );
   };
 
-  toggleCollapse = account => {
+  toggleLabel = label => {
     const { collapsed } = this.state;
 
-    collapsed[account] = !collapsed[account];
+    collapsed.labels[label] = !collapsed.labels[label];
+
+    this.settings.store({ collapsed }).then(() => {
+      this.setState({ collapsed });
+    });
+  };
+
+  toggleCollapse = emailAccount => {
+    const { collapsed } = this.state;
+
+    collapsed.emailAccounts[emailAccount] = !collapsed.emailAccounts[emailAccount];
 
     this.settings.store({ collapsed }).then(() => {
       this.setState({ collapsed });
@@ -70,26 +169,21 @@ class EmailAccounts extends Component {
   };
 
   render() {
-    const { collapsed } = this.state;
-    const { emailAccounts } = this.props;
-
-    const defaultLabels = [
-      { labelId: 'INBOX', name: 'Inbox' },
-      { labelId: 'SENT', name: 'Sent' },
-      { labelId: 'DRAFT', name: 'Draft' },
-      { labelId: 'TRASH', name: 'Trash' },
-      { labelId: '', name: 'All mail' }
-    ];
-
+    const { collapsed, currentEmailAccount, currentLabel, emailAccounts } = this.state;
     const isAllCollapsed = collapsed.all;
+
+    const inboxLabel = DEFAULT_LABELS.find(label => label.labelId === INBOX_LABEL);
 
     return (
       <div>
         <div className="label-list">
           <div className="list-header no-border">
-            <span className={`label-name${!this.state.emailAccount ? ' account-selected' : ''}`}>
+            <button
+              className={`label-name${!currentEmailAccount ? ' account-selected' : ''}`}
+              onClick={() => this.props.setInbox(null, inboxLabel)}
+            >
               All mailboxes
-            </span>
+            </button>
 
             <button className="hl-interface-btn" onClick={() => this.toggleCollapse('all')}>
               <i className={`lilicon hl-toggle-${isAllCollapsed ? 'down' : 'up'}-icon`} />
@@ -104,11 +198,9 @@ class EmailAccounts extends Component {
 
           {!isAllCollapsed && (
             <ul>
-              {defaultLabels.map(label => {
+              {DEFAULT_LABELS.map(label => {
                 const defaultLabelClass = `email-account-label${
-                  !this.state.emailAccount && this.state.label.labelId === label.labelId
-                    ? ' active'
-                    : ''
+                  !currentEmailAccount && currentLabel.labelId === label.labelId ? ' active' : ''
                 }`;
 
                 return (
@@ -129,15 +221,19 @@ class EmailAccounts extends Component {
         </div>
 
         {emailAccounts.map(emailAccount => {
-          const isSelected = emailAccount === this.state.emailAccount;
-          const isCollapsed = collapsed[emailAccount.id];
+          const isSelected = currentEmailAccount && emailAccount.id === currentEmailAccount.id;
+          const isCollapsed = collapsed.emailAccounts[emailAccount.id];
+          const color = emailAccount.color || getColorCode(emailAccount.emailAddress);
 
           return (
             <div key={emailAccount.id} className="label-list">
-              <div className="list-header">
-                <span className={`label-name${isSelected ? ' account-selected' : ''}`}>
+              <div className="list-header" style={{ borderLeftColor: color }}>
+                <button
+                  className={`label-name${isSelected ? ' account-selected' : ''}`}
+                  onClick={() => this.props.setInbox(emailAccount, inboxLabel)}
+                >
                   {emailAccount.label}
-                </span>
+                </button>
 
                 <button
                   className="hl-interface-btn"
@@ -159,9 +255,9 @@ class EmailAccounts extends Component {
                   )}
 
                   <ul>
-                    {defaultLabels.map(label => {
+                    {DEFAULT_LABELS.map(label => {
                       const defaultLabelClass = `email-account-label${
-                        isSelected && this.state.label.labelId === label.labelId ? ' active' : ''
+                        isSelected && currentLabel.labelId === label.labelId ? ' active' : ''
                       }`;
 
                       return (

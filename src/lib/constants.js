@@ -119,3 +119,16 @@ export const DEAL_LOST_STATUS = 'Lost';
 export const DEAL_NONE_STEP = 'None';
 
 export const INVITE_EMPTY_ROW = { firstName: '', email: '' };
+
+export const INBOX_LABEL = 'INBOX';
+export const SENT_LABEL = 'SENT';
+export const DRAFT_LABEL = 'DRAFT';
+export const TRASH_LABEL = 'TRASH';
+
+export const DEFAULT_LABELS = [
+  { labelId: INBOX_LABEL, name: 'Inbox' },
+  { labelId: SENT_LABEL, name: 'Sent' },
+  { labelId: DRAFT_LABEL, name: 'Draft' },
+  { labelId: TRASH_LABEL, name: 'Trash' },
+  { labelId: '', name: 'All mail' }
+];

@@ -123,11 +123,9 @@ class UserList extends Component {
             </button>
           </div>
           <div className="list-header">
-            <ColumnDisplay
-              className="flex-grow"
-              columns={columns}
-              toggleColumn={this.toggleColumn}
-            />
+            <div className="flex-grow">
+              <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
+            </div>
 
             <div className="filter-group">
               {filterOptions.map((option, index) => {

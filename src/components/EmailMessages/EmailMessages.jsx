@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE } from 'lib/constants';
+import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE, TRASH_LABEL } from 'lib/constants';
+import getColorCode from 'utils/getColorCode';
 import List from 'components/List';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
 import ContactIcon from 'components/ContactIcon';
+import Dropdown from 'components/Dropdown';
 import EmailMessage from 'models/EmailMessage';
 
 class EmailMessages extends Component {
@@ -18,15 +20,15 @@ class EmailMessages extends Component {
       loading: true,
       selectAll: false,
       lastSelected: null,
-      showReplyActions: false
+      showReplyActions: false,
+      showMoveTo: false
     };
   }
 
   async componentDidMount() {
-    const { label } = this.props;
+    const { currentLabel } = this.props;
     // TODO: Change from .hits to .results once there's a proper email message API.
-    const messageRequest = await EmailMessage.query({ pageSize: 20, label });
-
+    const messageRequest = await EmailMessage.query({ pageSize: 20, label: currentLabel });
     const emailMessagePromises = messageRequest.hits.map(async emailMessage => {
       const history = await EmailMessage.history(emailMessage.id);
 
@@ -73,14 +75,16 @@ class EmailMessages extends Component {
   };
 
   getEmailHeader = () => {
-    const { emailAccount, label } = this.props;
+    const { currentEmailAccount, currentLabel } = this.props;
 
     // Display the account's email address if there's an account selected.
-    let header = emailAccount ? emailAccount.emailAddress : 'All mailboxes';
+    let header = currentEmailAccount ? currentEmailAccount.emailAddress : 'All mailboxes';
 
-    // Don't display 'All mail' text when there's no email account selected.
-    if (!(!emailAccount && !label.labelId)) {
-      header += ` - ${label.name}`;
+    if (currentLabel) {
+      // Don't display 'All mail' text when there's no email account selected.
+      if (!(!currentEmailAccount && !currentLabel.labelId)) {
+        header += ` - ${currentLabel.name}`;
+      }
     }
 
     return header;
@@ -90,7 +94,8 @@ class EmailMessages extends Component {
     const { emailMessages, selectAll } = this.state;
 
     emailMessages.forEach(message => {
-      // Set checked status for each message based on the opposite value of the 'Select all' checkbox.
+      // Set checked status for each message based on
+      // the opposite value of the 'Select all' checkbox.
       message.checked = !selectAll;
     });
 
@@ -109,6 +114,14 @@ class EmailMessages extends Component {
     });
   };
 
+  removeCheckedMessage = () => {
+    const { emailMessages } = this.state;
+
+    const filteredMessages = emailMessages.filter(message => !message.checked);
+
+    this.setState({ emailMessages: filteredMessages });
+  };
+
   archive = () => {
     const { emailMessages } = this.state;
 
@@ -117,17 +130,74 @@ class EmailMessages extends Component {
         const data = {
           id: message.id,
           data: {
-            currentInbox: this.props.label
+            currentInbox: this.props.currentLabel
           }
         };
 
-        EmailMessage.archive(data).then(() => {
-          message.checked = false;
-        });
+        EmailMessage.archive(data);
+      }
+    });
+
+    this.removeCheckedMessage();
+  };
+
+  delete = () => {
+    const { emailMessages, currentLabel } = this.state;
+
+    emailMessages.forEach(message => {
+      if (message.checked) {
+        if (currentLabel === TRASH_LABEL) {
+          // Message has already been trashed, so permanently delete the message.
+          EmailMessage.del(message.id);
+        } else {
+          EmailMessage.trash(message.id);
+        }
+      }
+    });
+
+    this.removeCheckedMessage();
+  };
+
+  markAsRead = () => {
+    this.updateReadStatus(true);
+  };
+
+  markAsUnread = () => {
+    this.updateReadStatus(false);
+  };
+
+  updateReadStatus = status => {
+    const { emailMessages } = this.state;
+
+    emailMessages.forEach(message => {
+      if (message.checked) {
+        EmailMessage.patch({ id: message.id, read: status });
+
+        message.read = status;
       }
     });
 
     this.setState({ emailMessages });
+  };
+
+  move = label => {
+    const { emailMessages, currentLabel } = this.state;
+    const addedLabels = [label.labelId];
+    const removedLabels = currentLabel ? [currentLabel] : [];
+
+    // Gmail API needs to know the new labels as well as the old ones, so send them too.
+    const data = {
+      addLabels: addedLabels,
+      removeLabels: removedLabels
+    };
+
+    emailMessages.forEach(message => {
+      if (message.checked) {
+        EmailMessage.move({ id: message.id, data });
+      }
+    });
+
+    this.removeCheckedMessage();
   };
 
   handleSelect = (event, index) => {
@@ -154,15 +224,31 @@ class EmailMessages extends Component {
       }
     }
 
+    const checkedMessages = emailMessages.filter(message => message.checked);
     // It's not possible to reply to multiple messages at the same time.
-    const showReplyActions = emailMessages.filter(message => message.checked).length === 1;
+    const showReplyActions = checkedMessages.length === 1;
 
-    this.setState({ emailMessages, showReplyActions });
+    const showMoveTo = this.props.currentEmailAccount && checkedMessages.length > 0;
+
+    this.setState({ emailMessages, showReplyActions, showMoveTo });
   };
 
   render() {
-    const { emailMessages, showReplyActions, loading, selectAll } = this.state;
-    const { colorCodes } = this.props;
+    const { emailMessages, showReplyActions, showMoveTo, loading, selectAll } = this.state;
+    const { currentEmailAccount, currentLabel } = this.props;
+
+    let filteredLabels = [];
+
+    if (currentEmailAccount) {
+      // Filter out labels added by the email provider.
+      // Also filter out the currently selected label.
+      // Finally sort by name.
+      filteredLabels = currentEmailAccount.labels
+        .filter(
+          label => label.labelType !== 0 && (currentLabel && currentLabel.labelId !== label.labelId)
+        )
+        .sort((a, b) => a.name.localeCompare(b.name));
+    }
 
     return (
       <BlockUI blocking={loading}>
@@ -184,99 +270,133 @@ class EmailMessages extends Component {
                 <button className="hl-primary-btn" onClick={this.archive}>
                   <FontAwesomeIcon icon="archive" /> Archive
                 </button>
-                <button className="hl-primary-btn">
+
+                <button className="hl-primary-btn" onClick={this.delete}>
                   <i className="lilicon hl-trashcan-icon" /> Delete
                 </button>
               </div>
 
+              {showMoveTo && (
+                <Dropdown
+                  clickable={
+                    <div className="hl-primary-btn m-r-10">
+                      <FontAwesomeIcon icon="folder" /> Move to
+                      <i className="lilicon hl-toggle-down-icon m-l-5" />
+                    </div>
+                  }
+                  menu={
+                    <ul className="dropdown-menu">
+                      {filteredLabels.map(label => (
+                        <li className="dropdown-menu-item clickable" key={label.id}>
+                          <button className="dropdown-button" onClick={() => this.move(label)}>
+                            {label.name}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  }
+                />
+              )}
+
               <div className="hl-btn-group m-r-10">
-                <button className="hl-primary-btn">
+                <button className="hl-primary-btn" onClick={this.markAsRead}>
                   <FontAwesomeIcon icon="eye" /> Mark as read
                 </button>
-                <button className="hl-primary-btn">
+                <button className="hl-primary-btn" onClick={this.markAsUnread}>
                   <FontAwesomeIcon icon="eye-slash" /> Mark as unread
                 </button>
               </div>
 
-              <button className="hl-primary-btn m-r-10">
+              <button className="hl-primary-btn m-r-10" onClick={this.refresh}>
                 <FontAwesomeIcon icon="sync-alt" /> Refresh
               </button>
 
               {showReplyActions && (
                 <div className="hl-btn-group m-r-10">
-                  <button className="hl-primary-btn">
+                  <Link to="/email" className="hl-primary-btn">
                     <FontAwesomeIcon icon="reply" /> Reply
-                  </button>
-                  <button className="hl-primary-btn">
+                  </Link>
+
+                  <Link to="/email" className="hl-primary-btn">
                     <FontAwesomeIcon icon="reply-all" /> Reply all
-                  </button>
-                  <button className="hl-primary-btn">
+                  </Link>
+
+                  <Link to="/email" className="hl-primary-btn">
                     <FontAwesomeIcon icon="reply" flip="horizontal" /> Forward
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>
 
             <table className="hl-table">
               <tbody>
-                {emailMessages.map((emailMessage, index) => (
-                  <tr key={emailMessage.id} className={!emailMessage.read ? 'unread' : ''}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        onClick={event => this.handleSelect(event, index)}
-                        checked={emailMessage.checked || false}
-                      />
-                    </td>
-                    <td>
-                      <button
-                        className="hl-interface-btn larger"
-                        onClick={() => this.toggleStarred(emailMessage)}
-                      >
-                        {emailMessage.isStarred ? (
-                          <FontAwesomeIcon icon="star" className="yellow" />
-                        ) : (
-                          <FontAwesomeIcon icon={['far', 'star']} />
-                        )}
-                      </button>
-                    </td>
-                    <td>
-                      <div
-                        className="account-label"
-                        style={{ borderLeftColor: colorCodes[emailMessage.account.id] }}
-                      >
-                        {emailMessage.account.name || emailMessage.account.email}
-                      </div>
-                    </td>
-                    <td>
-                      <ContactIcon emailMessage={emailMessage} />
-                    </td>
-                    <td className="navigation-cell">
-                      <Link to={`/email/${emailMessage.id}`}>
-                        {emailMessage.senderName || emailMessage.senderEmail}
-                      </Link>
-                    </td>
-                    {/* <td>{emailMessage.receivedByName && emailMessage.receivedByName.join(', ')}</td>
-                    <td>{emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}</td> */}
-                    <td className="navigation-cell">
-                      <Link to={`/email/${emailMessage.id}`}>
-                        {emailMessage.history &&
-                          emailMessage.history.repliedWith && <FontAwesomeIcon icon="reply" />}
-                      </Link>
-                    </td>
-                    <td className="navigation-cell">
-                      <Link to={`/email/${emailMessage.id}`}>
-                        {emailMessage.hasAttachment && <i className="lilicon hl-paperclip-icon" />}
-                      </Link>
-                    </td>
-                    <td className="navigation-cell">
-                      <Link to={`/email/${emailMessage.id}`}>{emailMessage.subject}</Link>
-                    </td>
-                    <td>
-                      <LilyDate date={emailMessage.sentDate} />
-                    </td>
-                  </tr>
-                ))}
+                {emailMessages.map((emailMessage, index) => {
+                  // TODO: Currently doesn't work since the
+                  // email message's data doesn't contain the color.
+                  const color =
+                    emailMessage.account.color || getColorCode(emailMessage.account.email);
+
+                  return (
+                    <tr key={emailMessage.id} className={!emailMessage.read ? 'unread' : ''}>
+                      <td>
+                        <label htmlFor={`message-${emailMessage.id}`}>
+                          <input
+                            id={`message-${emailMessage.id}`}
+                            type="checkbox"
+                            onClick={event => this.handleSelect(event, index)}
+                            checked={emailMessage.checked || false}
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <button
+                          className="hl-interface-btn larger"
+                          onClick={() => this.toggleStarred(emailMessage)}
+                        >
+                          {emailMessage.isStarred ? (
+                            <FontAwesomeIcon icon="star" className="yellow" />
+                          ) : (
+                            <FontAwesomeIcon icon={['far', 'star']} />
+                          )}
+                        </button>
+                      </td>
+                      <td>
+                        <div className="account-label" style={{ borderLeftColor: color }}>
+                          {emailMessage.account.name || emailMessage.account.email}
+                        </div>
+                      </td>
+                      <td>
+                        <ContactIcon emailMessage={emailMessage} />
+                      </td>
+                      <td className="navigation-cell">
+                        <Link to={`/email/${emailMessage.id}`}>
+                          {emailMessage.senderName || emailMessage.senderEmail}
+                        </Link>
+                      </td>
+                      {/* <td>{emailMessage.receivedByName && emailMessage.receivedByName.join(', ')}</td>
+                      <td>{emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}</td> */}
+                      <td className="navigation-cell">
+                        <Link to={`/email/${emailMessage.id}`}>
+                          {emailMessage.history &&
+                            emailMessage.history.repliedWith && <FontAwesomeIcon icon="reply" />}
+                        </Link>
+                      </td>
+                      <td className="navigation-cell">
+                        <Link to={`/email/${emailMessage.id}`}>
+                          {emailMessage.hasAttachment && (
+                            <i className="lilicon hl-paperclip-icon" />
+                          )}
+                        </Link>
+                      </td>
+                      <td className="navigation-cell">
+                        <Link to={`/email/${emailMessage.id}`}>{emailMessage.subject}</Link>
+                      </td>
+                      <td>
+                        <LilyDate date={emailMessage.sentDate} />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </List>

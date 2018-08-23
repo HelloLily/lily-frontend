@@ -68,10 +68,10 @@ class EmailMessage {
     return response;
   }
 
-  trash(data) {
-    const url = `/messaging/email/email/${data.id}/trash/`;
+  trash(id) {
+    const url = `/messaging/email/email/${id}/trash/`;
 
-    const response = put(url, data);
+    const response = put(url);
 
     return response;
   }

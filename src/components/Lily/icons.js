@@ -36,7 +36,7 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
-import { faExpandAlt } from '@fortawesome/pro-solid-svg-icons';
+import { faExpandAlt, faSpinnerThird } from '@fortawesome/pro-solid-svg-icons';
 
 library.add(
   fab,
@@ -74,5 +74,6 @@ library.add(
   faSyncAlt,
   faStarOpen,
   faAngleDown,
-  faExpandAlt
+  faExpandAlt,
+  faSpinnerThird
 );
