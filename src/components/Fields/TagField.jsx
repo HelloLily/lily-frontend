@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
-import cx from 'classnames';
 
 import { SELECT_STYLES } from 'lib/constants';
 import Tag from 'models/Tag';

@@ -21,14 +21,14 @@ class ListFilter extends Component {
         }
         menu={
           <ul className="dropdown-menu">
-            <li className="dropdown-menu-item clickable">
+            <li className="dropdown-menu-item">
               <input id="selectAll" type="checkbox" onClick={() => this.toggleFilter()} />
 
               <label htmlFor="selectAll">Select all</label>
             </li>
 
             {items.map(item => (
-              <li className="dropdown-menu-item clickable" key={item.id}>
+              <li className="dropdown-menu-item" key={item.id}>
                 <input
                   id={item.id}
                   type="checkbox"

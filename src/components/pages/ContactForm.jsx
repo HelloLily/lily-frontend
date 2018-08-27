@@ -45,6 +45,20 @@ class InnerContactForm extends Component {
       this.props.setValues(contactResponse);
     }
 
+    const { data } = this.props;
+
+    if (data) {
+      if (data.contact) {
+        Object.keys(data.contact).forEach(key => {
+          this.props.setFieldValue(key, data.contact[key]);
+        });
+      }
+
+      if (data.account) {
+        this.props.setFieldValue('accounts', [data.account]);
+      }
+    }
+
     this.setState({ loading: false });
   }
 

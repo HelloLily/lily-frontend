@@ -70,6 +70,7 @@
   }
 
   .email-actions {
+    display: flex;
     border-bottom: 2px $inner-border-color solid;
   }
 
@@ -93,6 +94,14 @@
       font-size: 0.9em;
       color: $text-muted;
       flex-grow: 1;
+    }
+  }
+}
+
+.star-active {
+  &:hover {
+    > * {
+      color: #eadfa8;
     }
   }
 }

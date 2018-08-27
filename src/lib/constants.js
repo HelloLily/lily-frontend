@@ -124,6 +124,7 @@ export const INBOX_LABEL = 'INBOX';
 export const SENT_LABEL = 'SENT';
 export const DRAFT_LABEL = 'DRAFT';
 export const TRASH_LABEL = 'TRASH';
+export const SPAM_LABEL = 'SPAM';
 
 export const DEFAULT_LABELS = [
   { labelId: INBOX_LABEL, name: 'Inbox' },

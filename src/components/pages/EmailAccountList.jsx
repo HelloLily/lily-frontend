@@ -7,6 +7,7 @@ import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
 import UserShare from 'components/UserShare';
+import User from 'models/User';
 import SharedEmailConfig from 'models/SharedEmailConfig';
 import EmailAccount from 'models/EmailAccount';
 
@@ -19,7 +20,8 @@ class EmailAccountList extends Component {
       sharedAccounts: [],
       loading: true,
       modalOpen: false,
-      selectedAccount: null
+      selectedAccount: null,
+      users: []
     };
   }
 
@@ -55,11 +57,18 @@ class EmailAccountList extends Component {
   }
 
   openSharedWithModal = async emailAccount => {
-    this.setState({ modalOpen: true, selectedAccount: emailAccount });
+    const promises = emailAccount.sharedEmailConfigs.map(async config => {
+      const user = await User.get(config.user);
+
+      return user;
+    });
+    const users = await Promise.all(promises);
+
+    this.setState({ modalOpen: true, selectedAccount: emailAccount, users });
   };
 
   closeSharedWithModal = () => {
-    this.setState({ modalOpen: false, selectedAccount: null });
+    this.setState({ modalOpen: false, selectedAccount: null, users: [] });
   };
 
   toggleHidden = emailAccount => {
@@ -91,7 +100,7 @@ class EmailAccountList extends Component {
   };
 
   render() {
-    const { emailAccounts, sharedAccounts, loading, selectedAccount } = this.state;
+    const { emailAccounts, sharedAccounts, loading, selectedAccount, users } = this.state;
     const { currentUser } = this.props;
 
     return (
@@ -259,18 +268,22 @@ class EmailAccountList extends Component {
                     {selectedAccount.owner.fullName} has shared this account with
                   </div>
 
-                  {selectedAccount.sharedEmailConfigs.map(config => (
-                    <div className="user-row" key={config.id}>
-                      <div className="user-info">
-                        <img
-                          className="user-avatar m-r-15"
-                          src={config.user.profilePicture}
-                          alt="User avatar"
-                        />
-                        <div>{config.user.fullName}</div>
+                  {selectedAccount.sharedEmailConfigs.map(config => {
+                    const foundUser = users.find(user => user.id === config.user);
+
+                    return (
+                      <div className="user-row" key={config.id}>
+                        <div className="user-info">
+                          <img
+                            className="user-avatar m-r-15"
+                            src={foundUser.profilePicture}
+                            alt="User avatar"
+                          />
+                          <div>{foundUser.fullName}</div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </React.Fragment>
             )}

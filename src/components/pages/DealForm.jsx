@@ -80,6 +80,12 @@ class InnerDealForm extends Component {
       if (data.object) {
         this.props.setFieldValue(data.object.contentType.model, data.model);
       }
+
+      if (this.props.data) {
+        Object.keys(this.props.data).forEach(key => {
+          this.props.setFieldValue(key, this.props.data[key]);
+        });
+      }
     }
 
     this.setState({ loading: false });

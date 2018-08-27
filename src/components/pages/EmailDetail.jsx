@@ -1,23 +1,48 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import EmailMessage from 'models/EmailMessage';
+import { TRASH_LABEL, PHONE_EMPTY_ROW } from 'lib/constants';
+import withContext from 'src/withContext';
 import LilyDate from 'components/Utils/LilyDate';
+import Dropdown from 'components/Dropdown/index';
+import Account from 'models/Account';
+import EmailAccount from 'models/EmailAccount';
+import EmailMessage from 'models/EmailMessage';
 
 class EmailDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { emailMessage: null, plainText: false, recipients: [] };
+    this.state = {
+      emailMessage: null,
+      emailAccount: null,
+      plainText: false,
+      recipients: []
+    };
   }
 
   async componentDidMount() {
     const { id } = this.props.match.params;
+    const { currentLabel } = this.props;
     const emailMessage = await EmailMessage.get(id);
 
-    const threadRequest = await EmailMessage.thread(id);
+    if (!emailMessage.read) {
+      EmailMessage.patch({ id: emailMessage.id, read: true });
+    }
 
+    const emailAccount = await EmailAccount.get(emailMessage.account);
+
+    // Filter out labels added by the email provider.
+    // Also filter out the currently selected label.
+    // Finally sort by name.
+    emailAccount.labels = emailAccount.labels
+      .filter(
+        label => label.labelType !== 0 && (currentLabel && currentLabel.labelId !== label.labelId)
+      )
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    const threadRequest = await EmailMessage.thread(id);
     const recipientsList = emailMessage.receivedBy.concat(emailMessage.receivedByCc);
 
     const recipientRequests = recipientsList.map(async recipient => {
@@ -34,8 +59,115 @@ class EmailDetail extends Component {
 
     const recipients = await Promise.all(recipientRequests);
 
-    this.setState({ emailMessage, recipients, thread: threadRequest.results });
+    this.setupSidebar(emailMessage);
+
+    this.setState({
+      emailMessage,
+      emailAccount,
+      recipients,
+      thread: threadRequest.results
+    });
   }
+
+  setupSidebar = async emailMessage => {
+    if (emailMessage.sender && emailMessage.sender.emailAddress) {
+      const sidebarData = {};
+      let filterQuery = '';
+      let website = '';
+      let sidebarType = null;
+      // Search an account or contact with the given email address.
+      const response = await Account.searchByEmailAddress(emailMessage.sender.emailAddress);
+      const { type } = response;
+
+      // Don't use the email addresses domain if
+      // we're dealing with a free email provider (e.g. Gmail).
+      if (!response.freeMail) {
+        [website] = emailMessage.sender.emailAddress.split('@').slice(-1);
+        sidebarData.website = website;
+      }
+
+      // Response contains actual data so continue processing.
+      if (response && response.data) {
+        if (type === 'account') {
+          if (response.data.id) {
+            sidebarData.account = response.data;
+
+            if (!response.complete) {
+              // Account found, but no contact belongs to account, so setup autofill data.
+              sidebarType = 'contact';
+            }
+
+            filterQuery = `account.id:${response.data.id}`;
+          }
+        } else if (type === 'contact') {
+          const contact = response.data;
+
+          if (contact.id) {
+            sidebarData.contact = response.data;
+
+            if (contact.accounts && contact.accounts.length > 0) {
+              if (contact.accounts.length === 1) {
+                // Contact is linked to a single account, so autofill that account.
+                [sidebarData.account] = contact.accounts;
+
+                filterQuery = `contact.id:${contact.id} OR account.id:${contact.accounts[0].id}`;
+              } else {
+                const accountIds = contact.accounts.map(account => account.id);
+                const accountQuery = `(${accountIds.join(
+                  ' OR '
+                )}) AND email_addresses.email_address:${website}`;
+                // Contact works at multiple accounts, so try to filter accounts based on domain.
+                const searchResponse = await Account.search({ filterquery: accountQuery });
+
+                if (searchResponse.objects.length) {
+                  // If we get multiple accounts, just pick the first one.
+                  // Additional filter isn't really possible.
+                  [sidebarData.account] = searchResponse.objects;
+
+                  filterQuery = `contact.id: ${contact.id} OR account.id:${
+                    searchResponse.objects[0].id
+                  }`;
+                }
+              }
+            } else if (!response.freeMail) {
+              sidebarType = 'account';
+            }
+          }
+        }
+      } else if (response.freeMail) {
+        sidebarType = 'contact';
+      } else {
+        sidebarType = 'account';
+      }
+
+      if (type !== 'contact') {
+        const senderParts = emailMessage.sender.name.split(' ');
+
+        sidebarData.contact = {
+          firstName: senderParts[0],
+          lastName: senderParts.slice(1).join(' '),
+          emailAddress: emailMessage.sender.emailAddress
+        };
+
+        if (sidebarData.account) {
+          const account = sidebarData.account.id;
+          const extractResponse = await EmailMessage.extract({ id: emailMessage.id, account });
+          const phoneNumbers = extractResponse.phoneNumbers.map(number => {
+            const phoneRow = PHONE_EMPTY_ROW;
+            phoneRow.number = number;
+
+            return phoneRow;
+          });
+
+          sidebarData.contact.phoneNumbers = phoneNumbers;
+        }
+      }
+
+      if (sidebarType) {
+        this.props.setSidebar(sidebarType, sidebarData);
+      }
+    }
+  };
 
   togglePlainText = () => {
     const { plainText } = this.state;
@@ -56,17 +188,51 @@ class EmailDetail extends Component {
 
   archive = () => {
     const { emailMessage } = this.state;
-    const data = { id: emailMessage.id, starred: !emailMessage.isStarred };
+    const { currentLabel } = this.props;
 
-    EmailMessage.star(data).then(response => {
-      emailMessage.isStarred = response.isStarred;
+    const data = {
+      id: emailMessage.id
+    };
 
-      this.setState({ emailMessage });
+    if (currentLabel) {
+      data.data = {
+        currentInbox: this.props.currentLabel.labelId
+      };
+    }
+
+    EmailMessage.archive(data).then(() => {
+      this.props.history.push(`/email`);
+    });
+  };
+
+  delete = () => {
+    const { emailMessage } = this.state;
+    const { currentLabel } = this.props;
+
+    let promise = null;
+
+    if (currentLabel === TRASH_LABEL) {
+      // Message has already been trashed, so permanently delete the message.
+      promise = EmailMessage.del(emailMessage.id);
+    } else {
+      promise = EmailMessage.trash(emailMessage.id);
+    }
+
+    promise.then(() => {
+      this.props.history.push(`/email`);
+    });
+  };
+
+  markAsUnread = () => {
+    const { emailMessage } = this.state;
+
+    EmailMessage.archive({ id: emailMessage.id, read: false }).then(() => {
+      this.props.history.push(`/email`);
     });
   };
 
   render() {
-    const { emailMessage, recipients, thread, plainText } = this.state;
+    const { emailMessage, emailAccount, recipients, thread, plainText } = this.state;
 
     const recipientElements = recipients.map(recipient => {
       let element;
@@ -104,37 +270,79 @@ class EmailDetail extends Component {
 
             <div className="email-actions">
               <div className="hl-btn-group m-r-10">
-                <button className="hl-primary-btn">
+                <Link to="/email" className="hl-primary-btn">
                   <FontAwesomeIcon icon="reply" /> Reply
-                </button>
+                </Link>
 
-                <button className="hl-primary-btn">
-                  <FontAwesomeIcon icon="angle-down" />
-                </button>
+                <Dropdown
+                  clickable={
+                    <button className="hl-primary-btn">
+                      <FontAwesomeIcon icon="angle-down" />
+                    </button>
+                  }
+                  menu={
+                    <ul className="dropdown-menu">
+                      <li className="dropdown-menu-item">
+                        <Link to="/email" className="dropdown-button">
+                          <FontAwesomeIcon icon="reply-all" /> Reply all
+                        </Link>
+                      </li>
+
+                      <li className="dropdown-menu-item">
+                        <Link to="/email" className="dropdown-button">
+                          <FontAwesomeIcon icon="arrow-alt-right" /> Forward
+                        </Link>
+                      </li>
+                    </ul>
+                  }
+                />
               </div>
 
               <div className="hl-btn-group m-r-10">
-                <button className="hl-primary-btn">
+                <button className="hl-primary-btn" onClick={this.archive}>
                   <FontAwesomeIcon icon="archive" /> Archive
                 </button>
-                <button className="hl-primary-btn">
+                <button className="hl-primary-btn" onClick={this.delete}>
                   <i className="lilicon hl-trashcan-icon" /> Delete
                 </button>
               </div>
 
-              <button className="hl-primary-btn">
-                <FontAwesomeIcon icon="folder" /> Move to <FontAwesomeIcon icon="angle-down" />
-              </button>
+              <Dropdown
+                clickable={
+                  <div className="hl-primary-btn m-r-10">
+                    <FontAwesomeIcon icon="folder" /> Move to
+                    <i className="lilicon hl-toggle-down-icon m-l-5" />
+                  </div>
+                }
+                menu={
+                  <ul className="dropdown-menu">
+                    {emailAccount.labels.map(label => (
+                      <li className="dropdown-menu-item" key={label.id}>
+                        <button className="dropdown-button" onClick={() => this.move(label)}>
+                          {label.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                }
+              />
             </div>
 
             <div className="email-info">
               <div className="email-info-top">
                 <strong>{emailMessage.sender.name}</strong>
                 <span className="email-sender-email m-l-5">
-                  &lt;{emailMessage.sender.emailAddress}&gt;
+                  &lt;
+                  {emailMessage.sender.emailAddress}
+                  &gt;
                 </span>
 
-                <button className="hl-interface-btn larger" onClick={this.toggleStarred}>
+                <button
+                  className={`hl-interface-btn larger${
+                    emailMessage.isStarred ? ' star-active' : ''
+                  }`}
+                  onClick={this.toggleStarred}
+                >
                   {emailMessage.isStarred ? (
                     <FontAwesomeIcon icon="star" className="yellow" />
                   ) : (
@@ -179,4 +387,4 @@ class EmailDetail extends Component {
   }
 }
 
-export default EmailDetail;
+export default withContext(withRouter(EmailDetail));

@@ -17,7 +17,7 @@ const ColumnDisplay = ({ className, columns, toggleColumn }) => (
     menu={
       <ul className="dropdown-menu">
         {columns.map((column, index) => (
-          <li className="dropdown-menu-item clickable" key={column.key}>
+          <li className="dropdown-menu-item" key={column.key}>
             <input
               id={column.key}
               type="checkbox"

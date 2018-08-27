@@ -21,6 +21,13 @@ class EmailAddressField extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.items.length === 0) {
+      const primaryRow = { emailAddress: '', status: PRIMARY_EMAIL_STATUS };
+      this.handleRelated([primaryRow]);
+    }
+  }
+
   handleChange = (value, index, field) => {
     const { items } = this.props;
 

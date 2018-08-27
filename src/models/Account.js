@@ -29,8 +29,12 @@ class Account {
     return response;
   }
 
-  dataproviderInfo(url) {
-    const response = post('/provide/dataprovider/', { url });
+  dataproviderInfo(type, value) {
+    const uri = `/provide/dataprovider/${type}/`;
+    const data = {
+      [type]: value
+    };
+    const response = post(uri, data);
 
     return response;
   }

@@ -4,11 +4,11 @@
   .user-row {
     display: flex;
     justify-content: space-between;
-    border-top: 1px $inner-border-color solid;
+    border-bottom: 1px $inner-border-color solid;
     padding: 6px 20px;
 
-    &:not(:first-of-type) {
-      border-bottom: 1px $inner-border-color solid;
+    &:first-child {
+      border-top: 1px $inner-border-color solid;
     }
 
     .user-info {

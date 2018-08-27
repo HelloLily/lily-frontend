@@ -26,21 +26,28 @@ class EmailMessages extends Component {
   }
 
   async componentDidMount() {
-    const { currentLabel } = this.props;
-    // TODO: Change from .hits to .results once there's a proper email message API.
-    const messageRequest = await EmailMessage.query({ pageSize: 20, label: currentLabel });
-    const emailMessagePromises = messageRequest.hits.map(async emailMessage => {
-      const history = await EmailMessage.history(emailMessage.id);
+    this.loadMessages();
+  }
 
-      emailMessage.history = history;
-      emailMessage.status = await this.getContactStatus(emailMessage);
+  async componentDidUpdate(prevProps) {
+    const { currentEmailAccount, currentLabel } = this.props;
+    const prevEmailAccount = prevProps.currentEmailAccount;
 
-      return emailMessage;
-    });
+    let shouldUpdate = false;
 
-    const emailMessages = await Promise.all(emailMessagePromises);
+    if (prevEmailAccount !== currentEmailAccount) {
+      shouldUpdate = true;
+    }
 
-    this.setState({ emailMessages, loading: false });
+    const prevLabel = prevProps.currentLabel;
+
+    if (prevLabel !== currentLabel) {
+      shouldUpdate = true;
+    }
+
+    if (shouldUpdate) {
+      this.loadMessages();
+    }
   }
 
   getContactStatus = async emailMessage => {
@@ -90,6 +97,34 @@ class EmailMessages extends Component {
     return header;
   };
 
+  setPage = async page => {
+    this.loadMessages();
+  };
+
+  loadMessages = async () => {
+    this.setState({ loading: true });
+    // TODO: Include value from search field.
+    const params = {
+      emailAccount: this.props.currentEmailAccount,
+      label: this.props.currentLabel,
+      page: this.state.page
+    };
+    const messageResponse = await EmailMessage.query(params);
+    // Fetch contact status for each message.
+    const emailMessagePromises = messageResponse.hits.map(async emailMessage => {
+      // const history = await EmailMessage.history(emailMessage.id);
+
+      // emailMessage.history = history;
+      emailMessage.status = await this.getContactStatus(emailMessage);
+
+      return emailMessage;
+    });
+
+    const emailMessages = await Promise.all(emailMessagePromises);
+
+    this.setState({ emailMessages, loading: false });
+  };
+
   toggleSelectAll = () => {
     const { emailMessages, selectAll } = this.state;
 
@@ -114,7 +149,7 @@ class EmailMessages extends Component {
     });
   };
 
-  removeCheckedMessage = () => {
+  removeCheckedMessages = () => {
     const { emailMessages } = this.state;
 
     const filteredMessages = emailMessages.filter(message => !message.checked);
@@ -138,7 +173,7 @@ class EmailMessages extends Component {
       }
     });
 
-    this.removeCheckedMessage();
+    this.removeCheckedMessages();
   };
 
   delete = () => {
@@ -155,7 +190,7 @@ class EmailMessages extends Component {
       }
     });
 
-    this.removeCheckedMessage();
+    this.removeCheckedMessages();
   };
 
   markAsRead = () => {
@@ -197,7 +232,7 @@ class EmailMessages extends Component {
       }
     });
 
-    this.removeCheckedMessage();
+    this.removeCheckedMessages();
   };
 
   handleSelect = (event, index) => {
@@ -287,7 +322,7 @@ class EmailMessages extends Component {
                   menu={
                     <ul className="dropdown-menu">
                       {filteredLabels.map(label => (
-                        <li className="dropdown-menu-item clickable" key={label.id}>
+                        <li className="dropdown-menu-item" key={label.id}>
                           <button className="dropdown-button" onClick={() => this.move(label)}>
                             {label.name}
                           </button>
@@ -350,7 +385,9 @@ class EmailMessages extends Component {
                       </td>
                       <td>
                         <button
-                          className="hl-interface-btn larger"
+                          className={`hl-interface-btn larger${
+                            emailMessage.isStarred ? ' star-active' : ''
+                          }`}
                           onClick={() => this.toggleStarred(emailMessage)}
                         >
                           {emailMessage.isStarred ? (

@@ -51,7 +51,6 @@ class InnerAccountForm extends Component {
 
     if (id) {
       const accountResponse = await Account.get(id);
-
       const primaryWebsite = accountResponse.websites.find(website => website.isPrimary);
 
       accountResponse.primaryWebsite = primaryWebsite ? primaryWebsite.website : '';
@@ -66,6 +65,30 @@ class InnerAccountForm extends Component {
       if (relation) {
         this.props.setFieldValue('status', relation);
       }
+
+      const { data } = this.props;
+
+      if (data) {
+        if (data.website) {
+          this.props.setFieldValue('primaryWebsite', data.website);
+
+          await this.getDataproviderInfo();
+
+          if (!this.props.values.name) {
+            const company = data.website
+              .split('.')
+              .slice(0, -1)
+              .join(' ');
+            const companyName = company.charAt(0).toUpperCase() + company.slice(1);
+
+            this.props.setFieldValue('name', companyName);
+          }
+        } else {
+          Object.keys(data).forEach(key => {
+            this.props.setFieldValue(key, data[key]);
+          });
+        }
+      }
     }
 
     this.props.setFieldValue('assignedTo', this.props.currentUser);
@@ -75,10 +98,10 @@ class InnerAccountForm extends Component {
 
   getDataproviderInfo = async () => {
     const { values, currentUser } = this.props;
-    const data = await Account.dataproviderInfo(values.primaryWebsite);
+    const data = await Account.dataproviderInfo('url', values.primaryWebsite);
 
     // Filter out empty items (default form values).
-    const emailAddresses = values.emailAddresses.filter(emailAddress => emailAddress.email_address);
+    const emailAddresses = values.emailAddresses.filter(emailAddress => emailAddress.emailAddress);
 
     data.emailAddresses.forEach(emailAddress => {
       const exists = emailAddresses.some(
@@ -116,7 +139,7 @@ class InnerAccountForm extends Component {
       }
     });
 
-    if (addresses.length) {
+    if (addresses.length > 0) {
       data.addresses = addresses;
     }
 
@@ -144,8 +167,15 @@ class InnerAccountForm extends Component {
     }
 
     data.websites = values.websites;
+    data.tags = [];
 
-    this.props.setValues(data);
+    if (!data.description) {
+      data.description = '';
+    }
+
+    Object.keys(data).forEach(key => {
+      this.props.setFieldValue(key, data[key]);
+    });
   };
 
   search = async query => {

@@ -15,9 +15,11 @@ import {
 
 class PhoneNumberField extends Component {
   componentDidMount() {
-    if (this.props.items.length === 0) {
-      this.addRow();
-    }
+    if (this.props.items.length === 0) this.addRow();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.items.length === 0) this.addRow();
   }
 
   handleChange = (value, index, field) => {

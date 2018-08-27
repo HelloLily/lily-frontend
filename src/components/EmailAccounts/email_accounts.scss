@@ -19,6 +19,12 @@
     text-overflow: ellipsis;
     font-size: 15px;
     cursor: pointer;
+
+    .hl-interface-btn {
+      &:hover {
+        color: #fff;
+      }
+    }
   }
 
   .label-name {

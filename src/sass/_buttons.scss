@@ -130,9 +130,8 @@ $large-button-size: 31px;
   background: none;
 
   &:hover {
-    color: #fff;
-    mix-blend-mode: difference;
     text-decoration: none;
+    color: $app-color-darkblue;
   }
 
   &.larger {
@@ -141,7 +140,7 @@ $large-button-size: 31px;
 }
 
 .hl-btn-group {
-  display: inline-block;
+  display: inline-flex;
 
   .hl-primary-btn {
     border-left-width: 0;

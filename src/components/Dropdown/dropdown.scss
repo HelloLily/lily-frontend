@@ -23,10 +23,16 @@
     padding: 0 14px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     label {
       padding: 7px 10px;
       flex-grow: 1;
+    }
+
+    a {
+      color: initial;
+      text-decoration: none;
     }
 
     &:hover {

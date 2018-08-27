@@ -3,8 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import ErrorBoundry from 'components/ErrorBoundry';
 import withContext from 'src/withContext';
-import Header from 'components/Header';
-import Breadcrumbs from 'components/Breadcrumbs';
 import Nav from 'components/Nav';
 import Sidebar from 'components/Sidebar';
 import Dashboard from 'pages/Dashboard';
@@ -74,12 +72,6 @@ class Lily extends Component {
                 </ErrorBoundry>
               </div>
               <div className="main">
-                <ErrorBoundry>
-                  <Header />
-                </ErrorBoundry>
-                <ErrorBoundry>
-                  <Breadcrumbs />
-                </ErrorBoundry>
                 <main className="content" id="content">
                   <ErrorBoundry>
                     <Switch>

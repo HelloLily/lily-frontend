@@ -60,6 +60,12 @@ class InnerCaseForm extends Component {
       if (data.account) {
         this.props.setFieldValue('account', data.account);
       }
+
+      if (this.props.data) {
+        Object.keys(this.props.data).forEach(key => {
+          this.props.setFieldValue(key, this.props.data[key]);
+        });
+      }
     }
 
     this.setState({ loading: false });

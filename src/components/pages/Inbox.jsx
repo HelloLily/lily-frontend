@@ -15,7 +15,11 @@ class Inbox extends Component {
 
     this.settings = new Settings('inbox');
 
-    this.state = { loading: true, currentEmailAccount: null, currentLabel: null };
+    this.state = {
+      loading: true,
+      currentEmailAccount: null,
+      currentLabel: null
+    };
   }
 
   async componentDidMount() {
@@ -24,8 +28,8 @@ class Inbox extends Component {
 
     let initialAccount = null;
 
-    if (settings.emailAccount) {
-      const accountRequest = await EmailAccount.get(settings.emailAccount);
+    if (settings.currentEmailAccount) {
+      const accountRequest = await EmailAccount.get(settings.currentEmailAccount);
 
       initialAccount = accountRequest;
     }
@@ -84,7 +88,15 @@ class Inbox extends Component {
             <div className="w-100">
               <Switch>
                 <Route path="/email/compose" component={EmailCompose} />
-                <Route path="/email/:id" component={EmailDetail} />
+                <Route
+                  path="/email/:id"
+                  render={() => (
+                    <EmailDetail
+                      currentEmailAccount={currentEmailAccount}
+                      currentLabel={currentLabel}
+                    />
+                  )}
+                />
 
                 <Route
                   path="/email"
