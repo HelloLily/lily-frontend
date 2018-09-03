@@ -32,23 +32,21 @@ class ContentBlock extends Component {
     this.setState({ ...settings, loading: false });
   };
 
-  heightToggle = () => {
+  heightToggle = async () => {
     const expandHeight = !this.state.expandHeight;
 
-    this.settings.store({ expandHeight }).then(() => {
-      this.setState({ expandHeight });
-    });
+    await this.settings.store({ expandHeight });
+    this.setState({ expandHeight });
   };
 
-  removeContentBlock = () => {
+  removeContentBlock = async () => {
     const status = HIDDEN;
 
-    this.settings.store({ status }).then(() => {
-      this.setState({ status });
-    });
+    await this.settings.store({ status });
+    this.setState({ status });
   };
 
-  toggleCollapse = () => {
+  toggleCollapse = async () => {
     const { status } = this.state;
     const { expandable } = this.props;
 
@@ -62,9 +60,8 @@ class ContentBlock extends Component {
       newStatus = COLLAPSED;
     }
 
-    this.settings.store({ status: newStatus }).then(() => {
-      this.setState({ status: newStatus });
-    });
+    await this.settings.store({ status: newStatus });
+    this.setState({ status: newStatus });
   };
 
   handleScroll = event => {

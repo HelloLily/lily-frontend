@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
+import { NO_SORT_STATUS } from 'lib/constants';
 import Editable from 'components/Editable';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import LilyPagination from 'components/LilyPagination';
 import BlockUI from 'components/Utils/BlockUI';
+import ListColumns from 'components/List/ListColumns';
 import Settings from 'models/Settings';
 import UserInvite from 'models/UserInvite';
 import UserTeam from 'models/UserTeam';
@@ -20,12 +22,12 @@ class UserList extends Component {
     this.settings = new Settings('userList');
 
     const columns = [
-      { key: 'fullName', text: 'Name', selected: true },
-      { key: 'teams', text: 'Team(s)', selected: true },
-      { key: 'email', text: 'Email address', selected: true },
-      { key: 'phoneNumber', text: 'Phone number', selected: true },
-      { key: 'internalNumber', text: 'Internal number', selected: true },
-      { key: 'isActive', text: 'Status', selected: true },
+      { key: 'fullName', text: 'Name', selected: true, sort: 'fullName' },
+      { key: 'teams', text: 'Team(s)', selected: true, sort: 'teams.name' },
+      { key: 'email', text: 'Email address', selected: true, sort: 'email' },
+      { key: 'phoneNumber', text: 'Phone number', selected: true, sort: 'phoneNumber' },
+      { key: 'internalNumber', text: 'Internal number', selected: true, sort: 'internalNumber' },
+      { key: 'isActive', text: 'Status', selected: true, sort: 'isActive' },
       { key: 'twoFactor', text: '2FA Active', selected: true }
     ];
 
@@ -35,18 +37,18 @@ class UserList extends Component {
       invites: [],
       pagination: {},
       loading: true,
-      statusFilter: 0
+      statusFilter: 0,
+      sortColumn: '',
+      sortStatus: NO_SORT_STATUS
     };
   }
 
   async componentDidMount() {
-    const userResponse = await User.query({ pageSize: 20 });
     const inviteResponse = await UserInvite.query({ pageSize: 20 });
+    await this.loadItems();
 
     this.setState({
-      users: userResponse.results,
       invites: inviteResponse.results,
-      pagination: userResponse.pagination,
       loading: false
     });
   }
@@ -56,15 +58,11 @@ class UserList extends Component {
   };
 
   setPage = async page => {
-    this.setState({ loading: true });
+    this.setState({ page }, this.loadItems);
+  };
 
-    const userResponse = await User.query({ pageSize: 20, page });
-
-    this.setState({
-      users: userResponse.results,
-      pagination: userResponse.pagination,
-      loading: false
-    });
+  setSorting = (sortColumn, sortStatus) => {
+    this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
   handleName = event => {
@@ -93,13 +91,31 @@ class UserList extends Component {
     this.setState({ newTeam: null });
   };
 
-  toggleColumn = index => {
+  toggleColumn = async index => {
     const { columns } = this.state;
 
     columns[index].selected = !columns[index].selected;
 
-    this.settings.store({ columns }).then(() => {
-      this.setState({ columns });
+    await this.settings.store({ columns });
+    this.setState({ columns });
+  };
+
+  loadItems = async () => {
+    const { page, sortColumn, sortStatus } = this.state;
+
+    this.setState({ loading: true });
+
+    const data = await User.query({
+      pageSize: 20,
+      page,
+      sortColumn,
+      sortStatus
+    });
+
+    this.setState({
+      users: data.results,
+      pagination: data.pagination,
+      loading: false
     });
   };
 
@@ -147,13 +163,7 @@ class UserList extends Component {
           <table className="hl-table">
             <thead>
               <tr>
-                {columns[0].selected && <th>Name</th>}
-                {columns[1].selected && <th>Team(s)</th>}
-                {columns[2].selected && <th>Email address</th>}
-                {columns[3].selected && <th>Phone number</th>}
-                {columns[4].selected && <th>Internal number</th>}
-                {columns[5].selected && <th>Status</th>}
-                {columns[6].selected && <th>2FA Active</th>}
+                <ListColumns columns={columns} setSorting={this.setSorting} />
                 <th>Actions</th>
               </tr>
             </thead>

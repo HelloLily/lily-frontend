@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { NO_SORT_STATUS } from 'lib/constants';
 import Editable from 'components/Editable';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
+import ListColumns from 'components/List/ListColumns';
+import ListFilter from 'components/List/ListFilter';
+import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import Settings from 'models/Settings';
 import Case from 'models/Case';
@@ -18,23 +22,26 @@ class CaseList extends Component {
     this.settings = new Settings('caseList');
 
     const columns = [
-      { key: 'caseId', text: 'NO.', selected: true },
+      { key: 'caseId', text: 'NO.', selected: true, sort: 'id' },
       { key: 'subject', text: 'Subject', selected: true },
       { key: 'client', text: 'Client', selected: true },
-      { key: 'type', text: 'Type', selected: true },
-      { key: 'status', text: 'Status', selected: true },
-      { key: 'priority', text: 'Priority', selected: true },
-      { key: 'created', text: 'Created', selected: true },
-      { key: 'expires', text: 'Expires', selected: true },
-      { key: 'modified', text: 'Modified', selected: false },
-      { key: 'assignedTo', text: 'Assigned to', selected: true },
-      { key: 'createdBy', text: 'Created by', selected: true },
+      { key: 'type', text: 'Type', selected: true, sort: 'type.name' },
+      { key: 'status', text: 'Status', selected: true, sort: 'status.name' },
+      { key: 'priority', text: 'Priority', selected: true, sort: 'priority' },
+      { key: 'created', text: 'Created', selected: true, sort: 'created' },
+      { key: 'expires', text: 'Expires', selected: true, sort: 'expires' },
+      { key: 'modified', text: 'Modified', selected: false, sort: 'modified' },
+      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.fullName' },
+      { key: 'assignedToTeams', text: 'Assigned to teams', selected: true },
+      { key: 'createdBy', text: 'Created by', selected: true, sort: 'createdBy.fullName' },
       { key: 'tags', text: 'Tags', selected: true }
     ];
 
     this.state = {
       columns,
       cases: [],
+      caseTypes: [],
+      filters: [],
       pagination: {},
       loading: true
     };
@@ -42,20 +49,63 @@ class CaseList extends Component {
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
-    const data = await Case.query({ pageSize: 20 });
+    const caseTypeResponse = await Case.caseTypes();
+    const caseTypes = caseTypeResponse.results.map(caseType => {
+      caseType.value = `type.id: ${caseType.id}`;
+      return caseType;
+    });
+    await this.loadItems();
 
     this.setState({
       ...settingsResponse.results,
-      cases: data.results,
-      pagination: data.pagination,
-      loading: false
+      caseTypes,
+      page: 1,
+      sortColumn: '',
+      sortStatus: NO_SORT_STATUS
     });
   }
 
   setPage = async page => {
+    this.setState({ page }, this.loadItems);
+  };
+
+  setSorting = (sortColumn, sortStatus) => {
+    this.setState({ sortColumn, sortStatus }, this.loadItems);
+  };
+
+  setFilters = async filters => {
+    await this.settings.store({ filters });
+
+    this.setState({ filters }, this.loadItems);
+  };
+
+  submitCallback = args => Case.patch(args);
+
+  toggleColumn = async index => {
+    const { columns } = this.state;
+
+    columns[index].selected = !columns[index].selected;
+
+    await this.settings.store({ columns });
+
+    this.setState({ columns });
+  };
+
+  loadItems = async () => {
+    const { page, sortColumn, sortStatus, filters } = this.state;
+
     this.setState({ loading: true });
 
-    const data = await Case.query({ pageSize: 20, page });
+    console.log('test');
+
+    const filter = filters.join(' AND ');
+    const data = await Case.query({
+      pageSize: 20,
+      page,
+      sortColumn,
+      sortStatus,
+      filter
+    });
 
     this.setState({
       cases: data.results,
@@ -64,42 +114,28 @@ class CaseList extends Component {
     });
   };
 
-  submitCallback = args => Case.patch(args);
-
-  toggleColumn = index => {
-    const { columns } = this.state;
-
-    columns[index].selected = !columns[index].selected;
-
-    this.settings.store({ columns }).then(() => {
-      this.setState({ columns });
-    });
-  };
-
   render() {
-    const { columns, cases, loading, pagination } = this.state;
+    const { columns, cases, caseTypes, filters, loading, pagination } = this.state;
 
     return (
       <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
+
+            <ListFilter
+              label="Case types"
+              items={caseTypes}
+              filters={filters}
+              setFilters={this.setFilters}
+            />
+
+            <DueDateFilter filters={filters} setFilters={this.setFilters} />
           </div>
           <table className="hl-table">
             <thead>
               <tr>
-                {columns[0].selected && <th>No.</th>}
-                {columns[1].selected && <th>Subject</th>}
-                {columns[2].selected && <th>Client</th>}
-                {columns[3].selected && <th>Type</th>}
-                {columns[4].selected && <th>Status</th>}
-                {columns[5].selected && <th>Priority</th>}
-                {columns[6].selected && <th>Created</th>}
-                {columns[7].selected && <th>Expires</th>}
-                {columns[8].selected && <th>Modified</th>}
-                {columns[9].selected && <th>Assigned to</th>}
-                {columns[10].selected && <th>Created by</th>}
-                {columns[11].selected && <th>Tags</th>}
+                <ListColumns columns={columns} setSorting={this.setSorting} />
                 <th>Actions</th>
               </tr>
             </thead>
@@ -158,9 +194,16 @@ class CaseList extends Component {
                     <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
                   )}
                   {columns[10].selected && (
-                    <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
+                    <td>
+                      {caseObj.assignedToTeams.map(team => (
+                        <div key={team.id}>{team.name}</div>
+                      ))}
+                    </td>
                   )}
                   {columns[11].selected && (
+                    <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
+                  )}
+                  {columns[12].selected && (
                     <td>
                       {caseObj.tags.map(tag => (
                         <div key={tag.id}>{tag.name}</div>
@@ -175,7 +218,7 @@ class CaseList extends Component {
             </tbody>
           </table>
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
         </List>
       </BlockUI>

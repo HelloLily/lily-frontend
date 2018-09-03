@@ -115,9 +115,21 @@
   }
 
   &.editable-has-buttons {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: 0;
+    &:not(textarea) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 0;
+    }
+
+    &:not(input) {
+      border-bottom-right-radius: 0;
+
+      + .editable-buttons {
+        button {
+          border-top: 0;
+        }
+      }
+    }
 
     &:focus {
       + .editable-buttons {

@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { INACTIVE_EMAIL_STATUS, MOBILE_PHONE_TYPE, WORK_PHONE_TYPE } from 'lib/constants';
+import {
+  INACTIVE_EMAIL_STATUS,
+  MOBILE_PHONE_TYPE,
+  WORK_PHONE_TYPE,
+  NO_SORT_STATUS
+} from 'lib/constants';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
+import ListColumns from 'components/List/ListColumns';
 import BlockUI from 'components/Utils/BlockUI';
 import Settings from 'models/Settings';
 import Contact from 'models/Contact';
@@ -19,11 +25,11 @@ class ContactList extends Component {
     this.settings = new Settings('contactList');
 
     const columns = [
-      { key: 'name', text: 'Name', selected: true },
+      { key: 'name', text: 'Name', selected: true, sort: 'lastName' },
       { key: 'contactInformation', text: 'Contact information', selected: true },
-      { key: 'worksAt', text: 'Works at', selected: true },
-      { key: 'created', text: 'Created', selected: true },
-      { key: 'modified', text: 'Modified', selected: true },
+      { key: 'worksAt', text: 'Works at', selected: true, sort: 'accounts.name' },
+      { key: 'created', text: 'Created', selected: true, sort: 'created' },
+      { key: 'modified', text: 'Modified', selected: true, sort: 'modified' },
       { key: 'tags', text: 'Tags', selected: true }
     ];
 
@@ -37,26 +43,29 @@ class ContactList extends Component {
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
-    const data = await Contact.query({ pageSize: 20 });
+    await this.loadItems();
 
     this.setState({
       ...settingsResponse.results,
-      contacts: data.results,
-      pagination: data.pagination,
-      loading: false
+      loading: false,
+      page: 1,
+      sortColumn: '',
+      sortStatus: NO_SORT_STATUS
     });
   }
 
   setPage = async page => {
-    this.setState({ loading: true });
+    this.setState({ page }, this.loadItems);
+  };
 
-    const data = await Contact.query({ pageSize: 20, page });
+  setSorting = (sortColumn, sortStatus) => {
+    this.setState({ sortColumn, sortStatus }, this.loadItems);
+  };
 
-    this.setState({
-      contacts: data.results,
-      pagination: data.pagination,
-      loading: false
-    });
+  setFilters = async filters => {
+    await this.settings.store({ filters });
+
+    this.setState({ filters }, this.loadItems);
   };
 
   getAccountInformation = contact =>
@@ -88,13 +97,35 @@ class ContactList extends Component {
       </React.Fragment>
     ));
 
-  toggleColumn = index => {
+  export = () => {
+    console.log('Exported contacts');
+  };
+
+  toggleColumn = async index => {
     const { columns } = this.state;
 
     columns[index].selected = !columns[index].selected;
 
-    this.settings.store({ columns }).then(() => {
-      this.setState({ columns });
+    await this.settings.store({ columns });
+    this.setState({ columns });
+  };
+
+  loadItems = async () => {
+    const { page, sortColumn, sortStatus } = this.state;
+
+    this.setState({ loading: true });
+
+    const data = await Contact.query({
+      pageSize: 20,
+      page,
+      sortColumn,
+      sortStatus
+    });
+
+    this.setState({
+      contacts: data.results,
+      pagination: data.pagination,
+      loading: false
     });
   };
 
@@ -106,16 +137,15 @@ class ContactList extends Component {
         <List>
           <div className="list-header">
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
+
+            <button className="hl-primary-btn" onClick={this.export}>
+              Export contacts
+            </button>
           </div>
           <table className="hl-table">
             <thead>
               <tr>
-                {columns[0].selected && <th>Name</th>}
-                {columns[1].selected && <th>Contact information</th>}
-                {columns[2].selected && <th>Works at</th>}
-                {columns[3].selected && <th>Created</th>}
-                {columns[4].selected && <th>Modified</th>}
-                {columns[5].selected && <th>Tags</th>}
+                <ListColumns columns={columns} setSorting={this.setSorting} />
                 <th>Actions</th>
               </tr>
             </thead>
@@ -192,7 +222,7 @@ class ContactList extends Component {
             </tbody>
           </table>
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
         </List>
       </BlockUI>

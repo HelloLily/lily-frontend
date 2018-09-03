@@ -148,24 +148,22 @@ class EmailAccounts extends Component {
     );
   };
 
-  toggleLabel = label => {
+  toggleLabel = async label => {
     const { collapsed } = this.state;
 
     collapsed.labels[label] = !collapsed.labels[label];
 
-    this.settings.store({ collapsed }).then(() => {
-      this.setState({ collapsed });
-    });
+    await this.settings.store({ collapsed });
+    this.setState({ collapsed });
   };
 
-  toggleCollapse = emailAccount => {
+  toggleCollapse = async emailAccount => {
     const { collapsed } = this.state;
 
     collapsed.emailAccounts[emailAccount] = !collapsed.emailAccounts[emailAccount];
 
-    this.settings.store({ collapsed }).then(() => {
-      this.setState({ collapsed });
-    });
+    await this.settings.store({ collapsed });
+    this.setState({ collapsed });
   };
 
   render() {

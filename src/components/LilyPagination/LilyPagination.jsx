@@ -10,25 +10,22 @@ class LilyPagination extends Component {
     const pageSize = props.pageSize || DEFAULT_PAGE_SIZE;
 
     this.state = {
-      pageSize,
-      page: 1
+      pageSize
     };
   }
 
   handlePageClick = page => {
-    this.props.setPage(page).then(() => {
-      this.setState({ page });
-    });
+    this.props.setPage(page);
   };
 
   render() {
-    const { page } = this.state;
-    const { pagination } = this.props;
+    const { page, pagination } = this.props;
     const { total, numberOfPages } = pagination;
     const pageSize = this.state.pageSize || DEFAULT_PAGE_SIZE;
     const rangeMin = (page - 1) * pageSize;
 
-    // Display the total as the right side of the range indication if we've reached the final items.
+    // Display the total as the right side of the range indication
+    // if we've reached the final items.
     const rangeMax = page === numberOfPages ? total : rangeMin + pageSize;
 
     return (

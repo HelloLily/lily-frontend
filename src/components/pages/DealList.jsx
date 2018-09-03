@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { NO_SORT_STATUS } from 'lib/constants';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
+import ListColumns from 'components/List/ListColumns';
+import ListFilter from 'components/List/ListFilter';
+import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
 import Settings from 'models/Settings';
@@ -19,45 +23,85 @@ class DealList extends Component {
     const columns = [
       { key: 'name', text: 'Subject', selected: true },
       { key: 'client', text: 'Client', selected: true },
-      { key: 'status', text: 'Status', selected: true },
-      { key: 'lostReason', text: 'Lost reason', selected: false },
-      { key: 'nextStep', text: 'Next step', selected: false },
-      { key: 'nextStepDate', text: 'Next step date', selected: true },
-      { key: 'assignedTo', text: 'Assigned to', selected: true },
+      { key: 'status', text: 'Status', selected: true, sort: 'status.name' },
+      { key: 'lostReason', text: 'Lost reason', selected: false, sort: 'whyLost' },
+      { key: 'nextStep', text: 'Next step', selected: false, sort: 'nextStep.name' },
+      { key: 'nextStepDate', text: 'Next step date', selected: true, sort: 'nextStepDate' },
+      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.fullName' },
       { key: 'assignedTeams', text: 'Assigned team(s)', selected: true },
-      { key: 'amountOnce', text: 'One-time cost', selected: true },
-      { key: 'amountRecurring', text: 'Recurring costs', selected: true },
-      { key: 'newBusiness', text: 'Business', selected: true },
-      { key: 'created', text: 'Created', selected: true },
-      { key: 'closedDate', text: 'Closed date', selected: false },
-      { key: 'createdBy', text: 'Created by', selected: true },
+      { key: 'amountOnce', text: 'One-time cost', selected: true, sort: 'amountOnce' },
+      { key: 'amountRecurring', text: 'Recurring costs', selected: true, sort: 'amountRecurring' },
+      { key: 'newBusiness', text: 'Business', selected: true, sort: 'newBusiness' },
+      { key: 'created', text: 'Created', selected: true, sort: 'created' },
+      { key: 'closedDate', text: 'Closed date', selected: false, sort: 'closedDate' },
+      { key: 'createdBy', text: 'Created by', selected: true, sort: 'createdBy.fullName' },
       { key: 'tags', text: 'Tags', selected: true }
     ];
 
     this.state = {
       columns,
       deals: [],
+      nextSteps: [],
+      filters: [],
       pagination: {},
-      loading: true
+      loading: true,
+      page: 1,
+      sortColumn: '',
+      sortStatus: NO_SORT_STATUS
     };
   }
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
-    const data = await Deal.query({ pageSize: 20 });
+    const nextStepResponse = await Deal.nextSteps();
+    const nextSteps = nextStepResponse.results.map(nextStep => {
+      nextStep.value = `nextStep.id: ${nextStep.id}`;
+      return nextStep;
+    });
+    await this.loadItems();
 
     this.setState({
       ...settingsResponse.results,
-      deals: data.results,
-      pagination: data.pagination,
+      nextSteps,
       loading: false
     });
   }
 
   setPage = async page => {
+    this.setState({ page }, this.loadItems);
+  };
+
+  setSorting = (sortColumn, sortStatus) => {
+    this.setState({ sortColumn, sortStatus }, this.loadItems);
+  };
+
+  setFilters = async filters => {
+    await this.settings.store({ filters });
+
+    this.setState({ filters }, this.loadItems);
+  };
+
+  toggleColumn = async index => {
+    const { columns } = this.state;
+
+    columns[index].selected = !columns[index].selected;
+
+    await this.settings.store({ columns });
+
+    this.setState({ columns });
+  };
+
+  loadItems = async () => {
+    const { page, sortColumn, sortStatus } = this.state;
+
     this.setState({ loading: true });
 
-    const data = await Deal.query({ pageSize: 20, page });
+    const data = await Deal.query({
+      pageSize: 20,
+      page,
+      sortColumn,
+      sortStatus
+    });
 
     this.setState({
       deals: data.results,
@@ -66,43 +110,28 @@ class DealList extends Component {
     });
   };
 
-  toggleColumn = index => {
-    const { columns } = this.state;
-
-    columns[index].selected = !columns[index].selected;
-
-    this.settings.store({ columns }).then(() => {
-      this.setState({ columns });
-    });
-  };
-
   render() {
-    const { columns, deals = [], loading, pagination } = this.state;
+    const { columns, deals, nextSteps, filters, loading, pagination } = this.state;
 
     return (
       <BlockUI blocking={loading}>
         <List>
           <div className="list-header">
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
+
+            <ListFilter
+              label="Next steps"
+              items={nextSteps}
+              filters={filters}
+              setFilters={this.setFilters}
+            />
+
+            <DueDateFilter filters={filters} setFilters={this.setFilters} />
           </div>
           <table className="hl-table">
             <thead>
               <tr>
-                {columns[0].selected && <th>Subject</th>}
-                {columns[1].selected && <th>Client</th>}
-                {columns[2].selected && <th>Status</th>}
-                {columns[3].selected && <th>Lost reason</th>}
-                {columns[4].selected && <th>Next step</th>}
-                {columns[5].selected && <th>Next step date</th>}
-                {columns[6].selected && <th>Assigned to</th>}
-                {columns[7].selected && <th>Assigned team(s)</th>}
-                {columns[8].selected && <th>One-time cost</th>}
-                {columns[9].selected && <th>Recurring costs</th>}
-                {columns[10].selected && <th>Business</th>}
-                {columns[11].selected && <th>Created</th>}
-                {columns[12].selected && <th>Closed date</th>}
-                {columns[13].selected && <th>Created by</th>}
-                {columns[14].selected && <th>Tags</th>}
+                <ListColumns columns={columns} setSorting={this.setSorting} />
                 <th>Actions</th>
               </tr>
             </thead>
@@ -177,7 +206,7 @@ class DealList extends Component {
             </tbody>
           </table>
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
         </List>
       </BlockUI>

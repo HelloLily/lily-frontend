@@ -133,3 +133,7 @@ export const DEFAULT_LABELS = [
   { labelId: TRASH_LABEL, name: 'Trash' },
   { labelId: '', name: 'All mail' }
 ];
+
+export const NO_SORT_STATUS = 0;
+export const ASCENDING_STATUS = 1;
+export const DESCENDING_STATUS = 2;

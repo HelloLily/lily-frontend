@@ -7,12 +7,24 @@
     border-bottom: 2px solid $inner-border-color;
     text-transform: uppercase;
     white-space: nowrap;
-    color: #b4b4c0;
+    color: $app-color-grey;
     font-size: 11px;
     font-weight: 500;
 
     th {
       padding: 6px 12px;
+
+      button {
+        border: 0;
+        background: 0;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: $app-color-grey;
+        font-size: 11px;
+        font-weight: 600;
+        width: 100%;
+        text-align: left;
+      }
     }
   }
 

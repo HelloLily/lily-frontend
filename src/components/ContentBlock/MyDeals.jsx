@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import timeCategorize from 'utils/timeCategorize';
-import withContext from 'src/withContext';
 import Deal from 'models/Deal';
 
 class MyDeals extends Component {

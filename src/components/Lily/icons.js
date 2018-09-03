@@ -32,7 +32,10 @@ import {
   faEye,
   faEyeSlash,
   faSyncAlt,
-  faAngleDown
+  faAngleDown,
+  faSort,
+  faSortUp,
+  faSortDown
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
 import { faExpandAlt, faSpinnerThird, faArrowAltRight } from '@fortawesome/pro-solid-svg-icons';
@@ -72,6 +75,9 @@ library.add(
   faSyncAlt,
   faStarOpen,
   faAngleDown,
+  faSort,
+  faSortUp,
+  faSortDown,
   faExpandAlt,
   faSpinnerThird,
   faArrowAltRight

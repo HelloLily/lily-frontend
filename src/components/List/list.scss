@@ -24,5 +24,11 @@
       font-size: 18px;
       font-weight: 400;
     }
+
+    > * {
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
   }
 }

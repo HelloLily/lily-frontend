@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { MOBILE_PHONE_TYPE, WORK_PHONE_TYPE } from 'lib/constants';
+import { MOBILE_PHONE_TYPE, WORK_PHONE_TYPE, NO_SORT_STATUS } from 'lib/constants';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
+import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import Settings from 'models/Settings';
@@ -21,13 +22,13 @@ class AccountList extends Component {
     this.settings = new Settings('accountList');
 
     const columns = [
-      { key: 'customerId', text: 'Customer ID', selected: false },
-      { key: 'name', text: 'Name', selected: true },
+      { key: 'customerId', text: 'Customer ID', selected: false, sort: 'customerId' },
+      { key: 'name', text: 'Name', selected: true, sort: 'name' },
       { key: 'contactInformation', text: 'Contact information', selected: true },
-      { key: 'assignedTo', text: 'Assigned to', selected: true },
-      { key: 'created', text: 'Created', selected: true },
-      { key: 'modified', text: 'Modified', selected: true },
-      { key: 'status', text: 'Status', selected: true },
+      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo' },
+      { key: 'created', text: 'Created', selected: true, sort: 'created' },
+      { key: 'modified', text: 'Modified', selected: true, sort: 'modified' },
+      { key: 'status', text: 'Status', selected: true, sort: 'status' },
       { key: 'tags', text: 'Tags', selected: true }
     ];
 
@@ -36,43 +37,68 @@ class AccountList extends Component {
       accounts: [],
       pagination: {},
       statuses: [],
-      loading: true
+      filters: [],
+      loading: true,
+      page: 1,
+      sortColumn: '',
+      sortStatus: NO_SORT_STATUS
     };
   }
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
-    const data = await Account.query({ pageSize: 20 });
-    const statusRequest = await Account.statuses();
+    const statusResponse = await Account.statuses();
+    const statuses = statusResponse.results.map(status => {
+      status.value = `status.id: ${status.id}`;
+      return status;
+    });
+    await this.loadItems();
 
     this.setState({
       ...settingsResponse.results,
-      accounts: data.results,
-      pagination: data.pagination,
-      statuses: statusRequest.results,
+      statuses,
       loading: false
     });
   }
 
   setPage = async page => {
+    this.setState({ page }, this.loadItems);
+  };
+
+  setSorting = (sortColumn, sortStatus) => {
+    this.setState({ sortColumn, sortStatus }, this.loadItems);
+  };
+
+  setFilters = async filters => {
+    await this.settings.store({ filters });
+    this.setState({ filters }, this.loadItems);
+  };
+
+  toggleColumn = async index => {
+    const { columns } = this.state;
+
+    columns[index].selected = !columns[index].selected;
+
+    await this.settings.store({ columns });
+    this.setState({ columns });
+  };
+
+  loadItems = async () => {
+    const { page, sortColumn, sortStatus } = this.state;
+
     this.setState({ loading: true });
 
-    const data = await Account.query({ pageSize: 20, page });
+    const data = await Account.query({
+      pageSize: 20,
+      page,
+      sortColumn,
+      sortStatus
+    });
 
     this.setState({
       accounts: data.results,
       pagination: data.pagination,
       loading: false
-    });
-  };
-
-  toggleColumn = index => {
-    const { columns } = this.state;
-
-    columns[index].selected = !columns[index].selected;
-
-    this.settings.store({ columns }).then(() => {
-      this.setState({ columns });
     });
   };
 
@@ -81,7 +107,7 @@ class AccountList extends Component {
   };
 
   render() {
-    const { columns, accounts, pagination, statuses, loading } = this.state;
+    const { columns, accounts, statuses, filters, pagination, loading } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -89,23 +115,21 @@ class AccountList extends Component {
           <div className="list-header">
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
 
-            <button className="hl-primary-btn m-l-10 m-r-10" onClick={this.export}>
+            <button className="hl-primary-btn" onClick={this.export}>
               Export accounts
             </button>
 
-            <ListFilter label="Account status" items={statuses} />
+            <ListFilter
+              label="Account status"
+              items={statuses}
+              filters={filters}
+              setFilters={this.setFilters}
+            />
           </div>
           <table className="hl-table">
             <thead>
               <tr>
-                {columns[0].selected && <th>Customer ID</th>}
-                {columns[1].selected && <th>Account</th>}
-                {columns[2].selected && <th>Contact information</th>}
-                {columns[3].selected && <th>Assigned to</th>}
-                {columns[4].selected && <th>Created</th>}
-                {columns[5].selected && <th>Modified</th>}
-                {columns[6].selected && <th>Status</th>}
-                {columns[7].selected && <th>Tags</th>}
+                <ListColumns columns={columns} setSorting={this.setSorting} />
                 <th>Actions</th>
               </tr>
             </thead>
@@ -177,7 +201,7 @@ class AccountList extends Component {
             </tbody>
           </table>
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
         </List>
       </BlockUI>
