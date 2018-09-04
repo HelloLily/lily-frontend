@@ -1,0 +1,18 @@
+{
+  "modEnter": {
+    "title": "+Enter"
+  },
+  "newlyAssignedCase": "Add it to 'My cases'",
+  "newlyAssignedDeal": "Add it to 'My deals'",
+  "emailAccountConnectionWarning": "To solve email issues, please click to add this email account again",
+  "emailAccountPublicTooltip": "All colleagues in %(company)s",
+  "limitReached": "You've reached the limit of your Personal plan. Please upgrade it to add more %(model)s.",
+  "filterArchived": "This item has been archived, but can still be filtered on",
+  "contactIcon": {
+    "loading": "Loading status, hang on!",
+    "needsEverything": "New account, unknown contact. Do the add thing!",
+    "needsContact": "Hey, a new contact for the account! Add it for optimal Lily magic.",
+    "needsAccount": "Hey, a contact without an account! Add it for optimal Lily magic.",
+    "complete": "All done. Do a happy dance."
+  }
+}

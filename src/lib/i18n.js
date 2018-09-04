@@ -1,15 +1,29 @@
 import i18n from 'i18next';
-import Fetch from 'i18next-fetch-backend';
+import XHR from 'i18next-xhr-backend';
 
-i18n.use(Fetch).init({
+function loadLocales(url, options, callback) {
+  try {
+    const waitForLocale = require(`./locales/${url}.json`);
+    waitForLocale(locale => {
+      callback(locale, { status: '200' });
+    });
+  } catch (e) {
+    callback(null, { status: '404' });
+  }
+}
+
+i18n.use(XHR).init({
   // debug: true,
   lng: 'en',
-  loadPath: '/locales/{{lng}}/{{ns}}.json',
   fallbackLng: 'en',
   preload: false,
-  ns: ['shared'],
-  defaultNS: 'shared',
-  fallbackNS: ['nav'],
+  ns: ['common'],
+  defaultNS: 'common',
+  backend: {
+    loadPath: '{{lng}}/{{ns}}',
+    parse: data => data,
+    ajax: loadLocales
+  },
   interpolation: {
     formatSeparator: ','
   },

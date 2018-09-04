@@ -1,0 +1,61 @@
+{
+  "integrations": {
+    "overview": "This page contains other applications which can be integrated into Lily.",
+    "moneybirdOverview": "This page shows actions you can do with Moneybird.",
+    "moneybirdContactImportIntro": "This page allows you to import your Moneybird contacts into Lily.",
+    "moneybirdContactImportInfo": "Checking this box means changes to your Lily contacts will be submitted to Moneybird too. This also means contacts created and updated in Lily will be synced with Moneybird.",
+    "moneybirdContactImportCheckbox": "Sync Lily contacts with Moneybird",
+    "moneybirdContactImportNote": "Automatic sync from Moneybird to Lily isn't supported (yet).<br /> However, you can press this button whenever you need to synchronize your Moneybird contacts again.",
+    "moneybirdContactImportNoCredentials": "It seems like you haven't set your <a href='/preferences/integrations/moneybird/auth'>Moneybird credentials</a> yet.",
+    "moneybirdContactImportNoCredentialsSub": "Please setup the Moneybird integration before continuing.",
+    "pandaDocOverview": "This page shows actions you can do with PandaDoc.",
+    "pandaDocWebhooksIntro": "Set up webhooks to update deals based on received events.",
+    "pandaDocWebhooksIntroSub": "Enter the following url in PandaDoc to start receiving document updates.",
+    "pandaDocWebhooksInstructionsOne": "What status should the deal be set to",
+    "pandaDocWebhooksInstructionsTwo": "What step should the deal be set to",
+    "pandaDocWebhooksInstructionsThree": "Amount of days to add to the next step date",
+    "pandaDocWebhooksInstructionsFour": "Sets the date to the date the event was triggered (can't be used together with 'Extra days')",
+    "pandaDocWebhooksInstructionsFive": "Should a note be added when this event occurs",
+    "slackOverview": "Use the button below to install the Lily Slack app. <br /> This app will read links related to Lily (e.g. when you link a case) and provide you with a preview in Slack."
+  },
+  "preferences": {
+    "passwordMismatch": "Your passwords don't match.",
+    "webhookIntro": "You can enter a URL here to call whenever a create (POST) or update (PUT/PATCH) event is executed (e.g. an account being created or updated).",
+    "notificationsDisabledTitle": "Browser notifications have been blocked",
+    "notificationsDisabled": "You will not receive call notifications, but your calls will still be visible in activity streams.",
+    "apiToken": {
+      "noToken": "No token generated for you",
+      "noTokenInfo": "You need to generate a token before you can use it in your API calls",
+      "usageInfo": "You can use your token with an authorization header",
+      "usageInfoAlt": "Or you can use your token with an url parameter"
+    }
+  },
+  "import": {
+    "accountIntro": "List accounts all at once by importing a .csv file containing account information.",
+    "contactIntro": "List contacts all at once by importing a .csv file containing account information.",
+    "instructionsOne": "Only .CSV files are eligible",
+    "instructionsTwo": "The file should at least contain a column with the header",
+    "instructionsThree": "Optional headers are",
+    "instructionsFourAccount": "Information in any additional columns will be added to the description of an account",
+    "instructionsFourContact": "Information in any additional columns will be added to the description of a contact",
+    "instructionsFive": "Please note that headers are case sensitive"
+  },
+  "settings": {
+    "header": "Additional features",
+    "timeLogging": "Enable this feature so users can log hours on cases and deals.",
+    "billingDefault": "Sets the default for the 'Billable' value for logged hours."
+  },
+  "security": {
+    "backupTokenIntro": "These are your current backup tokens, they will be regenerated after you've used them all.",
+    "noTwoFactorEnabled": "you have not enabled two factor authentication yet.",
+    "backupPhonesInfo": "If your primary method is not available, we are able to send backup tokens to your phone number(s).",
+    "backupPhonesInfoTooltip": "Let me see my phone numbers!",
+    "noBackupPhones": "You currently have no backup phone number(s) available. It is highly recommended that you add one!",
+    "noBackupPhonesTooltip": "Add a new backup phone number",
+    "backupTokenInfo": "If you don't have any device with you, you can access your account using backup tokens.",
+    "backupTokenInfoTooltip": "Let me see my tokens!"
+  },
+  "other": {
+    "inviteUsersIntro": "Adding users adds extra costs to your team's subscription. Ask <strong>{{ vm.accountAdmin.full_name }}</strong> if you’re not sure about this."
+  }
+}

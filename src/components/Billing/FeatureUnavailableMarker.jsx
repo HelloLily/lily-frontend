@@ -1,23 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { translate } from 'react-i18next';
+import ReactTooltip from 'react-tooltip';
 
 import withContext from 'src/withContext';
 import './feature_unavailable.scss';
 
 const FeatureUnavailableMarker = props => {
-  const { tier, currentUser } = props;
+  const { tier, currentUser, t } = props;
   const currentTier = currentUser.tenant.billing.plan.tier;
+  const tooltip = currentUser.isAdmin ? t('featureUnavailableIsAdmin') : t('featureUnavailable');
 
   return (
     <React.Fragment>
       {currentTier < tier ? (
-        <React.Fragment>
-          <span className="is-disabled">{props.children}</span>
+        <div className="display-flex">
+          <div className="is-disabled">{props.children}</div>
 
-          <Link to="/preferences/billing" className="unavailable-marker m-r-10">
-            Unavailable
-          </Link>
-        </React.Fragment>
+          <div data-tip={tooltip}>
+            {currentUser.isAdmin ? (
+              <Link to="/preferences/billing" className="unavailable-marker m-r-10">
+                Unavailable
+              </Link>
+            ) : (
+              <span>Unavailable</span>
+            )}
+          </div>
+
+          <ReactTooltip />
+        </div>
       ) : (
         <React.Fragment>{props.children}</React.Fragment>
       )}
@@ -25,4 +36,4 @@ const FeatureUnavailableMarker = props => {
   );
 };
 
-export default withContext(FeatureUnavailableMarker);
+export default translate()(withContext(FeatureUnavailableMarker));
