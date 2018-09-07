@@ -57,11 +57,17 @@ class Suggestions extends Component {
 
                     <div className="form-suggestion-action">
                       {handleMerge ? (
-                        <button className="hl-primary-btn" onClick={() => handleMerge(item.id)}>
+                        <button
+                          className="hl-primary-btn"
+                          onClick={() => handleMerge(item.id)}
+                          type="button"
+                        >
                           Merge
                         </button>
                       ) : (
-                        <button className="hl-primary-btn">Edit {type}</button>
+                        <button className="hl-primary-btn" type="button">
+                          Edit {type}
+                        </button>
                       )}
                     </div>
                   </div>

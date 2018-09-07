@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import navItems from 'src/config/nav.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
@@ -26,14 +25,47 @@ class Nav extends Component {
                 </NavLink>
               </li>
 
-              {navItems.map(navItem => (
-                <li key={navItem.text} className="m-r-55">
-                  <NavLink to={navItem.link} exact>
-                    <i className={`lilicon hl-${navItem.icon}-icon m-r-10`} />
-                    <span className="nav-text">{navItem.text}</span>
-                  </NavLink>
-                </li>
-              ))}
+              <li className="m-r-55">
+                <NavLink to="/" exact>
+                  <i className="lilicon hl-dashboard-icon m-r-10" />
+                  <span className="nav-text">Dashboard</span>
+                </NavLink>
+              </li>
+
+              <li className="m-r-55">
+                <NavLink to="/email" exact>
+                  <i className="lilicon hl-email-icon m-r-10" />
+                  <span className="nav-text">Email</span>
+                </NavLink>
+              </li>
+
+              <li className="m-r-55">
+                <NavLink to="/accounts" exact>
+                  <i className="lilicon hl-company-icon m-r-10" />
+                  <span className="nav-text">Accounts</span>
+                </NavLink>
+              </li>
+
+              <li className="m-r-55">
+                <NavLink to="/contacts" exact>
+                  <i className="lilicon hl-entity-icon m-r-10" />
+                  <span className="nav-text">Contacts</span>
+                </NavLink>
+              </li>
+
+              <li className="m-r-55">
+                <NavLink to="/deals" exact>
+                  <i className="lilicon hl-deals-icon m-r-10" />
+                  <span className="nav-text">Deals</span>
+                </NavLink>
+              </li>
+
+              <li className="m-r-55">
+                <NavLink to="/cases" exact>
+                  <i className="lilicon hl-case-icon m-r-10" />
+                  <span className="nav-text">Cases</span>
+                </NavLink>
+              </li>
             </ul>
           </nav>
 

@@ -18,10 +18,6 @@ class PhoneNumberField extends Component {
     if (this.props.items.length === 0) this.addRow();
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.items.length === 0) this.addRow();
-  }
-
   handleChange = (value, index, field) => {
     const { items } = this.props;
 

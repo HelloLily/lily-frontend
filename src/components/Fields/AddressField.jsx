@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 import Select from 'react-select';
 
+import withContext from 'src/withContext';
 import { ADDRESS_TYPES, ADDRESS_EMPTY_ROW, SELECT_STYLES } from 'lib/constants';
 import Country from 'models/Country';
 
@@ -23,14 +24,8 @@ class AddressField extends Component {
 
     this.setState({ countries, countryOptions });
 
-    if (this.props.items.length === 0) {
-      this.addRow();
-    }
+    if (this.props.items.length === 0) this.addRow();
   };
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.items.length === 0) this.addRow();
-  }
 
   handleChange = (value, index, field) => {
     const { items } = this.props;
@@ -41,8 +36,12 @@ class AddressField extends Component {
   };
 
   addRow = () => {
-    const { items } = this.props;
+    const { items, currentUser } = this.props;
     const newRow = Object.assign({}, ADDRESS_EMPTY_ROW);
+
+    if (currentUser.tenant.country) {
+      newRow.country = currentUser.tenant.country;
+    }
 
     this.handleRelated([...items, newRow]);
   };
@@ -156,4 +155,4 @@ class AddressField extends Component {
   }
 }
 
-export default AddressField;
+export default withContext(AddressField);

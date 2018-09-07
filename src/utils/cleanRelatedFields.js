@@ -6,7 +6,11 @@ export default function cleanRelatedField(values) {
   );
   copiedValues.phoneNumbers = copiedValues.phoneNumbers.filter(phoneNumber => phoneNumber.number);
   copiedValues.addresses = copiedValues.addresses.filter(address => address.address);
-  copiedValues.websites = copiedValues.websites.filter(website => website.website);
+
+  if (copiedValues.websites) {
+    copiedValues.websites = copiedValues.websites.filter(website => website.website);
+  }
+
   copiedValues.socialMedia = copiedValues.socialMedia.filter(profile => profile.username);
 
   return copiedValues;

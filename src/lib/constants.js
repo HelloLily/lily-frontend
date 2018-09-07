@@ -104,7 +104,7 @@ export const ADDRESS_TYPES = [
   { value: 'other', label: 'Other' }
 ];
 
-export const ADDRESS_EMPTY_ROW = { address: '', type: 'visiting' };
+export const ADDRESS_EMPTY_ROW = { address: '', type: 'visiting', postalCode: '', city: '' };
 
 export const ACCOUNT_ACTIVE_STATUS = 'Active';
 export const ACCOUNT_RELATION_STATUS = 'Relation';

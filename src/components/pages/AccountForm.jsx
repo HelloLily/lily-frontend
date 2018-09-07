@@ -7,6 +7,7 @@ import AsyncSelect from 'react-select/lib/Async';
 
 import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
+import setValues from 'utils/setValues';
 import {
   SELECT_STYLES,
   ACCOUNT_ACTIVE_STATUS,
@@ -50,13 +51,7 @@ class InnerAccountForm extends Component {
     const statusResponse = await Account.statuses();
 
     if (id) {
-      const accountResponse = await Account.get(id);
-      const primaryWebsite = accountResponse.websites.find(website => website.isPrimary);
-
-      accountResponse.primaryWebsite = primaryWebsite ? primaryWebsite.website : '';
-      accountResponse.websites = accountResponse.websites.filter(website => !website.isPrimary);
-
-      this.props.setValues(accountResponse);
+      await this.loadAccount(id);
     } else {
       const relation = statusResponse.results.find(
         status => status.name === ACCOUNT_RELATION_STATUS
@@ -72,7 +67,7 @@ class InnerAccountForm extends Component {
         if (data.website) {
           this.props.setFieldValue('primaryWebsite', data.website);
 
-          await this.getDataproviderInfo();
+          await this.loadDataproviderInfo();
 
           if (!this.props.values.name) {
             const company = data.website
@@ -96,10 +91,64 @@ class InnerAccountForm extends Component {
     this.setState({ accountStatuses: statusResponse.results, loading: false });
   }
 
-  getDataproviderInfo = async () => {
+  loadAccount = async (id, existingValues = null) => {
+    const account = await Account.get(id);
+    const primaryWebsite = account.websites.find(website => website.isPrimary);
+
+    account.primaryWebsite = primaryWebsite ? primaryWebsite.website : '';
+    account.websites = account.websites.filter(website => !website.isPrimary);
+
+    if (existingValues) {
+      if (!account.primaryWebsite) {
+        this.props.setFieldValue('primaryWebsite', existingValues.primaryWebsite);
+      }
+
+      if (existingValues.description) {
+        const description = `${existingValues.description}\n\n${account.description}`;
+        account.description = description;
+      }
+
+      const { emailAddresses, phoneNumbers, addresses, websites, tags } = account;
+
+      account.emailAddresses = this.concatUnique(existingValues.emailAddresses, emailAddresses, [
+        'emailAddress'
+      ]);
+      account.phoneNumbers = this.concatUnique(existingValues.phoneNumbers, phoneNumbers, [
+        'number'
+      ]);
+      account.addresses = this.concatUnique(existingValues.addresses, addresses, [
+        'address',
+        'postalCode'
+      ]);
+      account.websites = this.concatUnique(existingValues.websites, websites, ['website']);
+      account.tags = this.concatUnique(existingValues.tags, tags, ['name']);
+
+      const twitterProfile = account.socialMedia.find(profile => profile.type === 'twitter');
+
+      if (!twitterProfile) account.socialMedia = existingValues.socialMedia;
+    }
+
+    setValues(account, this.props.setFieldValue);
+  };
+
+  concatUnique = (existingValues, newValues, fields) => {
+    const uniqueValues = newValues;
+
+    existingValues.forEach(existingValue => {
+      // Iterate over all given fields and check if an object with those values already exists.
+      const exists = fields.every(field =>
+        newValues.some(newValue => newValue[field] === existingValue[field])
+      );
+
+      if (!exists) uniqueValues.push(existingValue);
+    });
+
+    return uniqueValues;
+  };
+
+  loadDataproviderInfo = async () => {
     const { values, currentUser } = this.props;
     const data = await Account.dataproviderInfo('url', values.primaryWebsite);
-
     // Filter out empty items (default form values).
     const emailAddresses = values.emailAddresses.filter(emailAddress => emailAddress.emailAddress);
 
@@ -169,13 +218,7 @@ class InnerAccountForm extends Component {
     data.websites = values.websites;
     data.tags = [];
 
-    if (!data.description) {
-      data.description = '';
-    }
-
-    Object.keys(data).forEach(key => {
-      this.props.setFieldValue(key, data[key]);
-    });
+    setValues(data, this.props.setFieldValue);
   };
 
   search = async query => {
@@ -307,15 +350,20 @@ class InnerAccountForm extends Component {
   };
 
   merge = async accountId => {
-    const response = await Account.get(accountId);
-    this.props.setValues(response);
-
     const { accountSuggestions } = this.state;
+    const existingValues = this.props.values;
+    const response = await Account.get(accountId);
 
-    // Clear the suggestions.
+    await this.loadAccount(response.id, existingValues);
+
+    this.props.history.push(`/accounts/${response.id}/edit`);
+
+    // Clear the suggestions.§
     Object.keys(accountSuggestions).forEach(key => {
       accountSuggestions[key] = {};
     });
+
+    this.setState({ accountSuggestions });
   };
 
   render() {
@@ -358,7 +406,7 @@ class InnerAccountForm extends Component {
                           />
                           <button
                             className="hl-primary-btn"
-                            onClick={this.getDataproviderInfo}
+                            onClick={this.loadDataproviderInfo}
                             type="button"
                           >
                             <FontAwesomeIcon icon="magic" />

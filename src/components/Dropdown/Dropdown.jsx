@@ -18,7 +18,7 @@ class Dropdown extends Component {
   };
 
   closeMenu = event => {
-    if (!this.dropdownMenu.contains(event.target)) {
+    if (this.dropdownMenu && !this.dropdownMenu.contains(event.target)) {
       this.setState({ showMenu: false }, () => {
         document.removeEventListener('click', this.closeMenu);
       });

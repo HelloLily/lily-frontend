@@ -5,6 +5,7 @@ import { withFormik } from 'formik';
 import AsyncSelect from 'react-select/lib/Async';
 
 import withContext from 'src/withContext';
+import setValues from 'utils/setValues';
 import {
   SELECT_STYLES,
   TWITTER_EMPTY_ROW,
@@ -40,9 +41,7 @@ class InnerContactForm extends Component {
     const { id } = this.props.match.params;
 
     if (id) {
-      const contactResponse = await Contact.get(id);
-
-      this.props.setValues(contactResponse);
+      await this.loadContact(id);
     }
 
     const { data } = this.props;
@@ -61,6 +60,67 @@ class InnerContactForm extends Component {
 
     this.setState({ loading: false });
   }
+
+  loadContact = async (id, existingValues = null) => {
+    const contact = await Contact.get(id);
+
+    if (existingValues) {
+      if (existingValues.description) {
+        const description = `${existingValues.description}\n\n${contact.description}`;
+        contact.description = description;
+      }
+
+      const { accounts, emailAddresses, phoneNumbers, addresses, tags } = contact;
+
+      contact.accounts = this.concatUnique(existingValues.accounts, accounts, ['id']);
+      contact.emailAddresses = this.concatUnique(existingValues.emailAddresses, emailAddresses, [
+        'emailAddress'
+      ]);
+      contact.phoneNumbers = this.concatUnique(existingValues.phoneNumbers, phoneNumbers, [
+        'number'
+      ]);
+      contact.addresses = this.concatUnique(existingValues.addresses, addresses, [
+        'address',
+        'postalCode'
+      ]);
+      contact.tags = this.concatUnique(existingValues.tags, tags, ['name']);
+
+      const twitterProfile = contact.socialMedia.find(profile => profile.type === 'twitter');
+      const existingTwitterProfile = existingValues.socialMedia.find(
+        profile => profile.type === 'twitter'
+      );
+
+      if (!twitterProfile && existingTwitterProfile) {
+        contact.socialMedia.push(existingTwitterProfile);
+      }
+
+      const linkedinProfile = contact.socialMedia.find(profile => profile.type === 'linkedin');
+      const existingLinkedinProfile = existingValues.socialMedia.find(
+        profile => profile.type === 'linkedin'
+      );
+
+      if (!linkedinProfile && existingLinkedinProfile) {
+        contact.socialMedia.push(existingLinkedinProfile);
+      }
+    }
+
+    setValues(contact, this.props.setFieldValue);
+  };
+
+  concatUnique = (existingValues, newValues, fields) => {
+    const uniqueValues = newValues;
+
+    existingValues.forEach(existingValue => {
+      // Iterate over all given fields and check if an object with those values already exists.
+      const exists = fields.every(field =>
+        newValues.some(newValue => newValue[field] === existingValue[field])
+      );
+
+      if (!exists) uniqueValues.push(existingValue);
+    });
+
+    return uniqueValues;
+  };
 
   NoOptionsMessage = props => {
     const value = props.selectProps.inputValue;
@@ -234,15 +294,19 @@ class InnerContactForm extends Component {
   };
 
   merge = async contactId => {
-    const response = await Contact.get(contactId);
-    this.props.setValues(response);
-
     const { contactSuggestions } = this.state;
+    const response = await Contact.get(contactId);
 
-    // Clear the suggestions.
+    await this.loadContact(response.id, this.props.values);
+
+    this.props.history.push(`/contacts/${response.id}/edit`);
+
+    // Clear the suggestions.§
     Object.keys(contactSuggestions).forEach(key => {
       contactSuggestions[key] = {};
     });
+
+    this.setState({ contactSuggestions });
   };
 
   render() {

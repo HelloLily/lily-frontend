@@ -96,8 +96,6 @@ class CaseList extends Component {
 
     this.setState({ loading: true });
 
-    console.log('test');
-
     const filter = filters.join(' AND ');
     const data = await Case.query({
       pageSize: 20,

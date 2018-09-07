@@ -16,7 +16,7 @@ const ContactDetailWidget = props => {
         {clickable &&
           !contact.isDeleted && <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link>}
 
-        {(!clickable || contact.isDeleted) && <React.Fragment>{contact.name}</React.Fragment>}
+        {(!clickable || contact.isDeleted) && <React.Fragment>{contact.fullName}</React.Fragment>}
       </div>
     </React.Fragment>
   );
