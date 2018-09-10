@@ -4,9 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
+import Account from 'models/Account';
 
 const AccountDetailWidget = props => {
-  const { account, submitCallback, clickable } = props;
+  const { account, clickable } = props;
+
+  const submitCallback = args => Account.patch(args);
 
   const title = (
     <React.Fragment>

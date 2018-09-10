@@ -123,7 +123,7 @@ class Editable extends Component {
     const { value } = this.state;
     const { multi, field, type } = this.props;
 
-    const args = {
+    let args = {
       id: this.props.object.id
     };
 
@@ -132,7 +132,7 @@ class Editable extends Component {
     } else {
       // Editable components might have some processing before submitting.
       // This means they'll pass the data instead of using this.state.value.
-      args[field] = data;
+      args = data;
     }
 
     if (multi) {

@@ -180,7 +180,7 @@ class CaseDetail extends Component {
                 </div>
               </ContentBlock>
 
-              <AccountDetailWidget account={caseObj.account} submitCallback={this.submitCallback} />
+              <AccountDetailWidget account={caseObj.account} />
             </div>
 
             <div className="grid-column-2">

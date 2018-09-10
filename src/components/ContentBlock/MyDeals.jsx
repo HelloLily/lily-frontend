@@ -21,11 +21,20 @@ class MyDeals extends Component {
 
   getItems = async () => {
     const request = await Deal.query();
-
     const total = request.results.length;
     const items = timeCategorize(request.results, 'expires', this.props.currentUser);
 
     this.setState({ items, total });
+  };
+
+  acceptDeal = async item => {
+    const args = {
+      id: item.id,
+      newly_assigned: false
+    };
+
+    await Deal.patch(args);
+    await this.getItems();
   };
 
   render() {
@@ -86,7 +95,7 @@ class MyDeals extends Component {
               </td>
               <td>
                 {newlyAssigned && (
-                  <button className="hl-primary-btn round">
+                  <button className="hl-primary-btn round" onClick={() => this.acceptDeal(item)}>
                     <FontAwesomeIcon icon="check" />
                   </button>
                 )}

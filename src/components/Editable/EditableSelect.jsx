@@ -73,6 +73,7 @@ class EditableSelect extends Component {
           options={options}
           onInputKeyDown={this.onInputKeyDown}
           onBlur={this.props.cancel}
+          menuPortalTarget={document.body}
         />
       </span>
     );

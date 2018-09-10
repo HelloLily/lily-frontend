@@ -99,6 +99,7 @@ class EditablePhoneNumbers extends Component {
                   value={{ value: item.type, label: item.type }}
                   onChange={selected => this.handleChange(selected.value, index, 'type')}
                   onInputKeyDown={this.onInputKeyDown}
+                  menuPortalTarget={document.body}
                 />
               </div>
 

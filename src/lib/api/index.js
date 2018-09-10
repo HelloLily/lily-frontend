@@ -27,9 +27,12 @@ export function get(path, params, _options) {
     url += `&${createParams(params)}`;
   }
 
-  if (cache.isCached(url)) {
-    return cache.get(url);
-  }
+  // TODO: Implement proper caching. With the following code
+  // different actions (e.g. GET after POST) results in the same data.
+  // This leads to unexpected behaviour.
+  // if (cache.isCached(url)) {
+  //   return cache.get(url);
+  // }
 
   const promise = fetch(url, options).then(handleResponse);
 

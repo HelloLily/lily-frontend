@@ -84,6 +84,7 @@ class EmailAddressField extends Component {
                   value={{ label: EMAIL_STATUSES[item.status], value: item.status }}
                   onChange={selected => this.handleChange(selected.value, index, 'status')}
                   onInputKeyDown={this.onInputKeyDown}
+                  menuPortalTarget={document.body}
                 />
               </div>
 

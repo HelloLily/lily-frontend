@@ -120,6 +120,7 @@ class EditableAddresses extends Component {
                         value={{ value: item.country, label: this.state.countries[item.country] }}
                         onChange={selected => this.handleChange(selected.value, index, 'country')}
                         onInputKeyDown={this.onInputKeyDown}
+                        menuPortalTarget={document.body}
                       />
                     </div>
 
@@ -131,6 +132,7 @@ class EditableAddresses extends Component {
                         value={{ value: item.type, label: addressType.label }}
                         onChange={selected => this.handleChange(selected.value, index, 'type')}
                         onInputKeyDown={this.onInputKeyDown}
+                        menuPortalTarget={document.body}
                       />
                     </div>
                   </div>
