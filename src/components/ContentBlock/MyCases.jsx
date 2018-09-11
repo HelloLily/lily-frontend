@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
-import Case from 'models/Case';
+import timeCategorize from 'utils/timeCategorize';
+import BlockUI from 'components/Utils/BlockUI';
+import LilyDate from 'components/Utils/LilyDate';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
-import LilyDate from 'components/Utils/LilyDate';
-import timeCategorize from 'utils/timeCategorize';
+import Case from 'models/Case';
 
 class MyCases extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { items: [] };
+    this.state = { items: [], loading: true };
   }
 
   componentDidMount = async () => {
@@ -21,16 +22,20 @@ class MyCases extends Component {
   };
 
   getItems = async () => {
+    this.setState({ loading: true });
+
     const request = await Case.query();
     const total = request.results.length;
     const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY)
       .length;
     const items = timeCategorize(request.results, 'expires', this.props.currentUser);
 
-    this.setState({ items, total, criticalCount });
+    this.setState({ items, total, criticalCount, loading: false });
   };
 
   acceptCase = async item => {
+    this.setState({ loading: true });
+
     const args = {
       id: item.id,
       newlyAssigned: false
@@ -41,7 +46,7 @@ class MyCases extends Component {
   };
 
   render() {
-    const { items, total, criticalCount } = this.state;
+    const { items, total, criticalCount, loading } = this.state;
 
     const title = (
       <React.Fragment>
@@ -119,24 +124,26 @@ class MyCases extends Component {
     });
 
     return (
-      <ContentBlock title={title} component="myCases" expandable closeable>
-        <table className="hl-table">
-          <thead>
-            <tr>
-              <th>Nr.</th>
-              <th>Subject</th>
-              <th>Client</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Priority</th>
-              <th>Expires</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+      <BlockUI blocking={loading}>
+        <ContentBlock title={title} component="myCases" expandable closeable>
+          <table className="hl-table">
+            <thead>
+              <tr>
+                <th>Nr.</th>
+                <th>Subject</th>
+                <th>Client</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Expires</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-          {categories}
-        </table>
-      </ContentBlock>
+            {categories}
+          </table>
+        </ContentBlock>
+      </BlockUI>
     );
   }
 }

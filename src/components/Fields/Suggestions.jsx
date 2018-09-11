@@ -8,7 +8,6 @@ class Suggestions extends Component {
     super(props);
 
     const label = convertFromCamelCase(props.field);
-
     // Model is the plural version of the given type.
     const model = `${props.type}s`;
 

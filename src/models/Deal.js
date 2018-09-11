@@ -58,6 +58,10 @@ class Deal {
 
     return response;
   }
+
+  openDeals(data) {
+    return get('/deals/open', data);
+  }
 }
 
 export default new Deal();

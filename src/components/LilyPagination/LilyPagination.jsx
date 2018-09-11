@@ -23,7 +23,6 @@ class LilyPagination extends Component {
     const { total, numberOfPages } = pagination;
     const pageSize = this.state.pageSize || DEFAULT_PAGE_SIZE;
     const rangeMin = (page - 1) * pageSize;
-
     // Display the total as the right side of the range indication
     // if we've reached the final items.
     const rangeMax = page === numberOfPages ? total : rangeMin + pageSize;
@@ -31,7 +30,7 @@ class LilyPagination extends Component {
     return (
       <div className="pagination-container">
         <div>
-          Showing {rangeMin} to {rangeMax} of {total} items
+          Showing {rangeMin || 0} to {rangeMax || 0} of {total || 0} items
         </div>
 
         {numberOfPages > 1 && (

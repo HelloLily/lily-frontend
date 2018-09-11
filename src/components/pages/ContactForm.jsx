@@ -301,7 +301,7 @@ class InnerContactForm extends Component {
 
     this.props.history.push(`/contacts/${response.id}/edit`);
 
-    // Clear the suggestions.§
+    // Clear the suggestions.
     Object.keys(contactSuggestions).forEach(key => {
       contactSuggestions[key] = {};
     });

@@ -56,6 +56,10 @@ class Case {
 
     return response;
   }
+
+  openCases(data) {
+    return get('/cases/open', data);
+  }
 }
 
 export default new Case();

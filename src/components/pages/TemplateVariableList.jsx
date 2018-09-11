@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import List from 'components/List';
@@ -15,7 +16,6 @@ class TemplateVariableList extends Component {
 
   async componentDidMount() {
     const variableResponse = await TemplateVariable.query();
-
     const variables = variableResponse.custom.filter(variable => !variable.isPublic);
     const publicVariables = variableResponse.custom.filter(variable => variable.isPublic);
 
@@ -35,9 +35,9 @@ class TemplateVariableList extends Component {
           <div className="list-header">
             <div className="list-title flex-grow">Your template variables</div>
 
-            <button className="hl-primary-btn">
+            <Link className="hl-primary-btn" to="/preferences/templatevariables/create">
               <FontAwesomeIcon icon="plus" /> Template variable
-            </button>
+            </Link>
           </div>
           <table className="hl-table">
             <thead>

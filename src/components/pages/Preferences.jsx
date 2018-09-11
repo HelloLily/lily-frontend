@@ -12,6 +12,7 @@ import EmailAccountList from './EmailAccountList';
 import EmailAccountForm from './EmailAccountForm';
 import EmailTemplateForm from './EmailTemplateForm';
 import EmailTemplateList from './EmailTemplateList';
+import TemplateVariableForm from './TemplateVariableForm';
 import TemplateVariableList from './TemplateVariableList';
 import UserList from './UserList';
 import Integrations from './Integrations';
@@ -136,6 +137,11 @@ const Preferences = props => {
             <Route path="/preferences/emailaccounts" component={EmailAccountList} />
             <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
             <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
+            <Route
+              path="/preferences/templatevariables/:id/edit"
+              component={TemplateVariableForm}
+            />
+            <Route path="/preferences/templatevariables/create" component={TemplateVariableForm} />
             <Route path="/preferences/templatevariables" component={TemplateVariableList} />
             <Route path="/preferences/users" component={UserList} />
             <Route path="/preferences/integrations" component={Integrations} />

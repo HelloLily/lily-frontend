@@ -65,7 +65,8 @@ class AccountList extends Component {
     this.setState({ page }, this.loadItems);
   };
 
-  setSorting = (sortColumn, sortStatus) => {
+  setSorting = async (sortColumn, sortStatus) => {
+    await this.settings.store({ sortColumn, sortStatus });
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 

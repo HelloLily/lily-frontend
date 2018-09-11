@@ -153,7 +153,7 @@ class CaseList extends Component {
                           {caseObj.contact.fullName}
                         </Link>
                       )}
-                      {caseObj.contact && caseObj.account && <span>at</span>}
+                      {caseObj.contact && caseObj.account && <span> at </span>}
                       {caseObj.account && (
                         <Link to={`/accounts/${caseObj.account.id}`}>{caseObj.account.name}</Link>
                       )}
@@ -164,12 +164,12 @@ class CaseList extends Component {
                   {columns[5].selected && (
                     <td>
                       <Editable
+                        icon
+                        hideValue
                         type="select"
                         object={caseObj}
                         field="priority"
                         submitCallback={this.submitCallback}
-                        icon
-                        hideValue
                       />
                     </td>
                   )}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
@@ -13,7 +13,6 @@ import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
 import TagField from 'components/Fields/TagField';
-// import Suggestions from 'components/Fields/Suggestions';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import User from 'models/User';
@@ -30,6 +29,8 @@ class InnerCaseForm extends Component {
       caseTypes: [],
       caseStatuses: [],
       casePriorities: [],
+      caseSuggestions: [],
+      showSuggestions: true,
       loading: true
     };
   }
@@ -49,9 +50,7 @@ class InnerCaseForm extends Component {
     const { id } = this.props.match.params;
 
     if (id) {
-      const caseResponse = await Case.get(id);
-
-      this.props.setValues(caseResponse);
+      await this.loadCase(id);
     } else {
       this.props.setFieldValue('assignedToTeams', currentUser.teams);
       this.props.setFieldValue('assignedTo', currentUser);
@@ -70,6 +69,21 @@ class InnerCaseForm extends Component {
 
     this.setState({ loading: false });
   }
+
+  loadCase = async id => {
+    const caseResponse = await Case.get(id);
+
+    this.props.setValues(caseResponse);
+  };
+
+  editCase = async id => {
+    await this.loadCase(id);
+
+    this.props.history.push(`/cases/${id}/edit`);
+
+    // Clear the suggestions.
+    this.setState({ caseSuggestions: [] });
+  };
 
   searchName = async () => {
     const { contactSuggestions, showSuggestions } = this.state;
@@ -142,16 +156,37 @@ class InnerCaseForm extends Component {
     this.setState({ showSuggestions });
   };
 
-  handleAccount = value => {
+  handleAccount = async value => {
     this.props.setFieldValue('account', value);
+
+    const args = {
+      account: value.id
+    };
 
     if (value.contacts.length === 1) {
       this.props.setFieldValue('contact', value.contacts[0]);
+
+      args.contact = value.contacts[0].id;
     }
+
+    const caseResponse = await Case.openCases(args);
+
+    this.setState({ caseSuggestions: caseResponse.results, showSuggestions: true });
+  };
+
+  handleContact = value => {
+    this.props.setFieldValue('contact', value);
   };
 
   render() {
-    const { caseTypes, caseStatuses, casePriorities, loading } = this.state;
+    const {
+      caseTypes,
+      caseStatuses,
+      casePriorities,
+      loading,
+      caseSuggestions,
+      showSuggestions
+    } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
     return (
@@ -191,7 +226,7 @@ class InnerCaseForm extends Component {
                           name="contact"
                           value={values.contact}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('contact', value)}
+                          onChange={this.handleContact}
                           loadOptions={this.searchContacts}
                           getOptionLabel={option => option.fullName}
                           getOptionValue={option => option.fullName}
@@ -200,6 +235,50 @@ class InnerCaseForm extends Component {
 
                         {errors.contact && <div className="error-message">{errors.contact}</div>}
                       </div>
+
+                      <React.Fragment>
+                        {caseSuggestions.length > 0 && showSuggestions ? (
+                          <div className="form-suggestions">
+                            <div className="form-suggestion-title">
+                              <div>{"There's another open case"}</div>
+
+                              <button
+                                className="hl-interface-btn"
+                                onClick={this.handleClose}
+                                type="button"
+                              >
+                                <i className="lilicon hl-close-icon" />
+                              </button>
+                            </div>
+
+                            <div className="form-suggestion-items">
+                              {caseSuggestions.map(suggestion => {
+                                const navLink = (
+                                  <Link to={`/cases/${suggestion.id}`}>{suggestion.subject}</Link>
+                                );
+
+                                return (
+                                  <div className="form-suggestion-row" key={suggestion.id}>
+                                    <div className="form-suggestion-info">
+                                      Check it out: {navLink}
+                                    </div>
+
+                                    <div className="form-suggestion-action">
+                                      <button
+                                        className="hl-primary-btn"
+                                        onClick={() => this.editCase(suggestion.id)}
+                                        type="button"
+                                      >
+                                        Edit case
+                                      </button>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        ) : null}
+                      </React.Fragment>
                     </FormSection>
 
                     <FormSection header="What to do?">

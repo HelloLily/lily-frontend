@@ -234,9 +234,8 @@ class InnerAccountForm extends Component {
     const { name } = this.props.values;
 
     if (!this.props.values.id) {
-      const filterquery = `name:"${name}"`;
-
       // TODO: Change this to new way of searching.
+      const filterquery = `name: "${name}"`;
       const response = await Account.search(filterquery);
 
       if (response.hits.length > 0) {
@@ -358,7 +357,7 @@ class InnerAccountForm extends Component {
 
     this.props.history.push(`/accounts/${response.id}/edit`);
 
-    // Clear the suggestions.§
+    // Clear the suggestions.
     Object.keys(accountSuggestions).forEach(key => {
       accountSuggestions[key] = {};
     });

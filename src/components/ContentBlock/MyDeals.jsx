@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
+import timeCategorize from 'utils/timeCategorize';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
-import timeCategorize from 'utils/timeCategorize';
+import BlockUI from 'components/Utils/BlockUI';
 import Deal from 'models/Deal';
 
 class MyDeals extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { items: [] };
+    this.state = { items: [], loading: true };
   }
 
   componentDidMount = async () => {
@@ -20,17 +21,21 @@ class MyDeals extends Component {
   };
 
   getItems = async () => {
+    this.setState({ loading: true });
+
     const request = await Deal.query();
     const total = request.results.length;
     const items = timeCategorize(request.results, 'expires', this.props.currentUser);
 
-    this.setState({ items, total });
+    this.setState({ items, total, loading: false });
   };
 
   acceptDeal = async item => {
+    this.setState({ loading: true });
+
     const args = {
       id: item.id,
-      newly_assigned: false
+      newlyAssigned: false
     };
 
     await Deal.patch(args);
@@ -38,7 +43,7 @@ class MyDeals extends Component {
   };
 
   render() {
-    const { items, total } = this.state;
+    const { items, total, loading } = this.state;
 
     const title = (
       <React.Fragment>
@@ -109,23 +114,25 @@ class MyDeals extends Component {
     });
 
     return (
-      <ContentBlock title={title} component="myDeals" expandable closeable>
-        <table className="hl-table">
-          <thead>
-            <tr>
-              <th>Subject</th>
-              <th>Client</th>
-              <th>Deal size</th>
-              <th>Status</th>
-              <th>Next step</th>
-              <th>Next step date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+      <BlockUI blocking={loading}>
+        <ContentBlock title={title} component="myDeals" expandable closeable>
+          <table className="hl-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Client</th>
+                <th>Deal size</th>
+                <th>Status</th>
+                <th>Next step</th>
+                <th>Next step date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-          {categories}
-        </table>
-      </ContentBlock>
+            {categories}
+          </table>
+        </ContentBlock>
+      </BlockUI>
     );
   }
 }

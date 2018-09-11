@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
@@ -20,7 +20,6 @@ import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
 import TagField from 'components/Fields/TagField';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
-// import Suggestions from 'components/Fields/Suggestions';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import User from 'models/User';
@@ -40,6 +39,8 @@ class InnerDealForm extends Component {
       whyCustomer: [],
       whyLost: [],
       statuses: [],
+      dealSuggestions: [],
+      showSuggestions: true,
       loading: true
     };
   }
@@ -70,9 +71,7 @@ class InnerDealForm extends Component {
     const { id } = this.props.match.params;
 
     if (id) {
-      const dealResponse = await Deal.get(id);
-
-      this.props.setValues(dealResponse);
+      await this.loadDeal(id);
     } else {
       this.props.setFieldValue('assignedToTeams', currentUser.teams);
       this.props.setFieldValue('assignedTo', currentUser);
@@ -90,6 +89,21 @@ class InnerDealForm extends Component {
 
     this.setState({ loading: false });
   }
+
+  loadDeal = async id => {
+    const dealResponse = await Deal.get(id);
+
+    this.props.setValues(dealResponse);
+  };
+
+  editDeal = async id => {
+    await this.loadDeal(id);
+
+    this.props.history.push(`/deals/${id}/edit`);
+
+    // Clear the suggestions.
+    this.setState({ dealSuggestions: [] });
+  };
 
   IconValue = props => (
     <components.SingleValue {...props}>
@@ -201,12 +215,26 @@ class InnerDealForm extends Component {
     this.setState({ showSuggestions });
   };
 
-  handleAccount = value => {
+  handleAccount = async value => {
     this.props.setFieldValue('account', value);
+
+    const args = {
+      account: value.id
+    };
 
     if (value.contacts.length === 1) {
       this.props.setFieldValue('contact', value.contacts[0]);
+
+      args.contact = value.contacts[0].id;
     }
+
+    const dealResponse = await Deal.openDeals(args);
+
+    this.setState({ dealSuggestions: dealResponse.results, showSuggestions: true });
+  };
+
+  handleContact = value => {
+    this.props.setFieldValue('contact', value);
   };
 
   handleAssignedTo = value => {
@@ -225,6 +253,8 @@ class InnerDealForm extends Component {
       whyCustomer,
       whyLost,
       statuses,
+      dealSuggestions,
+      showSuggestions,
       loading
     } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
@@ -266,7 +296,7 @@ class InnerDealForm extends Component {
                           name="contact"
                           value={values.contact}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('contact', value)}
+                          onChange={this.handleContact}
                           loadOptions={this.searchContacts}
                           getOptionLabel={option => option.fullName}
                           getOptionValue={option => option.fullName}
@@ -275,6 +305,50 @@ class InnerDealForm extends Component {
 
                         {errors.contact && <div className="error-message">{errors.contact}</div>}
                       </div>
+
+                      <React.Fragment>
+                        {dealSuggestions.length > 0 && showSuggestions ? (
+                          <div className="form-suggestions">
+                            <div className="form-suggestion-title">
+                              <div>{"There's another open deal"}</div>
+
+                              <button
+                                className="hl-interface-btn"
+                                onClick={this.handleClose}
+                                type="button"
+                              >
+                                <i className="lilicon hl-close-icon" />
+                              </button>
+                            </div>
+
+                            <div className="form-suggestion-items">
+                              {dealSuggestions.map(suggestion => {
+                                const navLink = (
+                                  <Link to={`/deals/${suggestion.id}`}>{suggestion.name}</Link>
+                                );
+
+                                return (
+                                  <div className="form-suggestion-row" key={suggestion.id}>
+                                    <div className="form-suggestion-info">
+                                      Check it out: {navLink}
+                                    </div>
+
+                                    <div className="form-suggestion-action">
+                                      <button
+                                        className="hl-primary-btn"
+                                        onClick={() => this.editDeal(suggestion.id)}
+                                        type="button"
+                                      >
+                                        Edit deal
+                                      </button>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        ) : null}
+                      </React.Fragment>
 
                       <div className="form-field">
                         <label required>Business</label>
