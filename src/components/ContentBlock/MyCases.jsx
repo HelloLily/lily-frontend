@@ -124,26 +124,24 @@ class MyCases extends Component {
     });
 
     return (
-      <BlockUI blocking={loading}>
-        <ContentBlock title={title} component="myCases" expandable closeable>
-          <table className="hl-table">
-            <thead>
-              <tr>
-                <th>Nr.</th>
-                <th>Subject</th>
-                <th>Client</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Expires</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+      <ContentBlock title={title} component="myCases" expandable closeable>
+        <table className="hl-table">
+          <thead>
+            <tr>
+              <th>Nr.</th>
+              <th>Subject</th>
+              <th>Client</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Expires</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-            {categories}
-          </table>
-        </ContentBlock>
-      </BlockUI>
+          {categories}
+        </table>
+      </ContentBlock>
     );
   }
 }

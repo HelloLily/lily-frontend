@@ -25,7 +25,6 @@ class ContentBlock extends Component {
 
   componentDidMount = async () => {
     const settingsRequest = await this.settings.get();
-
     // Fill in any settings which aren't in the database yet.
     const settings = { ...DEFAULT_SETTINGS, ...settingsRequest.results };
 

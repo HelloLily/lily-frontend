@@ -114,25 +114,23 @@ class MyDeals extends Component {
     });
 
     return (
-      <BlockUI blocking={loading}>
-        <ContentBlock title={title} component="myDeals" expandable closeable>
-          <table className="hl-table">
-            <thead>
-              <tr>
-                <th>Subject</th>
-                <th>Client</th>
-                <th>Deal size</th>
-                <th>Status</th>
-                <th>Next step</th>
-                <th>Next step date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+      <ContentBlock title={title} component="myDeals" expandable closeable>
+        <table className="hl-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Client</th>
+              <th>Deal size</th>
+              <th>Status</th>
+              <th>Next step</th>
+              <th>Next step date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-            {categories}
-          </table>
-        </ContentBlock>
-      </BlockUI>
+          {categories}
+        </table>
+      </ContentBlock>
     );
   }
 }

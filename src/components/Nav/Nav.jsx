@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import ObjectLimit from 'components/Billing/ObjectLimit';
+import Account from 'models/Account';
+import Call from 'models/Call';
 import NavDropdown from './NavDropdown';
 
 class Nav extends Component {
@@ -12,6 +14,35 @@ class Nav extends Component {
 
     this.navRef = React.createRef();
   }
+
+  getLatestCall = async () => {
+    const { call } = await Call.latestCall();
+
+    if (call) {
+      const phoneNumber = call.caller.number;
+      // There was a call for the current user
+      // so try to find an account or contact with the given number.
+      const { data } = await Account.searchByPhoneNumber(phoneNumber);
+
+      if (data.account) {
+        // Account found so redirect to the account.
+        this.props.history.push(`/accounts/${data.account.id}`);
+      } else if (data.contact) {
+        // Contact found so redirect to the contact.
+        this.props.history.push(`/contacts/${data.account.id}`);
+      } else {
+        const formData = {
+          phoneNumber,
+          name: call.caller.name
+        };
+        // No account or contact found so redirect to the account form.
+        this.props.history.push(`/accounts/create`, formData);
+      }
+    } else {
+      // TODO: Add proper alert.
+      console.log('No calls for you');
+    }
+  };
 
   render() {
     return (
@@ -70,7 +101,7 @@ class Nav extends Component {
           </nav>
 
           <div className="nav-add-buttons">
-            <button className="hl-primary-btn m-r-5">
+            <button className="hl-primary-btn m-r-5" onClick={this.getLatestCall}>
               <FontAwesomeIcon icon="phone" flip="horizontal" /> Caller info
             </button>
 
@@ -102,4 +133,4 @@ class Nav extends Component {
   }
 }
 
-export default withContext(Nav);
+export default withRouter(withContext(Nav));
