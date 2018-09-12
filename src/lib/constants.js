@@ -48,8 +48,8 @@ export const SELECT_STYLES = {
   control: (base, state) => ({
     ...base,
     background: '#fff',
-    minHeight: '30px',
-    height: '34px',
+    minHeight: '34px',
+    // height: '34px',
     borderColor: state.isFocused ? '#27244c' : '#e1e6ef'
   }),
   valueContainer: base => ({

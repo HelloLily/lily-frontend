@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -19,8 +20,12 @@ class EditableSelect extends Component {
 
   handleMultiSubmit = () => {
     const values = this.props.value.map(item => ({ id: item.id }));
+    const args = {
+      id: this.props.object.id,
+      [this.props.field]: values
+    };
 
-    this.props.handleSubmit(values);
+    this.props.handleSubmit(args);
   };
 
   handleChange = selected => {
@@ -44,43 +49,26 @@ class EditableSelect extends Component {
   };
 
   handleMultiSelect = selected => {
-    const values = selected.map(item => item.value);
+    this.props.handleChange(selected);
+  };
 
-    this.props.handleChange(values);
+  handleBlur = () => {
+    if (!this.props.multi) {
+      this.props.cancel();
+    }
   };
 
   search = async query => {
     const { model } = this.props.selectConfig;
-
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
     const request = await get(`/${model}/`);
-    const options = this.props.createOptions(request.results);
 
-    return options;
-  };
-
-  filterOptions = (options, filter, currentValues) => {
-    if (this.props.multi) {
-      return options.filter(
-        option => !currentValues.some(value => value.value.id === option.value.id)
-      );
-    }
-
-    return options;
+    return request.results;
   };
 
   render() {
     const { value, selectConfig, multi, selectStyles } = this.props;
-
-    let options;
-
-    if (multi) {
-      options = value.map(item => ({ value: item, label: item[selectConfig.display] }));
-    } else {
-      const label = value ? value[selectConfig.display] : null;
-      options = { value, label };
-    }
 
     return (
       <span className={`editable-input-wrap${multi ? ' editable-multi' : ''}`}>
@@ -89,14 +77,17 @@ class EditableSelect extends Component {
           defaultOptions
           name="options"
           className="editable-input"
-          value={options}
+          value={value}
           isMulti={multi}
           styles={selectStyles}
           onChange={this.handleChange}
           loadOptions={this.search}
           onInputKeyDown={this.onInputKeyDown}
-          onBlur={this.props.cancel}
+          onBlur={this.handleBlur}
           menuPortalTarget={document.body}
+          getOptionValue={option => option[selectConfig.display]}
+          getOptionLabel={option => option[selectConfig.display]}
+          menuIsOpen
         />
 
         {multi && (

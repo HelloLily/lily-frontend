@@ -20,6 +20,11 @@ const selectConfig = {
     display: 'name',
     sorting: 'name'
   },
+  teams: {
+    model: 'users/team',
+    display: 'name',
+    sorting: 'name'
+  },
   type: {
     model: 'cases/types'
   },

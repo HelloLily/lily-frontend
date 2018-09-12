@@ -5,14 +5,8 @@ import { SELECT_STYLES } from 'lib/constants';
 import Tag from 'models/Tag';
 
 class TagField extends Component {
-  handleRelated = items => {
-    this.props.handleRelated('websites', items);
-  };
-
   handleChange = selected => {
-    const items = selected.map(item => item.value);
-
-    this.props.handleRelated('tags', items);
+    this.props.handleRelated('tags', selected);
   };
 
   search = async query => {
@@ -27,8 +21,6 @@ class TagField extends Component {
   render() {
     const { items } = this.props;
 
-    const options = items.map(item => ({ value: item, label: item.name }));
-
     return (
       <React.Fragment>
         <AsyncCreatableSelect
@@ -36,19 +28,15 @@ class TagField extends Component {
           isMulti
           allowCreateWhileLoading
           name="tags"
+          value={items}
           classNamePrefix="editable-input"
           placeholder="Add tags..."
-          value={options}
           styles={SELECT_STYLES}
           onChange={this.handleChange}
           loadOptions={this.search}
           getOptionLabel={option => option.name}
+          getOptionValue={option => option.name}
         />
-
-        {/* {error &&
-          error[index].emailAddress && (
-            <div className="error-message">{error[index].emailAddress}</div>
-          )} */}
       </React.Fragment>
     );
   }

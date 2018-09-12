@@ -119,6 +119,14 @@ class UserList extends Component {
     });
   };
 
+  submitCallback = args => {
+    this.setState({ loading: true });
+
+    return User.patch(args).then(() => {
+      this.setState({ loading: false }, this.loadItems);
+    });
+  };
+
   render() {
     const { columns, users, invites, pagination, loading, statusFilter, newTeam } = this.state;
 
@@ -220,9 +228,13 @@ class UserList extends Component {
                   {columns[0].selected && <td>{user.fullName}</td>}
                   {columns[1].selected && (
                     <td>
-                      {user.teams.map(team => (
-                        <div key={team.id}>{team.name}</div>
-                      ))}
+                      <Editable
+                        multi
+                        type="select"
+                        field="teams"
+                        object={user}
+                        submitCallback={this.submitCallback}
+                      />
                     </td>
                   )}
                   {columns[2].selected && <td>{user.email}</td>}

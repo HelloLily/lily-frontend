@@ -136,11 +136,12 @@ class Editable extends Component {
     }
 
     if (multi) {
-      args[field] = this.state.initialValue.map(initialValue => {
-        // Set the isDeleted flag if the value was removed.
-        const isDeleted = args[field].some(item => item.id && item.id === initialValue.id);
+      this.state.initialValue.forEach(initialValue => {
+        const isDeleted = !args[field].some(item => item.id && item.id === initialValue.id);
 
-        return { id: value.id, isDeleted };
+        if (isDeleted) {
+          args[field].push({ id: initialValue.id, isDeleted });
+        }
       });
     }
 
