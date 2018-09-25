@@ -60,6 +60,15 @@ class Case {
   openCases(data) {
     return get('/cases/open', data);
   }
+
+  // TODO: Temporary code. Actual search will be different.
+  search(filterquery) {
+    const url = `/search/search/?type=cases_case&filterquery=${filterquery}`;
+
+    const response = get(url);
+
+    return response;
+  }
 }
 
 export default new Case();

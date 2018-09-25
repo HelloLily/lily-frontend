@@ -23,7 +23,7 @@ class ListFilter extends Component {
       newFilters = filteredItems;
     }
 
-    // Toggle
+    // Toggle all filters which haven't been selected.
     newFilters = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters);
 
     this.props.setFilters(newFilters);

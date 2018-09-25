@@ -62,6 +62,15 @@ class Deal {
   openDeals(data) {
     return get('/deals/open', data);
   }
+
+  // TODO: Temporary code. Actual search will be different.
+  search(filterquery) {
+    const url = `/search/search/?type=deals_deal&filterquery=${filterquery}`;
+
+    const response = get(url);
+
+    return response;
+  }
 }
 
 export default new Deal();

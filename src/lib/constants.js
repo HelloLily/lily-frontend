@@ -137,3 +137,9 @@ export const DEFAULT_LABELS = [
 export const NO_SORT_STATUS = 0;
 export const ASCENDING_STATUS = 1;
 export const DESCENDING_STATUS = 2;
+
+export const HOURS_BETWEEN_CHANGES = 1;
+
+export const RINGING_CALL_STATUS = 0;
+export const IN_PROGRESS_CALL_STATUS = 1;
+export const ENDED_CALL_STATUS = 2;

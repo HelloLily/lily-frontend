@@ -38,6 +38,13 @@ $large-button-size: 31px;
   outline: none;
 }
 
+button {
+  &.borderless {
+    border: 0;
+    background: none;
+  }
+}
+
 .hl-primary-btn {
   @include hl-button($large-button-size);
   color: $app-color-darkblue;
@@ -69,11 +76,6 @@ $large-button-size: 31px;
   &.small {
     line-height: $small-button-size;
     padding: 0 ($small-button-size / 4);
-  }
-
-  &.borderless {
-    border: 0;
-    background: none;
   }
 }
 

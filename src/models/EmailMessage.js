@@ -70,9 +70,17 @@ class EmailMessage {
     }
 
     const filterQuery = filter.join(' AND ');
-
     const url = `/search/search/?filterquery=${filterQuery}&size=20&sort=-sent_date&type=email_emailmessage&user_email_related=1&key=superuser1`;
+    const response = get(url);
 
+    return response;
+  }
+
+  search(params) {
+    const url = `/search/search/?type=email_emailmessage&size=20&sort=-sent_date&filterquery=${
+      params.query
+    }&account_related=${params.accountRelated || ''}&contact_related=${params.contactRelated ||
+      ''}`;
     const response = get(url);
 
     return response;
@@ -81,7 +89,6 @@ class EmailMessage {
   searchEmailAddress(emailAddress) {
     // TODO: Temporary until there's a proper email message API.
     const url = `/search/emailaddress/${emailAddress}?key=superuser1`;
-
     const response = get(url);
 
     return response;
@@ -89,7 +96,6 @@ class EmailMessage {
 
   history(id) {
     const url = `/messaging/email/email/${id}/history/`;
-
     const response = get(url);
 
     return response;
@@ -97,7 +103,6 @@ class EmailMessage {
 
   thread(id) {
     const url = `/messaging/email/email/${id}/thread/`;
-
     const response = get(url);
 
     return response;
@@ -105,7 +110,6 @@ class EmailMessage {
 
   star(data) {
     const url = `/messaging/email/email/${data.id}/star/`;
-
     const response = patch(url, data);
 
     return response;
@@ -113,7 +117,6 @@ class EmailMessage {
 
   archive(data) {
     const url = `/messaging/email/email/${data.id}/archive/`;
-
     const response = patch(url, data);
 
     return response;
@@ -121,7 +124,6 @@ class EmailMessage {
 
   trash(id) {
     const url = `/messaging/email/email/${id}/trash/`;
-
     const response = put(url);
 
     return response;
@@ -129,7 +131,6 @@ class EmailMessage {
 
   move(data) {
     const url = `/messaging/email/email/${data.id}/move/`;
-
     const response = patch(url, data);
 
     return response;
@@ -137,8 +138,14 @@ class EmailMessage {
 
   extract(data) {
     const url = `/messaging/email/email/${data.id}/extract/`;
-
     const response = post(url, data);
+
+    return response;
+  }
+
+  attachments(id) {
+    const url = `/messaging/email/email/${id}/attachments/`;
+    const response = get(url);
 
     return response;
   }
