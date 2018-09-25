@@ -326,7 +326,13 @@ class InnerContactForm extends Component {
             <div className="content-block-container">
               <div className="content-block">
                 <div className="content-block-header">
-                  <div className="content-block-name">Add contact</div>
+                  <div className="content-block-name">
+                    {values.id ? (
+                      <React.Fragment>Edit contact</React.Fragment>
+                    ) : (
+                      <React.Fragment>Add contact</React.Fragment>
+                    )}
+                  </div>
                 </div>
 
                 <div className="content-block-content">

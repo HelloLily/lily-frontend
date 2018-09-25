@@ -38,7 +38,8 @@ $large-button-size: 31px;
   outline: none;
 }
 
-button {
+button,
+a {
   &.borderless {
     border: 0;
     background: none;

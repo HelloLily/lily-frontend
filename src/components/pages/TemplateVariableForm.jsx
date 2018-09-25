@@ -29,7 +29,13 @@ class InnerTemplateVariableForm extends Component {
         <div className="content-block-container">
           <div className="content-block">
             <div className="content-block-header">
-              <div className="content-block-name">Add template variable</div>
+              <div className="content-block-name">
+                {values.id ? (
+                  <React.Fragment>Edit template variable</React.Fragment>
+                ) : (
+                  <React.Fragment>Add template variable</React.Fragment>
+                )}
+              </div>
             </div>
 
             <div className="content-block-content">

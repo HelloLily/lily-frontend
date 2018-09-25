@@ -266,7 +266,13 @@ class InnerDealForm extends Component {
             <div className="content-block-container">
               <div className="content-block">
                 <div className="content-block-header">
-                  <div className="content-block-name">Add deal</div>
+                  <div className="content-block-name">
+                    {values.id ? (
+                      <React.Fragment>Edit deal</React.Fragment>
+                    ) : (
+                      <React.Fragment>Add deal</React.Fragment>
+                    )}
+                  </div>
                 </div>
 
                 <div className="content-block-content">

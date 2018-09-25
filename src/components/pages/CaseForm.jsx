@@ -196,7 +196,13 @@ class InnerCaseForm extends Component {
             <div className="content-block-container">
               <div className="content-block">
                 <div className="content-block-header">
-                  <div className="content-block-name">Add case</div>
+                  <div className="content-block-name">
+                    {values.id ? (
+                      <React.Fragment>Edit case</React.Fragment>
+                    ) : (
+                      <React.Fragment>Add case</React.Fragment>
+                    )}
+                  </div>
                 </div>
 
                 <div className="content-block-content">

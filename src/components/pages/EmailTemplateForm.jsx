@@ -42,7 +42,13 @@ class InnerEmailTemplateForm extends Component {
         <div className="content-block-container">
           <div className="content-block">
             <div className="content-block-header">
-              <div className="content-block-name">Add email template</div>
+              <div className="content-block-name">
+                {values.id ? (
+                  <React.Fragment>Edit email template</React.Fragment>
+                ) : (
+                  <React.Fragment>Add email template</React.Fragment>
+                )}
+              </div>
             </div>
 
             <div className="content-block-content">

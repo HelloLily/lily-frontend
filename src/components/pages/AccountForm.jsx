@@ -385,7 +385,13 @@ class InnerAccountForm extends Component {
             <div className="content-block-container">
               <div className="content-block">
                 <div className="content-block-header">
-                  <div className="content-block-name">Add account</div>
+                  <div className="content-block-name">
+                    {values.id ? (
+                      <React.Fragment>Edit account</React.Fragment>
+                    ) : (
+                      <React.Fragment>Add account</React.Fragment>
+                    )}
+                  </div>
                 </div>
 
                 <div className="content-block-content">

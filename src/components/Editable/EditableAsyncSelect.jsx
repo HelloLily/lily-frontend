@@ -86,7 +86,6 @@ class EditableSelect extends Component {
           menuPortalTarget={document.body}
           getOptionValue={option => option[selectConfig.display]}
           getOptionLabel={option => option[selectConfig.display]}
-          menuIsOpen
         />
 
         {multi && (
