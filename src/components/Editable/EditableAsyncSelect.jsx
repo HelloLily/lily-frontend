@@ -74,6 +74,7 @@ class EditableSelect extends Component {
         <AsyncSelect
           autoFocus
           defaultOptions
+          isClearable
           name="options"
           className="editable-input"
           value={value}

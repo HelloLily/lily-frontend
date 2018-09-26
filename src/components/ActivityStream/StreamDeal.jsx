@@ -83,7 +83,7 @@ class StreamDeal extends Component {
                   </div>
                   <div className="stream-item-title">
                     <div>
-                      {item.createdBy.fullName || 'An unknown entity'} created the
+                      {item.createdBy ? item.createdBy.fullName : 'An unknown entity'} created the
                       <i className="lilicon hl-deals-icon green m-l-5 font-size-16" /> deal
                       <Link to={`/deals/${item.id}`}> {item.name}</Link>
                     </div>

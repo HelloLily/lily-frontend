@@ -130,7 +130,7 @@ class ContactList extends Component {
   };
 
   render() {
-    const { columns, contacts, loading, pagination } = this.state;
+    const { columns, contacts, loading, pagination, sortColumn, sortStatus } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -145,7 +145,12 @@ class ContactList extends Component {
           <table className="hl-table">
             <thead>
               <tr>
-                <ListColumns columns={columns} setSorting={this.setSorting} />
+                <ListColumns
+                  columns={columns}
+                  setSorting={this.setSorting}
+                  sortColumn={sortColumn}
+                  sortStatus={sortStatus}
+                />
                 <th>Actions</th>
               </tr>
             </thead>

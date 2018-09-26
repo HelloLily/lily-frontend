@@ -101,7 +101,8 @@ class DealListWidget extends Component {
                     <tr>
                       <td colSpan="5">
                         <div>
-                          <strong>Assigned to: </strong> {item.assignedTo.fullName || 'Nobody'}
+                          <strong>Assigned to: </strong>
+                          {item.assignedTo ? item.assignedTo.fullName : 'Nobody'}
                         </div>
                         <div>
                           <strong>Amount once: </strong>

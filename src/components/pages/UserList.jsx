@@ -128,7 +128,17 @@ class UserList extends Component {
   };
 
   render() {
-    const { columns, users, invites, pagination, loading, statusFilter, newTeam } = this.state;
+    const {
+      columns,
+      users,
+      invites,
+      pagination,
+      loading,
+      statusFilter,
+      newTeam,
+      sortColumn,
+      sortStatus
+    } = this.state;
 
     const filterOptions = ['All', 'Active', 'Inactive', 'Invited'];
 
@@ -171,7 +181,12 @@ class UserList extends Component {
           <table className="hl-table">
             <thead>
               <tr>
-                <ListColumns columns={columns} setSorting={this.setSorting} />
+                <ListColumns
+                  columns={columns}
+                  setSorting={this.setSorting}
+                  sortColumn={sortColumn}
+                  sortStatus={sortStatus}
+                />
                 <th>Actions</th>
               </tr>
             </thead>

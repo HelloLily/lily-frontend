@@ -14,7 +14,7 @@ Lily has a large amount of icons that can be used.
         <tr>
             <td><i class="lilicon font-size-24 hl-dashboard-icon"></i><div style="margin-top: 10px;">.hl-dashboard-icon</div></td>
             <td><i class="lilicon font-size-24 hl-statistics-icon"></i><div style="margin-top: 10px;">.hl-statistics-icon</div></td>
-            <td><i class="lilicon font-size-24 hl-mail-icon"></i><div style="margin-top: 10px;">.hl-mail-icon</div></td>
+            <td><i class="lilicon font-size-24 hl-email-icon"></i><div style="margin-top: 10px;">.hl-email-icon</div></td>
             <td><i class="lilicon font-size-24 hl-company-icon"></i><div style="margin-top: 10px;">.hl-company-icon</div></td>
             <td><i class="lilicon font-size-24 hl-entity-icon"></i><div style="margin-top: 10px;">.hl-entity-icon</div></td>
             <td><i class="lilicon font-size-24 hl-deals-icon"></i><div style="margin-top: 10px;">.hl-deals-icon</div></td>
@@ -172,7 +172,7 @@ $hl-firstday-icon: '\e90d';
 $hl-tomorrow-icon: '\e90e';
 $hl-cog-icon: '\e90f';
 $hl-user-icon: '\e911';
-$hl-mail-icon: '\e912';
+$hl-email-icon: '\e912';
 $hl-case-icon: '\e913';
 $hl-person-icon: '\e914';
 $hl-note-icon: '\e915';
@@ -364,9 +364,9 @@ $hl-forwarding-icon: '\e937';
   }
 }
 
-.hl-mail-icon {
+.hl-email-icon {
   &:before {
-    content: $hl-mail-icon;
+    content: $hl-email-icon;
   }
 }
 

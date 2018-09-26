@@ -105,7 +105,8 @@ class CaseListWidget extends Component {
                           {item.type.name}
                         </div>
                         <div>
-                          <strong>Assigned to: </strong> {item.assignedTo.fullName || 'Nobody'}
+                          <strong>Assigned to: </strong>
+                          {item.assignedTo ? item.assignedTo.fullName : 'Nobody'}
                         </div>
                         <div>
                           <strong>Created by: </strong>

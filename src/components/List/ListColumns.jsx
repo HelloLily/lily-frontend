@@ -4,17 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NO_SORT_STATUS, ASCENDING_STATUS, DESCENDING_STATUS } from 'lib/constants';
 
 class ListColumns extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sortColumn: '',
-      sortStatus: 0
-    };
-  }
-
   setSorting = column => {
-    const { sortColumn, sortStatus } = this.state;
+    const { sortColumn, sortStatus } = this.props;
 
     let newStatus = sortStatus;
 
@@ -33,15 +24,10 @@ class ListColumns extends Component {
     }
 
     this.props.setSorting(column, newStatus);
-
-    this.setState({
-      sortColumn: column,
-      sortStatus: newStatus
-    });
   };
 
   render() {
-    const { sortColumn, sortStatus } = this.state;
+    const { sortColumn, sortStatus } = this.props;
 
     return (
       <React.Fragment>

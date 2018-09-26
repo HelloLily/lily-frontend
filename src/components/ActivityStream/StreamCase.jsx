@@ -92,7 +92,7 @@ class StreamCase extends Component {
                   </div>
                   <div className="stream-item-title">
                     <div>
-                      {item.createdBy.fullName || 'An unknown entity'} created the
+                      {item.createdBy ? item.createdBy.fullName : 'An unknown entity'} created the
                       <i className="lilicon hl-case-icon purple m-l-5 font-size-16" /> case
                       <Link to={`/cases/${item.id}`}> {item.subject}</Link>
                     </div>

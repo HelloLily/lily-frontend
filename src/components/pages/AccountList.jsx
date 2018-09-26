@@ -108,7 +108,16 @@ class AccountList extends Component {
   };
 
   render() {
-    const { columns, accounts, statuses, filters, pagination, loading } = this.state;
+    const {
+      columns,
+      accounts,
+      statuses,
+      filters,
+      pagination,
+      loading,
+      sortColumn,
+      sortStatus
+    } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -130,7 +139,12 @@ class AccountList extends Component {
           <table className="hl-table">
             <thead>
               <tr>
-                <ListColumns columns={columns} setSorting={this.setSorting} />
+                <ListColumns
+                  columns={columns}
+                  setSorting={this.setSorting}
+                  sortColumn={sortColumn}
+                  sortStatus={sortStatus}
+                />
                 <th>Actions</th>
               </tr>
             </thead>
