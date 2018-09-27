@@ -45,7 +45,7 @@ class ListFilter extends Component {
 
     filters.list = newFilters;
 
-    this.props.setFilters(newFilters);
+    this.props.setFilters(filters);
   };
 
   render() {
