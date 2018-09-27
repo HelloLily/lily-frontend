@@ -4,8 +4,25 @@ import toggleFilter from 'utils/toggleFilter';
 import Dropdown from 'components/Dropdown';
 
 class ListFilter extends Component {
+  getDisplay = () => {
+    const { items } = this.props;
+    const filters = this.props.filters.list;
+
+    const display = [];
+
+    items.forEach(item => {
+      if (filters.includes(item.value)) {
+        display.push(item.name);
+      }
+    });
+
+    return display;
+  };
+
   toggleFilter = filter => {
-    const filters = toggleFilter(this.props.filters, filter);
+    const { filters } = this.props;
+
+    filters.list = toggleFilter(this.props.filters.list, filter);
 
     this.props.setFilters(filters);
   };
@@ -14,7 +31,7 @@ class ListFilter extends Component {
     const { items, filters } = this.props;
 
     // Filter items which haven't been selected.
-    const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
+    const filteredItems = items.filter(item => !filters.list.some(filter => filter === item.value));
 
     let newFilters = items;
 
@@ -24,22 +41,38 @@ class ListFilter extends Component {
     }
 
     // Toggle all filters which haven't been selected.
-    newFilters = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters);
+    newFilters = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters.list);
+
+    filters.list = newFilters;
 
     this.props.setFilters(newFilters);
   };
 
   render() {
-    const { label, items, filters } = this.props;
+    const { label, items } = this.props;
+    const filters = this.props.filters.list;
+
     const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
     const allSelected = filteredItems.length === 0;
+
+    const display = this.getDisplay();
 
     return (
       <Dropdown
         clickable={
-          <button className="hl-primary-btn" onClick={this.showMenu}>
+          <button className="hl-primary-btn filter-btn" onClick={this.showMenu}>
             <i className="lilicon hl-cog-icon" />
-            <span className="m-l-5 m-r-5">{label}</span>
+            <span className="m-l-5 m-r-5">
+              {display.length === 0 && <React.Fragment>{label}</React.Fragment>}
+
+              {display.length > 2 ? (
+                <React.Fragment>
+                  {display.length} {label} selected
+                </React.Fragment>
+              ) : (
+                <React.Fragment>{display.join(' + ')}</React.Fragment>
+              )}
+            </span>
             <i className="lilicon hl-toggle-down-icon small" />
           </button>
         }

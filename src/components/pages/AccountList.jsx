@@ -37,7 +37,7 @@ class AccountList extends Component {
       accounts: [],
       pagination: {},
       statuses: [],
-      filters: [],
+      filters: { list: [] },
       loading: true,
       page: 1,
       sortColumn: '',

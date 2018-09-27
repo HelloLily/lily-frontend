@@ -42,7 +42,7 @@ class DealList extends Component {
       columns,
       deals: [],
       nextSteps: [],
-      filters: [],
+      filters: { list: [], dueDate: [], user: [] },
       pagination: {},
       loading: true,
       page: 1,

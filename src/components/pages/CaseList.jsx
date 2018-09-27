@@ -14,6 +14,7 @@ import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import Settings from 'models/Settings';
 import Case from 'models/Case';
+import UserFilter from 'src/components/UserFilter/index';
 
 class CaseList extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class CaseList extends Component {
       columns,
       cases: [],
       caseTypes: [],
-      filters: [],
+      filters: { list: [], dueDate: [], user: [] },
       pagination: {},
       loading: true
     };
@@ -96,7 +97,7 @@ class CaseList extends Component {
 
     this.setState({ loading: true });
 
-    const filter = filters.join(' AND ');
+    const filter = filters.list.join(' AND ');
     const data = await Case.query({
       pageSize: 20,
       page,
@@ -138,6 +139,8 @@ class CaseList extends Component {
             />
 
             <DueDateFilter filters={filters} setFilters={this.setFilters} />
+
+            <UserFilter filters={filters} setFilters={this.setFilters} />
           </div>
           <table className="hl-table">
             <thead>

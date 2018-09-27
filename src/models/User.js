@@ -18,6 +18,12 @@ class User {
 
     return response;
   }
+
+  unassigned() {
+    const response = get('/users/unassigned');
+
+    return response;
+  }
 }
 
 export default new User();

@@ -9,7 +9,7 @@
   background: $app-color-darkblue;
 
   &:hover {
-    background: lighten($app-color-darkblue, 15%);
+    background: lighten($app-color-darkblue, 15);
     color: #fff;
   }
 }
