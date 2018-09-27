@@ -106,6 +106,8 @@ export const ADDRESS_TYPES = [
 
 export const ADDRESS_EMPTY_ROW = { address: '', type: 'visiting', postalCode: '', city: '' };
 
+export const WEBSITE_EMPTY_ROW = { website: '', isPrimary: false };
+
 export const ACCOUNT_ACTIVE_STATUS = 'Active';
 export const ACCOUNT_RELATION_STATUS = 'Relation';
 
