@@ -72,6 +72,8 @@ class InnerDealForm extends Component {
 
     if (id) {
       await this.loadDeal(id);
+
+      document.title = `${this.props.values.name} - Lily`;
     } else {
       this.props.setFieldValue('assignedToTeams', currentUser.teams);
       this.props.setFieldValue('assignedTo', currentUser);
@@ -85,6 +87,8 @@ class InnerDealForm extends Component {
           this.props.setFieldValue(key, this.props.data[key]);
         });
       }
+
+      document.title = 'Add deal - Lily';
     }
 
     this.setState({ loading: false });

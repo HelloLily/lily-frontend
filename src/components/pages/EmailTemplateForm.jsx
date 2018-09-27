@@ -22,9 +22,13 @@ class InnerEmailTemplateForm extends Component {
     const { id } = this.props.match.params;
 
     if (id) {
-      const emailAccount = await EmailTemplate.get(id);
+      const emailTemplate = await EmailTemplate.get(id);
 
-      this.props.setValues(emailAccount);
+      this.props.setValues(emailTemplate);
+
+      document.title = `${emailTemplate.name} - Lily`;
+    } else {
+      document.title = 'Add email template - Lily';
     }
 
     const folderResponse = await EmailTemplateFolder.query();

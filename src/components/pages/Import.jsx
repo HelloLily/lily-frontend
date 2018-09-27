@@ -5,6 +5,12 @@ import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 
 class TokenForm extends Component {
+  constructor(props) {
+    super(props);
+
+    document.title = 'Import - Lily';
+  }
+
   render() {
     return (
       <BlockUI blocking={false}>

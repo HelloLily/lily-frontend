@@ -41,6 +41,8 @@ class UserList extends Component {
       sortColumn: '',
       sortStatus: NO_SORT_STATUS
     };
+
+    document.title = 'Users - Lily';
   }
 
   async componentDidMount() {

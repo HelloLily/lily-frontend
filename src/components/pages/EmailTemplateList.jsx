@@ -13,6 +13,8 @@ class EmailTemplateList extends Component {
     super(props);
 
     this.state = { folders: [], loading: true, showMoveTo: false };
+
+    document.title = 'Email templates';
   }
 
   async componentDidMount() {

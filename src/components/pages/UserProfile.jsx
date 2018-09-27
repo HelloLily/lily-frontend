@@ -16,6 +16,8 @@ class InnerProfileForm extends Component {
     data.picture = '';
 
     this.props.setValues(data);
+
+    document.title = 'My profile - Lily';
   }
 
   formatPhoneNumber = () => {

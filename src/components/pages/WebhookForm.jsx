@@ -4,6 +4,12 @@ import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
 
 class WebhookForm extends Component {
+  constructor(props) {
+    super(props);
+
+    document.title = 'Webhooks - Lily';
+  }
+
   render() {
     return (
       <BlockUI blocking={false}>

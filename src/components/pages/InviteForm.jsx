@@ -12,6 +12,12 @@ import FormFooter from 'components/Utils/FormFooter';
 import UserInvite from 'models/UserInvite';
 
 class InnerInviteForm extends Component {
+  constructor(props) {
+    super(props);
+
+    document.title = 'Invite users - Lily';
+  }
+
   addRow = () => {
     const { invites } = this.props.values;
 

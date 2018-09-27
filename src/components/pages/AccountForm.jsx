@@ -52,6 +52,8 @@ class InnerAccountForm extends Component {
 
     if (id) {
       await this.loadAccount(id);
+
+      document.title = `${this.props.values.name} - Lily`;
     } else {
       const relation = statusResponse.results.find(
         status => status.name === ACCOUNT_RELATION_STATUS
@@ -84,6 +86,8 @@ class InnerAccountForm extends Component {
           });
         }
       }
+
+      document.title = `Add account - Lily`;
     }
 
     this.props.setFieldValue('assignedTo', this.props.currentUser);

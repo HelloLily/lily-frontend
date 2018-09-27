@@ -42,6 +42,10 @@ class InnerContactForm extends Component {
 
     if (id) {
       await this.loadContact(id);
+
+      document.title = `${this.props.values.fullName} - Lily`;
+    } else {
+      document.title = 'Add contact - Lily';
     }
 
     const { data } = this.props;

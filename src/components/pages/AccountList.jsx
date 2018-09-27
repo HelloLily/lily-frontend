@@ -43,6 +43,8 @@ class AccountList extends Component {
       sortColumn: '',
       sortStatus: NO_SORT_STATUS
     };
+
+    document.title = 'Accounts - Lily';
   }
 
   async componentDidMount() {

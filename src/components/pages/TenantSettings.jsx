@@ -8,6 +8,8 @@ class TenantSettings extends Component {
     super(props);
 
     this.state = { tenant: {} };
+
+    document.title = 'Settings - Lily';
   }
 
   async componentDidMount() {

@@ -67,6 +67,8 @@ class EmailDetail extends Component {
       recipients,
       thread: threadRequest.results
     });
+
+    document.title = 'Email message - Lily';
   }
 
   setupSidebar = async emailMessage => {

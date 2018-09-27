@@ -46,6 +46,8 @@ class CaseList extends Component {
       pagination: {},
       loading: true
     };
+
+    document.title = 'Cases - Lily';
   }
 
   async componentDidMount() {

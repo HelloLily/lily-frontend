@@ -20,6 +20,8 @@ class Inbox extends Component {
       currentEmailAccount: null,
       currentLabel: null
     };
+
+    document.title = 'Email - Lily';
   }
 
   async componentDidMount() {

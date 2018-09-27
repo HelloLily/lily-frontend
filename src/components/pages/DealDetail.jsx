@@ -33,6 +33,8 @@ class DealDetail extends Component {
     }
 
     this.setState({ deal, dealStatuses: statusRequest.results, loading: false });
+
+    document.title = `${deal.name} - Lily`;
   }
 
   toggleArchive = () => {

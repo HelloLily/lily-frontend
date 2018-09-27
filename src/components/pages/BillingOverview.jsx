@@ -18,6 +18,8 @@ class BillingOverview extends Component {
       invoices: [],
       loading: true
     };
+
+    document.title = 'Billing - Lily';
   }
 
   async componentDidMount() {

@@ -11,6 +11,8 @@ import User from 'models/User';
 class InnerUserAccountForm extends Component {
   componentDidMount() {
     this.props.setValues(this.props.currentUser);
+
+    document.title = 'My account - Lily';
   }
 
   render() {

@@ -12,6 +12,8 @@ class TemplateVariableList extends Component {
     super(props);
 
     this.state = { variables: [], publicVariables: [], loading: true };
+
+    document.title = 'Template variables - Lily';
   }
 
   async componentDidMount() {

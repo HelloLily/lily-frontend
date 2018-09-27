@@ -49,6 +49,8 @@ class DealList extends Component {
       sortColumn: '',
       sortStatus: NO_SORT_STATUS
     };
+
+    document.title = 'Deals - Lily';
   }
 
   async componentDidMount() {

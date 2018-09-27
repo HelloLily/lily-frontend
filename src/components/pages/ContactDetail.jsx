@@ -16,9 +16,11 @@ class AccountDetail extends Component {
 
   async componentDidMount() {
     const { id } = this.props.match.params;
-    const data = await Contact.get(id);
+    const contact = await Contact.get(id);
 
-    this.setState({ contact: data });
+    this.setState({ contact });
+
+    document.title = `${contact.fullName} - Lily`;
   }
 
   submitCallback = args => Contact.patch(args);

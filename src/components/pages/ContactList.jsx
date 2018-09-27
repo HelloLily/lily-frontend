@@ -39,6 +39,8 @@ class ContactList extends Component {
       pagination: {},
       loading: true
     };
+
+    document.title = 'Contacts - Lily';
   }
 
   async componentDidMount() {
@@ -60,12 +62,6 @@ class ContactList extends Component {
 
   setSorting = (sortColumn, sortStatus) => {
     this.setState({ sortColumn, sortStatus }, this.loadItems);
-  };
-
-  setFilters = async filters => {
-    await this.settings.store({ filters });
-
-    this.setState({ filters }, this.loadItems);
   };
 
   getAccountInformation = contact =>

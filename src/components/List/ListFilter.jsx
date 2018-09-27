@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import toggleFilter from 'utils/toggleFilter';
 import Dropdown from 'components/Dropdown';
@@ -44,6 +45,14 @@ class ListFilter extends Component {
     newFilters = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters.list);
 
     filters.list = newFilters;
+
+    this.props.setFilters(filters);
+  };
+
+  clearFilters = () => {
+    const { filters } = this.props;
+
+    filters.list = [];
 
     this.props.setFilters(filters);
   };

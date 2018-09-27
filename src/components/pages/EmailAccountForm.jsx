@@ -22,6 +22,8 @@ class InnerEmailAccountForm extends Component {
     const emailAccount = await EmailAccount.get(this.props.match.params.id);
 
     this.props.setValues(emailAccount);
+
+    document.title = 'Email account - Lily';
   }
 
   handleAdditions = value => {

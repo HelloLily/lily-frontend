@@ -17,9 +17,11 @@ class AccountDetail extends Component {
 
   async componentDidMount() {
     const { id } = this.props.match.params;
-    const data = await Account.get(id);
+    const account = await Account.get(id);
 
-    this.setState({ account: data });
+    this.setState({ account });
+
+    document.title = `${account.name} - Lily`;
   }
 
   submitCallback = args => Account.patch(args);

@@ -5,13 +5,17 @@ import MyDeals from 'components/ContentBlock/MyDeals';
 import UnassignedCases from 'components/ContentBlock/UnassignedCases';
 import UnassignedDeals from 'components/ContentBlock/UnassignedDeals';
 
-const Dashboard = () => (
-  <div className="dashboard-widgets">
-    <MyCases />
-    <MyDeals />
-    <UnassignedCases />
-    <UnassignedDeals />
-  </div>
-);
+const Dashboard = () => {
+  document.title = 'Dashboard - Lily';
+
+  return (
+    <div className="dashboard-widgets">
+      <MyCases />
+      <MyDeals />
+      <UnassignedCases />
+      <UnassignedDeals />
+    </div>
+  );
+};
 
 export default Dashboard;

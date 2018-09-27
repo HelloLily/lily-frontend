@@ -23,6 +23,8 @@ class EmailAccountList extends Component {
       selectedAccount: null,
       users: []
     };
+
+    document.title = 'Email accounts';
   }
 
   async componentDidMount() {

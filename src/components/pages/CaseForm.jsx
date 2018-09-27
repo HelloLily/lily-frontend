@@ -51,6 +51,8 @@ class InnerCaseForm extends Component {
 
     if (id) {
       await this.loadCase(id);
+
+      document.title = `${this.props.values.subject} - Lily`;
     } else {
       this.props.setFieldValue('assignedToTeams', currentUser.teams);
       this.props.setFieldValue('assignedTo', currentUser);
@@ -65,6 +67,8 @@ class InnerCaseForm extends Component {
           this.props.setFieldValue(key, this.props.data[key]);
         });
       }
+
+      document.title = 'Add case - Lily';
     }
 
     this.setState({ loading: false });

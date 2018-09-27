@@ -18,6 +18,10 @@ class InnerTemplateVariableForm extends Component {
       const templateVariable = TemplateVariable.get(id);
 
       this.props.setValues(templateVariable);
+
+      document.title = `${templateVariable.name} - Lily`;
+    } else {
+      document.title = 'Add template variable - Lily';
     }
   }
 

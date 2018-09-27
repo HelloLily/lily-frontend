@@ -32,6 +32,8 @@ class CaseDetail extends Component {
     }
 
     this.setState({ caseObj, caseStatuses: statusRequest.results, loading: false });
+
+    document.title = `${caseObj.subject} - Lily`;
   }
 
   toggleArchive = () => {
