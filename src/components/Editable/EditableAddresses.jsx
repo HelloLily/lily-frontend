@@ -3,6 +3,7 @@ import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
+import { ADDRESS_EMPTY_ROW } from 'lib/constants';
 import Country from 'models/Country';
 
 const addressTypes = [
@@ -12,8 +13,6 @@ const addressTypes = [
   { value: 'home', label: 'Home address' },
   { value: 'other', label: 'Other' }
 ];
-
-const emptyRow = { address: '', type: 'visiting' };
 
 class EditableAddresses extends Component {
   constructor(props) {
@@ -35,7 +34,7 @@ class EditableAddresses extends Component {
     this.setState({ countries, countryOptions });
 
     if (this.props.value.length === 0) {
-      this.props.addRow(emptyRow);
+      this.props.addRow(ADDRESS_EMPTY_ROW);
     }
   };
 
@@ -58,13 +57,17 @@ class EditableAddresses extends Component {
   };
 
   addRow = () => {
-    this.props.addRow(emptyRow);
+    this.props.addRow(ADDRESS_EMPTY_ROW);
   };
 
   handleSubmit = () => {
     const data = this.props.value.filter(item => item.address);
+    const args = {
+      id: this.props.object.id,
+      [this.props.field]: data
+    };
 
-    this.props.handleSubmit(data);
+    this.props.handleSubmit(args);
   };
 
   render() {

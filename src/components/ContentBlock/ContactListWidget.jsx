@@ -70,7 +70,7 @@ class ContactListWidget extends Component {
                   <tr>
                     <td>
                       <Link to={`/contacts/${item.id}`}>{item.fullName}</Link>
-                      {!item.functions.filter(account => account.id === object.id).isActive && (
+                      {!item.functions.filter(func => func.id === object.id).isActive && (
                         <span> (inactive)</span>
                       )}
                     </td>

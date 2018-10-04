@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { translate } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 
 import { DEFAULT_LABELS, INBOX_LABEL } from 'lib/constants';
 import getColorCode from 'utils/getColorCode';
@@ -287,4 +287,4 @@ class EmailAccounts extends Component {
   }
 }
 
-export default translate(['tooltips'])(EmailAccounts);
+export default withNamespaces('tooltips')(EmailAccounts);

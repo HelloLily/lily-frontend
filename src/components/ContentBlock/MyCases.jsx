@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
-import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import Case from 'models/Case';
+import ClientDisplay from 'src/components/Utils/ClientDisplay';
 
 class MyCases extends Component {
   constructor(props) {
@@ -85,13 +85,7 @@ class MyCases extends Component {
                 <Link to={`/cases/${item.id}`}>{item.subject}</Link>
               </td>
               <td>
-                {item.contact && (
-                  <Link to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</Link>
-                )}
-                {item.contact && item.account && <span> at </span>}
-                {item.account && (
-                  <Link to={`/accounts/${item.account.id}`}>{item.account.name}</Link>
-                )}
+                <ClientDisplay contact={item.contact} account={item.account} />
               </td>
               <td>{item.type.name}</td>
               <td>{item.status.name}</td>

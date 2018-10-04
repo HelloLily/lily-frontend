@@ -5,14 +5,16 @@
   "newlyAssignedCase": "Add it to 'My cases'",
   "newlyAssignedDeal": "Add it to 'My deals'",
   "emailAccountConnectionWarning": "To solve email issues, please click to add this email account again",
-  "emailAccountPublicTooltip": "All colleagues in %(company)s",
-  "limitReached": "You've reached the limit of your Personal plan. Please upgrade it to add more %(model)s.",
+  "emailAccountPublicTooltip": "All colleagues in {{company}}",
+  "limitReached": "You've reached the limit of your Personal plan. Please upgrade it to add more {{model}}.",
   "filterArchived": "This item has been archived, but can still be filtered on",
+  "contactListInfoTooltip": "This is the data of the account(s) the contact works for",
   "contactIcon": {
     "loading": "Loading status, hang on!",
     "needsEverything": "New account, unknown contact. Do the add thing!",
     "needsContact": "Hey, a new contact for the account! Add it for optimal Lily magic.",
     "needsAccount": "Hey, a contact without an account! Add it for optimal Lily magic.",
     "complete": "All done. Do a happy dance."
-  }
+  },
+  "deletedIndicator": "{{name}} is deleted"
 }

@@ -52,8 +52,12 @@ class EditableEmailAddresses extends Component {
 
   handleSubmit = () => {
     const data = this.props.value.filter(item => item.emailAddress);
+    const args = {
+      id: this.props.object.id,
+      [this.props.field]: data
+    };
 
-    this.props.handleSubmit(data);
+    this.props.handleSubmit(args);
   };
 
   render() {

@@ -104,7 +104,13 @@ export const ADDRESS_TYPES = [
   { value: 'other', label: 'Other' }
 ];
 
-export const ADDRESS_EMPTY_ROW = { address: '', type: 'visiting', postalCode: '', city: '' };
+export const ADDRESS_EMPTY_ROW = {
+  address: '',
+  type: 'visiting',
+  postalCode: '',
+  city: '',
+  country: ''
+};
 
 export const WEBSITE_EMPTY_ROW = { website: '', isPrimary: false };
 

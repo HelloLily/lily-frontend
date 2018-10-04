@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
 import AsyncSelect from 'react-select/lib/Async';
 
 import withContext from 'src/withContext';
@@ -22,8 +23,10 @@ import PhoneNumberField from 'components/Fields/PhoneNumberField';
 import AddressField from 'components/Fields/AddressField';
 import TagField from 'components/Fields/TagField';
 import Suggestions from 'components/Fields/Suggestions';
+import LilyTooltip from 'components/LilyTooltip';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
+import Address from 'src/components/Utils/Address';
 
 class InnerContactForm extends Component {
   constructor(props) {
@@ -315,7 +318,7 @@ class InnerContactForm extends Component {
 
   render() {
     const { accountSuggestions, contactSuggestions, showSuggestions, loading } = this.state;
-    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
 
     const twitterProfile = values.socialMedia.find(profile => profile.type === 'twitter');
     const twitterUsername = twitterProfile ? twitterProfile.username : '';
@@ -444,6 +447,34 @@ class InnerContactForm extends Component {
                     <FormSection header="Contact information">
                       <div className="form-field">
                         <label>Email address</label>
+
+                        {values.accounts.length > 0 &&
+                          values.accounts[0].emailAddresses.length > 0 && (
+                            <table className="form-info-table m-b-10">
+                              <tbody>
+                                {values.accounts[0].emailAddresses.map((emailAddress, index) => (
+                                  <tr key={`account-email-${emailAddress.id}`}>
+                                    <td>
+                                      {index === 0 && (
+                                        <React.Fragment>
+                                          <i
+                                            className="lilicon hl-company-icon"
+                                            data-tip={t('contact.accountInfoTooltip')}
+                                          />
+
+                                          <LilyTooltip />
+                                        </React.Fragment>
+                                      )}
+                                    </td>
+                                    <td>
+                                      {emailAddress.emailAddress} ({emailAddress.statusName})
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          )}
+
                         <EmailAddressField
                           items={values.emailAddresses}
                           handleRelated={this.handleRelated}
@@ -471,6 +502,35 @@ class InnerContactForm extends Component {
 
                       <div className="form-field">
                         <label>Phone number</label>
+
+                        {values.accounts.length > 0 &&
+                          values.accounts[0].phoneNumbers.length > 0 && (
+                            <table className="form-info-table m-b-10">
+                              <tbody>
+                                {values.accounts[0].phoneNumbers.map((phoneNumber, index) => (
+                                  <tr key={`account-phone-${phoneNumber.id}`}>
+                                    <td>
+                                      {index === 0 && (
+                                        <React.Fragment>
+                                          <i
+                                            className="lilicon hl-company-icon"
+                                            data-tip={t('contact.accountInfoTooltip')}
+                                          />
+
+                                          <LilyTooltip />
+                                        </React.Fragment>
+                                      )}
+                                    </td>
+                                    <td>
+                                      {phoneNumber.number}
+                                      <span className="text-capitalize"> ({phoneNumber.type})</span>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          )}
+
                         <PhoneNumberField
                           items={values.phoneNumbers}
                           handleRelated={this.handleRelated}
@@ -499,6 +559,34 @@ class InnerContactForm extends Component {
 
                       <div className="form-field">
                         <label>Address</label>
+
+                        {values.accounts.length > 0 &&
+                          values.accounts[0].addresses.length > 0 && (
+                            <table className="form-info-table m-b-10">
+                              <tbody>
+                                {values.accounts[0].addresses.map((address, index) => (
+                                  <tr key={`account-address-${address.id}`}>
+                                    <td>
+                                      {index === 0 && (
+                                        <React.Fragment>
+                                          <i
+                                            className="lilicon hl-company-icon"
+                                            data-tip={t('contact.accountInfoTooltip')}
+                                          />
+
+                                          <LilyTooltip />
+                                        </React.Fragment>
+                                      )}
+                                    </td>
+                                    <td>
+                                      <Address address={address} />
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          )}
+
                         <AddressField
                           items={values.addresses}
                           handleRelated={this.handleRelated}
@@ -606,4 +694,4 @@ const ContactForm = withRouter(
   })(InnerContactForm)
 );
 
-export default withContext(ContactForm);
+export default withNamespaces('forms')(withContext(ContactForm));

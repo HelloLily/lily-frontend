@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { SELECT_STYLES } from 'lib/constants';
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
+import LilyTooltip from 'components/LilyTooltip';
 import getSelectConfig from './getSelectConfig';
 import EditableText from './EditableText';
 import EditableTextarea from './EditableTextarea';
@@ -294,11 +295,14 @@ class Editable extends Component {
         display = value[config.display] || value.name;
 
         if (this.props.icon) {
+          const tooltip = this.props.hideValue ? display : '';
+
           display = (
-            <span>
+            <span data-tip={tooltip}>
               <i className={`${this.createIconLabel(value)} m-r-5`} />
 
-              {!this.props.hideValue && display}
+              {/* Add a tooltip if the value isn't shown */}
+              {!this.props.hideValue ? display : <LilyTooltip />}
             </span>
           );
         }

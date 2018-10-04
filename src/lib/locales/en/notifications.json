@@ -7,9 +7,9 @@
     "errorTitle": "Sorry"
   },
   "successTitle": "Done",
-  "modelSaved": "The %(model)s has been saved!",
-  "modelUpdated": "The %(model)s has been updated!",
-  "modelDeleted": "The %(model)s has been deleted!",
+  "modelSaved": "The {{model}} has been saved!",
+  "modelUpdated": "The {{model}} has been updated!",
+  "modelDeleted": "The {{model}} has been deleted!",
   "error": "Uh oh, there seems to be a problem",
   "errorInline": "Something went wrong while saving the field, please try again.",
   "errorTitle": "Oops",

@@ -1,0 +1,17 @@
+@import '~style/variables/colors';
+@import '~style/variables/measurements';
+
+.lily-tooltip {
+  max-width: 250px;
+  text-align: center;
+  border-radius: $base-border-radius;
+  background-color: $app-color-darkblue !important;
+  line-height: 1.5;
+  font-weight: initial;
+
+  &.place-top {
+    &:after {
+      border-top-color: $app-color-darkblue !important;
+    }
+  }
+}

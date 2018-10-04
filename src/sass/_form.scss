@@ -106,7 +106,7 @@ label {
   margin-bottom: 10px;
 
   .form-suggestion-title {
-    color: #000;
+    color: $app-color-darkblue;
     font-size: 16px;
     display: flex;
     justify-content: space-between;
@@ -194,6 +194,22 @@ label {
       &:before {
         background: $critical-prio-color;
       }
+    }
+  }
+}
+
+.form-info-table {
+  background: $sky-grey;
+  border-radius: $base-border-radius;
+  width: 100%;
+
+  td {
+    padding: 10px;
+    vertical-align: top;
+
+    &:first-of-type {
+      width: 20px;
+      padding-right: 5px;
     }
   }
 }

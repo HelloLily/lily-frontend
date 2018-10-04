@@ -93,11 +93,11 @@ const ContactDetailWidget = props => {
             field="accounts"
             submitCallback={submitCallback}
           >
-            {contact.functions.map(account => (
-              <div key={account.id}>
-                <Link to={`/accounts/${account.id}`}>{account.accountName}</Link>
+            {contact.functions.map(func => (
+              <div key={func.id}>
+                <Link to={`/accounts/${func.account}`}>{func.accountName}</Link>
 
-                {!account.isActive && <span> (inactive)</span>}
+                {!func.isActive && <span> (inactive)</span>}
               </div>
             ))}
           </Editable>

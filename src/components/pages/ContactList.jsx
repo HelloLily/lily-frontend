@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import {
   INACTIVE_EMAIL_STATUS,
@@ -15,6 +16,7 @@ import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
 import ListColumns from 'components/List/ListColumns';
 import BlockUI from 'components/Utils/BlockUI';
+import LilyTooltip from 'components/LilyTooltip';
 import Settings from 'models/Settings';
 import Contact from 'models/Contact';
 
@@ -64,34 +66,51 @@ class ContactList extends Component {
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
-  getAccountInformation = contact =>
-    contact.accounts.map(account => (
-      <React.Fragment key={account.id}>
-        {!contact.primaryEmail &&
-          account.primaryEmail && (
-            <Link to={`/email/compose/${account.primaryEmail.emailAddress}`}>
-              <i className="lilicon hl-email-icon" /> {account.primaryEmail.emailAddress}
-            </Link>
-          )}
-        {!contact.phoneNumber &&
-          account.phoneNumber && (
-            <React.Fragment>
-              {account.phoneNumber.type === MOBILE_PHONE_TYPE ||
-              account.phoneNumber.type === 'work' ? (
-                <a href={`tel:${account.phoneNumber.number}`}>
-                  {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
-                    <FontAwesomeIcon icon="mobile" />
-                  ) : (
-                    <i className="lilicon hl-phone-filled-icon" />
-                  )}
+  getAccountInformation = contact => {
+    const { t } = this.props;
+    const tooltip = t('contactListInfoTooltip');
 
-                  <span className="m-l-5">{account.phoneNumber.number}</span>
-                </a>
-              ) : null}
-            </React.Fragment>
-          )}
+    return (
+      <React.Fragment>
+        {contact.accounts.map(account => (
+          <React.Fragment key={account.id}>
+            {!contact.primaryEmail &&
+              account.primaryEmail && (
+                <React.Fragment>
+                  <i className="lilicon hl-company-icon" data-tip={tooltip} />
+                  <Link to={`/email/compose/${account.primaryEmail.emailAddress}`}>
+                    <span> {account.primaryEmail.emailAddress}</span>
+                  </Link>
+                </React.Fragment>
+              )}
+            {!contact.phoneNumber &&
+              account.phoneNumber && (
+                <React.Fragment>
+                  {account.phoneNumber.type === MOBILE_PHONE_TYPE ||
+                  account.phoneNumber.type === 'work' ? (
+                    <React.Fragment>
+                      <span data-tip={tooltip}>
+                        {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
+                          <FontAwesomeIcon icon="mobile" />
+                        ) : (
+                          <i className="lilicon hl-phone-filled-icon" />
+                        )}
+                      </span>
+
+                      <a href={`tel:${account.phoneNumber.number}`}>
+                        <span> {account.phoneNumber.number}</span>
+                      </a>
+                    </React.Fragment>
+                  ) : null}
+                </React.Fragment>
+              )}
+          </React.Fragment>
+        ))}
+
+        <LilyTooltip />
       </React.Fragment>
-    ));
+    );
+  };
 
   export = () => {
     console.log('Exported contacts');
@@ -190,10 +209,10 @@ class ContactList extends Component {
                   )}
                   {columns[2].selected && (
                     <td>
-                      {contact.functions.map(account => (
-                        <div key={account.id}>
-                          <Link to={`/accounts/${account.id}`}>{account.accountName}</Link>
-                          {!account.isActive && <span> (inactive)</span>}
+                      {contact.functions.map(func => (
+                        <div key={func.id}>
+                          <Link to={`/accounts/${func.account}`}>{func.accountName}</Link>
+                          {!func.isActive && <span> (inactive)</span>}
                         </div>
                       ))}
                     </td>
@@ -231,4 +250,4 @@ class ContactList extends Component {
   }
 }
 
-export default ContactList;
+export default withNamespaces('tooltips')(ContactList);

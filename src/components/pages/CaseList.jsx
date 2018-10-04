@@ -12,9 +12,10 @@ import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
 import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
+import ClientDisplay from 'components/Utils/ClientDisplay';
+import UserFilter from 'components/UserFilter';
 import Settings from 'models/Settings';
 import Case from 'models/Case';
-import UserFilter from 'src/components/UserFilter/index';
 
 class CaseList extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class CaseList extends Component {
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
       caseType.value = `type.id: ${caseType.id}`;
+
       return caseType;
     });
     await this.loadItems();
@@ -167,15 +169,7 @@ class CaseList extends Component {
                   )}
                   {columns[2].selected && (
                     <td>
-                      {caseObj.contact && (
-                        <Link to={`/contacts/${caseObj.contact.id}`}>
-                          {caseObj.contact.fullName}
-                        </Link>
-                      )}
-                      {caseObj.contact && caseObj.account && <span> at </span>}
-                      {caseObj.account && (
-                        <Link to={`/accounts/${caseObj.account.id}`}>{caseObj.account.name}</Link>
-                      )}
+                      <ClientDisplay contact={caseObj.contact} account={caseObj.account} />
                     </td>
                   )}
                   {columns[3].selected && <td>{caseObj.type.name}</td>}

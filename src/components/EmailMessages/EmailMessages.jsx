@@ -262,7 +262,6 @@ class EmailMessages extends Component {
     const checkedMessages = emailMessages.filter(message => message.checked);
     // It's not possible to reply to multiple messages at the same time.
     const showReplyActions = checkedMessages.length === 1;
-
     const showMoveTo = this.props.currentEmailAccount && checkedMessages.length > 0;
 
     this.setState({ emailMessages, showReplyActions, showMoveTo });
@@ -296,7 +295,7 @@ class EmailMessages extends Component {
             <div className="list-header">
               <input
                 type="checkbox"
-                onClick={this.toggleSelectAll}
+                onChange={this.toggleSelectAll}
                 checked={selectAll}
                 className="m-r-10"
               />
@@ -376,6 +375,7 @@ class EmailMessages extends Component {
                       <td>
                         <label htmlFor={`message-${emailMessage.id}`}>
                           <input
+                            readOnly
                             id={`message-${emailMessage.id}`}
                             type="checkbox"
                             onClick={event => this.handleSelect(event, index)}

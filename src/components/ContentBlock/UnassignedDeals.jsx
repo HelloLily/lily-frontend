@@ -5,6 +5,7 @@ import Deal from 'models/Deal';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
+import ClientDisplay from 'components/Utils/ClientDisplay';
 
 class UnassignedDeals extends Component {
   constructor(props) {
@@ -62,20 +63,18 @@ class UnassignedDeals extends Component {
                   <Link to={`/deals/${item.id}`}>{item.name}</Link>
                 </td>
                 <td>
-                  {item.contact && (
-                    <Link to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</Link>
-                  )}
-                  {item.contact && item.account && <span> at </span>}
-                  {item.account && (
-                    <Link to={`/accounts/${item.account.id}`}>{item.account.name}</Link>
-                  )}
+                  <ClientDisplay contact={item.contact} account={item.account} />
                 </td>
                 <td>
                   {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}
                   {item.amountOnce !== 0 && item.amountRecurring !== 0 && <span> | </span>}
                   {item.amountRecurring !== 0 && <span>{item.amountRecurring} /once</span>}
                 </td>
-                <td>{item.assignedToTeams.map(team => <div key={team.id}>{team.name}</div>)}</td>
+                <td>
+                  {item.assignedToTeams.map(team => (
+                    <div key={team.id}>{team.name}</div>
+                  ))}
+                </td>
                 <td>
                   <Editable
                     type="select"

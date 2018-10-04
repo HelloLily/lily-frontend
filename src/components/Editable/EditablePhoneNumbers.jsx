@@ -38,8 +38,12 @@ class EditablePhoneNumbers extends Component {
 
   handleSubmit = () => {
     const data = this.props.value.filter(item => item.number);
+    const args = {
+      id: this.props.object.id,
+      [this.props.field]: data
+    };
 
-    this.props.handleSubmit(data);
+    this.props.handleSubmit(args);
   };
 
   formatPhoneNumber = index => {

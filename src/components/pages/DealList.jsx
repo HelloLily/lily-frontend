@@ -11,6 +11,7 @@ import ListFilter from 'components/List/ListFilter';
 import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
+import ClientDisplay from 'components/Utils/ClientDisplay';
 import Settings from 'models/Settings';
 import Deal from 'models/Deal';
 
@@ -161,13 +162,7 @@ class DealList extends Component {
                   )}
                   {columns[1].selected && (
                     <td>
-                      {deal.contact && (
-                        <Link to={`/contacts/${deal.contact.id}`}>{deal.contact.fullName}</Link>
-                      )}
-                      {deal.contact && deal.account && ' at '}
-                      {deal.account && (
-                        <Link to={`/accounts/${deal.account.id}`}>{deal.account.name}</Link>
-                      )}
+                      <ClientDisplay contact={deal.contact} account={deal.account} />
                     </td>
                   )}
                   {columns[2].selected && <td>{deal.status.name}</td>}

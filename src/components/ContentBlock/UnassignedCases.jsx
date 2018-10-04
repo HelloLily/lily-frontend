@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Case from 'models/Case';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
+import ClientDisplay from 'components/Utils/ClientDisplay';
 
 class UnassignedCases extends Component {
   constructor(props) {
@@ -67,13 +67,7 @@ class UnassignedCases extends Component {
                   <Link to={`/cases/${item.id}`}>{item.subject}</Link>
                 </td>
                 <td>
-                  {item.contact && (
-                    <Link to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</Link>
-                  )}
-                  {item.contact && item.account && <span> at </span>}
-                  {item.account && (
-                    <Link to={`/accounts/${item.account.id}`}>{item.account.name}</Link>
-                  )}
+                  <ClientDisplay contact={item.contact} account={item.account} />
                 </td>
                 <td>
                   <Editable
@@ -85,7 +79,11 @@ class UnassignedCases extends Component {
                     hideValue
                   />
                 </td>
-                <td>{item.assignedToTeams.map(team => <div key={team.id}>{team.name}</div>)}</td>
+                <td>
+                  {item.assignedToTeams.map(team => (
+                    <div key={team.id}>{team.name}</div>
+                  ))}
+                </td>
                 <td>
                   <LilyDate date={item.created} />
                 </td>

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
-const emptyRow = { website: '' };
+import { WEBSITE_EMPTY_ROW } from 'lib/constants';
 
 class EditableWebsites extends Component {
   componentDidMount = () => {
     if (this.props.value.length === 0) {
-      this.props.addRow(emptyRow);
+      this.props.addRow(WEBSITE_EMPTY_ROW);
     }
   };
 
@@ -31,13 +31,17 @@ class EditableWebsites extends Component {
   };
 
   addRow = () => {
-    this.props.addRow(emptyRow);
+    this.props.addRow(WEBSITE_EMPTY_ROW);
   };
 
   handleSubmit = () => {
     const data = this.props.value.filter(item => item.website);
+    const args = {
+      id: this.props.object.id,
+      [this.props.field]: data
+    };
 
-    this.props.handleSubmit(data);
+    this.props.handleSubmit(args);
   };
 
   render() {

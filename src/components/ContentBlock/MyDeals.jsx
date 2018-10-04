@@ -6,7 +6,7 @@ import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
-import BlockUI from 'components/Utils/BlockUI';
+import ClientDisplay from 'components/Utils/ClientDisplay';
 import Deal from 'models/Deal';
 
 class MyDeals extends Component {
@@ -80,13 +80,7 @@ class MyDeals extends Component {
                 <Link to={`/deals/${item.id}`}>{item.name}</Link>
               </td>
               <td>
-                {item.contact && (
-                  <Link to={`/contacts/${item.contact.id}`}>{item.contact.fullName}</Link>
-                )}
-                {item.contact && item.account && <span> at </span>}
-                {item.account && (
-                  <Link to={`/accounts/${item.account.id}`}>{item.account.name}</Link>
-                )}
+                <ClientDisplay contact={item.contact} account={item.account} />
               </td>
               <td>
                 {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}

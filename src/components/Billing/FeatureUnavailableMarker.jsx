@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { translate } from 'react-i18next';
-import ReactTooltip from 'react-tooltip';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import LilyTooltip from 'components/LilyTooltip';
 import './feature_unavailable.scss';
 
 const FeatureUnavailableMarker = props => {
@@ -27,7 +27,7 @@ const FeatureUnavailableMarker = props => {
             )}
           </div>
 
-          <ReactTooltip />
+          <LilyTooltip />
         </div>
       ) : (
         <React.Fragment>{props.children}</React.Fragment>
@@ -36,4 +36,4 @@ const FeatureUnavailableMarker = props => {
   );
 };
 
-export default translate()(withContext(FeatureUnavailableMarker));
+export default withNamespaces()(withContext(FeatureUnavailableMarker));

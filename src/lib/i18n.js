@@ -1,31 +1,21 @@
 import i18n from 'i18next';
 import XHR from 'i18next-xhr-backend';
 
-function loadLocales(url, options, callback) {
-  try {
-    const waitForLocale = require(`./locales/${url}.json`);
-    waitForLocale(locale => {
-      callback(locale, { status: '200' });
-    });
-  } catch (e) {
-    callback(null, { status: '404' });
-  }
-}
+import commonEn from 'lib/locales/en/common.json';
+import tooltipsEn from 'lib/locales/en/tooltips.json';
+import formsEn from 'lib/locales/en/forms.json';
 
 i18n.use(XHR).init({
-  // debug: true,
   lng: 'en',
   fallbackLng: 'en',
-  preload: false,
   ns: ['common'],
   defaultNS: 'common',
-  backend: {
-    loadPath: '{{lng}}/{{ns}}',
-    parse: data => data,
-    ajax: loadLocales
-  },
-  interpolation: {
-    formatSeparator: ','
+  resources: {
+    en: {
+      common: commonEn,
+      tooltips: tooltipsEn,
+      forms: formsEn
+    }
   },
   react: {
     wait: true
