@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
+import { format } from 'date-fns';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
-import { format } from 'date-fns';
 
 import withContext from 'src/withContext';
 import { SELECT_STYLES, FORM_DATE_FORMAT } from 'lib/constants';
+import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -191,7 +193,7 @@ class InnerCaseForm extends Component {
       caseSuggestions,
       showSuggestions
     } = this.state;
-    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
 
     return (
       <React.Fragment>
@@ -250,7 +252,7 @@ class InnerCaseForm extends Component {
                         {caseSuggestions.length > 0 && showSuggestions ? (
                           <div className="form-suggestions">
                             <div className="form-suggestion-title">
-                              <div>{"There's another open case"}</div>
+                              <div>{t('case.openCase')}</div>
 
                               <button
                                 className="hl-interface-btn"
@@ -499,6 +501,7 @@ const CaseForm = withRouter(
       tags: []
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       const cleanedValues = Object.assign({}, values);
 
       if (cleanedValues.account) cleanedValues.account = cleanedValues.account.id;
@@ -512,7 +515,16 @@ const CaseForm = withRouter(
 
       cleanedValues.expires = format(cleanedValues.expires, 'YYYY-MM-dd');
 
-      const request = values.id ? Case.patch(cleanedValues) : Case.post(cleanedValues);
+      let request;
+      let text;
+
+      if (values.id) {
+        request = Case.patch(cleanedValues);
+        text = t('modelUpdated', { model: 'case' });
+      } else {
+        request = Case.post(cleanedValues);
+        text = t('modelCreated', { model: 'case' });
+      }
 
       request
         .then(response => {
@@ -520,9 +532,12 @@ const CaseForm = withRouter(
             props.closeSidebar();
           }
 
+          successToast(text);
+
           props.history.push(`/cases/${response.id}`);
         })
         .catch(errors => {
+          errorToast(t('toasts:error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -531,4 +546,4 @@ const CaseForm = withRouter(
   })(InnerCaseForm)
 );
 
-export default withContext(CaseForm);
+export default withNamespaces(['forms', 'toasts'])(withContext(CaseForm));

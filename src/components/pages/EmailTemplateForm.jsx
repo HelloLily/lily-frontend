@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
 import Select from 'react-select';
 
 import { SELECT_STYLES } from 'lib/constants';
+import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import FormFooter from 'components/Utils/FormFooter';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
@@ -124,13 +126,26 @@ const EmailTemplateForm = withRouter(
       attachments: []
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-      const request = EmailTemplate.post(values);
+      const { t } = props;
+      let request;
+      let text;
+
+      if (values.id) {
+        request = EmailTemplate.patch(values);
+        text = t('modelUpdated', { model: 'email template' });
+      } else {
+        request = EmailTemplate.post(values);
+        text = t('modelCreated', { model: 'email template' });
+      }
 
       request
         .then(() => {
+          successToast(text);
+
           props.history.push('/preferences/emailtemplates');
         })
         .catch(errors => {
+          errorToast(t('error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -139,4 +154,4 @@ const EmailTemplateForm = withRouter(
   })(InnerEmailTemplateForm)
 );
 
-export default EmailTemplateForm;
+export default withNamespaces('toasts')(EmailTemplateForm);

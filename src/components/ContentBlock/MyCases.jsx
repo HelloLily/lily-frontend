@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
+import updateModel from 'utils/updateModel';
 import LilyDate from 'components/Utils/LilyDate';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
+import ClientDisplay from 'components/Utils/ClientDisplay';
 import Case from 'models/Case';
-import ClientDisplay from 'src/components/Utils/ClientDisplay';
 
 class MyCases extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class MyCases extends Component {
       newlyAssigned: false
     };
 
-    await Case.patch(args);
+    await updateModel(item, args);
     await this.getItems();
   };
 

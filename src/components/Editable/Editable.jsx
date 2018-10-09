@@ -6,6 +6,7 @@ import { SELECT_STYLES } from 'lib/constants';
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
 import LilyTooltip from 'components/LilyTooltip';
+import updateModel from 'utils/updateModel';
 import getSelectConfig from './getSelectConfig';
 import EditableText from './EditableText';
 import EditableTextarea from './EditableTextarea';
@@ -122,7 +123,7 @@ class Editable extends Component {
 
   handleSubmit = (data = null) => {
     const { value } = this.state;
-    const { multi, field, type } = this.props;
+    const { multi, field, type, object } = this.props;
 
     let args = {
       id: this.props.object.id
@@ -155,15 +156,16 @@ class Editable extends Component {
       newValue = args[field].filter(item => !item.isDeleted);
     }
 
-    // The Editable component is passed a function which does the actual submitting.
-    const promise = this.props.submitCallback(args);
+    const promise = this.props.hasOwnProperty('submitCallback')
+      ? this.props.submitCallback(args)
+      : updateModel(object, args);
 
     this.setState({ submitting: true });
 
     let error = null;
 
     promise
-      .then(() => {
+      .then(async () => {
         this.setState({ value: newValue, initialValue: newValue, editing: false });
       })
       .catch(errorResponse => {

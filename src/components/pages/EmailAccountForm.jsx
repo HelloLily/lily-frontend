@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import FormFooter from 'components/Utils/FormFooter';
 import UserShare from 'components/UserShare';
@@ -195,13 +197,18 @@ const EmailAccountForm = withRouter(
       privacy: EmailAccount.READONLY
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       const request = EmailAccount.patch(values);
+      const text = t('modelUpdated', { model: 'email account' });
 
       request
         .then(() => {
+          successToast(text);
+
           props.history.push('/preferences/emailaccounts');
         })
         .catch(errors => {
+          errorToast(t('error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -210,4 +217,4 @@ const EmailAccountForm = withRouter(
   })(InnerEmailAccountForm)
 );
 
-export default EmailAccountForm;
+export default withNamespaces('toasts')(EmailAccountForm);

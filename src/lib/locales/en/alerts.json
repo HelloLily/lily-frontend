@@ -120,9 +120,5 @@
       "successText": "Two factor auth was successfully disabled."
     }
   },
-  "general": {
-    "errorTitle": "Error",
-    "errorText": "There was an error processing your request.<br />Please try again."
-  },
   "widgetSettings": "Check/uncheck a widget to toggle the visibility of the widget."
 }

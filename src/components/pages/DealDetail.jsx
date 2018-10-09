@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
+import BlockUI from 'components/Utils/BlockUI';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import Deal from 'models/Deal';
-import BlockUI from 'src/components/Utils/BlockUI';
 
 class DealDetail extends Component {
   constructor(props) {
@@ -68,12 +69,12 @@ class DealDetail extends Component {
     });
   };
 
-  submitCallback = args => {
+  submitCallback = async args => {
     this.setState({ loading: true });
 
-    return Deal.patch(args).then(() => {
-      this.setState({ loading: false });
-    });
+    await updateModel(this.state.deal, args);
+
+    this.setState({ loading: false });
   };
 
   render() {

@@ -13,6 +13,7 @@ import {
   LINKEDIN_EMPTY_ROW,
   ACCOUNT_RELATION_STATUS
 } from 'lib/constants';
+import { successToast, errorToast } from 'utils/toasts';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
@@ -671,11 +672,21 @@ const ContactForm = withRouter(
       twitter: ''
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       const cleanedValues = cleanRelatedFields(values);
 
       cleanedValues.accounts = cleanedValues.accounts.map(account => ({ id: account.id }));
 
-      const request = values.id ? Contact.patch(cleanedValues) : Contact.post(cleanedValues);
+      let request;
+      let text;
+
+      if (values.id) {
+        request = Contact.patch(cleanedValues);
+        text = t('modelUpdated', { model: 'contact' });
+      } else {
+        request = Contact.post(cleanedValues);
+        text = t('modelCreated', { model: 'contact' });
+      }
 
       request
         .then(response => {
@@ -683,9 +694,12 @@ const ContactForm = withRouter(
             props.closeSidebar();
           }
 
+          successToast(text);
+
           props.history.push(`/contacts/${response.id}`);
         })
         .catch(errors => {
+          errorToast(t('toasts:error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -694,4 +708,4 @@ const ContactForm = withRouter(
   })(InnerContactForm)
 );
 
-export default withNamespaces('forms')(withContext(ContactForm));
+export default withNamespaces(['forms', 'toasts'])(withContext(ContactForm));

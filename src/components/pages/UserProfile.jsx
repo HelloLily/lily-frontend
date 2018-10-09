@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import { successToast, errorToast } from 'utils/toasts';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -164,7 +166,8 @@ const ProfileForm = withRouter(
       phoneNumber: '',
       internalNumber: ''
     }),
-    handleSubmit: (values, { setSubmitting, setErrors }) => {
+    handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       // Show message if notifications are supported by the browser,
       // but haven't been accepted/declined.
       if (
@@ -173,9 +176,7 @@ const ProfileForm = withRouter(
         Notification.permission !== 'denied'
       ) {
         // TODO: Temporary.
-        alert(
-          'For our call integration, we need your browsers permission to send you notifications. Please allow these notifications to make complete use of our call integration.'
-        );
+        alert(t('alerts:notificationPermission.text'));
         Notification.requestPermission(() => {
           console.log('Accepted');
         });
@@ -187,9 +188,11 @@ const ProfileForm = withRouter(
 
       request
         .then(() => {
+          successToast(t('toasts:profileUpdated'));
           window.location.reload();
         })
         .catch(errors => {
+          errorToast(t('error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -198,4 +201,4 @@ const ProfileForm = withRouter(
   })(InnerProfileForm)
 );
 
-export default withContext(ProfileForm);
+export default withNamespaces(['alerts', 'toasts'])(withContext(ProfileForm));

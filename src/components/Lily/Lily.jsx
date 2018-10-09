@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { ToastContainer, cssTransition } from 'react-toastify';
 
 import ErrorBoundry from 'components/ErrorBoundry';
 import withContext from 'src/withContext';
@@ -26,6 +27,12 @@ import User from 'models/User';
 import './icons';
 // import history from '../../utils/history';
 // import { get } from '../../lib/api/';
+
+const Fade = cssTransition({
+  enter: 'fade-in',
+  exit: 'fade-out',
+  appendPosition: false
+});
 
 class Lily extends Component {
   constructor(props) {
@@ -104,8 +111,9 @@ class Lily extends Component {
                     </Switch>
                   </ErrorBoundry>
                 </main>
-
                 <Sidebar />
+
+                <ToastContainer hideProgressBar transition={Fade} />
               </div>
             </Fragment>
           </Route>

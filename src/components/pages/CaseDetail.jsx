@@ -10,6 +10,7 @@ import BlockUI from 'components/Utils/BlockUI';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import Case from 'models/Case';
+import updateModel from 'src/utils/updateModel';
 
 class CaseDetail extends Component {
   constructor(props) {
@@ -67,12 +68,12 @@ class CaseDetail extends Component {
     });
   };
 
-  submitCallback = args => {
+  submitCallback = async args => {
     this.setState({ loading: true });
 
-    return Case.patch(args).then(() => {
-      this.setState({ loading: false });
-    });
+    await updateModel(this.state.caseObj, args);
+
+    this.setState({ loading: false });
   };
 
   render() {

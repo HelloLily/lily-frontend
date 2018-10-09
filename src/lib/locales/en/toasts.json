@@ -7,7 +7,7 @@
     "errorTitle": "Sorry"
   },
   "successTitle": "Done",
-  "modelSaved": "The {{model}} has been saved!",
+  "modelCreated": "The {{model}} has been saved!",
   "modelUpdated": "The {{model}} has been updated!",
   "modelDeleted": "The {{model}} has been deleted!",
   "error": "Uh oh, there seems to be a problem",

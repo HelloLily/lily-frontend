@@ -2,6 +2,7 @@
 @import '~style/variables/colors';
 @import '~react-tabs/style/react-tabs.scss';
 @import '~react-day-picker/lib/style';
+@import '~react-toastify/dist/ReactToastify';
 
 .DayPicker {
   .DayPicker-Day {
@@ -73,4 +74,28 @@
 
 .fa-cc-paypal {
   color: #002670;
+}
+
+.Toastify {
+  .Toastify__toast {
+    opacity: 0.98;
+    border-radius: $base-border-radius;
+    padding: 5px 15px;
+  }
+
+  .Toastify__toast--success {
+    background: $app-color-mint;
+  }
+
+  .Toastify__toast--error {
+    background: $app-color-red;
+  }
+
+  .Toastify__toast--info {
+    background: $app-color-aqua;
+  }
+
+  .Toastify__toast--warning {
+    background: $app-color-yellow;
+  }
 }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
@@ -114,14 +116,17 @@ const UserAccountForm = withRouter(
       passwordCheck: '',
       passwordConfirmation: ''
     }),
-    handleSubmit: (values, { setSubmitting, setErrors }) => {
+    handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       const request = User.patch(values);
 
       request
         .then(() => {
+          successToast(t('accountUpdated'));
           window.location.reload();
         })
         .catch(errors => {
+          errorToast(t('error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -130,4 +135,4 @@ const UserAccountForm = withRouter(
   })(InnerUserAccountForm)
 );
 
-export default withContext(UserAccountForm);
+export default withNamespaces('toasts')(withContext(UserAccountForm));

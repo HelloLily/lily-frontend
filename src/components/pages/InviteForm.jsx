@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import cx from 'classnames';
+import { withNamespaces } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cx from 'classnames';
 
 import { INVITE_EMPTY_ROW } from 'lib/constants';
+import { successToast } from 'utils/toasts';
 import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -119,10 +121,14 @@ const InviteForm = withRouter(
       invites: [INVITE_EMPTY_ROW]
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       const request = UserInvite.post(values);
+      const text = t('invitationSent');
 
       request
         .then(() => {
+          successToast(text);
+
           props.history.push('/preferences/users');
         })
         .catch(errors => {
@@ -134,4 +140,4 @@ const InviteForm = withRouter(
   })(InnerInviteForm)
 );
 
-export default withContext(InviteForm);
+export default withNamespaces('toasts')(withContext(InviteForm));

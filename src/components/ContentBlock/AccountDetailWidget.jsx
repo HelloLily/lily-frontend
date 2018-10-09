@@ -2,14 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
-import Account from 'models/Account';
 
 const AccountDetailWidget = props => {
   const { account, clickable } = props;
 
-  const submitCallback = args => Account.patch(args);
+  const submitCallback = async args => {
+    await updateModel(account, args);
+  };
 
   const title = (
     <React.Fragment>

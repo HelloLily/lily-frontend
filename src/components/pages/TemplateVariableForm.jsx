@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import RadioButtons from 'components/RadioButtons';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
-import User from 'models/User';
-import TemplateVariable from 'src/models/TemplateVariable';
+import TemplateVariable from 'models/TemplateVariable';
 
 class InnerTemplateVariableForm extends Component {
   componentDidMount() {
@@ -96,14 +97,26 @@ const TemplateVariableForm = withRouter(
       text: '',
       isPublic: false
     }),
-    handleSubmit: (values, { setSubmitting, setErrors }) => {
-      const request = User.patch(values);
+    handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
+      let request;
+      let text;
+
+      if (values.id) {
+        request = TemplateVariable.patch(values);
+        text = t('modelUpdated', { model: 'template variable' });
+      } else {
+        request = TemplateVariable.post(values);
+        text = t('modelCreated', { model: 'template variable' });
+      }
 
       request
         .then(() => {
+          successToast(text);
           window.location.reload();
         })
         .catch(errors => {
+          errorToast(text);
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -112,4 +125,4 @@ const TemplateVariableForm = withRouter(
   })(InnerTemplateVariableForm)
 );
 
-export default withContext(TemplateVariableForm);
+export default withNamespaces('toasts')(withContext(TemplateVariableForm));

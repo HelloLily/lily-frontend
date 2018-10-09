@@ -1,15 +1,15 @@
 import React from 'react';
 
+import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
-import Note from 'models/Note';
 import StreamAvatar from './StreamAvatar';
 
 const StreamItemNote = props => {
   const { item, note } = props;
 
   const submitNote = async args => {
-    await Note.patch(args);
+    await updateModel(note, args);
   };
 
   return (

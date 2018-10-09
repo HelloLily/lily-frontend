@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { NO_SORT_STATUS } from 'lib/constants';
+import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
@@ -59,6 +60,7 @@ class CaseList extends Component {
 
       return caseType;
     });
+
     await this.loadItems();
 
     this.setState({
@@ -83,8 +85,6 @@ class CaseList extends Component {
 
     this.setState({ filters }, this.loadItems);
   };
-
-  submitCallback = args => Case.patch(args);
 
   toggleColumn = async index => {
     const { columns } = this.state;
@@ -176,14 +176,7 @@ class CaseList extends Component {
                   {columns[4].selected && <td>{caseObj.status.name}</td>}
                   {columns[5].selected && (
                     <td>
-                      <Editable
-                        icon
-                        hideValue
-                        type="select"
-                        object={caseObj}
-                        field="priority"
-                        submitCallback={this.submitCallback}
-                      />
+                      <Editable icon hideValue type="select" object={caseObj} field="priority" />
                     </td>
                   )}
                   {columns[6].selected && (

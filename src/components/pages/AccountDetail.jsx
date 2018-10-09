@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import updateModel from 'utils/updateModel';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
 import CaseListWidget from 'components/ContentBlock/CaseListWidget';
@@ -24,7 +25,9 @@ class AccountDetail extends Component {
     document.title = `${account.name} - Lily`;
   }
 
-  submitCallback = args => Account.patch(args);
+  submitCallback = async args => {
+    await updateModel(this.state.account, args);
+  };
 
   render() {
     const { account } = this.state;

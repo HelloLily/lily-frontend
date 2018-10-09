@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import updateModel from 'utils/updateModel';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
 import CaseListWidget from 'components/ContentBlock/CaseListWidget';
@@ -7,7 +8,7 @@ import ContactListWidget from 'components/ContentBlock/ContactListWidget';
 import ActivityStream from 'components/ActivityStream';
 import Contact from 'models/Contact';
 
-class AccountDetail extends Component {
+class ContactDetail extends Component {
   constructor(props) {
     super(props);
 
@@ -23,7 +24,9 @@ class AccountDetail extends Component {
     document.title = `${contact.fullName} - Lily`;
   }
 
-  submitCallback = args => Contact.patch(args);
+  submitCallback = async args => {
+    await updateModel(this.state.contact, args);
+  };
 
   render() {
     const { contact } = this.state;
@@ -60,4 +63,4 @@ class AccountDetail extends Component {
   }
 }
 
-export default AccountDetail;
+export default ContactDetail;

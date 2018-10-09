@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
+import { format } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
-import { format } from 'date-fns';
 
 import withContext from 'src/withContext';
 import {
@@ -13,6 +14,7 @@ import {
   DEAL_LOST_STATUS,
   DEAL_NONE_STEP
 } from 'lib/constants';
+import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
@@ -96,6 +98,10 @@ class InnerDealForm extends Component {
 
   loadDeal = async id => {
     const dealResponse = await Deal.get(id);
+
+    if (!dealResponse.nextStepDate) {
+      dealResponse.nextStepDate = '';
+    }
 
     this.props.setValues(dealResponse);
   };
@@ -261,7 +267,7 @@ class InnerDealForm extends Component {
       showSuggestions,
       loading
     } = this.state;
-    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
 
     return (
       <React.Fragment>
@@ -320,7 +326,7 @@ class InnerDealForm extends Component {
                         {dealSuggestions.length > 0 && showSuggestions ? (
                           <div className="form-suggestions">
                             <div className="form-suggestion-title">
-                              <div>{"There's another open deal"}</div>
+                              <div>{t('deal.openDeal')}</div>
 
                               <button
                                 className="hl-interface-btn"
@@ -670,6 +676,7 @@ const DealForm = withRouter(
       tags: []
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       const cleanedValues = Object.assign({}, values);
 
       // TODO: Create some util function to take care of this.
@@ -692,7 +699,16 @@ const DealForm = withRouter(
         cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, 'YYYY-MM-dd');
       }
 
-      const request = values.id ? Deal.patch(cleanedValues) : Deal.post(cleanedValues);
+      let request;
+      let text;
+
+      if (values.id) {
+        request = Deal.patch(cleanedValues);
+        text = t('modelUpdated', { model: 'deal' });
+      } else {
+        request = Deal.post(cleanedValues);
+        text = t('modelCreated', { model: 'deal' });
+      }
 
       request
         .then(response => {
@@ -700,9 +716,12 @@ const DealForm = withRouter(
             props.closeSidebar();
           }
 
+          successToast(text);
+
           props.history.push(`/deals/${response.id}`);
         })
         .catch(errors => {
+          errorToast(t('toasts:error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -711,4 +730,4 @@ const DealForm = withRouter(
   })(InnerDealForm)
 );
 
-export default withContext(DealForm);
+export default withNamespaces(['forms', 'toasts'])(withContext(DealForm));

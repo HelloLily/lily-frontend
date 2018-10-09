@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
+import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import ClientDisplay from 'components/Utils/ClientDisplay';
@@ -38,7 +39,7 @@ class MyDeals extends Component {
       newlyAssigned: false
     };
 
-    await Deal.patch(args);
+    await updateModel(item, args);
     await this.getItems();
   };
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
+import { withNamespaces } from 'react-i18next';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 
@@ -19,6 +20,7 @@ import {
   WORK_PHONE_TYPE,
   TWITTER_EMPTY_ROW
 } from 'lib/constants';
+import { successToast, errorToast } from 'utils/toasts';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -644,6 +646,7 @@ const AccountForm = withRouter(
       twitter: ''
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+      const { t } = props;
       const cleanedValues = cleanRelatedFields(values);
 
       // TODO: Clean this up (util function or w/e).
@@ -656,7 +659,16 @@ const AccountForm = withRouter(
         cleanedValues.assignedTo = { id: cleanedValues.assignedTo.id };
       }
 
-      const request = values.id ? Account.patch(cleanedValues) : Account.post(cleanedValues);
+      let request;
+      let text;
+
+      if (values.id) {
+        request = Account.patch(cleanedValues);
+        text = t('modelUpdated', { model: 'account' });
+      } else {
+        request = Account.post(cleanedValues);
+        text = t('modelCreated', { model: 'account' });
+      }
 
       request
         .then(response => {
@@ -664,9 +676,12 @@ const AccountForm = withRouter(
             props.closeSidebar();
           }
 
+          successToast(text);
+
           props.history.push(`/accounts/${response.id}`);
         })
         .catch(errors => {
+          errorToast(t('error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -675,4 +690,4 @@ const AccountForm = withRouter(
   })(InnerAccountForm)
 );
 
-export default withContext(AccountForm);
+export default withNamespaces('toasts')(withContext(AccountForm));

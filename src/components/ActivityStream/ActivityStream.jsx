@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getYear, getMonth } from 'date-fns';
+import { toast } from 'react-toastify';
 import cx from 'classnames';
 
 import { patch, del } from 'lib/api';
+import { successToast } from 'utils/toasts';
 import LilyDate from 'components/Utils/LilyDate';
 import Note from 'models/Note';
 import setupActivityStream from './setupActivityStream';
@@ -58,17 +60,24 @@ class ActivityStream extends Component {
   };
 
   submitNote = async () => {
+    const { t } = this.props;
     const { activityStream, note } = this.state;
 
-    const response = await Note.post(note);
-    response.activitySortDate = response.created;
-    activityStream.unshift(response);
+    try {
+      const response = await Note.post(note);
+      response.activitySortDate = response.created;
+      activityStream.unshift(response);
 
-    // TODO: Add notification on success.
+      const text = t('modelCreated', { model: 'note' });
 
-    note.content = '';
+      successToast(text);
 
-    this.setState({ activityStream, note });
+      note.content = '';
+
+      this.setState({ activityStream, note });
+    } catch (e) {
+      toast.error('Oopsie');
+    }
   };
 
   submitItemNote = async (item, note) => {
@@ -93,11 +102,15 @@ class ActivityStream extends Component {
   };
 
   togglePinned = async args => {
+    const { t } = this.props;
     const { activityStream } = this.state;
 
-    const response = await Note.patch(args);
+    await Note.patch(args);
     const index = activityStream.findIndex(streamItem => streamItem.id === args.id);
     activityStream[index].isPinned = args.isPinned;
+
+    const text = t('modelUpdated', { model: 'note' });
+    successToast(text);
 
     this.setState({ activityStream });
   };
