@@ -83,6 +83,7 @@ class Lily extends Component {
                   <ErrorBoundry>
                     <Switch>
                       <Route path="/email" component={Inbox} />
+
                       <Route path="/preferences/*" component={Preferences} />
 
                       <Route path="/accounts/create" component={AccountForm} />

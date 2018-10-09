@@ -3,6 +3,7 @@
 @import '~react-tabs/style/react-tabs.scss';
 @import '~react-day-picker/lib/style';
 @import '~react-toastify/dist/ReactToastify';
+@import '~@uppy/dashboard/dist/style';
 
 .DayPicker {
   .DayPicker-Day {
@@ -98,4 +99,8 @@
   .Toastify__toast--warning {
     background: $app-color-yellow;
   }
+}
+
+.fr-iframe {
+  min-height: 150px;
 }

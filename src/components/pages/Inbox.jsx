@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import EmailAccount from 'models/EmailAccount';
@@ -76,9 +76,9 @@ class Inbox extends Component {
         {!loading ? (
           <React.Fragment>
             <div className="email-accounts m-r-15">
-              <button className="hl-primary-btn-green w-100 m-b-15">
+              <Link to="/email/compose/" className="hl-primary-btn-green w-100 m-b-15">
                 <i className="lilicon hl-email-icon m-r-5" /> Compose
-              </button>
+              </Link>
 
               <EmailAccounts
                 currentEmailAccount={currentEmailAccount}

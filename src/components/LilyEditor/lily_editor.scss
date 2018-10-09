@@ -1,0 +1,25 @@
+@import '~style/variables/colors';
+
+.editor-attachments {
+  border-top: 1px solid $base-border-color;
+  padding: 5px 10px;
+  list-style-type: none;
+}
+
+.editor-attachment {
+  padding: 10px 5px;
+}
+
+.editor-attachment-name {
+  display: inline-block;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.editor-attachment-size {
+  color: #aaa;
+  vertical-align: middle;
+}

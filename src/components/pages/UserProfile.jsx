@@ -29,6 +29,26 @@ class InnerProfileForm extends Component {
     this.props.setFieldValue('phoneNumber', formatted);
   };
 
+  handleSubmit = (values, props) => {
+    const { t } = props;
+
+    if (
+      'Notification' in window &&
+      Notification.permission !== 'granted' &&
+      Notification.permission !== 'denied'
+    ) {
+      // TODO: Implement proper notification.
+      alert(t('alerts:notificationPermission.text'));
+      Notification.requestPermission(() => {
+        console.log('Accepted');
+      });
+    } else {
+      // Otherwise just save the data.
+    }
+
+    this.props.handleSubmit(values, props);
+  };
+
   render() {
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
@@ -168,21 +188,6 @@ const ProfileForm = withRouter(
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const { t } = props;
-      // Show message if notifications are supported by the browser,
-      // but haven't been accepted/declined.
-      if (
-        'Notification' in window &&
-        Notification.permission !== 'granted' &&
-        Notification.permission !== 'denied'
-      ) {
-        // TODO: Temporary.
-        alert(t('alerts:notificationPermission.text'));
-        Notification.requestPermission(() => {
-          console.log('Accepted');
-        });
-      } else {
-        // Otherwise just save the data.
-      }
 
       const request = User.patch(values);
 
