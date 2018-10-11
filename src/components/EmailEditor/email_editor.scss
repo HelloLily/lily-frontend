@@ -49,7 +49,7 @@
 
 .editor-form-actions {
   padding: 10px;
-  border-top: 1px solid $base-border-color;
+  border-top: 1px $base-border-color solid;
   background: $lily-white-tone-hover;
   display: flex;
 
@@ -71,7 +71,7 @@
 
 .editor-input-group {
   display: flex;
-  border-bottom: 1px solid $base-border-color;
+  border-bottom: 1px $base-border-color solid;
 
   label {
     width: 10%;

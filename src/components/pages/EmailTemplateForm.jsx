@@ -3,17 +3,20 @@ import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { SELECT_STYLES } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
-import FormFooter from 'components/Utils/FormFooter';
+import LilyEditor from 'components/LilyEditor';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
 import EmailTemplate from 'models/EmailTemplate';
 
 class InnerEmailTemplateForm extends Component {
   constructor(props) {
     super(props);
+
+    this.editorRef = React.createRef();
 
     this.state = {
       folders: []
@@ -105,7 +108,31 @@ class InnerEmailTemplateForm extends Component {
                   {errors.folder && <div className="error-message">{errors.folder}</div>}
                 </div>
 
-                <FormFooter {...this.props} />
+                <div className={`form-field${errors.bodyHtml ? ' has-error' : ''}`}>
+                  <label htmlFor="bodyHtml">HTML content</label>
+
+                  <div className="editor">
+                    <LilyEditor
+                      ref={this.editorRef}
+                      // modalOpen={this.state.modalOpen}
+                    />
+                  </div>
+
+                  {errors.folder && <div className="error-message">{errors.folder}</div>}
+                </div>
+
+                <div className="form-section">
+                  <div className="form-section-content">
+                    <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
+                      <FontAwesomeIcon icon="check" />
+                      Save
+                    </button>
+
+                    <button type="button" className="hl-primary-btn m-l-10" disabled={isSubmitting}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
               </form>
             </div>
           </div>

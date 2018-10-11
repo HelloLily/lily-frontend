@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import throttle from 'lodash.throttle';
 import Select, { components } from 'react-select';
 import AsyncCreatable from 'react-select/lib/Async';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as JsDiff from 'diff';
 
 import withContext from 'src/withContext';
@@ -34,7 +35,7 @@ class EmailEditor extends Component {
   constructor(props) {
     super(props);
 
-    this.navRef = React.createRef();
+    this.editorRef = React.createRef();
 
     this.state = {
       subject: '',
@@ -298,7 +299,7 @@ class EmailEditor extends Component {
         // Create a HTMLDocument from the given HTML string.
         const parser = new DOMParser();
         const currentDocument = parser.parseFromString(this.state.currentTemplate, 'text/html');
-        const document = parser.parseFromString(this.editorRef.getHtml(), 'text/html');
+        const document = parser.parseFromString(this.editorRef.current.getHtml(), 'text/html');
         // Get the root element of the document.
         const templateContent = currentDocument.body.innerHTML;
         const documentContent = document.body.innerHTML;
@@ -340,12 +341,12 @@ class EmailEditor extends Component {
       });
 
       // TODO: This needs some more checks to prevent completely clearing the editor.
-      this.editorRef.setHtml('');
+      this.editorRef.current.setHtml('');
     }
   };
 
   scanTemplate = () => {
-    const currentHtml = this.editorRef.getHtml();
+    const currentHtml = this.editorRef.current.getHtml();
     // Create a HTMLDocument from the given HTML string.
     const parser = new DOMParser();
     const parsed = parser.parseFromString(currentHtml, 'text/html');
@@ -385,11 +386,11 @@ class EmailEditor extends Component {
         this.getValueForVariable(variable.dataset.variable) || `[[ ${variable.dataset.variable} ]]`;
     });
 
-    this.editorRef.setHtml(container.outerHTML);
+    this.editorRef.current.setHtml(container.outerHTML);
   };
 
   loadTemplate = (html, subject = '', customVariables = [], typedText = '') => {
-    const currentHtml = html || this.editorRef.getHtml();
+    const currentHtml = html || this.editorRef.current.getHtml();
     const specialElements = {};
 
     // Regex to find variables which need special processing (e.g. variables in links).
@@ -468,7 +469,8 @@ class EmailEditor extends Component {
 
     if (subject) {
       const newSubject = subject.replace(VARIABLE_REGEX, (match, p1) => {
-        // If no value is found we leave the template variable so we can attempt to fill it in later.
+        // If no value is found we leave the template variable
+        // so we can attempt to fill it in later.
         const value = this.getValueForVariable(p1) || match;
 
         return value;
@@ -477,12 +479,12 @@ class EmailEditor extends Component {
       this.setState({ subject: newSubject });
     }
 
-    this.editorRef.setHtml(newHtml);
+    this.editorRef.current.setHtml(newHtml);
 
     // The editor stores the HTML a bit differently than it's created.
     // To ensure we always have the correct format (for comparisons) we retrieve the HTML
     // instead of storing the newly creating HTML.
-    this.setState({ currentTemplate: this.editorRef.getHtml() });
+    this.setState({ currentTemplate: this.editorRef.current.getHtml() });
   };
 
   checkRecipientValidity = () => {
@@ -542,7 +544,7 @@ class EmailEditor extends Component {
 
     const container = document.createElement('div');
 
-    container.innerHTML = this.editorRef.getHtml();
+    container.innerHTML = this.editorRef.current.getHtml();
 
     // Get all the template variables.
     const variables = container.querySelectorAll('[data-variable]');
@@ -611,6 +613,7 @@ class EmailEditor extends Component {
 
   render() {
     const { fixed } = this.props;
+    const { showCcInput, showBccInput } = this.state;
     const className = fixed ? 'editor fixed' : 'editor no-border';
     const recipientProps = {
       styles,
@@ -626,7 +629,7 @@ class EmailEditor extends Component {
 
     return (
       <div className={className}>
-        <div>
+        <React.Fragment>
           {fixed && <div className="editor-header">Compose email</div>}
 
           <div className="editor-input-group">
@@ -654,25 +657,27 @@ class EmailEditor extends Component {
               {...recipientProps}
             />
 
-            {!this.state.showCcInput && (
+            {!showCcInput && (
               <button
                 className="hl-primary-btn no-border"
                 onClick={() => this.setState({ showCcInput: true })}
+                type="button"
               >
                 Cc
               </button>
             )}
-            {!this.state.showBccInput && (
+            {!showBccInput && (
               <button
                 className="hl-primary-btn no-border"
                 onClick={() => this.setState({ showBccInput: true })}
+                type="button"
               >
                 Bcc
               </button>
             )}
           </div>
 
-          {this.state.showCcInput && (
+          {showCcInput && (
             <div className="editor-input-group">
               <label>Cc</label>
 
@@ -684,18 +689,19 @@ class EmailEditor extends Component {
                 {...recipientProps}
               />
 
-              {this.state.showCcInput && (
+              {showCcInput && (
                 <button
                   className="hl-primary-btn no-border"
                   onClick={() => this.setState({ showCcInput: false })}
+                  type="button"
                 >
-                  <i className="fa fa-times" />
+                  <FontAwesomeIcon icon="times" />
                 </button>
               )}
             </div>
           )}
 
-          {this.state.showBccInput && (
+          {showBccInput && (
             <div className="editor-input-group">
               <label>Bcc</label>
 
@@ -707,12 +713,13 @@ class EmailEditor extends Component {
                 {...recipientProps}
               />
 
-              {this.state.showBccInput && (
+              {showBccInput && (
                 <button
                   className="hl-primary-btn no-border"
                   onClick={() => this.setState({ showBccInput: false })}
+                  type="button"
                 >
-                  <i className="fa fa-times" />
+                  <FontAwesomeIcon icon="times" />
                 </button>
               )}
             </div>
@@ -750,19 +757,28 @@ class EmailEditor extends Component {
             maxHeight={this.props.maxHeight}
             modalOpen={this.state.modalOpen}
           />
-        </div>
+        </React.Fragment>
 
         <div className="editor-form-actions">
-          <button className="hl-primary-btn-green no-margin" onClick={this.handleSubmit}>
-            <i className="fa fa-check" /> Send
+          <button
+            className="hl-primary-btn-green no-margin"
+            onClick={this.handleSubmit}
+            type="button"
+          >
+            <FontAwesomeIcon icon="check" /> Send
           </button>
 
           <div className="separator" />
 
-          <button className="hl-primary-btn" onClick={() => this.setState({ modalOpen: true })}>
+          <button
+            className="hl-primary-btn"
+            onClick={() => this.setState({ modalOpen: true })}
+            type="button"
+          >
             <i className="lilicon hl-paperclip-icon" /> Add attachment
           </button>
-          <button className="hl-primary-btn discard-button">
+
+          <button className="hl-primary-btn discard-button" type="button">
             <i className="lilicon hl-trashcan-icon" /> Discard
           </button>
         </div>

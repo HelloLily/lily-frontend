@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
+import 'froala-editor/js/froala_editor.pkgd.min.js';
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
 import FroalaEditor from 'react-froala-wysiwyg';
 import { DashboardModal } from '@uppy/react';
+import { dom } from '@fortawesome/fontawesome-svg-core';
+// TODO: Can be removed once Froala releases jQuery-less version.
+import $ from 'jquery';
 
 import { MAX_FILE_SIZE } from 'lib/constants';
+
+// Needed for FontAwesome to transform <i> elements (rendered by Froala) to SVG.
+dom.watch();
 
 const Uppy = require('@uppy/core');
 const XHRUpload = require('@uppy/xhr-upload');
@@ -23,16 +32,16 @@ class LilyEditor extends Component {
   constructor(props) {
     super(props);
 
-    // $.FroalaEditor.DefineIcon('uppy', {NAME: 'paperclip'});
-    // $.FroalaEditor.RegisterCommand('uppy', {
-    //   title: 'Add attachment',
-    //   focus: false,
-    //   undo: false,
-    //   refreshAfterCallback: false,
-    //   callback: () => {
-    //     this.setState({ modalOpen: true });
-    //   }
-    // });
+    $.FroalaEditor.DefineIcon('uppy', { NAME: 'paperclip' });
+    $.FroalaEditor.RegisterCommand('uppy', {
+      title: 'Add attachment',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: false,
+      callback: () => {
+        this.setState({ modalOpen: true });
+      }
+    });
 
     // Configuration for the Froala Editor.
     this.config = {
@@ -85,12 +94,13 @@ class LilyEditor extends Component {
         'wordPaste'
       ],
       // TODO: Should be calculated instead of being hard coded and based on another property.
-      toolbarStickyOffset: this.props.maxHeight ? 0 : 144,
+      toolbarStickyOffset: 57,
       codeBeautifierOptions: {
         indent_char: ' ',
         indent_size: 4
       },
-      heightMax: this.props.maxHeight
+      heightMax: this.props.maxHeight,
+      iconsTemplate: 'font_awesome_5'
       // saveURL: '/api/messaging/email/email/save_draft/',
       // saveParams: {
       //   subject: 'test'
@@ -157,10 +167,7 @@ class LilyEditor extends Component {
           onRequestClose={this.handleClose}
         />
 
-        {/* <FroalaEditor
-          tag="textarea"
-          config={this.config}
-        /> */}
+        <FroalaEditor tag="textarea" config={this.config} />
 
         {Object.keys(files).length > 0 && (
           <div className="editor-attachments">
@@ -172,12 +179,13 @@ class LilyEditor extends Component {
                   <strong>
                     <div className="editor-attachment-name">{file.name}</div>
                     <div className="editor-attachment-size display-inline-block m-l-5">
-                      ({this.bytesToSize(file.size)})
+                      {`(${this.bytesToSize(file.size)})`}
                     </div>
                   </strong>
                   <button
                     className="hl-primary-btn-smll no-border pull-right"
                     onClick={() => this.removeAttachment(file.id)}
+                    type="button"
                   >
                     <i className="lilicon hl-close-icon" />
                   </button>

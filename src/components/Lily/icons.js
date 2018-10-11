@@ -37,7 +37,17 @@ import {
   faSortUp,
   faSortDown,
   faExclamationTriangle,
-  faInfo
+  faInfo,
+  faBold,
+  faItalic,
+  faUnderline,
+  faTextHeight,
+  faParagraph,
+  faTint,
+  faAlignLeft,
+  faEraser,
+  faLink,
+  faImage
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
 import { faExpandAlt, faSpinnerThird, faArrowAltRight } from '@fortawesome/pro-solid-svg-icons';
@@ -82,6 +92,16 @@ library.add(
   faSortDown,
   faExclamationTriangle,
   faInfo,
+  faBold,
+  faItalic,
+  faUnderline,
+  faTextHeight,
+  faParagraph,
+  faTint,
+  faAlignLeft,
+  faEraser,
+  faLink,
+  faImage,
   faExpandAlt,
   faSpinnerThird,
   faArrowAltRight

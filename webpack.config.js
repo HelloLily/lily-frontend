@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// TODO: Can be removed once Froala releases jQuery-less version.
+const webpack = require('webpack');
 
 module.exports = {
   output: {
@@ -68,6 +70,7 @@ module.exports = {
     ]
   },
   resolve: {
+    modules: ['node_modules'],
     extensions: ['.js', '.jsx'],
     alias: {
       src: path.resolve(__dirname, 'src/'),
@@ -90,6 +93,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
+    }),
+    // TODO: Can be removed once Froala releases jQuery-less version.
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
     })
   ]
 };

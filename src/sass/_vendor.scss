@@ -5,6 +5,7 @@
 @import '~react-toastify/dist/ReactToastify';
 @import '~@uppy/dashboard/dist/style';
 
+// react-daypicker
 .DayPicker {
   .DayPicker-Day {
     padding: 6px 9px;
@@ -19,6 +20,7 @@
   flex-grow: 1;
 }
 
+// react-tabs
 .react-tabs {
   border: 1px $base-border-color solid;
   border-radius: $base-border-radius;
@@ -53,6 +55,7 @@
   }
 }
 
+// FontAwesome
 .fa-cc-visa {
   color: #0f2899;
 }
@@ -77,6 +80,7 @@
   color: #002670;
 }
 
+// react-toastify
 .Toastify {
   .Toastify__toast {
     opacity: 0.98;
@@ -101,6 +105,59 @@
   }
 }
 
+// Froala Editor
 .fr-iframe {
   min-height: 150px;
+}
+
+.editor {
+  .fr-separator {
+    &.fr-vs {
+      width: 2px;
+      margin: 2px 8px;
+      background: $inner-border-color;
+    }
+  }
+
+  .fr-toolbar {
+    &.fr-top {
+      border-top: 1px $base-border-color solid;
+      border-bottom: 1px $base-border-color solid;
+      box-shadow: none;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      padding: 6px 10px;
+    }
+
+    .fr-command {
+      &.fr-btn {
+        background: $lily-white-tone-hover;
+        border: 1px $base-border-color solid;
+        border-bottom-width: 2px;
+        border-radius: $base-border-radius;
+        width: 30px;
+        height: 30px;
+
+        svg {
+          width: 16px;
+          margin: 6px;
+        }
+      }
+
+      &:last-of-type {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .fr-box {
+    &.fr-basic {
+      &.fr-top {
+        .fr-wrapper {
+          box-shadow: none;
+        }
+      }
+    }
+  }
 }

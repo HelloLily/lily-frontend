@@ -46,6 +46,22 @@ class Lily extends Component {
 
     this.props.setCurrentUser(currentUser);
 
+    // TODO: Implement a way to switch between test and live site.
+    window.Intercom('boot', {
+      app_id: 'rskhamzc',
+      user_id: currentUser.id,
+      name: currentUser.fullName,
+      email: currentUser.email,
+      company: {
+        name: currentUser.company,
+        id: currentUser.tenant.id
+      },
+      widget: {
+        activator: '#IntercomDefaultWidget'
+      },
+      user_hash: currentUser.userHash
+    });
+
     this.setState({ loading: false });
   }
 
