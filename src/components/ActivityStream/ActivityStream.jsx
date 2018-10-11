@@ -188,9 +188,9 @@ class ActivityStream extends Component {
   };
 
   render() {
-    const { note, options, collapsed, filter, loading } = this.state;
+    const { note, options, collapsed, filter, loading, activityStream } = this.state;
     const { object } = this.props;
-    const activityStream = this.orderActivityStream(this.state.activityStream);
+    const orderedActivityStream = this.orderActivityStream(activityStream);
     const defaultProps = {
       object,
       submitCallback: this.submitCallback,
@@ -258,14 +258,14 @@ class ActivityStream extends Component {
                 </div>
               </div>
 
-              {activityStream.pinned.length > 0 && (
+              {orderedActivityStream.pinned.length > 0 && (
                 <React.Fragment>
                   <div className="activity-stream-indicator" />
 
                   <div className="activity-stream-category">Pinned</div>
 
                   <React.Fragment>
-                    {activityStream.pinned.map(item => {
+                    {orderedActivityStream.pinned.map(item => {
                       const StreamComponent = components[item.contentType.model];
 
                       return (
@@ -280,8 +280,8 @@ class ActivityStream extends Component {
                 </React.Fragment>
               )}
 
-              {Object.keys(activityStream.nonPinned).map(key => {
-                const category = activityStream.nonPinned[key];
+              {Object.keys(orderedActivityStream.nonPinned).map(key => {
+                const category = orderedActivityStream.nonPinned[key];
                 // Only show items which have the same content type as the selected filter.
                 const items = filter
                   ? category.items.filter(item => item.contentType.id === filter)
@@ -325,6 +325,24 @@ class ActivityStream extends Component {
                   </React.Fragment>
                 ) : null;
               })}
+
+              {activityStream.length === 0 && (
+                <React.Fragment>
+                  <div className="activity-stream-image">
+                    <FontAwesomeIcon icon="hourglass-start" />
+                  </div>
+
+                  <div className="stream-item">
+                    <div className="stream-item-header">Until now</div>
+                    <div className="stream-item-title">
+                      <span className="flex-grow">
+                        <span className="text-capitalize">{object.contentType.model} </span>
+                        was created
+                      </span>
+                    </div>
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </React.Fragment>
         ) : (
