@@ -39,7 +39,8 @@
     "react-select": "^2.1.0",
     "react-tabs": "^2.2.2",
     "react-toastify": "^4.4.0",
-    "react-tooltip": "^3.8.4"
+    "react-tooltip": "^3.8.4",
+    "reconnecting-websocket": "^4.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

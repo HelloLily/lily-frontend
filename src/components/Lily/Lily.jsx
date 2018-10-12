@@ -4,6 +4,7 @@ import { ToastContainer, cssTransition } from 'react-toastify';
 
 import ErrorBoundry from 'components/ErrorBoundry';
 import withContext from 'src/withContext';
+import Notifications from 'lib/Notifications';
 import Nav from 'components/Nav';
 import Sidebar from 'components/Sidebar';
 import Dashboard from 'pages/Dashboard';
@@ -61,6 +62,8 @@ class Lily extends Component {
       },
       user_hash: currentUser.userHash
     });
+
+    Notifications.init();
 
     this.setState({ loading: false });
   }

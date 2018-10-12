@@ -29,8 +29,8 @@ class InnerProfileForm extends Component {
     this.props.setFieldValue('phoneNumber', formatted);
   };
 
-  handleSubmit = (values, props) => {
-    const { t } = props;
+  handleSubmit = event => {
+    const { t } = this.props;
 
     if (
       'Notification' in window &&
@@ -46,11 +46,11 @@ class InnerProfileForm extends Component {
       // Otherwise just save the data.
     }
 
-    this.props.handleSubmit(values, props);
+    this.props.handleSubmit(event);
   };
 
   render() {
-    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -61,7 +61,7 @@ class InnerProfileForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={this.handleSubmit}>
                 <FormSection header="Personal information">
                   <div className={`form-field${errors.firstName ? ' has-error' : ''}`}>
                     <label htmlFor="firstName" required>
@@ -197,7 +197,7 @@ const ProfileForm = withRouter(
           window.location.reload();
         })
         .catch(errors => {
-          errorToast(t('error'));
+          errorToast(t('toasts:error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
