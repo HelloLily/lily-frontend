@@ -16,5 +16,6 @@
     "needsAccount": "Hey, a contact without an account! Add it for optimal Lily magic.",
     "complete": "All done. Do a happy dance."
   },
+  "documentContactMissing": "Please add a contact first",
   "deletedIndicator": "{{name}} is deleted"
 }

@@ -76,6 +76,10 @@ textarea {
   padding: 0.375rem 0.75rem;
 }
 
+iframe {
+  border-style: solid;
+}
+
 .hl-input {
   @include input-field(34px);
 }
@@ -154,7 +158,9 @@ textarea {
 }
 
 .detail-page-header {
-  float: right;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
 
   .hl-interface-btn {
     font-size: 20px;

@@ -38,14 +38,17 @@ class AccountDetail extends Component {
         {account ? (
           <React.Fragment>
             <div className="detail-page-header">
-              <Link to={`/accounts/${id}/edit`} className="hl-interface-btn">
-                <i className="lilicon hl-edit-icon" />
-              </Link>
+              <div>
+                <Link to={`/accounts/${id}/edit`} className="hl-interface-btn">
+                  <i className="lilicon hl-edit-icon" />
+                </Link>
 
-              <button className="hl-interface-btn">
-                <i className="lilicon hl-trashcan-icon" />
-              </button>
+                <button className="hl-interface-btn">
+                  <i className="lilicon hl-trashcan-icon" />
+                </button>
+              </div>
             </div>
+
             <div className="detail-page">
               <AccountDetailWidget account={account} submitCallback={this.submitCallback} />
 

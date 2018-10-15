@@ -573,7 +573,6 @@ class EmailEditor extends Component {
     }
 
     const bodyHtml = container.innerHTML;
-
     const args = {
       subject,
       bodyHtml,

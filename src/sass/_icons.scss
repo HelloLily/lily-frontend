@@ -1,20 +1,5 @@
 @import 'variables/step_colors';
-
-@mixin colored-bullet($size, $color) {
-  margin-left: 5px;
-  padding-left: 3px;
-
-  &:before {
-    content: "";
-    display: inline-block;
-    position: relative;
-    left: -5px;
-    height: $size;
-    width: $size;
-    border-radius: $size / 2;
-    background: $color;
-  }
-}
+@import 'mixins';
 
 $bullet-size: 10px;
 

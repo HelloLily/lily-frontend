@@ -71,6 +71,10 @@ class Deal {
 
     return response;
   }
+
+  documents(id) {
+    return get(`/integrations/documents/${id}`);
+  }
 }
 
 export default new Deal();

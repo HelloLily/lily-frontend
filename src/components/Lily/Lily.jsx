@@ -20,6 +20,7 @@ import ContactList from 'pages/ContactList';
 import DealForm from 'pages/DealForm';
 import DealDetail from 'pages/DealDetail';
 import DealList from 'pages/DealList';
+import PandaDocCreate from 'pages/PandaDocCreate';
 import CaseForm from 'pages/CaseForm';
 import CaseDetail from 'pages/CaseDetail';
 import CaseList from 'pages/CaseList';
@@ -119,6 +120,7 @@ class Lily extends Component {
                       <Route path="/deals/:id/edit" component={DealForm} />
                       <Route path="/deals/:id" component={DealDetail} />
                       <Route path="/deals" component={DealList} />
+                      <Route path="/quotes/create/:id" component={PandaDocCreate} />
 
                       <Route path="/cases/create" component={CaseForm} />
                       <Route path="/cases/:id/edit" component={CaseForm} />

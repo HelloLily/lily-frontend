@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import updateModel from 'utils/updateModel';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
@@ -30,31 +31,46 @@ class ContactDetail extends Component {
 
   render() {
     const { contact } = this.state;
+    const { id } = this.props.match.params;
 
     return (
       <React.Fragment>
         {contact ? (
-          <div className="detail-page">
-            <ContactDetailWidget contact={contact} submitCallback={this.submitCallback} />
-
-            <DealListWidget object={contact} submitCallback={this.submitCallback} />
-
-            <CaseListWidget object={contact} submitCallback={this.submitCallback} />
-
-            <ActivityStream object={contact} />
-
-            {contact.accounts.length > 0 ? (
+          <React.Fragment>
+            <div className="detail-page-header">
               <div>
-                {contact.accounts.map(account => (
-                  <div className="m-b-25" key={account.id}>
-                    <ContactListWidget object={account} />
-                  </div>
-                ))}
+                <Link to={`/contacts/${id}/edit`} className="hl-interface-btn">
+                  <i className="lilicon hl-edit-icon" />
+                </Link>
+
+                <button className="hl-interface-btn">
+                  <i className="lilicon hl-trashcan-icon" />
+                </button>
               </div>
-            ) : (
-              <ContactListWidget object={contact} />
-            )}
-          </div>
+            </div>
+
+            <div className="detail-page">
+              <ContactDetailWidget contact={contact} submitCallback={this.submitCallback} />
+
+              <DealListWidget object={contact} submitCallback={this.submitCallback} />
+
+              <CaseListWidget object={contact} submitCallback={this.submitCallback} />
+
+              <ActivityStream object={contact} />
+
+              {contact.accounts.length > 0 ? (
+                <div>
+                  {contact.accounts.map(account => (
+                    <div className="m-b-25" key={account.id}>
+                      <ContactListWidget object={account} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <ContactListWidget object={contact} />
+              )}
+            </div>
+          </React.Fragment>
         ) : (
           <div>Loading</div>
         )}
