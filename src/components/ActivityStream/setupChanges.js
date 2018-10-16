@@ -15,7 +15,7 @@ const CHANGE_LOG_MAPPING = {
 };
 
 const DISPLAY_NAME_MAPPING = {
-  assigned_to_teams: 'Teams',
+  assignedToTeams: 'Teams',
   accounts: 'Works at'
 };
 

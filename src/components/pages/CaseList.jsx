@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { NO_SORT_STATUS } from 'lib/constants';
-import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';

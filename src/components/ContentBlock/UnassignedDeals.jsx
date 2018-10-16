@@ -1,34 +1,69 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import Deal from 'models/Deal';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import ClientDisplay from 'components/Utils/ClientDisplay';
+import ListFilter from 'components/List/ListFilter';
+import UserTeam from 'models/UserTeam';
+import Settings from 'models/Settings';
+import Deal from 'models/Deal';
 
 class UnassignedDeals extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { items: [] };
+    this.settings = new Settings('unassignedDeals');
+
+    this.state = {
+      items: [],
+      nextSteps: [],
+      teams: [],
+      filters: { list: [] }
+    };
   }
 
   componentDidMount = async () => {
-    await this.getItems();
+    const settingsResponse = await this.settings.get();
+    const nextStepResponse = await Deal.nextSteps();
+    const nextSteps = nextStepResponse.results.map(nextStep => {
+      nextStep.value = `nextStep.id: ${nextStep.id}`;
+
+      return nextStep;
+    });
+    const teamResponse = await UserTeam.query();
+    const teams = teamResponse.results.map(team => {
+      team.value = `assignedToTeams.id:${team.id}`;
+
+      return team;
+    });
+
+    await this.loadItems();
+
+    this.setState({
+      ...settingsResponse.results,
+      nextSteps,
+      teams
+    });
   };
 
-  getItems = async () => {
+  loadItems = async () => {
     const request = await Deal.query();
-
     const total = request.results.length;
     const items = request.results;
 
     this.setState({ items, total });
   };
 
+  setFilters = async filters => {
+    await this.settings.store({ filters });
+
+    this.setState({ filters }, this.loadItems);
+  };
+
   render() {
-    const { items, total } = this.state;
+    const { items, nextSteps, teams, filters, total } = this.state;
 
     const title = (
       <React.Fragment>
@@ -41,8 +76,21 @@ class UnassignedDeals extends Component {
       </React.Fragment>
     );
 
+    const extra = (
+      <React.Fragment>
+        <ListFilter
+          label="Next steps"
+          items={nextSteps}
+          filters={filters}
+          setFilters={this.setFilters}
+        />
+
+        <ListFilter label="Teams" items={teams} filters={filters} setFilters={this.setFilters} />
+      </React.Fragment>
+    );
+
     return (
-      <ContentBlock title={title} component="unassignedDeals" expandable closeable>
+      <ContentBlock title={title} extra={extra} component="unassignedDeals" expandable closeable>
         <table className="hl-table">
           <thead>
             <tr>

@@ -305,6 +305,12 @@ class DealDetail extends Component {
                           </td>
                         </tr>
                       ))}
+
+                      {documents.length === 0 && (
+                        <tr>
+                          <td colSpan="4">No documents</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </ContentBlock>

@@ -1,26 +1,55 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import Case from 'models/Case';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import ClientDisplay from 'components/Utils/ClientDisplay';
+import ListFilter from 'components/List/ListFilter';
+import UserTeam from 'models/UserTeam';
+import Settings from 'models/Settings';
+import Case from 'models/Case';
 
 class UnassignedCases extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { items: [] };
+    this.settings = new Settings('unassignedCases');
+
+    this.state = {
+      items: [],
+      caseTypes: [],
+      teams: [],
+      filters: { list: [] }
+    };
   }
 
   componentDidMount = async () => {
-    await this.getItems();
+    const settingsResponse = await this.settings.get();
+    const caseTypeResponse = await Case.caseTypes();
+    const caseTypes = caseTypeResponse.results.map(caseType => {
+      caseType.value = `type.id: ${caseType.id}`;
+
+      return caseType;
+    });
+    const teamResponse = await UserTeam.query();
+    const teams = teamResponse.results.map(team => {
+      team.value = `assignedToTeams.id:${team.id}`;
+
+      return team;
+    });
+
+    await this.loadItems();
+
+    this.setState({
+      ...settingsResponse.results,
+      caseTypes,
+      teams
+    });
   };
 
-  getItems = async () => {
+  loadItems = async () => {
     const request = await Case.query();
-
     const total = request.results.length;
     const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY)
       .length;
@@ -29,8 +58,14 @@ class UnassignedCases extends Component {
     this.setState({ items, total, criticalCount });
   };
 
+  setFilters = async filters => {
+    await this.settings.store({ filters });
+
+    this.setState({ filters }, this.loadItems);
+  };
+
   render() {
-    const { items, total, criticalCount } = this.state;
+    const { items, caseTypes, teams, filters, total, criticalCount } = this.state;
 
     const title = (
       <React.Fragment>
@@ -44,8 +79,21 @@ class UnassignedCases extends Component {
       </React.Fragment>
     );
 
+    const extra = (
+      <React.Fragment>
+        <ListFilter
+          label="Case types"
+          items={caseTypes}
+          filters={filters}
+          setFilters={this.setFilters}
+        />
+
+        <ListFilter label="Teams" items={teams} filters={filters} setFilters={this.setFilters} />
+      </React.Fragment>
+    );
+
     return (
-      <ContentBlock title={title} component="unassignedCases" expandable closeable>
+      <ContentBlock title={title} extra={extra} component="unassignedCases" expandable closeable>
         <table className="hl-table">
           <thead>
             <tr>

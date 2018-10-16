@@ -8,20 +8,33 @@ import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import ClientDisplay from 'components/Utils/ClientDisplay';
+import UserFilter from 'components/UserFilter';
+import DueDateFilter from 'components/DueDateFilter';
+import Settings from 'models/Settings';
 import Deal from 'models/Deal';
 
 class MyDeals extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { items: [], loading: true };
+    this.settings = new Settings('myDeals');
+
+    this.state = {
+      items: [],
+      filters: { dueDate: [], user: [] },
+      loading: true
+    };
   }
 
   componentDidMount = async () => {
-    await this.getItems();
+    const settingsResponse = await this.settings.get();
+
+    await this.loadItems();
+
+    this.setState({ ...settingsResponse.results });
   };
 
-  getItems = async () => {
+  loadItems = async () => {
     this.setState({ loading: true });
 
     const request = await Deal.query();
@@ -40,11 +53,11 @@ class MyDeals extends Component {
     };
 
     await updateModel(item, args);
-    await this.getItems();
+    await this.loadItems();
   };
 
   render() {
-    const { items, total, loading } = this.state;
+    const { items, total, filters, loading } = this.state;
 
     const title = (
       <React.Fragment>
@@ -54,6 +67,14 @@ class MyDeals extends Component {
           My deals
           <span className="label-amount">{total || '-'}</span>
         </div>
+      </React.Fragment>
+    );
+
+    const extra = (
+      <React.Fragment>
+        <DueDateFilter filters={filters} setFilters={this.setFilters} />
+
+        <UserFilter filters={filters} setFilters={this.setFilters} />
       </React.Fragment>
     );
 
@@ -109,7 +130,7 @@ class MyDeals extends Component {
     });
 
     return (
-      <ContentBlock title={title} component="myDeals" expandable closeable>
+      <ContentBlock title={title} extra={extra} component="myDeals" expandable closeable>
         <table className="hl-table">
           <thead>
             <tr>

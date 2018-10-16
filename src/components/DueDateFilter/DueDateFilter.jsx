@@ -52,7 +52,7 @@ class DueDateFilter extends Component {
     const { filters } = this.props;
 
     return (
-      <div className="filter-group">
+      <div className="filter-group m-r-10">
         {this.options.map(option => {
           const isSelected = filters.dueDate.some(filter => filter === option.value);
           const buttonClassName = `hl-primary-btn${isSelected ? ' active' : ''}`;
