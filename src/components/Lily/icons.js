@@ -48,7 +48,8 @@ import {
   faEraser,
   faLink,
   faImage,
-  faHourglassStart
+  faHourglassStart,
+  faSearch
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
 import { faExpandAlt, faSpinnerThird, faArrowAltRight } from '@fortawesome/pro-solid-svg-icons';
@@ -104,6 +105,7 @@ library.add(
   faLink,
   faImage,
   faHourglassStart,
+  faSearch,
   faExpandAlt,
   faSpinnerThird,
   faArrowAltRight

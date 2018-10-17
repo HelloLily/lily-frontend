@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { NO_SORT_STATUS } from 'lib/constants';
-import updateModel from 'utils/updateModel';
 import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
+import SearchBar from 'components/List/SearchBar';
+import Editable from 'components/Editable';
 import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
@@ -45,6 +46,7 @@ class DealList extends Component {
       deals: [],
       nextSteps: [],
       filters: { list: [], dueDate: [], user: [] },
+      query: '',
       pagination: {},
       loading: true,
       page: 1,
@@ -60,6 +62,7 @@ class DealList extends Component {
     const nextStepResponse = await Deal.nextSteps();
     const nextSteps = nextStepResponse.results.map(nextStep => {
       nextStep.value = `nextStep.id: ${nextStep.id}`;
+
       return nextStep;
     });
     await this.loadItems();
@@ -95,8 +98,12 @@ class DealList extends Component {
     this.setState({ columns });
   };
 
+  handleSearch = event => {
+    this.setState({ query: event.target.value }, this.loadItems);
+  };
+
   loadItems = async () => {
-    const { page, sortColumn, sortStatus } = this.state;
+    const { page, sortColumn, sortStatus, query } = this.state;
 
     this.setState({ loading: true });
 
@@ -120,6 +127,7 @@ class DealList extends Component {
       deals,
       nextSteps,
       filters,
+      query,
       loading,
       pagination,
       sortColumn,
@@ -139,7 +147,11 @@ class DealList extends Component {
               setFilters={this.setFilters}
             />
 
+            <div className="flex-grow" />
+
             <DueDateFilter filters={filters} setFilters={this.setFilters} />
+
+            <SearchBar query={query} handleSearch={this.handleSearch} />
           </div>
           <table className="hl-table">
             <thead>
@@ -170,10 +182,7 @@ class DealList extends Component {
                   {columns[3].selected && <td>{deal.whyLost && deal.whyLost.name}</td>}
                   {columns[4].selected && (
                     <td>
-                      <i
-                        className={`lilicon hl-prio-icon-${deal.nextStep.name.toLowerCase()} m-r-5`}
-                      />
-                      {deal.nextStep.name}
+                      <Editable icon type="select" field="nextStep" object={deal} />
                     </td>
                   )}
                   {columns[5].selected && (
@@ -182,7 +191,9 @@ class DealList extends Component {
                     </td>
                   )}
                   {columns[6].selected && (
-                    <td>{deal.assignedTo ? deal.assignedTo.fullName : ''}</td>
+                    <td>
+                      <Editable async type="select" field="assignedTo" object={deal} />
+                    </td>
                   )}
                   {columns[7].selected && (
                     <td>

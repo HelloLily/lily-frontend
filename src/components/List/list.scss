@@ -32,3 +32,19 @@
     }
   }
 }
+
+.search-bar {
+  width: 225px;
+  display: flex;
+  // margin-left: auto;
+
+  .hl-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}

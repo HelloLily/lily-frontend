@@ -10,6 +10,7 @@ import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
 import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
+import SearchBar from 'components/List/SearchBar';
 import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import ClientDisplay from 'components/Utils/ClientDisplay';
@@ -44,6 +45,7 @@ class CaseList extends Component {
       cases: [],
       caseTypes: [],
       filters: { list: [], dueDate: [], user: [] },
+      query: '',
       pagination: {},
       loading: true
     };
@@ -95,6 +97,10 @@ class CaseList extends Component {
     this.setState({ columns });
   };
 
+  handleSearch = event => {
+    this.setState({ query: event.target.value }, this.loadItems);
+  };
+
   loadItems = async () => {
     const { page, sortColumn, sortStatus, filters } = this.state;
 
@@ -122,6 +128,7 @@ class CaseList extends Component {
       cases,
       caseTypes,
       filters,
+      query,
       loading,
       pagination,
       sortColumn,
@@ -141,9 +148,13 @@ class CaseList extends Component {
               setFilters={this.setFilters}
             />
 
+            <div className="flex-grow" />
+
             <DueDateFilter filters={filters} setFilters={this.setFilters} />
 
             <UserFilter filters={filters} setFilters={this.setFilters} />
+
+            <SearchBar query={query} handleSearch={this.handleSearch} />
           </div>
           <table className="hl-table">
             <thead>
@@ -171,8 +182,16 @@ class CaseList extends Component {
                       <ClientDisplay contact={caseObj.contact} account={caseObj.account} />
                     </td>
                   )}
-                  {columns[3].selected && <td>{caseObj.type.name}</td>}
-                  {columns[4].selected && <td>{caseObj.status.name}</td>}
+                  {columns[3].selected && (
+                    <td>
+                      <Editable type="select" field="type" object={caseObj} />
+                    </td>
+                  )}
+                  {columns[4].selected && (
+                    <td>
+                      <Editable type="select" field="status" object={caseObj} />
+                    </td>
+                  )}
                   {columns[5].selected && (
                     <td>
                       <Editable icon hideValue type="select" object={caseObj} field="priority" />
@@ -194,7 +213,9 @@ class CaseList extends Component {
                     </td>
                   )}
                   {columns[9].selected && (
-                    <td>{caseObj.assignedTo ? caseObj.assignedTo.fullName : ''}</td>
+                    <td>
+                      <Editable async type="select" field="assignedTo" object={caseObj} />
+                    </td>
                   )}
                   {columns[10].selected && (
                     <td>

@@ -5,6 +5,7 @@ import commonEn from 'lib/locales/en/common.json';
 import tooltipsEn from 'lib/locales/en/tooltips.json';
 import formsEn from 'lib/locales/en/forms.json';
 import toastsEn from 'lib/locales/en/toasts.json';
+import emptyStatesEn from 'lib/locales/en/empty_states.json';
 
 i18n.use(XHR).init({
   lng: 'en',
@@ -16,7 +17,8 @@ i18n.use(XHR).init({
       common: commonEn,
       tooltips: tooltipsEn,
       forms: formsEn,
-      toasts: toastsEn
+      toasts: toastsEn,
+      emptyStates: emptyStatesEn
     }
   },
   react: {

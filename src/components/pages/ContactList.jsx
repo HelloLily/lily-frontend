@@ -15,6 +15,7 @@ import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
 import ListColumns from 'components/List/ListColumns';
+import SearchBar from 'components/List/SearchBar';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyTooltip from 'components/LilyTooltip';
 import Settings from 'models/Settings';
@@ -38,6 +39,7 @@ class ContactList extends Component {
     this.state = {
       columns,
       contacts: [],
+      query: '',
       pagination: {},
       loading: true
     };
@@ -125,6 +127,10 @@ class ContactList extends Component {
     this.setState({ columns });
   };
 
+  handleSearch = event => {
+    this.setState({ query: event.target.value }, this.loadItems);
+  };
+
   loadItems = async () => {
     const { page, sortColumn, sortStatus } = this.state;
 
@@ -145,7 +151,7 @@ class ContactList extends Component {
   };
 
   render() {
-    const { columns, contacts, loading, pagination, sortColumn, sortStatus } = this.state;
+    const { columns, contacts, query, pagination, sortColumn, sortStatus, loading } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -156,6 +162,10 @@ class ContactList extends Component {
             <button className="hl-primary-btn" onClick={this.export}>
               Export contacts
             </button>
+
+            <div className="flex-grow" />
+
+            <SearchBar query={query} handleSearch={this.handleSearch} />
           </div>
           <table className="hl-table">
             <thead>

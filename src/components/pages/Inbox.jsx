@@ -16,9 +16,9 @@ class Inbox extends Component {
     this.settings = new Settings('inbox');
 
     this.state = {
-      loading: true,
       currentEmailAccount: null,
-      currentLabel: null
+      currentLabel: null,
+      loading: true
     };
 
     document.title = 'Email - Lily';

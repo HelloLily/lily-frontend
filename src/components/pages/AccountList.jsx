@@ -11,6 +11,7 @@ import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
 import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
+import SearchBar from 'components/List/SearchBar';
 import BlockUI from 'components/Utils/BlockUI';
 import Settings from 'models/Settings';
 import Account from 'models/Account';
@@ -38,6 +39,7 @@ class AccountList extends Component {
       pagination: {},
       statuses: [],
       filters: { list: [] },
+      query: '',
       loading: true,
       page: 1,
       sortColumn: '',
@@ -86,8 +88,12 @@ class AccountList extends Component {
     this.setState({ columns });
   };
 
+  handleSearch = event => {
+    this.setState({ query: event.target.value }, this.loadItems);
+  };
+
   loadItems = async () => {
-    const { page, sortColumn, sortStatus } = this.state;
+    const { page, sortColumn, sortStatus, query } = this.state;
 
     this.setState({ loading: true });
 
@@ -116,6 +122,7 @@ class AccountList extends Component {
       statuses,
       filters,
       pagination,
+      query,
       loading,
       sortColumn,
       sortStatus
@@ -137,6 +144,10 @@ class AccountList extends Component {
               filters={filters}
               setFilters={this.setFilters}
             />
+
+            <div className="flex-grow" />
+
+            <SearchBar query={query} handleSearch={this.handleSearch} />
           </div>
           <table className="hl-table">
             <thead>
@@ -189,7 +200,7 @@ class AccountList extends Component {
                   )}
                   {columns[3].selected && (
                     <td>
-                      <Editable type="select" object={account} field="assignedTo" />
+                      <Editable async type="select" field="assignedTo" object={account} />
                     </td>
                   )}
                   {columns[4].selected && (

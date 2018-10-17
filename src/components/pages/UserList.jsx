@@ -10,6 +10,7 @@ import ColumnDisplay from 'components/List/ColumnDisplay';
 import LilyPagination from 'components/LilyPagination';
 import BlockUI from 'components/Utils/BlockUI';
 import ListColumns from 'components/List/ListColumns';
+import SearchBar from 'components/List/SearchBar';
 import Settings from 'models/Settings';
 import UserInvite from 'models/UserInvite';
 import UserTeam from 'models/UserTeam';
@@ -35,6 +36,7 @@ class UserList extends Component {
       columns,
       users: [],
       invites: [],
+      query: '',
       pagination: {},
       loading: true,
       statusFilter: 0,
@@ -102,6 +104,10 @@ class UserList extends Component {
     this.setState({ columns });
   };
 
+  handleSearch = event => {
+    this.setState({ query: event.target.value }, this.loadItems);
+  };
+
   loadItems = async () => {
     const { page, sortColumn, sortStatus } = this.state;
 
@@ -134,12 +140,13 @@ class UserList extends Component {
       columns,
       users,
       invites,
-      pagination,
-      loading,
+      query,
       statusFilter,
       newTeam,
+      pagination,
       sortColumn,
-      sortStatus
+      sortStatus,
+      loading
     } = this.state;
 
     const filterOptions = ['All', 'Active', 'Inactive', 'Invited'];
@@ -178,6 +185,8 @@ class UserList extends Component {
                 );
               })}
             </div>
+
+            <SearchBar query={query} handleSearch={this.handleSearch} />
           </div>
 
           <table className="hl-table">

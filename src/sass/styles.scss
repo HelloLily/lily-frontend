@@ -483,3 +483,49 @@ li {
 .fade-out {
   animation-name: fade-out;
 }
+
+.empty-state-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.empty-state-overlay {
+  background: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  opacity: 0.5;
+}
+
+.empty-state-description {
+  z-index: 10;
+  position: relative;
+  text-align: center;
+  font-size: 20px;
+  margin: auto;
+  top: 120px;
+
+  h3 {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  &.no-top {
+    top: 0;
+  }
+}
+
+.empty-state-space {
+  display: block;
+  height: 300px;
+}

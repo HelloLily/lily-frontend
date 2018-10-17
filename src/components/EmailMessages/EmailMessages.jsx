@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE, TRASH_LABEL } from 'lib/constants';
 import getColorCode from 'utils/getColorCode';
 import List from 'components/List';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
+import SearchBar from 'components/List/SearchBar';
 import ContactIcon from 'components/ContactIcon';
 import Dropdown from 'components/Dropdown';
 import EmailMessage from 'models/EmailMessage';
@@ -26,7 +28,7 @@ class EmailMessages extends Component {
   }
 
   async componentDidMount() {
-    this.loadMessages();
+    this.loadItems();
   }
 
   async componentDidUpdate(prevProps) {
@@ -46,7 +48,7 @@ class EmailMessages extends Component {
     }
 
     if (shouldUpdate) {
-      this.loadMessages();
+      this.loadItems();
     }
   }
 
@@ -97,11 +99,15 @@ class EmailMessages extends Component {
     return header;
   };
 
-  setPage = async page => {
-    this.loadMessages();
+  handleSearch = event => {
+    this.setState({ query: event.target.value }, this.loadItems);
   };
 
-  loadMessages = async () => {
+  setPage = async page => {
+    this.setState({ page }, this.loadItems);
+  };
+
+  loadItems = async () => {
     this.setState({ loading: true });
     // TODO: Include value from search field.
     const params = {
@@ -268,8 +274,8 @@ class EmailMessages extends Component {
   };
 
   render() {
-    const { emailMessages, showReplyActions, showMoveTo, loading, selectAll } = this.state;
-    const { currentEmailAccount, currentLabel } = this.props;
+    const { emailMessages, showReplyActions, showMoveTo, loading, selectAll, query } = this.state;
+    const { currentEmailAccount, currentLabel, t } = this.props;
 
     let filteredLabels = [];
 
@@ -360,6 +366,10 @@ class EmailMessages extends Component {
                   </Link>
                 </div>
               )}
+
+              <div className="flex-grow" />
+
+              <SearchBar query={query} handleSearch={this.handleSearch} />
             </div>
 
             <table className="hl-table">
@@ -436,6 +446,26 @@ class EmailMessages extends Component {
                 })}
               </tbody>
             </table>
+
+            {/* TODO: Should check the amount of created email accounts */}
+            {false && (
+              <div>
+                <div className="empty-state-overlay" />
+                <div className="empty-state-description">
+                  <h3>{t('email.title')}</h3>
+
+                  <p>{t('email.line1')}</p>
+                  <p>{t('email.line2')}</p>
+                  <p>{t('email.line3')}</p>
+                  <p>
+                    {t('email.line4')}
+                    <Link to="/preferences/emailaccounts/create" className="hl-primary-btn m-l-5">
+                      <FontAwesomeIcon icon="plus" /> Email account
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            )}
           </List>
         </div>
       </BlockUI>
@@ -443,4 +473,4 @@ class EmailMessages extends Component {
   }
 }
 
-export default EmailMessages;
+export default withNamespaces('emptyStates')(EmailMessages);
