@@ -1,86 +1,61 @@
-// TODO: Temporary import so it can build.
-@import 'settings';
+@import '~style/variables/measurements';
+@import '~style/variables/colors';
 
 .pagination-container {
   display: flex;
   align-items: center;
 
-  .pagination {
+  .rc-pagination {
     margin-left: auto;
   }
 }
 
-ul.pagination {
-  font-size: $font-size-20;
-
+// rc-pagination
+.rc-pagination {
   li {
-    display: inline-block;
-
-    border-top: 1px solid $color-neutral-30;
-    border-bottom: 1px solid $color-neutral-30;
-
-    &:first-child {
-      border: 1px solid $color-neutral-30;
-      border-top-left-radius: $border-radius-20;
-      border-bottom-left-radius: $border-radius-20;
-
-      a {
-        border-top-left-radius: $border-radius-20;
-        border-bottom-left-radius: $border-radius-20;
-      }
-    }
-
-    &:last-child {
-      border: 1px solid $color-neutral-30;
-      border-top-right-radius: $border-radius-20;
-      border-bottom-right-radius: $border-radius-20;
-
-      a {
-        border-top-right-radius: $border-radius-20;
-        border-bottom-right-radius: $border-radius-20;
-      }
-    }
-
-    &.disabled a {
-      background: $color-neutral-10;
-      color: $color-neutral-30;
-
-      &:hover {
-        cursor: disabled;
-      }
-    }
-
-    &.active a {
-      color: $white;
-      background: #2e3547;
-    }
-  }
-
-  a {
-    background: $white;
-    color: $color-neutral-70;
-    line-height: 1.5em;
-    padding: 0.35rem;
-    padding-left: 0.65rem;
-    padding-right: 0.65rem;
-  }
-
-  a {
-    display: block;
+    border-radius: 0;
+    margin-right: 0;
+    border: 1px $base-border-color solid;
+    border-right: 0;
+    height: $default-line-height;
+    line-height: $default-line-height;
+    min-width: $default-line-height - 2;
 
     &:hover {
-      color: $white;
-      background: #2e3547;
+      border: 1px $base-border-color solid;
+      border-right: 0;
+
+      a {
+        color: $app-color-aqua;
+      }
     }
 
-    &:active,
+    &:first-of-type {
+      border-top-left-radius: $base-border-radius;
+      border-bottom-left-radius: $base-border-radius;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: $base-border-radius;
+      border-bottom-right-radius: $base-border-radius;
+      border-right: 1px $base-border-color solid;
+
+      &:hover {
+        border-right: 1px $base-border-color solid;
+      }
+    }
+
     &:focus {
       outline: none;
     }
+  }
 
-    i {
-      position: relative;
-      top: 1px;
-    }
+  .rc-pagination-disabled {
+    pointer-events: none;
+    background: $lily-white-tone-hover;
+  }
+
+  .rc-pagination-item-active {
+    background: $app-color-darkblue;
   }
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Pagination from 'react-js-pagination';
+import Pagination from 'rc-pagination';
+import localeInfo from 'rc-pagination/lib/locale/en_US';
+import 'rc-pagination/assets/index.css';
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -35,11 +37,12 @@ class LilyPagination extends Component {
 
         {numberOfPages > 1 && (
           <Pagination
-            activePage={page}
-            itemsCountPerPage={pageSize}
-            totalItemsCount={total}
+            current={page}
+            pageSize={pageSize}
+            total={total}
             pageRangeDisplayed={5}
             onChange={this.handlePageClick}
+            locale={localeInfo}
           />
         )}
       </div>
