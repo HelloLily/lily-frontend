@@ -8,7 +8,7 @@ class DueDateFilter extends Component {
     super(props);
 
     const filterField = props.filterField || 'expires';
-    const dateFormat = 'YYYY-MM-dd';
+    const dateFormat = 'yyyy-MM-dd';
     const date = new Date();
 
     const options = [

@@ -3,13 +3,13 @@ import { isDate, format } from 'date-fns';
 
 const LilyDate = props => {
   const getFormat = () => {
-    let dateFormat = 'dd MMM. YYYY';
+    let dateFormat = 'dd MMM. yyyy';
 
     if (props.includeTime) {
-      dateFormat = 'dd MMM. YYYY HH:mm';
+      dateFormat = 'dd MMM. yyyy HH:mm';
 
       if (props.includeSeconds) {
-        dateFormat = 'dd MMM. YYYY HH:mm:ss';
+        dateFormat = 'dd MMM. yyyy HH:mm:ss';
       }
     }
 

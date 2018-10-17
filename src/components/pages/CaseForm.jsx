@@ -513,7 +513,7 @@ const CaseForm = withRouter(
         cleanedValues.assignedToTeams = cleanedValues.assignedToTeams.map(team => team.id);
       }
 
-      cleanedValues.expires = format(cleanedValues.expires, 'YYYY-MM-dd');
+      cleanedValues.expires = format(cleanedValues.expires, 'yyyy-MM-dd');
 
       let request;
       let text;

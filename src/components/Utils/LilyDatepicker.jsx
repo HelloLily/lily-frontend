@@ -7,7 +7,7 @@ class LilyDatepicker extends Component {
     super(props);
 
     this.datepicker = React.createRef();
-    this.dateFormat = this.props.format || 'dd/MM/YYYY';
+    this.dateFormat = this.props.format || 'dd/MM/yyyy';
   }
 
   openDatepicker = () => {

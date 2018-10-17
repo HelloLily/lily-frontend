@@ -365,7 +365,7 @@ class DealDetail extends Component {
                       <div className="detail-row">
                         <div>Last edited</div>
                         <div>
-                          <LilyDate date={deal.modified} format="d MMM. YYYY" />
+                          <LilyDate date={deal.modified} format="d MMM. yyyy" />
                         </div>
                       </div>
                     </div>
@@ -453,7 +453,7 @@ class DealDetail extends Component {
                           </strong>
 
                           <div className="text-muted">
-                            <LilyDate date={deal.created} format="d MMM. YYYY HH:MM" />
+                            <LilyDate date={deal.created} format="d MMM. yyyy HH:MM" />
                           </div>
                         </div>
 

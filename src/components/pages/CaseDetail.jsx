@@ -238,7 +238,7 @@ class CaseDetail extends Component {
                           </strong>
 
                           <div className="text-muted">
-                            <LilyDate date={caseObj.created} format="d MMM. YYYY HH:MM" />
+                            <LilyDate date={caseObj.created} format="d MMM. yyyy HH:MM" />
                           </div>
                         </div>
 

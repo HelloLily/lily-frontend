@@ -19,7 +19,7 @@ const DISPLAY_NAME_MAPPING = {
   accounts: 'Works at'
 };
 
-const DATE_FORMAT = 'dd MMM. YYYY';
+const DATE_FORMAT = 'dd MMM. yyyy';
 
 function getValueRelated(field) {
   // Since every model has a different field which contains the value

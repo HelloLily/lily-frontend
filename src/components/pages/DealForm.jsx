@@ -696,7 +696,7 @@ const DealForm = withRouter(
       if (cleanedValues.nextStepDate === '') {
         cleanedValues.nextStepDate = null;
       } else {
-        cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, 'YYYY-MM-dd');
+        cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, 'yyyy-MM-dd');
       }
 
       let request;

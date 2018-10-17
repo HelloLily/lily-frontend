@@ -12,7 +12,16 @@ import User from 'models/User';
 
 class InnerUserAccountForm extends Component {
   componentDidMount() {
-    this.props.setValues(this.props.currentUser);
+    const data = {
+      id: this.props.currentUser.id,
+      email: this.props.currentUser.email,
+      password: '',
+      passwordCheck: '',
+      passwordConfirmation: ''
+    };
+    // Setting a single value with setFieldValue currently doesn't work in Formik.
+    // To fix errors just set all values.
+    this.props.setValues(data);
 
     document.title = 'My account - Lily';
   }
@@ -112,7 +121,7 @@ const UserAccountForm = withRouter(
   withFormik({
     mapPropsToValues: () => ({
       email: '',
-      passWord: '',
+      password: '',
       passwordCheck: '',
       passwordConfirmation: ''
     }),
