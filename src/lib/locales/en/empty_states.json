@@ -5,5 +5,7 @@
     "line2": "Lily handles your email seamlessly and links them <br /> automagically with your Contacts, Deals and Cases. ",
     "line3": "You will have all communication just a click away.",
     "line4": "To see Lily’s magic, add your"
-  }
+  },
+  "emailAccounts": "No email accounts setup yet",
+  "sharedEmailAccounts": "No email accounts shared with you"
 }

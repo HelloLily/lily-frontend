@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { successToast, errorToast } from 'utils/toasts';
+import getColorCode from 'utils/getColorCode';
 import BlockUI from 'components/Utils/BlockUI';
 import FormFooter from 'components/Utils/FormFooter';
 import UserShare from 'components/UserShare';
@@ -23,6 +24,10 @@ class InnerEmailAccountForm extends Component {
   async componentDidMount() {
     const emailAccount = await EmailAccount.get(this.props.match.params.id);
 
+    if (!emailAccount.color) {
+      emailAccount.color = getColorCode(emailAccount.emailAddress);
+    }
+
     this.props.setValues(emailAccount);
 
     document.title = 'Email account - Lily';
@@ -37,7 +42,7 @@ class InnerEmailAccountForm extends Component {
   };
 
   render() {
-    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
     const { shareAdditions } = this.state;
 
     return (
@@ -89,7 +94,7 @@ class InnerEmailAccountForm extends Component {
                     <input id="color" type="color" value={values.color} onChange={handleChange} />
 
                     <div className="account-label m-l-10" style={{ borderLeftColor: values.color }}>
-                      {values.label}
+                      {values.label || values.emailAddress}
                     </div>
                   </div>
 
@@ -97,13 +102,13 @@ class InnerEmailAccountForm extends Component {
                 </div>
 
                 <div className={`form-field${errors.onlyNew ? ' has-error' : ''}`}>
-                  <label htmlFor="onlyNew">Load all email into Lily?</label>
+                  <label htmlFor="onlyNew">{t('forms:emailAccount.loadAllMail')}</label>
 
                   <RadioButtons
                     vertical
                     options={[
-                      'Yes, load all email into Lily',
-                      'No, only load email received from now on'
+                      t('forms:emailAccount.loadAllMailYes'),
+                      t('forms:emailAccount.loadAllMailNo')
                     ]}
                     setSelection={value => this.props.setFieldValue('onlyNew', value)}
                   />
@@ -166,7 +171,7 @@ class InnerEmailAccountForm extends Component {
                     </TabPanel>
 
                     <TabPanel>
-                      <p>Give specific colleagues additional permissions to your email</p>
+                      <p>{t('forms:emailAccount.advancedInfo')}</p>
 
                       <UserShare
                         handleAdditions={this.handleAdditions}
@@ -199,7 +204,7 @@ const EmailAccountForm = withRouter(
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const { t } = props;
       const request = EmailAccount.patch(values);
-      const text = t('modelUpdated', { model: 'email account' });
+      const text = t('toasts:modelUpdated', { model: 'email account' });
 
       request
         .then(() => {
@@ -208,7 +213,7 @@ const EmailAccountForm = withRouter(
           props.history.push('/preferences/emailaccounts');
         })
         .catch(errors => {
-          errorToast(t('error'));
+          errorToast(t('toasts:error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -217,4 +222,4 @@ const EmailAccountForm = withRouter(
   })(InnerEmailAccountForm)
 );
 
-export default withNamespaces('toasts')(EmailAccountForm);
+export default withNamespaces(['forms', 'toasts'])(EmailAccountForm);

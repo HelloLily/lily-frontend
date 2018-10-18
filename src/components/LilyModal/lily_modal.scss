@@ -1,0 +1,34 @@
+@import '~style/variables/colors';
+@import '~style/variables/measurements';
+
+.modal-overlay {
+  position: fixed;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(39, 36, 76, 0.5);
+  display: flex;
+  justify-content: center;
+}
+
+.lily-modal {
+  width: 100%;
+  margin: 10% auto auto auto;
+  max-width: 800px;
+  border: 1px $base-border-color solid;
+  background: #fff;
+  overflow: auto;
+  border-radius: $base-border-radius;
+  outline: none;
+  padding: 20px;
+  max-height: 85%;
+  min-height: 25%;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

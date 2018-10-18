@@ -4,7 +4,7 @@
 $spaceamounts: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100);
 $sides: (top, bottom, left, right);
 
-// We put theses classes on the body's ID to ensure precedence over other styling.
+// We put these classes on the body's ID to ensure precedence over other styling.
 #app-container {
   @each $space in $spaceamounts {
     @each $side in $sides {
@@ -114,5 +114,9 @@ $sides: (top, bottom, left, right);
 
   .capitalize {
     text-transform: capitalize;
+  }
+
+  .align-center {
+    text-align: center;
   }
 }

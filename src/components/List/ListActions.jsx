@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
+
 const ListActions = props => {
-  const url = props.object ? `${props.match.path}/${props.object.id}/edit` : '';
+  const url = props.item ? `${props.match.path}/${props.item.id}/edit` : '';
 
   return (
     <div>
@@ -10,9 +12,7 @@ const ListActions = props => {
         <i className="lilicon hl-edit-icon" />
       </Link>
 
-      <button className="hl-primary-btn borderless m-l-5">
-        <i className="lilicon hl-trashcan-icon" />
-      </button>
+      <DeleteConfirmation {...props} />
     </div>
   );
 };

@@ -42,7 +42,7 @@ class CaseList extends Component {
 
     this.state = {
       columns,
-      cases: [],
+      items: [],
       caseTypes: [],
       filters: { list: [], dueDate: [], user: [] },
       query: '',
@@ -116,16 +116,25 @@ class CaseList extends Component {
     });
 
     this.setState({
-      cases: data.results,
+      items: data.results,
       pagination: data.pagination,
       loading: false
     });
   };
 
+  removeItem = item => {
+    const { items } = this.state;
+
+    const index = items.findIndex(iterItem => iterItem.id === item.id);
+    items.splice(index, 1);
+
+    this.setState({ items });
+  };
+
   render() {
     const {
       columns,
-      cases,
+      items,
       caseTypes,
       filters,
       query,
@@ -169,7 +178,7 @@ class CaseList extends Component {
               </tr>
             </thead>
             <tbody>
-              {cases.map(caseObj => (
+              {items.map(caseObj => (
                 <tr key={caseObj.id}>
                   {columns[0].selected && <td>{caseObj.id}</td>}
                   {columns[1].selected && (
@@ -235,7 +244,7 @@ class CaseList extends Component {
                     </td>
                   )}
                   <td>
-                    <ListActions object={caseObj} {...this.props} />
+                    <ListActions item={caseObj} deleteCallback={this.removeItem} {...this.props} />
                   </td>
                 </tr>
               ))}

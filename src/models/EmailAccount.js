@@ -45,6 +45,12 @@ class EmailAccount {
     return response;
   }
 
+  setup() {
+    const response = get('/messaging/email/accounts/setup');
+
+    return response;
+  }
+
   privacyOptions() {
     // Hardcoded because these are the only privacy options.
     return [

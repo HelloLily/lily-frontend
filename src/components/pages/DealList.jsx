@@ -43,7 +43,7 @@ class DealList extends Component {
 
     this.state = {
       columns,
-      deals: [],
+      items: [],
       nextSteps: [],
       filters: { list: [], dueDate: [], user: [] },
       query: '',
@@ -115,16 +115,25 @@ class DealList extends Component {
     });
 
     this.setState({
-      deals: data.results,
+      items: data.results,
       pagination: data.pagination,
       loading: false
     });
   };
 
+  removeItem = item => {
+    const { items } = this.state;
+
+    const index = items.findIndex(iterItem => iterItem.id === item.id);
+    items.splice(index, 1);
+
+    this.setState({ items });
+  };
+
   render() {
     const {
       columns,
-      deals,
+      items,
       nextSteps,
       filters,
       query,
@@ -166,7 +175,7 @@ class DealList extends Component {
               </tr>
             </thead>
             <tbody>
-              {deals.map(deal => (
+              {items.map(deal => (
                 <tr key={deal.id}>
                   {columns[0].selected && (
                     <td>
@@ -222,7 +231,7 @@ class DealList extends Component {
                     </td>
                   )}
                   <td>
-                    <ListActions object={deal} {...this.props} />
+                    <ListActions item={deal} deleteCallback={this.removeItem} {...this.props} />
                   </td>
                 </tr>
               ))}

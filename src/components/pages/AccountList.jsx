@@ -35,7 +35,7 @@ class AccountList extends Component {
 
     this.state = {
       columns,
-      accounts: [],
+      items: [],
       pagination: {},
       statuses: [],
       filters: { list: [] },
@@ -105,10 +105,19 @@ class AccountList extends Component {
     });
 
     this.setState({
-      accounts: data.results,
+      items: data.results,
       pagination: data.pagination,
       loading: false
     });
+  };
+
+  removeItem = item => {
+    const { items } = this.state;
+
+    const index = items.findIndex(iterItem => iterItem.id === item.id);
+    items.splice(index, 1);
+
+    this.setState({ items });
   };
 
   export = () => {
@@ -118,7 +127,7 @@ class AccountList extends Component {
   render() {
     const {
       columns,
-      accounts,
+      items,
       statuses,
       filters,
       pagination,
@@ -162,7 +171,7 @@ class AccountList extends Component {
               </tr>
             </thead>
             <tbody>
-              {accounts.map(account => (
+              {items.map(account => (
                 <tr key={account.id}>
                   {columns[0].selected && <td>{account.customerId}</td>}
                   {columns[1].selected && (
@@ -222,7 +231,7 @@ class AccountList extends Component {
                     </td>
                   )}
                   <td>
-                    <ListActions object={account} {...this.props} />
+                    <ListActions item={account} deleteCallback={this.removeItem} {...this.props} />
                   </td>
                 </tr>
               ))}

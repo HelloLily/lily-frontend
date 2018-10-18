@@ -38,7 +38,7 @@ class ContactList extends Component {
 
     this.state = {
       columns,
-      contacts: [],
+      items: [],
       query: '',
       pagination: {},
       loading: true
@@ -144,14 +144,23 @@ class ContactList extends Component {
     });
 
     this.setState({
-      contacts: data.results,
+      items: data.results,
       pagination: data.pagination,
       loading: false
     });
   };
 
+  removeItem = item => {
+    const { items } = this.state;
+
+    const index = items.findIndex(iterItem => iterItem.id === item.id);
+    items.splice(index, 1);
+
+    this.setState({ items });
+  };
+
   render() {
-    const { columns, contacts, query, pagination, sortColumn, sortStatus, loading } = this.state;
+    const { columns, items, query, pagination, sortColumn, sortStatus, loading } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -180,7 +189,7 @@ class ContactList extends Component {
               </tr>
             </thead>
             <tbody>
-              {contacts.map(contact => (
+              {items.map(contact => (
                 <tr key={contact.id}>
                   {columns[0].selected && (
                     <td>
@@ -245,7 +254,7 @@ class ContactList extends Component {
                     </td>
                   )}
                   <td>
-                    <ListActions object={contact} {...this.props} />
+                    <ListActions item={contact} deleteCallback={this.removeItem} {...this.props} />
                   </td>
                 </tr>
               ))}

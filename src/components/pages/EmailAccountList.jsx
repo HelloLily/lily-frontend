@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from 'react-modal';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
 import UserShare from 'components/UserShare';
+import LilyModal from 'components/LilyModal';
 import User from 'models/User';
 import SharedEmailConfig from 'models/SharedEmailConfig';
 import EmailAccount from 'models/EmailAccount';
@@ -16,7 +17,7 @@ class EmailAccountList extends Component {
     super(props);
 
     this.state = {
-      emailAccounts: [],
+      items: [],
       sharedAccounts: [],
       loading: true,
       modalOpen: false,
@@ -36,7 +37,7 @@ class EmailAccountList extends Component {
     });
     const publicAccountsResponse = await EmailAccount.query({ privacy: EmailAccount.PUBLIC });
 
-    const emailAccounts = ownedAccountsResponse.results.map(emailAccount => {
+    const items = ownedAccountsResponse.results.map(emailAccount => {
       emailAccount.sharedEmailConfigs = emailAccount.sharedEmailConfigs.filter(
         config =>
           // Filter out the user's own configuration.
@@ -52,7 +53,7 @@ class EmailAccountList extends Component {
     ].filter(emailAccount => emailAccount.owner.id !== currentUser.id);
 
     this.setState({
-      emailAccounts,
+      items,
       sharedAccounts,
       loading: false
     });
@@ -83,6 +84,12 @@ class EmailAccountList extends Component {
     SharedEmailConfig.post(args);
   };
 
+  setupEmailAccount = async () => {
+    const response = await EmailAccount.setup();
+
+    window.location = response.url;
+  };
+
   hasFullAccess = emailAccount => {
     let fullAccess = false;
 
@@ -101,9 +108,18 @@ class EmailAccountList extends Component {
     return fullAccess;
   };
 
+  removeItem = item => {
+    const { items } = this.state;
+
+    const index = items.findIndex(iterItem => iterItem.id === item.id);
+    items.splice(index, 1);
+
+    this.setState({ items });
+  };
+
   render() {
-    const { emailAccounts, sharedAccounts, loading, selectedAccount, users } = this.state;
-    const { currentUser } = this.props;
+    const { items, sharedAccounts, loading, selectedAccount, users } = this.state;
+    const { currentUser, t } = this.props;
 
     return (
       <BlockUI blocking={loading}>
@@ -111,7 +127,7 @@ class EmailAccountList extends Component {
           <div className="list-header">
             <div className="list-title flex-grow">Your email accounts</div>
 
-            <button className="hl-primary-btn">
+            <button className="hl-primary-btn" onClick={this.setupEmailAccount}>
               <FontAwesomeIcon icon="plus" /> Email account
             </button>
           </div>
@@ -129,7 +145,7 @@ class EmailAccountList extends Component {
               </tr>
             </thead>
             <tbody>
-              {emailAccounts.map(emailAccount => (
+              {items.map(emailAccount => (
                 <tr key={emailAccount.id}>
                   <td>
                     <input type="radio" />
@@ -162,10 +178,20 @@ class EmailAccountList extends Component {
                     )}
                   </td>
                   <td>
-                    <ListActions object={emailAccount} {...this.props} />
+                    <ListActions
+                      item={emailAccount}
+                      deleteCallback={this.removeItem}
+                      {...this.props}
+                    />
                   </td>
                 </tr>
               ))}
+
+              {items.length === 0 && (
+                <tr>
+                  <td colSpan="8">{t('emailAccounts')}</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </List>
@@ -227,24 +253,19 @@ class EmailAccountList extends Component {
                     </tr>
                   );
                 })}
+
+                {sharedAccounts.length === 0 && (
+                  <tr>
+                    <td colSpan="8">{t('sharedEmailAccounts')}</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </List>
         </div>
 
         {selectedAccount && (
-          <Modal
-            isOpen={this.state.modalOpen}
-            onRequestClose={this.closeModal}
-            className="lily-modal"
-            overlayClassName="modal-overlay"
-            parentSelector={() => document.querySelector('#app')}
-            ariaHideApp={false}
-          >
-            <button onClick={this.closeSharedWithModal} className="close-btn float-right">
-              <i className="lilicon hl-close-icon" />
-            </button>
-
+          <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeSharedWithModal}>
             {selectedAccount.owner.id === currentUser.id ? (
               <React.Fragment>
                 <h3>Share your email</h3>
@@ -289,11 +310,11 @@ class EmailAccountList extends Component {
                 </div>
               </React.Fragment>
             )}
-          </Modal>
+          </LilyModal>
         )}
       </BlockUI>
     );
   }
 }
 
-export default withContext(EmailAccountList);
+export default withNamespaces('emptyStates')(withContext(EmailAccountList));

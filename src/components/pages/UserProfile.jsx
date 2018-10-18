@@ -13,9 +13,17 @@ import User from 'models/User';
 
 class InnerProfileForm extends Component {
   componentDidMount() {
-    const data = { ...this.props.currentUser };
-    // TODO: This fixes the uncontrolled input error, change to proper value later.
-    data.picture = '';
+    const { currentUser } = this.props;
+
+    const data = {
+      id: currentUser.id,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      position: currentUser.position,
+      picture: '',
+      phoneNumber: currentUser.phoneNumber,
+      internalNumber: currentUser.internalNumber
+    };
 
     this.props.setValues(data);
 

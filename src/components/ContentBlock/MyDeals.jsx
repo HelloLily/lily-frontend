@@ -44,6 +44,12 @@ class MyDeals extends Component {
     this.setState({ items, total, loading: false });
   };
 
+  setFilters = async filters => {
+    await this.settings.store({ filters });
+
+    this.setState({ filters }, this.loadItems);
+  };
+
   acceptDeal = async item => {
     this.setState({ loading: true });
 
