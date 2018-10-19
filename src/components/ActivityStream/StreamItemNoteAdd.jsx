@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { withNamespaces } from 'react-i18next';
+
+import { errorToast, successToast } from 'utils/toasts';
 
 class StreamItemNoteAdd extends Component {
   constructor(props) {
@@ -15,14 +18,19 @@ class StreamItemNoteAdd extends Component {
 
   submitNote = async () => {
     const { note } = this.state;
+    const { t } = this.props;
 
-    await this.props.submitItemNote(this.props.item, note);
+    try {
+      await this.props.submitCallback(this.props.item, note);
 
-    // TODO: Add notification on success.
+      successToast(t('modelCreated', { model: 'note' }));
 
-    note.content = '';
+      note.content = '';
 
-    this.setState({ note });
+      this.setState({ note });
+    } catch (error) {
+      errorToast(t('error'));
+    }
   };
 
   handleContent = event => {
@@ -61,4 +69,4 @@ class StreamItemNoteAdd extends Component {
   }
 }
 
-export default StreamItemNoteAdd;
+export default withNamespaces('toasts')(StreamItemNoteAdd);

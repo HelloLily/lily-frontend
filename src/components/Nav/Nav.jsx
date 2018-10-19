@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import { infoToast } from 'utils/toasts';
 import ObjectLimit from 'components/Billing/ObjectLimit';
 import Account from 'models/Account';
 import Call from 'models/Call';
@@ -16,6 +18,8 @@ class Nav extends Component {
   }
 
   getLatestCall = async () => {
+    const { t } = this.props;
+
     const { call } = await Call.latestCall();
 
     if (call) {
@@ -39,8 +43,7 @@ class Nav extends Component {
         this.props.history.push(`/accounts/create`, formData);
       }
     } else {
-      // TODO: Add proper alert.
-      console.log('No calls for you');
+      infoToast(t('noCalls'));
     }
   };
 
@@ -133,4 +136,4 @@ class Nav extends Component {
   }
 }
 
-export default withRouter(withContext(Nav));
+export default withNamespaces('toasts')(withRouter(withContext(Nav)));

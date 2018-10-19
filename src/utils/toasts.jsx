@@ -25,7 +25,7 @@ const WarningToast = props => (
 
 const InfoToast = props => (
   <div>
-    <FontAwesomeIcon icon="times" size="lg" />
+    <FontAwesomeIcon icon="info" size="lg" />
     <span className="m-l-10">{props.text}</span>
   </div>
 );

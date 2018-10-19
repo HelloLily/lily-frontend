@@ -241,7 +241,7 @@ class InnerContactForm extends Component {
   searchAccounts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await Account.query({ query });
+    const request = await Account.query({ name: query });
 
     return request.results;
   };

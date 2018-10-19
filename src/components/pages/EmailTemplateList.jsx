@@ -164,7 +164,7 @@ class EmailTemplateList extends Component {
                 folder.id || (!folder.id && folder.emailTemplates.length > 0) ? (
                   <tbody key={folder.id || 'noFolder'}>
                     <tr className="email-template-folder-header">
-                      <td colSpan="2" className={folder.id ? 'has-editable' : ''}>
+                      <td colSpan="2">
                         <strong>
                           {folder.id ? (
                             <React.Fragment>

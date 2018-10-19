@@ -35,11 +35,7 @@ class DeleteConfirmation extends Component {
         deleteCallback(item);
       }
 
-      console.log('deleted');
-
       this.closeModal();
-
-      console.log('closed');
     } catch (error) {
       errorToast(t('toasts:error'));
     }

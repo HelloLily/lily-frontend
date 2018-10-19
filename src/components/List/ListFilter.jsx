@@ -59,11 +59,10 @@ class ListFilter extends Component {
 
   render() {
     const { label, items } = this.props;
-    const filters = this.props.filters.list;
 
+    const filters = this.props.filters.list;
     const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
     const allSelected = filteredItems.length === 0;
-
     const display = this.getDisplay();
 
     return (

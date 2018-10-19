@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import { format } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import {
@@ -130,11 +131,7 @@ class InnerDealForm extends Component {
       {props.data.name}
 
       {props.data.dateIncrement > 0 && (
-        <span className="text-muted small">
-          {' '}
-          (+
-          {props.data.dateIncrement} days)
-        </span>
+        <span className="text-muted small">{` (+ ${props.data.dateIncrement} days)`}</span>
       )}
     </components.Option>
   );
@@ -145,7 +142,6 @@ class InnerDealForm extends Component {
 
     if (!this.props.values.id && subject) {
       const filterquery = `subject:${subject}`;
-
       // TODO: Change this to new way of searching.
       const response = await Deal.search(filterquery);
 
@@ -162,7 +158,7 @@ class InnerDealForm extends Component {
   searchAccounts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await Account.query({ query });
+    const request = await Account.query({ name: query });
 
     return request.results;
   };
@@ -170,7 +166,7 @@ class InnerDealForm extends Component {
   searchContacts = async query => {
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await Contact.query({ query });
+    const request = await Contact.query({ fullName: query });
 
     return request.results;
   };

@@ -14,6 +14,7 @@ import {
   NEW_MESSAGE
 } from 'lib/constants';
 import { get } from 'lib/api';
+import { errorToast } from 'utils/toasts';
 import EmailAccount from 'models/EmailAccount';
 import EmailTemplate from 'models/EmailTemplate';
 import LilyEditor from 'components/LilyEditor';
@@ -133,8 +134,7 @@ class EmailEditor extends Component {
 
         state.document = documentResponse.document;
       } catch (error) {
-        // TODO: Show some sort of notification to the user.
-        console.log(error.response.error);
+        errorToast(error.response.error);
       }
     }
 
@@ -500,16 +500,11 @@ class EmailEditor extends Component {
     }
 
     const allRecipients = recipients.concat(recipientsCc).concat(recipientsBcc);
+    const allValid = allRecipients.every(recipient =>
+      EMAIL_REGEX.test(recipient.value.emailAddress)
+    );
 
-    const allValid = allRecipients.every(recipient => {
-      return EMAIL_REGEX.test(recipient.value.emailAddress);
-    });
-
-    if (!allValid) {
-      return false;
-    }
-
-    return true;
+    return allValid;
   };
 
   validateEmailAddress = option => EMAIL_REGEX.test(option.label);

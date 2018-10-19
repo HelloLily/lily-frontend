@@ -18,9 +18,15 @@ class StreamDeal extends Component {
     this.setState({ showNoteAdd: !this.state.showNoteAdd });
   };
 
+  submitCallback = args => {
+    const { item, submitCallback } = this.props;
+
+    return submitCallback(item, args);
+  };
+
   render() {
     const { showNoteAdd } = this.state;
-    const { item, submitCallback } = this.props;
+    const { item } = this.props;
 
     return (
       <React.Fragment>
@@ -48,7 +54,7 @@ class StreamDeal extends Component {
                   type="select"
                   field="status"
                   object={item}
-                  submitCallback={() => submitCallback(item, 'status')}
+                  submitCallback={this.submitCallback}
                 />
               </div>
             </div>
@@ -58,21 +64,16 @@ class StreamDeal extends Component {
                 type="textarea"
                 object={item}
                 field="description"
-                submitCallback={() => submitCallback(item, 'description')}
+                submitCallback={this.submitCallback}
               />
 
               <div className="stream-sub-items">
                 {showNoteAdd && (
-                  <StreamItemNoteAdd item={item} submitItemNote={this.props.submitItemNote} />
+                  <StreamItemNoteAdd item={item} submitCallback={this.props.submitItemNote} />
                 )}
 
                 {item.notes.map(note => (
-                  <StreamItemNote
-                    item={item}
-                    note={note}
-                    key={note.id}
-                    deleteCallback={this.props.deleteItemNote}
-                  />
+                  <StreamItemNote note={note} key={note.id} {...this.props} />
                 ))}
 
                 <StreamAvatar object={item} field="createdBy" />

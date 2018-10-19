@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getYear, getMonth } from 'date-fns';
-import { toast } from 'react-toastify';
+import { withNamespaces } from 'react-i18next';
 import cx from 'classnames';
 
-import { patch, del } from 'lib/api';
-import { successToast } from 'utils/toasts';
+import { del } from 'lib/api';
+import { successToast, errorToast } from 'utils/toasts';
+import updateModel from 'utils/updateModel';
 import LilyDate from 'components/Utils/LilyDate';
 import Note from 'models/Note';
 import setupActivityStream from './setupActivityStream';
@@ -60,8 +61,8 @@ class ActivityStream extends Component {
   };
 
   submitNote = async () => {
-    const { t } = this.props;
     const { activityStream, note } = this.state;
+    const { t } = this.props;
 
     try {
       const response = await Note.post(note);
@@ -69,14 +70,13 @@ class ActivityStream extends Component {
       activityStream.unshift(response);
 
       const text = t('modelCreated', { model: 'note' });
-
       successToast(text);
 
       note.content = '';
 
       this.setState({ activityStream, note });
     } catch (e) {
-      toast.error('Oopsie');
+      errorToast(t('error'));
     }
   };
 
@@ -92,18 +92,26 @@ class ActivityStream extends Component {
 
   deleteItemNote = async (item, note) => {
     const { activityStream } = this.state;
+    const { t } = this.props;
 
-    await Note.del(note.id);
-    const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
-    const noteIndex = item.notes.findIndex(itemNote => itemNote.id === note.id);
-    activityStream[index].notes.splice(noteIndex, 1);
+    try {
+      await Note.del(note.id);
+      const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
+      const noteIndex = item.notes.findIndex(itemNote => itemNote.id === note.id);
+      activityStream[index].notes.splice(noteIndex, 1);
 
-    this.setState({ activityStream });
+      const text = t('modelDeleted', { model: 'note' });
+      successToast(text);
+
+      this.setState({ activityStream });
+    } catch (error) {
+      errorToast(t('error'));
+    }
   };
 
   togglePinned = async args => {
-    const { t } = this.props;
     const { activityStream } = this.state;
+    const { t } = this.props;
 
     await Note.patch(args);
     const index = activityStream.findIndex(streamItem => streamItem.id === args.id);
@@ -138,19 +146,26 @@ class ActivityStream extends Component {
     this.setState({ collapsed });
   };
 
-  submitCallback = (item, args) => patch(`/${item.contentType.appLabel}/${item.id}/`, args);
+  submitCallback = async (item, args) => {
+    await updateModel(item, args);
+  };
 
   deleteCallback = async item => {
     const { activityStream } = this.state;
+    const { t } = this.props;
 
-    await del(`/${item.contentType.appLabel}/${item.id}/`);
-    // Find the given item and remove it from the activity stream;
-    const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
-    activityStream.splice(index, 1);
+    try {
+      await del(`/${item.contentType.appLabel}/${item.id}/`);
+      // Find the given item and remove it from the activity stream;
+      const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
+      activityStream.splice(index, 1);
 
-    // TODO: Add notification on success.
+      successToast(t('modelDeleted', { model: item.contentType.model }));
 
-    this.setState({ activityStream });
+      this.setState({ activityStream });
+    } catch (error) {
+      errorToast(t('error'));
+    }
   };
 
   orderActivityStream = () => {
@@ -360,4 +375,4 @@ class ActivityStream extends Component {
   }
 }
 
-export default ActivityStream;
+export default withNamespaces('toasts')(ActivityStream);

@@ -1,15 +1,24 @@
 import React from 'react';
+import { withNamespaces } from 'react-i18next';
 
-import updateModel from 'utils/updateModel';
+import { successToast, errorToast } from 'utils/toasts';
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
+import Note from 'models/Note';
 import StreamAvatar from './StreamAvatar';
 
 const StreamItemNote = props => {
-  const { item, note } = props;
+  const { item, note, deleteItemNote, t } = props;
 
   const submitNote = async args => {
-    await updateModel(note, args);
+    try {
+      await Note.patch(args);
+
+      const text = t('modelUpdated', { model: 'note' });
+      successToast(text);
+    } catch (error) {
+      errorToast(t('error'));
+    }
   };
 
   return (
@@ -29,10 +38,7 @@ const StreamItemNote = props => {
             </span>
           </div>
 
-          <button
-            className="hl-primary-btn borderless"
-            onClick={() => props.deleteCallback(item, note)}
-          >
+          <button className="hl-primary-btn borderless" onClick={() => deleteItemNote(item, note)}>
             <i className="lilicon hl-trashcan-icon" /> Delete
           </button>
         </div>
@@ -45,4 +51,4 @@ const StreamItemNote = props => {
   );
 };
 
-export default StreamItemNote;
+export default withNamespaces('toasts')(StreamItemNote);

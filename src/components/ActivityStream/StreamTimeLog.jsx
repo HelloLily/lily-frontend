@@ -9,6 +9,8 @@ import StreamAvatar from './StreamAvatar';
 const StreamTimeLog = props => {
   const { item, submitCallback } = props;
 
+  const submitTimeLog = args => submitCallback(item, args);
+
   return (
     <React.Fragment>
       <StreamAvatar object={item} field="user" />
@@ -58,7 +60,7 @@ const StreamTimeLog = props => {
               type="textarea"
               object={item}
               field="content"
-              submitCallback={() => submitCallback(item, args)}
+              submitCallback={submitTimeLog}
             />
           </div>
         </div>

@@ -17,6 +17,8 @@ const StreamNote = props => {
     await props.togglePinned(args);
   };
 
+  const submitNote = args => submitCallback(item, args);
+
   return (
     <React.Fragment>
       <StreamAvatar object={item} field="author" />
@@ -57,12 +59,7 @@ const StreamNote = props => {
 
         <div className={`stream-item-content is-note${item.isPinned ? ' pinned' : ''}`}>
           <div className="stream-item-body">
-            <Editable
-              type="textarea"
-              object={item}
-              field="content"
-              submitCallback={() => submitCallback(item, 'content')}
-            />
+            <Editable type="textarea" object={item} field="content" submitCallback={submitNote} />
           </div>
         </div>
       </div>

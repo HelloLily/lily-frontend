@@ -152,16 +152,11 @@ class StreamCall extends Component {
 
                 <div className="stream-sub-items">
                   {showNoteAdd && (
-                    <StreamItemNoteAdd item={item} submitItemNote={this.props.submitItemNote} />
+                    <StreamItemNoteAdd item={item} submitCallback={this.props.submitItemNote} />
                   )}
 
                   {item.notes.map(note => (
-                    <StreamItemNote
-                      item={item}
-                      note={note}
-                      key={note.id}
-                      deleteCallback={this.props.deleteItemNote}
-                    />
+                    <StreamItemNote note={note} key={note.id} {...this.props} />
                   ))}
                 </div>
               </div>
