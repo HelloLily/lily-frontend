@@ -104,6 +104,14 @@ class InnerDealForm extends Component {
       dealResponse.nextStepDate = '';
     }
 
+    if (dealResponse.account && dealResponse.account.isDeleted) {
+      dealResponse.account = null;
+    }
+
+    if (dealResponse.contact && dealResponse.contact.isDeleted) {
+      dealResponse.contact = null;
+    }
+
     this.props.setValues(dealResponse);
   };
 

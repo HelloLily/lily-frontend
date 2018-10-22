@@ -42,7 +42,7 @@ class DeleteConfirmation extends Component {
   };
 
   render() {
-    const { item, t } = this.props;
+    const { item, t, showText } = this.props;
 
     const display = item.name || item.fullName || item.subject;
 
@@ -50,6 +50,7 @@ class DeleteConfirmation extends Component {
       <React.Fragment>
         <button className="hl-primary-btn borderless m-l-5" onClick={this.openModal}>
           <i className="lilicon hl-trashcan-icon" />
+          {showText && <span> Delete</span>}
         </button>
 
         <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeModal} alignCenter>

@@ -4,6 +4,7 @@ import { withNamespaces } from 'react-i18next';
 import { successToast, errorToast } from 'utils/toasts';
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import Note from 'models/Note';
 import StreamAvatar from './StreamAvatar';
 
@@ -19,6 +20,10 @@ const StreamItemNote = props => {
     } catch (error) {
       errorToast(t('error'));
     }
+  };
+
+  const deleteCallback = () => {
+    deleteItemNote(item, note);
   };
 
   return (
@@ -38,7 +43,7 @@ const StreamItemNote = props => {
             </span>
           </div>
 
-          <button className="hl-primary-btn borderless" onClick={() => deleteItemNote(item, note)}>
+          <button className="hl-primary-btn borderless" onClick={deleteCallback}>
             <i className="lilicon hl-trashcan-icon" /> Delete
           </button>
         </div>

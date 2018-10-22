@@ -469,6 +469,14 @@ class DealDetail extends Component {
                 </BlockUI>
 
                 <ActivityStream object={deal} />
+
+                {deal.account && (
+                  <React.Fragment>
+                    <div className="m-b-25" />
+
+                    <ActivityStream object={deal.account} parentObject={deal} />
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </React.Fragment>

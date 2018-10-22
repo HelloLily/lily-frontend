@@ -31,6 +31,12 @@ class Contact {
 
     return response;
   }
+
+  exists() {
+    const response = get('/contacts/exists/');
+
+    return response;
+  }
 }
 
 export default new Contact();

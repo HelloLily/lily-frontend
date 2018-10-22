@@ -69,6 +69,12 @@ class Case {
 
     return response;
   }
+
+  exists() {
+    const response = get('/cases/exists/');
+
+    return response;
+  }
 }
 
 export default new Case();

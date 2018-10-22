@@ -51,6 +51,12 @@ class EmailAccount {
     return response;
   }
 
+  exists() {
+    const response = get('/messaging/email/accounts/exists/');
+
+    return response;
+  }
+
   privacyOptions() {
     // Hardcoded because these are the only privacy options.
     return [

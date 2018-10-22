@@ -23,15 +23,12 @@ class EditableTags extends Component {
     // Also needs to be changed from ES -> normal API.
     // Search the given model with the search query and any specific sorting.
     const request = await Tag.query(query);
-    const options = this.props.createOptions(request.hits);
 
-    return options;
+    return request.hits;
   };
 
   render() {
     const { value, selectStyles } = this.props;
-
-    const options = value.map(item => ({ value: item, label: item.name }));
 
     return (
       <span className="editable-input-wrap editable-multi">
@@ -43,12 +40,14 @@ class EditableTags extends Component {
           name="options"
           className="editable-input"
           placeholder="Add tags..."
-          value={options}
+          value={value}
           styles={selectStyles}
           onChange={this.handleChange}
           loadOptions={this.search}
           onInputKeyDown={this.onInputKeyDown}
           onBlur={this.props.cancel}
+          getOptionLabel={option => option.name}
+          getOptionValue={option => option.name}
         />
 
         <div className="editable-multi-actions m-t-5">

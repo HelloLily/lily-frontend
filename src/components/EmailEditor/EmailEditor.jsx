@@ -87,7 +87,10 @@ class EmailEditor extends Component {
 
     // If an initial email account passed load it.
     // Otherwise check if the user has set a primary email account.
-    const initialEmailAccount = this.props.emailAccount || currentUser.primaryEmailAccount.id;
+    const initialEmailAccount =
+      this.props.emailAccount || currentUser.primaryEmailAccount
+        ? currentUser.primaryEmailAccount.id
+        : null;
 
     if (initialEmailAccount) {
       const emailAccount = emailAccounts.find(account => account.value.id === initialEmailAccount);

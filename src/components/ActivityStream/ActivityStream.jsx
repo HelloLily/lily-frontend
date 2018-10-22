@@ -4,7 +4,6 @@ import { getYear, getMonth } from 'date-fns';
 import { withNamespaces } from 'react-i18next';
 import cx from 'classnames';
 
-import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
 import updateModel from 'utils/updateModel';
 import LilyDate from 'components/Utils/LilyDate';
@@ -96,7 +95,10 @@ class ActivityStream extends Component {
 
     try {
       await Note.del(note.id);
-      const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
+      const index = activityStream.findIndex(
+        streamItem =>
+          streamItem.id === item.id && streamItem.contentType.model === item.contentType.model
+      );
       const noteIndex = item.notes.findIndex(itemNote => itemNote.id === note.id);
       activityStream[index].notes.splice(noteIndex, 1);
 
@@ -114,7 +116,9 @@ class ActivityStream extends Component {
     const { t } = this.props;
 
     await Note.patch(args);
-    const index = activityStream.findIndex(streamItem => streamItem.id === args.id);
+    const index = activityStream.findIndex(
+      streamItem => streamItem.id === args.id && streamItem.contentType.model === 'note'
+    );
     activityStream[index].isPinned = args.isPinned;
 
     const text = t('modelUpdated', { model: 'note' });
@@ -152,35 +156,29 @@ class ActivityStream extends Component {
 
   deleteCallback = async item => {
     const { activityStream } = this.state;
-    const { t } = this.props;
 
-    try {
-      await del(`/${item.contentType.appLabel}/${item.id}/`);
-      // Find the given item and remove it from the activity stream;
-      const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
-      activityStream.splice(index, 1);
+    // Find the given item and remove it from the activity stream;
+    const index = activityStream.findIndex(
+      streamItem =>
+        streamItem.id === item.id && streamItem.contentType.model === item.contentType.model
+    );
+    activityStream.splice(index, 1);
 
-      successToast(t('modelDeleted', { model: item.contentType.model }));
-
-      this.setState({ activityStream });
-    } catch (error) {
-      errorToast(t('error'));
-    }
+    this.setState({ activityStream });
   };
 
   orderActivityStream = () => {
     const { activityStream } = this.state;
+    const { parentObject } = this.props;
 
     const orderedActivityStream = {
       pinned: [],
       nonPinned: {},
       totalItems: activityStream.length
     };
-    const parentObject = null;
+    const parentObjectId = parentObject ? parentObject.id : null;
 
     activityStream.forEach(item => {
-      const parentObjectId = parentObject ? parentObject.id : null;
-
       if (item.isPinned) {
         // Pinned notes are shown separately and always on top.
         orderedActivityStream.pinned.push(item);
@@ -204,7 +202,7 @@ class ActivityStream extends Component {
 
   render() {
     const { note, options, collapsed, filter, loading, activityStream } = this.state;
-    const { object } = this.props;
+    const { object, parentObject } = this.props;
     const orderedActivityStream = this.orderActivityStream(activityStream);
     const defaultProps = {
       object,
@@ -219,6 +217,11 @@ class ActivityStream extends Component {
       <div className="activity-stream">
         {!loading ? (
           <React.Fragment>
+            {parentObject && (
+              <div className="activity-stream-title">
+                {`Latest ${object.contentType.model} activity`}
+              </div>
+            )}
             <div className="activity-stream-filter capitalize">
               <div className="radio-button-group">
                 {options.map((option, index) => {

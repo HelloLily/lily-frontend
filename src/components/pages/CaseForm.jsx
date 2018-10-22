@@ -79,6 +79,14 @@ class InnerCaseForm extends Component {
   loadCase = async id => {
     const caseResponse = await Case.get(id);
 
+    if (caseResponse.account && caseResponse.account.isDeleted) {
+      caseResponse.account = null;
+    }
+
+    if (caseResponse.contact && caseResponse.contact.isDeleted) {
+      caseResponse.contact = null;
+    }
+
     this.props.setValues(caseResponse);
   };
 
@@ -97,7 +105,6 @@ class InnerCaseForm extends Component {
 
     if (!this.props.values.id && subject) {
       const filterquery = `subject:${subject}`;
-
       // TODO: Change this to new way of searching.
       const response = await Case.search(filterquery);
 

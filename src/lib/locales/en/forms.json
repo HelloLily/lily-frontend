@@ -1,37 +1,22 @@
 {
   "account": {
     "addContactToExisting": "Add as a contact to an existing account instead?",
-    "accountExists": "It looks like this account already exists",
-    "emptyStateTitle": "Progressional overview of what’s going on",
-    "emptyStateOne": "Accounts are a collection of contacts within the same organization, company or group.",
-    "emptyStateTwo": "You can easily see who you’ve been talking to and when.",
-    "emptyStateThree": "See the full communication history and gain insights about them, if you add them as an"
+    "accountExists": "It looks like this account already exists"
   },
   "contact": {
     "contactExists": "It looks like this contact already exists",
     "accountInfoTooltip": "I've loaded the selected account's data for you. Now you don't have to enter duplicate data!",
     "contactInfoTooltip": "This is the current contact's data",
-    "emptyStateTitle": "Everyone that matters to you",
-    "emptyStateOne": "Contacts are the lifeline for your communication history.",
-    "emptyStateTwo": "All emails, logged phone calls and notes added by you or your colleagues will be linked to them.",
-    "emptyStateThree": "Never lose track of anyone or anything, and add them as a ",
     "contactActiveAtIntro": "For each account you can toggle if <strong>{{name}}</strong> is still active there.",
     "contactActiveAtText": "This won't affect the visablilty of past communication."
   },
-  "case": {
-    "openCase": "There's another open case",
-    "openCases": "There are other open cases",
-    "emptyStateTitle": "Progressional overview of what’s going on",
-    "emptyStateOne": "Here you’ll find what needs to be done. Keep track of your tasks.",
-    "emptyStateTwo": "Start right now and add a"
-  },
   "deal": {
     "openDeal": "There's another open deal",
-    "openDeals": "There are other open deals",
-    "emptyStateTitle": "Close that deal",
-    "emptyStateOne": "Track the status of your deals with this extensive overview.",
-    "emptyStateTwo": "You can see what’s expired and what needs to be done in the nearby future.",
-    "emptyStateThree": "Add your first real deal, to find out"
+    "openDeals": "There are other open deals"
+  },
+  "case": {
+    "openCase": "There's another open case",
+    "openCases": "There are other open cases"
   },
   "emailAccount": {
     "loadAllMail": "Load all mail into Lily?",

@@ -478,7 +478,7 @@ li {
   text-align: center;
   font-size: 20px;
   margin: auto;
-  top: 120px;
+  padding: 25px;
 
   h3 {
     font-weight: bold;
@@ -487,10 +487,6 @@ li {
 
   p {
     font-size: 18px;
-  }
-
-  &.no-top {
-    top: 0;
   }
 }
 

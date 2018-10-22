@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 
 import { NO_SORT_STATUS } from 'lib/constants';
 import Editable from 'components/Editable';
@@ -47,6 +48,7 @@ class CaseList extends Component {
       filters: { list: [], dueDate: [], user: [] },
       query: '',
       pagination: {},
+      showEmptyState: false,
       loading: true
     };
 
@@ -55,6 +57,8 @@ class CaseList extends Component {
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
+    const existsResponse = await Case.exists();
+    const showEmptyState = !existsResponse.exists;
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
       caseType.value = `type.id: ${caseType.id}`;
@@ -69,7 +73,8 @@ class CaseList extends Component {
       caseTypes,
       page: 1,
       sortColumn: '',
-      sortStatus: NO_SORT_STATUS
+      sortStatus: NO_SORT_STATUS,
+      showEmptyState
     });
   }
 
@@ -143,6 +148,7 @@ class CaseList extends Component {
       sortColumn,
       sortStatus
     } = this.state;
+    const { t } = this.props;
 
     return (
       <BlockUI blocking={loading}>
@@ -250,6 +256,16 @@ class CaseList extends Component {
               ))}
             </tbody>
           </table>
+
+          {this.state.showEmptyState && (
+            <div className="empty-state-description">
+              <h3>{t('cases.emptyStateTitle')}</h3>
+
+              <p>{t('cases.line1')}</p>
+              <p>{t('cases.line2')}</p>
+            </div>
+          )}
+
           <div className="list-footer">
             <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
@@ -259,4 +275,4 @@ class CaseList extends Component {
   }
 }
 
-export default CaseList;
+export default withNamespaces('emptyStates')(CaseList);

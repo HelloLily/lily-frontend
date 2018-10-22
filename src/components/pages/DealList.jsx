@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 
 import { NO_SORT_STATUS } from 'lib/constants';
 import List from 'components/List';
@@ -48,10 +49,11 @@ class DealList extends Component {
       filters: { list: [], dueDate: [], user: [] },
       query: '',
       pagination: {},
-      loading: true,
       page: 1,
       sortColumn: '',
-      sortStatus: NO_SORT_STATUS
+      sortStatus: NO_SORT_STATUS,
+      showEmptyState: false,
+      loading: true
     };
 
     document.title = 'Deals - Lily';
@@ -59,17 +61,21 @@ class DealList extends Component {
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
+    const existsResponse = await Deal.exists();
+    const showEmptyState = !existsResponse.exists;
     const nextStepResponse = await Deal.nextSteps();
     const nextSteps = nextStepResponse.results.map(nextStep => {
       nextStep.value = `nextStep.id: ${nextStep.id}`;
 
       return nextStep;
     });
+
     await this.loadItems();
 
     this.setState({
       ...settingsResponse.results,
       nextSteps,
+      showEmptyState,
       loading: false
     });
   }
@@ -142,6 +148,7 @@ class DealList extends Component {
       sortColumn,
       sortStatus
     } = this.state;
+    const { t } = this.props;
 
     return (
       <BlockUI blocking={loading}>
@@ -237,6 +244,17 @@ class DealList extends Component {
               ))}
             </tbody>
           </table>
+
+          {this.state.showEmptyState && (
+            <div className="empty-state-description">
+              <h3>{t('deals.emptyStateTitle')}</h3>
+
+              <p>{t('deals.line1')}</p>
+              <p>{t('deals.line2')}</p>
+              <p>{t('deals.line3')}</p>
+            </div>
+          )}
+
           <div className="list-footer">
             <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
@@ -246,4 +264,4 @@ class DealList extends Component {
   }
 }
 
-export default DealList;
+export default withNamespaces('emptyStates')(DealList);

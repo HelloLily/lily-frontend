@@ -65,6 +65,12 @@ class Account {
 
     return response;
   }
+
+  exists() {
+    const response = get('/accounts/exists/');
+
+    return response;
+  }
 }
 
 export default new Account();

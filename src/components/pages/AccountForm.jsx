@@ -344,14 +344,15 @@ class InnerAccountForm extends Component {
   };
 
   handleSocialMedia = event => {
+    const { socialMedia } = this.props.values;
     // Get the ID of the input and change the value based on that ID.
-    const socialMediaProfile = this.props.values.socialMedia.find(
-      profile => profile.name === event.target.id
-    );
+    socialMedia.forEach(profile => {
+      if (profile.name === event.target.id) {
+        profile.username = event.target.value;
+      }
+    });
 
-    socialMediaProfile.username = event.target.value;
-
-    this.props.setFieldValue('socialMedia', [...this.props.values.socialMedia, socialMediaProfile]);
+    this.props.setFieldValue('socialMedia', socialMedia);
   };
 
   merge = async accountId => {
@@ -381,7 +382,7 @@ class InnerAccountForm extends Component {
     } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
 
-    const twitterProfile = values.socialMedia.find(profile => profile.type === 'twitter');
+    const twitterProfile = values.socialMedia.find(profile => profile.name === 'twitter');
     const twitterUsername = twitterProfile ? twitterProfile.username : '';
 
     return (

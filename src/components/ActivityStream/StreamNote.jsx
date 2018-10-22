@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import StreamAvatar from './StreamAvatar';
 
 const StreamNote = props => {
@@ -48,12 +49,7 @@ const StreamNote = props => {
               )}
             </button>
 
-            <button
-              className="hl-primary-btn borderless"
-              onClick={() => props.deleteCallback(item)}
-            >
-              <i className="lilicon hl-trashcan-icon" /> Delete
-            </button>
+            <DeleteConfirmation {...props} showText />
           </div>
         </div>
 

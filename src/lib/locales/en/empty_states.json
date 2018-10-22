@@ -6,6 +6,29 @@
     "line3": "You will have all communication just a click away.",
     "line4": "To see Lily’s magic, add your"
   },
+  "accounts": {
+    "emptyStateTitle": "Progressional overview of what’s going on",
+    "line1": "Accounts are a collection of contacts within the same organization, company or group.",
+    "line2": "You can easily see who you’ve been talking to and when.",
+    "line3": "See the full communication history and gain insights about them, if you add them as an"
+  },
+  "contacts": {
+    "emptyStateTitle": "Everyone that matters to you",
+    "line1": "Contacts are the lifeline for your communication history.",
+    "line2": "All emails, logged phone calls and notes added by you or your colleagues will be linked to them.",
+    "line3": "Never lose track of anyone or anything, and add them as a "
+  },
+  "deals": {
+    "emptyStateTitle": "Close that deal",
+    "line1": "Track the status of your deals with this extensive overview.",
+    "line2": "You can see what’s expired and what needs to be done in the nearby future.",
+    "line3": "Add your first real deal, to find out"
+  },
+  "cases": {
+    "emptyStateTitle": "Progressional overview of what’s going on",
+    "line1": "Here you’ll find what needs to be done. Keep track of your tasks.",
+    "line2": "Start right now and add a"
+  },
   "emailAccounts": "No email accounts setup yet",
   "sharedEmailAccounts": "No email accounts shared with you"
 }

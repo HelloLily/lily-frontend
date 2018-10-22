@@ -41,6 +41,7 @@ class ContactList extends Component {
       items: [],
       query: '',
       pagination: {},
+      showEmptyState: false,
       loading: true
     };
 
@@ -49,14 +50,17 @@ class ContactList extends Component {
 
   async componentDidMount() {
     const settingsResponse = await this.settings.get();
+    const existsResponse = await Contact.exists();
+    const showEmptyState = !existsResponse.exists;
+
     await this.loadItems();
 
     this.setState({
       ...settingsResponse.results,
-      loading: false,
       page: 1,
       sortColumn: '',
-      sortStatus: NO_SORT_STATUS
+      sortStatus: NO_SORT_STATUS,
+      showEmptyState
     });
   }
 
@@ -70,6 +74,7 @@ class ContactList extends Component {
 
   getAccountInformation = contact => {
     const { t } = this.props;
+
     const tooltip = t('contactListInfoTooltip');
 
     return (
@@ -161,6 +166,7 @@ class ContactList extends Component {
 
   render() {
     const { columns, items, query, pagination, sortColumn, sortStatus, loading } = this.state;
+    const { t } = this.props;
 
     return (
       <BlockUI blocking={loading}>
@@ -260,6 +266,17 @@ class ContactList extends Component {
               ))}
             </tbody>
           </table>
+
+          {this.state.showEmptyState && (
+            <div className="empty-state-description">
+              <h3>{t('contacts.emptyStateTitle')}</h3>
+
+              <p>{t('contacts.line1')}</p>
+              <p>{t('contacts.line2')}</p>
+              <p>{t('contacts.line3')}</p>
+            </div>
+          )}
+
           <div className="list-footer">
             <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>

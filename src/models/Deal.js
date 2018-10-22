@@ -75,6 +75,12 @@ class Deal {
   documents(id) {
     return get(`/integrations/documents/${id}`);
   }
+
+  exists() {
+    const response = get('/deals/exists/');
+
+    return response;
+  }
 }
 
 export default new Deal();

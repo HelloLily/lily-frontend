@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import { MOBILE_PHONE_TYPE, WORK_PHONE_TYPE, NO_SORT_STATUS } from 'lib/constants';
 import List from 'components/List';
@@ -40,10 +41,11 @@ class AccountList extends Component {
       statuses: [],
       filters: { list: [] },
       query: '',
-      loading: true,
       page: 1,
       sortColumn: '',
-      sortStatus: NO_SORT_STATUS
+      sortStatus: NO_SORT_STATUS,
+      showEmptyState: false,
+      loading: true
     };
 
     document.title = 'Accounts - Lily';
@@ -56,12 +58,15 @@ class AccountList extends Component {
       status.value = `status.id: ${status.id}`;
       return status;
     });
+    const existsResponse = await Account.exists();
+    const showEmptyState = !existsResponse.exists;
+
     await this.loadItems();
 
     this.setState({
       ...settingsResponse.results,
       statuses,
-      loading: false
+      showEmptyState
     });
   }
 
@@ -136,6 +141,7 @@ class AccountList extends Component {
       sortColumn,
       sortStatus
     } = this.state;
+    const { t } = this.props;
 
     return (
       <BlockUI blocking={loading}>
@@ -237,6 +243,17 @@ class AccountList extends Component {
               ))}
             </tbody>
           </table>
+
+          {this.state.showEmptyState && (
+            <div className="empty-state-description">
+              <h3>{t('accounts.emptyStateTitle')}</h3>
+
+              <p>{t('accounts.line1')}</p>
+              <p>{t('accounts.line2')}</p>
+              <p>{t('accounts.line3')}</p>
+            </div>
+          )}
+
           <div className="list-footer">
             <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
@@ -246,4 +263,4 @@ class AccountList extends Component {
   }
 }
 
-export default AccountList;
+export default withNamespaces('emptyStates')(AccountList);

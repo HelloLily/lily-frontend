@@ -254,6 +254,14 @@ class CaseDetail extends Component {
                 </BlockUI>
 
                 <ActivityStream object={caseObj} />
+
+                {caseObj.account && (
+                  <React.Fragment>
+                    <div className="m-b-25" />
+
+                    <ActivityStream object={caseObj.account} parentObject={caseObj} />
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </React.Fragment>

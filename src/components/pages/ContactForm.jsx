@@ -321,10 +321,10 @@ class InnerContactForm extends Component {
     const { accountSuggestions, contactSuggestions, showSuggestions, loading } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
 
-    const twitterProfile = values.socialMedia.find(profile => profile.type === 'twitter');
+    const twitterProfile = values.socialMedia.find(profile => profile.name === 'twitter');
     const twitterUsername = twitterProfile ? twitterProfile.username : '';
 
-    const linkedInProfile = values.socialMedia.find(profile => profile.type === 'linkedin');
+    const linkedInProfile = values.socialMedia.find(profile => profile.name === 'linkedin');
     const linkedInUsername = linkedInProfile ? linkedInProfile.username : '';
 
     return (
