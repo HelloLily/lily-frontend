@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import LilyDate from 'components/Utils/LilyDate';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Billing from 'models/Billing';
 
 class BillingOverview extends Component {
@@ -201,7 +202,7 @@ class BillingOverview extends Component {
             </div>
           </div>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );

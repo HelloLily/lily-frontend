@@ -5,7 +5,6 @@ import { withNamespaces } from 'react-i18next';
 import { format } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import {
@@ -23,6 +22,7 @@ import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
 import TagField from 'components/Fields/TagField';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import User from 'models/User';
@@ -330,7 +330,7 @@ class InnerDealForm extends Component {
                         {dealSuggestions.length > 0 && showSuggestions ? (
                           <div className="form-suggestions">
                             <div className="form-suggestion-title">
-                              <div>{t('deal.openDeal')}</div>
+                              <div>{t('forms:deal.openDeal')}</div>
 
                               <button
                                 className="hl-interface-btn"
@@ -646,7 +646,7 @@ class InnerDealForm extends Component {
             </div>
           </BlockUI>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );
@@ -708,10 +708,10 @@ const DealForm = withRouter(
 
       if (values.id) {
         request = Deal.patch(cleanedValues);
-        text = t('modelUpdated', { model: 'deal' });
+        text = t('toasts:modelUpdated', { model: 'deal' });
       } else {
         request = Deal.post(cleanedValues);
-        text = t('modelCreated', { model: 'deal' });
+        text = t('toasts:modelCreated', { model: 'deal' });
       }
 
       request

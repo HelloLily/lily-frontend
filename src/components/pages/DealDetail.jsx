@@ -481,7 +481,7 @@ class DealDetail extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );

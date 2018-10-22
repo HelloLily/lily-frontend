@@ -25,6 +25,7 @@ import cleanRelatedFields from 'utils/cleanRelatedFields';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
 import AddressField from 'components/Fields/AddressField';
@@ -622,7 +623,7 @@ class InnerAccountForm extends Component {
             </div>
           </BlockUI>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );

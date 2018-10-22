@@ -9,11 +9,12 @@
 
   &.fixed {
     position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 35%;
-    height: 75%;
+    bottom: 15px;
+    right: 15px;
+    width: 30%;
+    height: 60%;
     z-index: 25;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -31,8 +32,10 @@
 
 .editor-header {
   padding: 7px 12px;
-  font-size: 1.1em;
-  font-weight: 400;
+  font-size: 1.25em;
+  font-weight: 500;
+  border-top: 1px $base-border-color solid;
+  border-bottom: 1px $base-border-color solid;
 }
 
 /* TEMPORARY STYLING. COPY OF .Select-control. */

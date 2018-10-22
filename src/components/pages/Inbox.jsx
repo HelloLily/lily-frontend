@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import EmailAccount from 'models/EmailAccount';
 import Settings from 'models/Settings';
 import EmailCompose from 'pages/EmailCompose';
 import EmailDetail from 'pages/EmailDetail';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import EmailAccounts from 'components/EmailAccounts';
 import EmailMessages from 'components/EmailMessages';
 
@@ -113,14 +113,7 @@ class Inbox extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <div className="inbox-loading">
-            <div className="loading-header m-l-10">
-              Loading your inbox
-              <div className="text-center m-t-10">
-                <FontAwesomeIcon icon="spinner-third" spin />
-              </div>
-            </div>
-          </div>
+          <LoadingIndicator>Loading your inbox</LoadingIndicator>
         )}
       </div>
     );

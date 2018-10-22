@@ -14,6 +14,7 @@ import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import TagField from 'components/Fields/TagField';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
@@ -259,7 +260,7 @@ class InnerCaseForm extends Component {
                         {caseSuggestions.length > 0 && showSuggestions ? (
                           <div className="form-suggestions">
                             <div className="form-suggestion-title">
-                              <div>{t('case.openCase')}</div>
+                              <div>{t('forms:case.openCase')}</div>
 
                               <button
                                 className="hl-interface-btn"
@@ -487,7 +488,7 @@ class InnerCaseForm extends Component {
             </div>
           </BlockUI>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );
@@ -527,10 +528,10 @@ const CaseForm = withRouter(
 
       if (values.id) {
         request = Case.patch(cleanedValues);
-        text = t('modelUpdated', { model: 'case' });
+        text = t('toasts:modelUpdated', { model: 'case' });
       } else {
         request = Case.post(cleanedValues);
-        text = t('modelCreated', { model: 'case' });
+        text = t('toasts:modelCreated', { model: 'case' });
       }
 
       request

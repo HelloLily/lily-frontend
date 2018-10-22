@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TRASH_LABEL, PHONE_EMPTY_ROW } from 'lib/constants';
 import withContext from 'src/withContext';
 import LilyDate from 'components/Utils/LilyDate';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Dropdown from 'components/Dropdown';
 import Account from 'models/Account';
 import EmailAccount from 'models/EmailAccount';
@@ -382,7 +383,7 @@ class EmailDetail extends Component {
             </div>
           </div>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </div>
     );

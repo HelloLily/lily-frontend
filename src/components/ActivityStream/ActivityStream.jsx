@@ -7,6 +7,7 @@ import cx from 'classnames';
 import { successToast, errorToast } from 'utils/toasts';
 import updateModel from 'utils/updateModel';
 import LilyDate from 'components/Utils/LilyDate';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Note from 'models/Note';
 import setupActivityStream from './setupActivityStream';
 import StreamCase from './StreamCase';
@@ -364,14 +365,7 @@ class ActivityStream extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <div className="inbox-loading">
-            <div className="loading-header m-l-10">
-              Loading activity stream
-              <div className="text-center m-t-10">
-                <FontAwesomeIcon icon="spinner-third" spin />
-              </div>
-            </div>
-          </div>
+          <LoadingIndicator>Loading activity stream</LoadingIndicator>
         )}
       </div>
     );

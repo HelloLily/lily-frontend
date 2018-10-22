@@ -4,6 +4,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { SELECT_STYLES } from 'lib/constants';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import User from 'models/User';
 import EmailAccount from 'models/EmailAccount';
 
@@ -130,7 +131,7 @@ class UserShare extends Component {
             </div>
           </div>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );

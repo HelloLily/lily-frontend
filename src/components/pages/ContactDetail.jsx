@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import updateModel from 'utils/updateModel';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
 import CaseListWidget from 'components/ContentBlock/CaseListWidget';
@@ -72,7 +73,7 @@ class ContactDetail extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ActivityStream from 'components/ActivityStream';
 import BlockUI from 'components/Utils/BlockUI';
@@ -266,7 +267,7 @@ class CaseDetail extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <div>Loading</div>
+          <LoadingIndicator />
         )}
       </React.Fragment>
     );
