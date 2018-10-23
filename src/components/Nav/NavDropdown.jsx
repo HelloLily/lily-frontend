@@ -6,13 +6,13 @@ import withContext from 'src/withContext';
 import FeatureUnavailableMarker from 'components/Billing/FeatureUnavailableMarker';
 import Dropdown from 'components/Dropdown';
 
-const NavDropdown = props => (
+const NavDropdown = ({ currentUser }) => (
   <div>
     <Dropdown
       clickable={
         <div className="header-avatar m-r-20">
-          {props.currentUser.profilePicture ? (
-            <img src={props.currentUser.profilePicture} alt="User avatar" />
+          {currentUser.profilePicture ? (
+            <img src={currentUser.profilePicture} alt="User avatar" />
           ) : (
             <div className="avatar-placeholder" />
           )}
@@ -83,31 +83,35 @@ const NavDropdown = props => (
             </NavLink>
           </li>
 
-          <li className="dropdown-menu-item">
-            <FeatureUnavailableMarker tier="2">
-              <NavLink to="/preferences/integrations" exact>
-                <FontAwesomeIcon icon="plug" /> Integrations
-              </NavLink>
-            </FeatureUnavailableMarker>
-          </li>
+          {currentUser.isAdmin && (
+            <React.Fragment>
+              <li className="dropdown-menu-item">
+                <FeatureUnavailableMarker tier="2">
+                  <NavLink to="/preferences/integrations" exact>
+                    <FontAwesomeIcon icon="plug" /> Integrations
+                  </NavLink>
+                </FeatureUnavailableMarker>
+              </li>
 
-          <li className="dropdown-menu-item">
-            <NavLink to="/preferences/billing" exact>
-              <FontAwesomeIcon icon="credit-card" /> Billing
-            </NavLink>
-          </li>
+              <li className="dropdown-menu-item">
+                <NavLink to="/preferences/billing" exact>
+                  <FontAwesomeIcon icon="credit-card" /> Billing
+                </NavLink>
+              </li>
 
-          <li className="dropdown-menu-item">
-            <NavLink to="/preferences/import" exact>
-              <i className="lilicon hl-entities-icon" /> Import
-            </NavLink>
-          </li>
+              <li className="dropdown-menu-item">
+                <NavLink to="/preferences/import" exact>
+                  <i className="lilicon hl-entities-icon" /> Import
+                </NavLink>
+              </li>
 
-          <li className="dropdown-menu-item">
-            <NavLink to="/preferences/settings" exact>
-              <i className="lilicon hl-cog-icon" /> Settings
-            </NavLink>
-          </li>
+              <li className="dropdown-menu-item">
+                <NavLink to="/preferences/settings" exact>
+                  <i className="lilicon hl-cog-icon" /> Settings
+                </NavLink>
+              </li>
+            </React.Fragment>
+          )}
 
           <div className="divider" />
 

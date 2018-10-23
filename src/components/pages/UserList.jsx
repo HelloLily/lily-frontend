@@ -28,9 +28,12 @@ class UserList extends Component {
       { key: 'email', text: 'Email address', selected: true, sort: 'email' },
       { key: 'phoneNumber', text: 'Phone number', selected: true, sort: 'phoneNumber' },
       { key: 'internalNumber', text: 'Internal number', selected: true, sort: 'internalNumber' },
-      { key: 'isActive', text: 'Status', selected: true, sort: 'isActive' },
-      { key: 'twoFactor', text: '2FA Active', selected: true }
+      { key: 'isActive', text: 'Status', selected: true, sort: 'isActive' }
     ];
+
+    if (props.currentUser.isAdmin) {
+      columns.push({ key: 'twoFactor', text: '2FA Active', selected: true });
+    }
 
     this.state = {
       columns,
@@ -148,6 +151,7 @@ class UserList extends Component {
       sortStatus,
       loading
     } = this.state;
+    const { currentUser } = this.props;
 
     const filterOptions = ['All', 'Active', 'Inactive', 'Invited'];
 
@@ -161,9 +165,11 @@ class UserList extends Component {
               <FontAwesomeIcon icon="plus" /> User
             </Link>
 
-            <button className="hl-primary-btn" onClick={this.addTeam}>
-              <FontAwesomeIcon icon="plus" /> Team
-            </button>
+            {currentUser.isAdmin && (
+              <button className="hl-primary-btn" onClick={this.addTeam}>
+                <FontAwesomeIcon icon="plus" /> Team
+              </button>
+            )}
           </div>
           <div className="list-header">
             <div className="flex-grow">
@@ -267,12 +273,16 @@ class UserList extends Component {
                   {columns[3].selected && <td>{user.phoneNumber}</td>}
                   {columns[4].selected && (
                     <td>
-                      <Editable
-                        type="text"
-                        object={user}
-                        field="internalNumber"
-                        // submitCallback={submitCallback}
-                      />
+                      {currentUser.isAdmin ? (
+                        <Editable
+                          type="text"
+                          object={user}
+                          field="internalNumber"
+                          // submitCallback={submitCallback}
+                        />
+                      ) : (
+                        <React.Fragment>{user.internalNumber}</React.Fragment>
+                      )}
                     </td>
                   )}
                   {columns[5].selected && (
@@ -282,9 +292,10 @@ class UserList extends Component {
                       </div>
                     </td>
                   )}
-                  {columns[6].selected && (
-                    <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
-                  )}
+                  {columns[6].selected &&
+                    currentUser.isAdmin && (
+                      <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
+                    )}
                   <td />
                 </tr>
               ))}

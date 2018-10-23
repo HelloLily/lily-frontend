@@ -7,7 +7,7 @@ import LilyTooltip from 'components/LilyTooltip';
 import './feature_unavailable.scss';
 
 const FeatureUnavailableMarker = props => {
-  const { tier, currentUser, t } = props;
+  const { tier, currentUser, children, t } = props;
   const currentTier = currentUser.tenant.billing.plan.tier;
   const tooltip = currentUser.isAdmin ? t('featureUnavailableIsAdmin') : t('featureUnavailable');
 
@@ -15,7 +15,7 @@ const FeatureUnavailableMarker = props => {
     <React.Fragment>
       {currentTier < tier ? (
         <div className="display-flex">
-          <div className="is-disabled">{props.children}</div>
+          <div className="is-disabled">{children}</div>
 
           <div data-tip={tooltip}>
             {currentUser.isAdmin ? (
@@ -30,10 +30,10 @@ const FeatureUnavailableMarker = props => {
           <LilyTooltip />
         </div>
       ) : (
-        <React.Fragment>{props.children}</React.Fragment>
+        <React.Fragment>{children}</React.Fragment>
       )}
     </React.Fragment>
   );
 };
 
-export default withNamespaces()(withContext(FeatureUnavailableMarker));
+export default withNamespaces('tooltips')(withContext(FeatureUnavailableMarker));

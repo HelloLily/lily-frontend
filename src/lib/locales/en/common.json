@@ -1,10 +1,1 @@
-{
-  "featureUnavailableIsAdmin": "This feature is unavailable for your current plan. Click here to go to the billing page.",
-  "limitReachedIsAdmin": "You've reached the email account limit of your Personal plan. Please <a href=\"/preferences/billing\">upgrade</a> it to enable more email accounts.",
-  "sharingUnavailableIsAdmin": "Email accounts can't be shared while on the Personal plan. Please <a href=\"/preferences/billing\">upgrade</a> it to enable inbox sharing.",
-
-  "featureUnavailable": "This feature is unavailable for your current plan. Ask ${currentUser.tenant.accountAdmin} to upgrade your plan.",
-  "limitReached": "You've reached the email account limit of your Personal plan. Ask ${currentUser.tenant.accountAdmin} to upgrade your plan.",
-  "sharingUnavailable": "Email accounts can't be shared while on the Personal plan. Ask ${currentUser.tenant.accountAdmin} to upgrade your plan.",
-  "featureUnavailableInline": "This feature is unavailable for your current plan. <br />Please <a href=\"/preferences/billing\">upgrade</a> to use this feature."
-}
+{}
