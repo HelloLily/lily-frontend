@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 export default () => (
   <div>
-    Not Found...<br />
+    Not found...
+    <br />
     <Link to="/">Go home</Link>
   </div>
 );

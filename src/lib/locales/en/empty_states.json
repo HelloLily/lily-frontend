@@ -2,7 +2,7 @@
   "email": {
     "title": "This is where the magic happens.",
     "line1": "From today on, you won’t need another email client.",
-    "line2": "Lily handles your email seamlessly and links them <br /> automagically with your Contacts, Deals and Cases. ",
+    "line2": "Lily handles your email seamlessly and links them automagically with your Contacts, Deals and Cases. ",
     "line3": "You will have all communication just a click away.",
     "line4": "To see Lily’s magic, add your"
   },
@@ -28,6 +28,15 @@
     "emptyStateTitle": "Progressional overview of what’s going on",
     "line1": "Here you’ll find what needs to be done. Keep track of your tasks.",
     "line2": "Start right now and add a"
+  },
+  "dashboard": {
+    "myCases": "Here you’ll find all the unfinished cases.",
+    "myCasesCompleted": "Great! All of the selected cases have been completed.",
+    "myDeals": "All the deals you need to complete will show up here.",
+    "myDealsCompleted": "Well done, you’ve completed all your selected deals!",
+    "unassignedCases": "All cases for the selected types and teams have been assigned.",
+    "unassignedDeals": "All deals for the selected types and teams have been assigned.",
+    "unreadEmail": "Awesome! All of the unread emails in the selected inbox(es) have been read."
   },
   "emailAccounts": "No email accounts setup yet",
   "sharedEmailAccounts": "No email accounts shared with you"

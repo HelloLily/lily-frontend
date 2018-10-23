@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
@@ -10,6 +11,7 @@ import LilyDate from 'components/Utils/LilyDate';
 import ClientDisplay from 'components/Utils/ClientDisplay';
 import UserFilter from 'components/UserFilter';
 import DueDateFilter from 'components/DueDateFilter';
+import LilyTooltip from 'components/LilyTooltip';
 import Settings from 'models/Settings';
 import Deal from 'models/Deal';
 
@@ -64,6 +66,9 @@ class MyDeals extends Component {
 
   render() {
     const { items, total, filters, loading } = this.state;
+    const { currentUser, t } = this.props;
+
+    const hasCompleted = filters.dueDate.length > 0 && filters.user.length > 0;
 
     const title = (
       <React.Fragment>
@@ -84,6 +89,7 @@ class MyDeals extends Component {
       </React.Fragment>
     );
 
+    const acceptTooltip = t('tooltips:newlyAssignedDeal');
     const categories = [];
 
     Object.keys(items).forEach(key => {
@@ -122,7 +128,11 @@ class MyDeals extends Component {
               </td>
               <td>
                 {newlyAssigned && (
-                  <button className="hl-primary-btn round" onClick={() => this.acceptDeal(item)}>
+                  <button
+                    className="hl-primary-btn round"
+                    onClick={() => this.acceptDeal(item)}
+                    data-tip={acceptTooltip}
+                  >
                     <FontAwesomeIcon icon="check" />
                   </button>
                 )}
@@ -151,10 +161,32 @@ class MyDeals extends Component {
           </thead>
 
           {categories}
+
+          {total === 0 && (
+            <tbody>
+              <tr>
+                <td colSpan="8">
+                  {hasCompleted ? (
+                    <span>{t('emptyStates:dashboard.myDealsCompleted')}</span>
+                  ) : (
+                    <span>No deals</span>
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          )}
         </table>
+
+        {currentUser.objectCounts.deals === 0 && (
+          <div className="empty-state-description">
+            <p>{t('emptyStates:dashboard.myDeals')}</p>
+          </div>
+        )}
+
+        <LilyTooltip />
       </ContentBlock>
     );
   }
 }
 
-export default withContext(MyDeals);
+export default withNamespaces(['emptyStates', 'tooltips'])(withContext(MyDeals));

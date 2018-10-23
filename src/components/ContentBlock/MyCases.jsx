@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
@@ -11,6 +12,7 @@ import ContentBlock from 'components/ContentBlock';
 import ClientDisplay from 'components/Utils/ClientDisplay';
 import UserFilter from 'components/UserFilter';
 import DueDateFilter from 'components/DueDateFilter';
+import LilyTooltip from 'components/LilyTooltip';
 import Settings from 'models/Settings';
 import Case from 'models/Case';
 
@@ -67,6 +69,9 @@ class MyCases extends Component {
 
   render() {
     const { items, total, criticalCount, filters, loading } = this.state;
+    const { currentUser, t } = this.props;
+
+    const hasCompleted = filters.dueDate.length > 0 && filters.user.length > 0;
 
     const title = (
       <React.Fragment>
@@ -88,6 +93,7 @@ class MyCases extends Component {
       </React.Fragment>
     );
 
+    const acceptTooltip = t('tooltips:newlyAssignedCase');
     const categories = [];
 
     Object.keys(items).forEach(key => {
@@ -132,7 +138,11 @@ class MyCases extends Component {
               </td>
               <td>
                 {newlyAssigned && (
-                  <button className="hl-primary-btn round" onClick={() => this.acceptCase(item)}>
+                  <button
+                    className="hl-primary-btn round"
+                    onClick={() => this.acceptCase(item)}
+                    data-tip={acceptTooltip}
+                  >
                     <FontAwesomeIcon icon="check" />
                   </button>
                 )}
@@ -162,10 +172,32 @@ class MyCases extends Component {
           </thead>
 
           {categories}
+
+          {total === 0 && (
+            <tbody>
+              <tr>
+                <td colSpan="8">
+                  {hasCompleted ? (
+                    <span>{t('emptyStates:dashboard.myCasesCompleted')}</span>
+                  ) : (
+                    <span>No cases</span>
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          )}
         </table>
+
+        {currentUser.objectCounts.cases === 1 && (
+          <div className="empty-state-description">
+            <p>{t('emptyStates:dashboard.myCases')}</p>
+          </div>
+        )}
+
+        <LilyTooltip />
       </ContentBlock>
     );
   }
 }
 
-export default withContext(MyCases);
+export default withNamespaces(['emptyStates', 'tooltips'])(withContext(MyCases));

@@ -46,6 +46,12 @@ class Lily extends Component {
   async componentDidMount() {
     const currentUser = await User.me();
 
+    // TODO: Temporary.
+    currentUser.objectCounts = {
+      cases: 1,
+      deals: 0
+    };
+
     this.props.setCurrentUser(currentUser);
 
     // TODO: Implement a way to switch between test and live site.

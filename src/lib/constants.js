@@ -95,6 +95,11 @@ export const SELECT_STYLES = {
   placeholder: base => ({
     ...base,
     color: '#b5b5b5'
+  }),
+  clearIndicator: base => ({
+    ...base,
+    height: '32px',
+    padding: '6px 8px'
   })
 };
 

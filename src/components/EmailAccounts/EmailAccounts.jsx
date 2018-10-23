@@ -30,7 +30,7 @@ class EmailAccounts extends Component {
     const settingsResponse = await this.settings.get();
     const accountRequest = await EmailAccount.mine();
     // TODO: Fetch settings for label.
-    const emailAccounts = accountRequest.map(emailAccount => {
+    const emailAccounts = accountRequest.results.map(emailAccount => {
       // Sort the labels by name.
       emailAccount.labels = emailAccount.labels.sort((a, b) => a.name.localeCompare(b.name));
       emailAccount.labels = emailAccount.labels.filter(label => label.labelType !== 0);

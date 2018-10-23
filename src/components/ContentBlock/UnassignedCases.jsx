@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
@@ -66,6 +67,7 @@ class UnassignedCases extends Component {
 
   render() {
     const { items, caseTypes, teams, filters, total, criticalCount } = this.state;
+    const { t } = this.props;
 
     const title = (
       <React.Fragment>
@@ -140,6 +142,12 @@ class UnassignedCases extends Component {
                 </td>
               </tr>
             ))}
+
+            {items.length === 0 && (
+              <tr>
+                <td colSpan="7">{t('dashboard.unassignedCases')}</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </ContentBlock>
@@ -147,4 +155,4 @@ class UnassignedCases extends Component {
   }
 }
 
-export default UnassignedCases;
+export default withNamespaces('emptyStates')(UnassignedCases);

@@ -36,13 +36,12 @@ class EditableSelect extends Component {
   };
 
   handleSingleSelect = async selected => {
-    const value = selected ? selected.value : null;
     const args = {
       id: this.props.object.id,
-      [this.props.field]: value ? value.id : value
+      [this.props.field]: selected ? selected.id : selected
     };
 
-    await this.props.handleChange(value);
+    await this.props.handleChange(selected);
 
     this.props.handleSubmit(args);
   };
@@ -85,8 +84,8 @@ class EditableSelect extends Component {
           onInputKeyDown={this.onInputKeyDown}
           onBlur={this.handleBlur}
           menuPortalTarget={document.body}
-          getOptionValue={option => option[selectConfig.display]}
           getOptionLabel={option => option[selectConfig.display]}
+          getOptionValue={option => option.id}
         />
 
         {multi && (

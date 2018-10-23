@@ -28,6 +28,7 @@
     "react/no-did-mount-set-state": 0,
     "react/jsx-one-expression-per-line": 0,
     "react/button-has-type": 0,
+    "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
 
     "import/no-unresolved": 0,
     "import/extensions": 0,
