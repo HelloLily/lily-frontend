@@ -20,6 +20,12 @@ export default async function handleResponse(response) {
 
   if (!successCodes.includes(status)) {
     data.statusCode = status;
+
+    if (status === 403) {
+      // Just redirect back to the dashboard if the user isn't allowed to view the page.
+      window.location = '/';
+    }
+
     const error = new Error(statusText);
     error.data = data;
     throw error;

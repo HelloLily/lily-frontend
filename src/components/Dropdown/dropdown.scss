@@ -1,6 +1,22 @@
 @import '~style/variables/colors';
 @import '~style/variables/measurements';
 
+.dropdown-container {
+  &.is-clearable {
+    display: flex;
+
+    .hl-primary-btn {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .hl-primary-btn-red {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+
 .dropdown-menu-container {
   position: relative;
 }

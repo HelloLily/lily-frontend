@@ -91,10 +91,23 @@ label {
     margin-right: 25px;
     margin-bottom: 10px;
     flex: 1 1 20%;
+    transition: all 0.25s ease-out;
   }
 
   .form-section-content {
     flex: 1 1 75%;
+  }
+}
+
+.sidebar {
+  &.expanded {
+    .form-section-heading {
+      text-align: right;
+    }
+  }
+
+  .form-section-heading {
+    text-align: initial;
   }
 }
 

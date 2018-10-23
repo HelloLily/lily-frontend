@@ -126,6 +126,7 @@ class AddressField extends Component {
                   <button
                     className="hl-primary-btn m-r-10"
                     onClick={() => this.toggleDelete(item, index)}
+                    type="button"
                   >
                     {item.isDeleted ? (
                       <FontAwesomeIcon icon="undo" />
@@ -136,7 +137,7 @@ class AddressField extends Component {
 
                   {!inline &&
                     index === items.length - 1 && (
-                      <button className="hl-primary-btn" onClick={this.addRow}>
+                      <button className="hl-primary-btn" onClick={this.addRow} type="button">
                         <FontAwesomeIcon icon="plus" />
                       </button>
                     )}

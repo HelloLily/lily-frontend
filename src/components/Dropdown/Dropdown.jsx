@@ -1,45 +1,57 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Dropdown extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showMenu: false
+      menuOpen: false
     };
   }
 
   showMenu = event => {
     event.preventDefault();
 
-    this.setState({ showMenu: true }, () => {
+    this.setState({ menuOpen: true }, () => {
       document.addEventListener('click', this.closeMenu);
     });
   };
 
   closeMenu = event => {
     if (this.dropdownMenu && !this.dropdownMenu.contains(event.target)) {
-      this.setState({ showMenu: false }, () => {
+      this.setState({ menuOpen: false }, () => {
         document.removeEventListener('click', this.closeMenu);
       });
     }
   };
 
   render() {
+    const { menuOpen } = this.state;
+    const { clickable, menu, clearCallback } = this.props;
+
     return (
       <div>
-        <div className="clickable" onClick={this.showMenu}>
-          {this.props.clickable}
+        <div className={`dropdown-container${clearCallback ? ' is-clearable' : ''}`}>
+          <div className="clickable" onClick={this.showMenu}>
+            {clickable}
+          </div>
+
+          {clearCallback && (
+            <button className="hl-primary-btn-red" onClick={clearCallback}>
+              <FontAwesomeIcon icon="times" />
+            </button>
+          )}
         </div>
 
-        {this.state.showMenu ? (
+        {menuOpen ? (
           <div
             className="dropdown-menu-container"
             ref={element => {
               this.dropdownMenu = element;
             }}
           >
-            {this.props.menu}
+            {menu}
           </div>
         ) : null}
       </div>

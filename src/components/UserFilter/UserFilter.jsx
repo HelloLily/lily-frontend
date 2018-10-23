@@ -139,6 +139,14 @@ class UserFilter extends Component {
     this.props.setFilters(filters);
   };
 
+  clearFilters = () => {
+    const { filters } = this.props;
+
+    filters.user = [];
+
+    this.props.setFilters(filters);
+  };
+
   render() {
     const { teams } = this.state;
     const { currentUser } = this.props;
@@ -148,8 +156,9 @@ class UserFilter extends Component {
 
     return (
       <Dropdown
+        clearCallback={filters.length > 0 ? this.clearFilters : null}
         clickable={
-          <button className="hl-primary-btn filter-btn m-r-10" onClick={this.showMenu}>
+          <button className="hl-primary-btn filter-btn" onClick={this.showMenu}>
             <i className="lilicon hl-entities-icon" />
             <span className="m-l-5 m-r-5">
               {display.length === 0 && <React.Fragment>Users</React.Fragment>}
