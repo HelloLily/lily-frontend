@@ -302,7 +302,7 @@ class InnerDealForm extends Component {
                           onChange={this.handleAccount}
                           loadOptions={this.searchAccounts}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           placeholder="Select an account"
                         />
 
@@ -319,7 +319,7 @@ class InnerDealForm extends Component {
                           onChange={this.handleContact}
                           loadOptions={this.searchContacts}
                           getOptionLabel={option => option.fullName}
-                          getOptionValue={option => option.fullName}
+                          getOptionValue={option => option.id}
                           placeholder="Select a contact"
                         />
 
@@ -389,7 +389,7 @@ class InnerDealForm extends Component {
                           onChange={value => this.props.setFieldValue('foundThrough', value)}
                           options={foundThrough}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           placeholder="Select a channel"
                         />
 
@@ -409,7 +409,7 @@ class InnerDealForm extends Component {
                           onChange={value => this.props.setFieldValue('contactedBy', value)}
                           options={contactedBy}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           placeholder="Select a medium"
                         />
 
@@ -429,7 +429,7 @@ class InnerDealForm extends Component {
                           onChange={value => this.props.setFieldValue('whyCustomer', value)}
                           options={whyCustomer}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           placeholder="Select a reason"
                         />
 
@@ -531,7 +531,7 @@ class InnerDealForm extends Component {
                           onChange={this.handleStatus}
                           options={statuses}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           placeholder="Select a status"
                         />
 
@@ -550,7 +550,7 @@ class InnerDealForm extends Component {
                             onChange={value => this.props.setFieldValue('whyLost', value)}
                             options={whyLost}
                             getOptionLabel={option => option.name}
-                            getOptionValue={option => option.name}
+                            getOptionValue={option => option.id}
                             placeholder="Select a reason"
                           />
 
@@ -569,7 +569,7 @@ class InnerDealForm extends Component {
                           onChange={this.handleNextStep}
                           options={nextSteps}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           components={{ SingleValue: this.IconValue, Option: this.IconOption }}
                           placeholder="Select a reason"
                         />
@@ -604,7 +604,7 @@ class InnerDealForm extends Component {
                           onChange={value => this.props.setFieldValue('assignedToTeams', value)}
                           loadOptions={this.searchTeams}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                         />
 
                         {errors.assignedToTeams && (
@@ -623,7 +623,7 @@ class InnerDealForm extends Component {
                           onChange={this.handleAssignedTo}
                           loadOptions={this.searchUsers}
                           getOptionLabel={option => option.fullName}
-                          getOptionValue={option => option.fullName}
+                          getOptionValue={option => option.id}
                         />
 
                         {errors.assignedTo && (

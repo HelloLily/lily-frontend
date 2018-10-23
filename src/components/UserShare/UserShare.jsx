@@ -107,7 +107,7 @@ class UserShare extends Component {
                 onChange={value => this.props.handleAdditions(value)}
                 loadOptions={this.searchUsers}
                 getOptionLabel={option => option.fullName}
-                getOptionValue={option => option.fullName}
+                getOptionValue={option => option.id}
                 className="user-share-container"
                 classNamePrefix="user-share"
               />

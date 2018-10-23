@@ -31,11 +31,11 @@ class DeleteConfirmation extends Component {
       const text = t('toasts:modelDeleted', { model: item.contentType.model });
       successToast(text);
 
+      this.closeModal();
+
       if (deleteCallback) {
         deleteCallback(item);
       }
-
-      this.closeModal();
     } catch (error) {
       errorToast(t('toasts:error'));
     }
@@ -61,12 +61,14 @@ class DeleteConfirmation extends Component {
             />
           </div>
 
-          <button className="hl-primary-btn-red" onClick={this.confirmDelete}>
-            Yes, delete
-          </button>
-          <button className="hl-primary-btn m-l-10" onClick={this.closeModal}>
-            Cancel
-          </button>
+          <div className="modal-footer">
+            <button className="hl-primary-btn-red" onClick={this.confirmDelete}>
+              Yes, delete
+            </button>
+            <button className="hl-primary-btn m-l-10" onClick={this.closeModal}>
+              Cancel
+            </button>
+          </div>
         </LilyModal>
       </React.Fragment>
     );

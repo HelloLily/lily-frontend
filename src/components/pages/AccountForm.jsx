@@ -486,7 +486,7 @@ class InnerAccountForm extends Component {
                           onChange={value => this.props.setFieldValue('status', value)}
                           options={accountStatuses}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                         />
 
                         {errors.status && <div className="error-message">{errors.status}</div>}
@@ -505,7 +505,7 @@ class InnerAccountForm extends Component {
                           onChange={value => this.props.setFieldValue('assignedTo', value)}
                           loadOptions={this.search}
                           getOptionLabel={option => option.fullName}
-                          getOptionValue={option => option.fullName}
+                          getOptionValue={option => option.id}
                         />
 
                         {errors.assignedTo && (

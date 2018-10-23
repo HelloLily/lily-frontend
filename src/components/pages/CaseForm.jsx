@@ -232,7 +232,7 @@ class InnerCaseForm extends Component {
                           onChange={this.handleAccount}
                           loadOptions={this.searchAccounts}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           placeholder="Select an account"
                         />
 
@@ -249,7 +249,7 @@ class InnerCaseForm extends Component {
                           onChange={this.handleContact}
                           loadOptions={this.searchContacts}
                           getOptionLabel={option => option.fullName}
-                          getOptionValue={option => option.fullName}
+                          getOptionValue={option => option.id}
                           placeholder="Select a contact"
                         />
 
@@ -341,7 +341,7 @@ class InnerCaseForm extends Component {
                           onChange={value => this.props.setFieldValue('type', value)}
                           options={caseTypes}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           placeholder="Select a type"
                         />
 
@@ -360,7 +360,7 @@ class InnerCaseForm extends Component {
                           onChange={value => this.props.setFieldValue('status', value)}
                           options={caseStatuses}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                         />
 
                         {errors.status && <div className="error-message">{errors.status}</div>}
@@ -446,7 +446,7 @@ class InnerCaseForm extends Component {
                           onChange={value => this.props.setFieldValue('assignedToTeams', value)}
                           loadOptions={this.searchTeams}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                         />
 
                         {errors.assignedToTeams && (
@@ -465,7 +465,7 @@ class InnerCaseForm extends Component {
                           onChange={value => this.props.setFieldValue('assignedTo', value)}
                           loadOptions={this.searchUsers}
                           getOptionLabel={option => option.fullName}
-                          getOptionValue={option => option.fullName}
+                          getOptionValue={option => option.id}
                         />
 
                         {errors.assignedTo && (

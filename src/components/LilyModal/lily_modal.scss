@@ -25,10 +25,16 @@
   padding: 20px;
   max-height: 85%;
   min-height: 25%;
+  position: relative;
 
   .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .modal-footer {
+    position: absolute;
+    bottom: 15px;
   }
 }

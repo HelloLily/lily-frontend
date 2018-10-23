@@ -429,7 +429,7 @@ class InnerContactForm extends Component {
                           onChange={this.handleAccounts}
                           loadOptions={this.searchAccounts}
                           getOptionLabel={option => option.name}
-                          getOptionValue={option => option.name}
+                          getOptionValue={option => option.id}
                           components={{ NoOptionsMessage: this.NoOptionsMessage }}
                         />
                       </div>
