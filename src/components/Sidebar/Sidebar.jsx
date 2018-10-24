@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import withContext from 'src/withContext';
-import AccountForm from 'pages/AccountForm';
-import ContactForm from 'pages/ContactForm';
-import DealForm from 'pages/DealForm';
-import CaseForm from 'pages/CaseForm';
+
+const AccountForm = React.lazy(() => import('pages/AccountForm'));
+const ContactForm = React.lazy(() => import('pages/ContactForm'));
+const DealForm = React.lazy(() => import('pages/DealForm'));
+const CaseForm = React.lazy(() => import('pages/CaseForm'));
 
 const Forms = {
   account: AccountForm,
@@ -52,7 +53,7 @@ class Sidebar extends Component {
     return (
       <div className={className}>
         {sidebar && (
-          <React.Fragment>
+          <React.Suspense fallback={<div />}>
             <div className="sidebar-header">
               <button onClick={this.closeSidebar} className="close-btn">
                 <i className="lilicon hl-close-icon" />
@@ -65,7 +66,7 @@ class Sidebar extends Component {
             <div className="sidebar-content">
               <Form closeSidebar={this.closeSidebar} />
             </div>
-          </React.Fragment>
+          </React.Suspense>
         )}
       </div>
     );

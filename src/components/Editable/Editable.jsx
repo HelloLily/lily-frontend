@@ -8,16 +8,17 @@ import Address from 'components/Utils/Address';
 import LilyTooltip from 'components/LilyTooltip';
 import updateModel from 'utils/updateModel';
 import getSelectConfig from './getSelectConfig';
-import EditableText from './EditableText';
-import EditableTextarea from './EditableTextarea';
-import EditableAsyncSelect from './EditableAsyncSelect';
-import EditableSelect from './EditableSelect';
-import EditableIconSelect from './EditableIconSelect';
-import EditableEmailAddresses from './EditableEmailAddresses';
-import EditablePhoneNumbers from './EditablePhoneNumbers';
-import EditableAddresses from './EditableAddresses';
-import EditableWebsites from './EditableWebsites';
-import EditableTags from './EditableTags';
+
+const EditableText = React.lazy(() => import('./EditableText'));
+const EditableTextarea = React.lazy(() => import('./EditableTextarea'));
+const EditableAsyncSelect = React.lazy(() => import('./EditableAsyncSelect'));
+const EditableSelect = React.lazy(() => import('./EditableSelect'));
+const EditableIconSelect = React.lazy(() => import('./EditableIconSelect'));
+const EditableEmailAddresses = React.lazy(() => import('./EditableEmailAddresses'));
+const EditablePhoneNumbers = React.lazy(() => import('./EditablePhoneNumbers'));
+const EditableAddresses = React.lazy(() => import('./EditableAddresses'));
+const EditableWebsites = React.lazy(() => import('./EditableWebsites'));
+const EditableTags = React.lazy(() => import('./EditableTags'));
 
 const components = {
   text: EditableText,
@@ -325,7 +326,9 @@ class Editable extends Component {
         <span onKeyDown={this.handleKeyPress} ref={this.editableRef}>
           {editing ? (
             <span className={`editable-wrap${hasError ? ' has-error' : ''}`}>
-              <EditableComponent {...props} />
+              <React.Suspense fallback={<span>{display || emptyText}</span>}>
+                <EditableComponent {...props} />
+              </React.Suspense>
 
               {hasError && <div className="error-message">{error}</div>}
             </span>

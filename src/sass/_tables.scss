@@ -46,6 +46,7 @@
   tbody {
     tr {
       border-bottom: 1px $inner-border-color solid;
+      height: 45px;
 
       &:hover {
         background-color: $lily-white-tone-hover;
@@ -53,6 +54,8 @@
 
       &.table-category {
         background: #f6f8fc;
+        height: initial;
+        border-bottom-width: 2px;
 
         td {
           padding: 5px 12px;
