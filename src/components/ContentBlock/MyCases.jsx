@@ -6,7 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
 import updateModel from 'utils/updateModel';
-import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import ClientDisplay from 'components/Utils/ClientDisplay';
@@ -134,7 +134,7 @@ class MyCases extends Component {
                 />
               </td>
               <td>
-                <LilyDate date={item.expires} />
+                <Postpone object={item} field="expires" />
               </td>
               <td>
                 {newlyAssigned && (

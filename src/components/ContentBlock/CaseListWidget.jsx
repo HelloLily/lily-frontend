@@ -7,6 +7,7 @@ import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import Case from 'models/Case';
 
 class CaseListWidget extends Component {
@@ -86,7 +87,7 @@ class CaseListWidget extends Component {
                       />
                     </td>
                     <td>
-                      <LilyDate date={item.expires} />
+                      <Postpone object={item} field="expires" />
                     </td>
                     <td>
                       <button

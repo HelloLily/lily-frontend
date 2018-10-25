@@ -230,11 +230,11 @@ class Editable extends Component {
     const props = {
       ...this.props,
       value,
+      error,
       selectConfig: config,
       handleSubmit: this.handleSubmit,
       handleChange: this.handleChange,
       cancel: this.cancel,
-      error: this.state.error,
       createOptions: this.createOptions
     };
 

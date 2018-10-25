@@ -128,6 +128,19 @@ a {
   }
 }
 
+.hl-primary-btn-link {
+  color: $app-link-color;
+  background: none;
+  outline: none;
+  border: 0;
+  padding: 0;
+  line-height: $large-button-size;
+
+  &:hover {
+    color: $app-color-darkblue;
+  }
+}
+
 .hl-interface-btn {
   @include hl-button($large-button-size);
   color: $text-muted;

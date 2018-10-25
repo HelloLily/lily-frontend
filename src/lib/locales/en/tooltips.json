@@ -25,5 +25,6 @@
     "complete": "All done. Do a happy dance."
   },
   "documentContactMissing": "Please add a contact first",
-  "deletedIndicator": "{{name}} is deleted"
+  "deletedIndicator": "{{name}} is deleted",
+  "postpone": "Postpone the date"
 }

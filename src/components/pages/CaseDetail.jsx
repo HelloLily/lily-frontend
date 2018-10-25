@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ActivityStream from 'components/ActivityStream';
@@ -144,7 +145,7 @@ class CaseDetail extends Component {
                   <div className="detail-row">
                     <div>Expires on</div>
                     <div>
-                      <LilyDate date={caseObj.expires} />
+                      <Postpone object={caseObj} field="expires" />
                     </div>
                   </div>
 

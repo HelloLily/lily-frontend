@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
-import ContentBlock from 'components/ContentBlock';
 import BlockUI from 'components/Utils/BlockUI';
+import ContentBlock from 'components/ContentBlock';
+import LilyTooltip from 'components/LilyTooltip';
 import Contact from 'models/Contact';
 
 class ContactListWidget extends Component {
@@ -26,7 +28,7 @@ class ContactListWidget extends Component {
 
   render() {
     const { items, loading } = this.state;
-    const { object } = this.props;
+    const { object, t } = this.props;
 
     const title = (
       <React.Fragment>
@@ -96,10 +98,15 @@ class ContactListWidget extends Component {
                       {!item.phoneNumber &&
                         object.phoneNumber && (
                           <div>
-                            <i className="lilicon hl-company-icon m-r-5" />
+                            <i
+                              className="lilicon hl-company-icon m-r-5"
+                              data-tip={t('contactListInfoTooltip')}
+                            />
                             <a href={`tel:${object.phoneNumber.number}`}>
                               {object.phoneNumber.number}
                             </a>
+
+                            <LilyTooltip />
                           </div>
                         )}
 
@@ -120,4 +127,4 @@ class ContactListWidget extends Component {
   }
 }
 
-export default withContext(ContactListWidget);
+export default withNamespaces('tooltips')(withContext(ContactListWidget));

@@ -7,7 +7,7 @@ import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 
 import withContext from 'src/withContext';
-import { SELECT_STYLES, FORM_DATE_FORMAT } from 'lib/constants';
+import { SELECT_STYLES, FORM_DATE_FORMAT, API_DATE_FORMAT } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
 import BlockUI from 'components/Utils/BlockUI';
@@ -521,7 +521,7 @@ const CaseForm = withRouter(
         cleanedValues.assignedToTeams = cleanedValues.assignedToTeams.map(team => team.id);
       }
 
-      cleanedValues.expires = format(cleanedValues.expires, 'yyyy-MM-dd');
+      cleanedValues.expires = format(cleanedValues.expires, API_DATE_FORMAT);
 
       let request;
       let text;

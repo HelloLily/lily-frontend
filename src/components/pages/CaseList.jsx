@@ -9,6 +9,7 @@ import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
 import SearchBar from 'components/List/SearchBar';
@@ -219,7 +220,7 @@ class CaseList extends Component {
                   )}
                   {columns[7].selected && (
                     <td>
-                      <LilyDate date={caseObj.expires} />
+                      <Postpone object={caseObj} field="expires" />
                     </td>
                   )}
                   {columns[8].selected && (

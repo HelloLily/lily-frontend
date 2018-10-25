@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { addDays, subDays, format } from 'date-fns';
 
+import { API_DATE_FORMAT } from 'lib/constants';
 import toggleFilter from 'utils/toggleFilter';
 
 class DueDateFilter extends Component {
@@ -8,7 +9,7 @@ class DueDateFilter extends Component {
     super(props);
 
     const filterField = props.filterField || 'expires';
-    const dateFormat = 'yyyy-MM-dd';
+    const dateFormat = API_DATE_FORMAT;
     const date = new Date();
 
     const options = [

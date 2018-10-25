@@ -12,7 +12,8 @@ import {
   FORM_DATE_FORMAT,
   DEAL_WON_STATUS,
   DEAL_LOST_STATUS,
-  DEAL_NONE_STEP
+  DEAL_NONE_STEP,
+  API_DATE_FORMAT
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
@@ -700,7 +701,7 @@ const DealForm = withRouter(
       if (cleanedValues.nextStepDate === '') {
         cleanedValues.nextStepDate = null;
       } else {
-        cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, 'yyyy-MM-dd');
+        cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, API_DATE_FORMAT);
       }
 
       let request;

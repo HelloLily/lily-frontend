@@ -7,6 +7,7 @@ import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import Deal from 'models/Deal';
 
 class DealListWidget extends Component {
@@ -86,7 +87,7 @@ class DealListWidget extends Component {
                       />
                     </td>
                     <td>
-                      <LilyDate date={item.nextStepDate} />
+                      <Postpone object={item} field="nextStepDate" />
                     </td>
                     <td>
                       <button

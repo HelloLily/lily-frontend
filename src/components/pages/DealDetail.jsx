@@ -7,6 +7,7 @@ import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import BlockUI from 'components/Utils/BlockUI';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
@@ -436,7 +437,7 @@ class DealDetail extends Component {
                           deal.nextStep.name !== 'None' && (
                             <div>
                               <strong>Next step date: </strong>
-                              <LilyDate date={deal.nextStepDate} />.
+                              <Postpone object={deal} field="nextStepDate" />
                             </div>
                           )}
                       </div>

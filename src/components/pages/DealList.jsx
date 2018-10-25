@@ -14,6 +14,7 @@ import Editable from 'components/Editable';
 import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import ClientDisplay from 'components/Utils/ClientDisplay';
 import Settings from 'models/Settings';
 import Deal from 'models/Deal';
@@ -203,7 +204,7 @@ class DealList extends Component {
                   )}
                   {columns[5].selected && (
                     <td>
-                      <LilyDate date={deal.nextStepDate} />
+                      <Postpone object={deal} field="nextStepDate" />
                     </td>
                   )}
                   {columns[6].selected && (

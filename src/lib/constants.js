@@ -130,6 +130,7 @@ export const TWITTER_EMPTY_ROW = { name: 'twitter', username: '' };
 export const LINKEDIN_EMPTY_ROW = { name: 'linkedin', username: '' };
 
 export const FORM_DATE_FORMAT = 'dd/MM/yyyy';
+export const API_DATE_FORMAT = 'yyyy-MM-dd';
 
 export const DEAL_WON_STATUS = 'Won';
 export const DEAL_LOST_STATUS = 'Lost';

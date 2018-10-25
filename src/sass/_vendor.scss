@@ -10,11 +10,27 @@
 // react-daypicker
 .DayPicker {
   .DayPicker-Day {
-    padding: 6px 9px;
+    padding: 1px 9px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &.DayPicker-Day--selected {
+      background-color: $app-color-darkblue;
+    }
   }
 
   .DayPicker-Footer {
     text-align: center;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+    background-color: $lily-white-tone-hover !important;
   }
 }
 

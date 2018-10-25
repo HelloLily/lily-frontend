@@ -7,7 +7,7 @@ import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
 import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
-import LilyDate from 'components/Utils/LilyDate';
+import Postpone from 'components/Postpone';
 import ClientDisplay from 'components/Utils/ClientDisplay';
 import UserFilter from 'components/UserFilter';
 import DueDateFilter from 'components/DueDateFilter';
@@ -124,7 +124,7 @@ class MyDeals extends Component {
               <td>{item.status.name}</td>
               <td>{item.nextStep.name}</td>
               <td>
-                <LilyDate date={item.nextStepDate} />
+                <Postpone object={item} field="nextStepDate" />
               </td>
               <td>
                 {newlyAssigned && (
