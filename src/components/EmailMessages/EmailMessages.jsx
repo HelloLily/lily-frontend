@@ -5,7 +5,6 @@ import { withNamespaces } from 'react-i18next';
 
 import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE, TRASH_LABEL } from 'lib/constants';
 import getColorCode from 'utils/getColorCode';
-import List from 'components/List';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
 import SearchBar from 'components/List/SearchBar';
@@ -293,7 +292,7 @@ class EmailMessages extends Component {
     return (
       <BlockUI blocking={loading}>
         <div className="email-messages">
-          <List>
+          <div className="list">
             <div className="list-header">
               <div className="list-title">{this.getEmailHeader()}</div>
             </div>
@@ -466,7 +465,7 @@ class EmailMessages extends Component {
                 </div>
               </div>
             )}
-          </List>
+          </div>
         </div>
       </BlockUI>
     );

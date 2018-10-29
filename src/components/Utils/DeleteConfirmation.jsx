@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withNamespaces, Trans } from 'react-i18next';
 
 import { del } from 'lib/api';
+import { successToast, errorToast } from 'utils/toasts';
 import LilyModal from 'components/LilyModal';
-import { successToast, errorToast } from 'src/utils/toasts';
 
 class DeleteConfirmation extends Component {
   constructor(props) {

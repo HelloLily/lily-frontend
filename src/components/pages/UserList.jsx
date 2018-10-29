@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import withContext from 'src/withContext';
 import { NO_SORT_STATUS } from 'lib/constants';
 import Editable from 'components/Editable';
-import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import LilyPagination from 'components/LilyPagination';
 import BlockUI from 'components/Utils/BlockUI';
@@ -157,7 +156,7 @@ class UserList extends Component {
 
     return (
       <BlockUI blocking={loading}>
-        <List>
+        <div className="list">
           <div className="list-header">
             <div className="list-title flex-grow">Users</div>
 
@@ -304,7 +303,7 @@ class UserList extends Component {
           <div className="list-footer">
             <LilyPagination setPage={this.setPage} pagination={pagination} />
           </div>
-        </List>
+        </div>
       </BlockUI>
     );
   }

@@ -43,5 +43,6 @@
   "apiTokenDeleted": "And it's gone!",
   "apiTokenDeletedTitle": "Token deleted",
   "unauthorizedEmailAccount": "Oops, something went wrong with one of your email accounts, could you help me fix it?",
-  "accountUpdated": "Your account has been updated"
+  "accountUpdated": "Your account has been updated",
+  "twoFactorDisabled": "Two factor auth was successfully disabled"
 }

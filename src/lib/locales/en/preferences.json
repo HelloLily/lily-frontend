@@ -47,7 +47,7 @@
   },
   "security": {
     "backupTokenIntro": "These are your current backup tokens, they will be regenerated after you've used them all.",
-    "noTwoFactorEnabled": "you have not enabled two factor authentication yet.",
+    "noTwoFactorEnabled": "You have not enabled two factor authentication yet.",
     "backupPhonesInfo": "If your primary method is not available, we are able to send backup tokens to your phone number(s).",
     "backupPhonesInfoTooltip": "Let me see my phone numbers!",
     "noBackupPhones": "You currently have no backup phone number(s) available. It is highly recommended that you add one!",
@@ -56,6 +56,6 @@
     "backupTokenInfoTooltip": "Let me see my tokens!"
   },
   "other": {
-    "inviteUsersIntro": "Adding users adds extra costs to your team's subscription. Ask <strong>{{ vm.accountAdmin.full_name }}</strong> if you’re not sure about this."
+    "inviteUsersIntro": "Adding users adds extra costs to your team's subscription. Ask <0>{{name}}</0> if you’re not sure about this."
   }
 }

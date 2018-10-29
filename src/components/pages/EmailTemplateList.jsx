@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import List from 'components/List';
 import BlockUI from 'components/Utils/BlockUI';
 import Editable from 'components/Editable';
 import EmailTemplate from 'models/EmailTemplate';
@@ -110,7 +109,7 @@ class EmailTemplateList extends Component {
 
     return (
       <BlockUI blocking={loading}>
-        <List>
+        <div className="list">
           <div className="list-header">
             <div className="list-title flex-grow">Your email templates</div>
 
@@ -269,7 +268,7 @@ class EmailTemplateList extends Component {
               </tbody>
             )}
           </table>
-        </List>
+        </div>
       </BlockUI>
     );
   }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import List from 'components/List';
 import Tenant from 'models/Tenant';
 
 class TenantSettings extends Component {
@@ -41,7 +40,7 @@ class TenantSettings extends Component {
     const { tenant } = this.state;
 
     return (
-      <List>
+      <div className="list">
         <div className="list-header">
           <div className="list-title flex-grow">Additional features</div>
         </div>
@@ -85,7 +84,7 @@ class TenantSettings extends Component {
             )}
           </tbody>
         </table>
-      </List>
+      </div>
     );
   }
 }

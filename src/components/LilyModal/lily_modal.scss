@@ -31,6 +31,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .modal-title {
+      line-height: $default-line-height;
+      font-size: 18px;
+      font-weight: 400;
+      color: $app-color-darkblue;
+    }
   }
 
   .modal-footer {

@@ -74,6 +74,12 @@ $max-height: 400px;
     }
   }
 
+  .content-block-content {
+    &.border-bottom {
+      border-bottom: 1px $inner-border-color solid;
+    }
+  }
+
   .content-block-extra {
     margin-left: auto;
     display: flex;

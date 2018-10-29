@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
-import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
 import UserShare from 'components/UserShare';
@@ -123,7 +122,7 @@ class EmailAccountList extends Component {
 
     return (
       <BlockUI blocking={loading}>
-        <List>
+        <div className="list">
           <div className="list-header">
             <div className="list-title flex-grow">Your email accounts</div>
 
@@ -194,10 +193,10 @@ class EmailAccountList extends Component {
               )}
             </tbody>
           </table>
-        </List>
+        </div>
 
         <div className={`m-t-25${currentUser.tenant.isFreePlan ? ' is-disabled' : ''}`}>
-          <List>
+          <div className="list">
             <div className="list-header">
               <div className="list-title">Email accounts shared with you</div>
             </div>
@@ -261,7 +260,7 @@ class EmailAccountList extends Component {
                 )}
               </tbody>
             </table>
-          </List>
+          </div>
         </div>
 
         {selectedAccount && (

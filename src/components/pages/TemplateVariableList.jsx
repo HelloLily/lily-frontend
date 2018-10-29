@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import List from 'components/List';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
 import TemplateVariable from 'models/TemplateVariable';
@@ -33,7 +32,7 @@ class TemplateVariableList extends Component {
 
     return (
       <BlockUI blocking={loading}>
-        <List>
+        <div className="list">
           <div className="list-header">
             <div className="list-title flex-grow">Your template variables</div>
 
@@ -78,11 +77,11 @@ class TemplateVariableList extends Component {
               </tbody>
             )}
           </table>
-        </List>
+        </div>
 
         <div className="m-b-25" />
 
-        <List>
+        <div className="list">
           <div className="list-header">
             <div className="list-title flex-grow">Public template variables</div>
           </div>
@@ -119,7 +118,7 @@ class TemplateVariableList extends Component {
               </tbody>
             )}
           </table>
-        </List>
+        </div>
       </BlockUI>
     );
   }

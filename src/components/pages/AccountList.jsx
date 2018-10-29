@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 
 import { MOBILE_PHONE_TYPE, WORK_PHONE_TYPE, NO_SORT_STATUS } from 'lib/constants';
-import List from 'components/List';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
@@ -145,7 +144,7 @@ class AccountList extends Component {
 
     return (
       <BlockUI blocking={loading}>
-        <List>
+        <div className="list">
           <div className="list-header">
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
 
@@ -257,7 +256,7 @@ class AccountList extends Component {
           <div className="list-footer">
             <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
           </div>
-        </List>
+        </div>
       </BlockUI>
     );
   }

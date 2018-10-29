@@ -67,35 +67,35 @@ class Nav extends Component {
               </li>
 
               <li className="m-r-55">
-                <NavLink to="/email" exact>
+                <NavLink to="/email">
                   <i className="lilicon hl-email-icon m-r-10" />
                   <span className="nav-text">Email</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
-                <NavLink to="/accounts" exact>
+                <NavLink to="/accounts">
                   <i className="lilicon hl-company-icon m-r-10" />
                   <span className="nav-text">Accounts</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
-                <NavLink to="/contacts" exact>
+                <NavLink to="/contacts">
                   <i className="lilicon hl-entity-icon m-r-10" />
                   <span className="nav-text">Contacts</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
-                <NavLink to="/deals" exact>
+                <NavLink to="/deals">
                   <i className="lilicon hl-deals-icon m-r-10" />
                   <span className="nav-text">Deals</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
-                <NavLink to="/cases" exact>
+                <NavLink to="/cases">
                   <i className="lilicon hl-case-icon m-r-10" />
                   <span className="nav-text">Cases</span>
                 </NavLink>

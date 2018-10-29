@@ -6,6 +6,7 @@ import withContext from 'src/withContext';
 import FeatureUnavailableMarker from 'components/Billing/FeatureUnavailableMarker';
 import UserProfile from './UserProfile';
 import UserAccount from './UserAccount';
+import UserSecurity from './UserSecurity';
 import TokenForm from './TokenForm';
 import WebhookForm from './WebhookForm';
 import EmailAccountList from './EmailAccountList';
@@ -132,6 +133,7 @@ const Preferences = ({ currentUser }) => (
         <Switch>
           <Route path="/preferences/profile" component={UserProfile} />
           <Route path="/preferences/account" component={UserAccount} />
+          <Route path="/preferences/security" component={UserSecurity} />
           <Route path="/preferences/token" component={TokenForm} />
           <Route path="/preferences/webhooks" component={WebhookForm} />
           <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
