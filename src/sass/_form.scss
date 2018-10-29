@@ -35,6 +35,12 @@ form {
   width: 100%;
 }
 
+.display-flex {
+  .hl-input {
+    margin-right: 10px;
+  }
+}
+
 label {
   &[required] {
     &:after {
