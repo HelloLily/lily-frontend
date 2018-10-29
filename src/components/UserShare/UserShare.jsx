@@ -56,13 +56,13 @@ class UserShare extends Component {
   };
 
   render() {
-    const { privacyOptions, users, loading } = this.state;
+    const { emailAccount, privacyOptions, users, loading } = this.state;
 
     return (
       <React.Fragment>
         {!loading ? (
           <div className="shared-with-users">
-            {this.state.emailAccount.sharedEmailConfigs.map(config => {
+            {emailAccount.sharedEmailConfigs.map(config => {
               const foundUser = users.find(user => user.id === config.user);
 
               return (
@@ -110,6 +110,7 @@ class UserShare extends Component {
                 getOptionValue={option => option.id}
                 className="user-share-container"
                 classNamePrefix="user-share"
+                menuPortalTarget={document.body}
               />
 
               <Select
@@ -117,8 +118,10 @@ class UserShare extends Component {
                 styles={SELECT_STYLES}
                 options={privacyOptions}
                 getOptionLabel={option => option.name}
+                getOptionValue={option => option.id}
                 className="user-share-container"
                 classNamePrefix="user-share"
+                menuPortalTarget={document.body}
               />
 
               <button

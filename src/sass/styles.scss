@@ -81,6 +81,15 @@ iframe {
   border-style: solid;
 }
 
+code {
+  border: 1px $base-border-color solid;
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: $base-border-radius;
+}
+
 .hl-input {
   @include input-field(34px);
 }
@@ -339,7 +348,7 @@ li {
     background: $lily-blue;
   }
 
-  // Billing labels.
+  // Billing labels
   &.future {
     background: $app-color-purple;
   }

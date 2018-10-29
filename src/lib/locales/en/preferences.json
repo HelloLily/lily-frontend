@@ -18,7 +18,7 @@
     "pandaDocWebhooksInstructionsFive": "Should a note be added when this event occurs",
     "slackOverview": "Use the button below to install the Lily Slack app. <br /> This app will read links related to Lily (e.g. when you link a case) and provide you with a preview in Slack."
   },
-  "preferences": {
+  "user": {
     "passwordMismatch": "Your passwords don't match.",
     "webhookIntro": "You can enter a URL here to call whenever a create (POST) or update (PUT/PATCH) event is executed (e.g. an account being created or updated).",
     "notificationsDisabledTitle": "Browser notifications have been blocked",

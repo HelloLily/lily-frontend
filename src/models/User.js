@@ -1,4 +1,4 @@
-import { get, patch } from 'src/lib/api';
+import { get, patch, post, del } from 'src/lib/api';
 
 class User {
   get(id) {
@@ -23,6 +23,18 @@ class User {
     const response = get('/users/unassigned');
 
     return response;
+  }
+
+  token() {
+    return get('/users/token/');
+  }
+
+  generateToken() {
+    return post('/users/token/');
+  }
+
+  deleteToken() {
+    return del('/users/token/');
   }
 }
 

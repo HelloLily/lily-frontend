@@ -2,31 +2,31 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 
-const SuccessToast = props => (
+const SuccessToast = ({ text }) => (
   <div>
     <FontAwesomeIcon icon="check" size="lg" />
-    <span className="m-l-10">{props.text}</span>
+    <span className="m-l-10">{text}</span>
   </div>
 );
 
-const ErrorToast = props => (
+const ErrorToast = ({ text }) => (
   <div>
     <FontAwesomeIcon icon="times" size="lg" />
-    <span className="m-l-10">{props.text}</span>
+    <span className="m-l-10">{text}</span>
   </div>
 );
 
-const WarningToast = props => (
+const WarningToast = ({ text }) => (
   <div>
     <FontAwesomeIcon icon="exclamation-triangle" size="lg" />
-    <span className="m-l-10">{props.text}</span>
+    <span className="m-l-10">{text}</span>
   </div>
 );
 
-const InfoToast = props => (
+const InfoToast = ({ text }) => (
   <div>
     <FontAwesomeIcon icon="info" size="lg" />
-    <span className="m-l-10">{props.text}</span>
+    <span className="m-l-10">{text}</span>
   </div>
 );
 
