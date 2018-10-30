@@ -21,6 +21,7 @@ import {
   TWITTER_EMPTY_ROW
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
+import ucfirst from 'utils/ucfirst';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -79,7 +80,7 @@ class InnerAccountForm extends Component {
               .split('.')
               .slice(0, -1)
               .join(' ');
-            const companyName = company.charAt(0).toUpperCase() + company.slice(1);
+            const companyName = ucfirst(company);
 
             this.props.setFieldValue('name', companyName);
           }

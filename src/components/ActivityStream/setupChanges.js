@@ -2,6 +2,7 @@ import { isWithinInterval, addHours, isValid } from 'date-fns';
 
 import { HOURS_BETWEEN_CHANGES } from 'lib/constants';
 import convertFromCamelCase from 'utils/convertFromCamelCase';
+import ucfirst from 'utils/ucfirst';
 
 const CHANGE_LOG_MAPPING = {
   phoneNumbers: 'number',
@@ -39,7 +40,7 @@ function getChangeDisplayName(field, capitalize = false) {
     displayName = convertFromCamelCase(field);
 
     if (capitalize) {
-      displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+      displayName = ucfirst(displayName);
     }
   }
 

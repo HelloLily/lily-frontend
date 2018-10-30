@@ -7,8 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { SELECT_STYLES } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
+import ucfirst from 'utils/ucfirst';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyEditor from 'components/LilyEditor';
+import TemplateVariable from 'models/TemplateVariable';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
 import EmailTemplate from 'models/EmailTemplate';
 
@@ -19,7 +21,11 @@ class InnerEmailTemplateForm extends Component {
     this.editorRef = React.createRef();
 
     this.state = {
-      folders: []
+      folders: [],
+      categories: {},
+      variables: [],
+      category: '',
+      variable: ''
     };
   }
 
@@ -37,14 +43,52 @@ class InnerEmailTemplateForm extends Component {
     }
 
     const folderResponse = await EmailTemplateFolder.query();
+    const variableResponse = await TemplateVariable.query();
+    const categories = variableResponse.default;
+    categories.custom = variableResponse.custom;
 
     this.setState({
-      folders: folderResponse.results
+      folders: folderResponse.results,
+      categories
     });
   }
 
+  getOptions = options =>
+    Object.keys(options).map(option => ({ value: option, label: ucfirst(option) }));
+
+  handleSubmit = event => {
+    const bodyHtml = this.editorRef.current.getHtml();
+
+    // The content of the editor is maintained in the editor itself.
+    // So retrieve the value and update the form value.
+    this.props.setFieldValue('bodyHtml', bodyHtml);
+    this.props.handleSubmit(event);
+  };
+
+  handleCategory = selected => {
+    const { categories } = this.state;
+
+    const variables = categories[selected.value].map(variable => ({
+      value: variable,
+      label: ucfirst(variable.replace(/_/g, ' '))
+    }));
+
+    this.setState({ category: selected.value, variables });
+  };
+
+  handleVariable = selected => {
+    this.setState({ variable: selected.value });
+  };
+
+  insertVariable = () => {
+    const { category, variable } = this.state;
+
+    this.editorRef.current.insertHtml(`[[ ${category}.${variable} ]]`);
+  };
+
   render() {
-    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { folders, categories, variables, category, variable } = this.state;
+    const { values, errors, isSubmitting, handleChange } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -61,7 +105,7 @@ class InnerEmailTemplateForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={this.handleSubmit}>
                 <div className={`form-field${errors.name ? ' has-error' : ''}`}>
                   <label htmlFor="name" required>
                     Template name
@@ -99,7 +143,7 @@ class InnerEmailTemplateForm extends Component {
                   <Select
                     name="folder"
                     styles={SELECT_STYLES}
-                    options={this.state.folders}
+                    options={folders}
                     onChange={value => this.props.setFieldValue('folder', value)}
                     getOptionLabel={option => option.name}
                     getOptionValue={option => option.id}
@@ -107,6 +151,48 @@ class InnerEmailTemplateForm extends Component {
 
                   {errors.folder && <div className="error-message">{errors.folder}</div>}
                 </div>
+
+                <div className="form-field">
+                  <label htmlFor="category">Variables</label>
+
+                  <div className="display-flex">
+                    <Select
+                      name="category"
+                      styles={SELECT_STYLES}
+                      className="flex-grow"
+                      options={this.getOptions(categories)}
+                      onChange={this.handleCategory}
+                      placeholder="Select a category"
+                    />
+
+                    <Select
+                      name="variable"
+                      styles={SELECT_STYLES}
+                      className="flex-grow m-l-10"
+                      options={variables}
+                      onChange={this.handleVariable}
+                      placeholder="Select a variable"
+                    />
+                  </div>
+                </div>
+
+                {category &&
+                  variable && (
+                    <div className="form-field">
+                      <div>Variable preview</div>
+                      <div>
+                        <code>{`[[ ${category}.${variable} ]]`}</code>
+
+                        <button
+                          className="hl-primary-btn m-l-10"
+                          type="button"
+                          onClick={this.insertVariable}
+                        >
+                          Insert
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                 <div className={`form-field${errors.bodyHtml ? ' has-error' : ''}`}>
                   <label htmlFor="bodyHtml">HTML content</label>
@@ -124,8 +210,7 @@ class InnerEmailTemplateForm extends Component {
                 <div className="form-section">
                   <div className="form-section-content">
                     <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
-                      <FontAwesomeIcon icon="check" />
-                      Save
+                      <FontAwesomeIcon icon="check" /> Save
                     </button>
 
                     <button type="button" className="hl-primary-btn m-l-10" disabled={isSubmitting}>
@@ -154,14 +239,21 @@ const EmailTemplateForm = withRouter(
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const { t } = props;
+
+      const cleanedValues = Object.assign({}, values);
+
+      if (cleanedValues.folder) {
+        cleanedValues.folder = cleanedValues.folder.id;
+      }
+
       let request;
       let text;
 
-      if (values.id) {
-        request = EmailTemplate.patch(values);
+      if (cleanedValues.id) {
+        request = EmailTemplate.patch(cleanedValues);
         text = t('modelUpdated', { model: 'email template' });
       } else {
-        request = EmailTemplate.post(values);
+        request = EmailTemplate.post(cleanedValues);
         text = t('modelCreated', { model: 'email template' });
       }
 

@@ -120,6 +120,8 @@ class LilyEditor extends Component {
 
   getHtml = () => this.state.editor.html.get();
 
+  insertHtml = html => this.state.editor.html.insert(html);
+
   handleCommandAfter = (e, editor, cmd) => {
     if (cmd === 'html') {
       const isActive = editor.codeView.isActive();

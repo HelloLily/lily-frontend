@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import camelToHuman from 'utils/camelToHuman';
+
 class EditableText extends Component {
   handleSubmit = () => {
     this.props.handleSubmit();
@@ -11,7 +13,7 @@ class EditableText extends Component {
   };
 
   render() {
-    const { value } = this.props;
+    const { value, field, cancel } = this.props;
 
     return (
       <span className="editable-input-wrap">
@@ -21,14 +23,14 @@ class EditableText extends Component {
           value={value}
           onChange={this.handleChange}
           className="editable-input editable-has-buttons"
-          placeholder={this.props.field}
+          placeholder={camelToHuman(field, true)}
         />
 
         <span className="editable-buttons">
           <button onClick={this.handleSubmit}>
             <FontAwesomeIcon icon="check" />
           </button>
-          <button onClick={this.props.cancel}>
+          <button onClick={cancel}>
             <FontAwesomeIcon icon="times" />
           </button>
         </span>

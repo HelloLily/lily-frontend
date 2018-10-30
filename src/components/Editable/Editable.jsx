@@ -6,6 +6,7 @@ import { SELECT_STYLES } from 'lib/constants';
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
 import LilyTooltip from 'components/LilyTooltip';
+import camelToHuman from 'utils/camelToHuman';
 import updateModel from 'utils/updateModel';
 import getSelectConfig from './getSelectConfig';
 
@@ -78,7 +79,7 @@ class Editable extends Component {
     if (config && config.empty) {
       emptyText = config.empty;
     } else {
-      emptyText = `No ${field.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase()}`;
+      emptyText = `No ${camelToHuman(field)}`;
     }
 
     return emptyText;

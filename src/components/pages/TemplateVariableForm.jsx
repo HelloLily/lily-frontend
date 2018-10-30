@@ -116,7 +116,7 @@ const TemplateVariableForm = withRouter(
           window.location.reload();
         })
         .catch(errors => {
-          errorToast(text);
+          errorToast(t('error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
