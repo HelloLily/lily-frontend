@@ -26,10 +26,12 @@ class DeleteConfirmation extends Component {
     const { item, deleteCallback, t } = this.props;
 
     try {
-      await del(`/${item.contentType.appLabel}/${item.id}/`);
+      if (item.contentType) {
+        await del(`/${item.contentType.appLabel}/${item.id}/`);
 
-      const text = t('toasts:modelDeleted', { model: item.contentType.model });
-      successToast(text);
+        const text = t('toasts:modelDeleted', { model: item.contentType.model });
+        successToast(text);
+      }
 
       this.closeModal();
 
@@ -42,9 +44,10 @@ class DeleteConfirmation extends Component {
   };
 
   render() {
-    const { item, t, showText } = this.props;
+    const { item, showText, t } = this.props;
 
-    const display = item.name || item.fullName || item.subject;
+    // TODO: Think of a cleaner way.
+    const display = item.name || item.fullName || item.subject || item.label;
 
     return (
       <React.Fragment>

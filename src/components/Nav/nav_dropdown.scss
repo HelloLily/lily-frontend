@@ -34,7 +34,7 @@
   .dropdown-menu-item {
     a {
       &:not(.unavailable-marker) {
-        padding: 13px;
+        padding: 14px;
         display: block;
         text-decoration: none;
         color: $app-color-darkblue;
@@ -44,6 +44,11 @@
           background-color: $app-color-aqua;
           color: #fff;
         }
+      }
+
+      svg,
+      i {
+        margin-right: 5px;
       }
     }
 

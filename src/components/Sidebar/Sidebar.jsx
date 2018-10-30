@@ -47,7 +47,7 @@ class Sidebar extends Component {
 
     const className = cx('sidebar', {
       slide: sidebar,
-      expanded: expanded
+      expanded
     });
 
     return (

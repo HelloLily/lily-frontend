@@ -14,17 +14,17 @@
 }
 
 .lily-modal {
-  width: 100%;
-  margin: 10% auto auto auto;
+  min-width: 600px;
   max-width: 800px;
+  min-height: 25%;
+  max-height: 85%;
+  margin: 10% auto auto auto;
   border: 1px $base-border-color solid;
   background: #fff;
   overflow: auto;
   border-radius: $base-border-radius;
   outline: none;
   padding: 20px;
-  max-height: 85%;
-  min-height: 25%;
   position: relative;
 
   .modal-header {

@@ -2,8 +2,6 @@
   "email": {
     "importingEmail": "Importing your email",
     "failedLoading": "Unable to load email",
-    "noVariables": "No template variables yet. You should create one!",
-    "noPublicVariables": "No public template variables yet.",
     "firstSetupHeader": "Connect your Gmail account and Lily will show her true power.",
     "firstSetupText": "Share your email conversations with colleagues, so your organization will be able to respond based on a complete history of communication.",
     "noFolders": "No folders yet. You should create one!",

@@ -277,7 +277,7 @@ textarea {
       a {
         &:not(.unavailable-marker) {
           flex: 1;
-          padding: 13px;
+          padding: 14px;
           display: block;
           text-decoration: none;
           color: $app-color-darkblue;
@@ -291,6 +291,11 @@ textarea {
 
         &.active {
           background: $lily-white-tone-hover;
+        }
+
+        svg,
+        i {
+          margin-right: 5px;
         }
       }
     }

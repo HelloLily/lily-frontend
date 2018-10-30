@@ -188,7 +188,7 @@ class EmailAccountList extends Component {
 
               {items.length === 0 && (
                 <tr>
-                  <td colSpan="8">{t('emailAccounts')}</td>
+                  <td colSpan="8">{t('preferences.emailAccounts')}</td>
                 </tr>
               )}
             </tbody>
@@ -255,7 +255,7 @@ class EmailAccountList extends Component {
 
                 {sharedAccounts.length === 0 && (
                   <tr>
-                    <td colSpan="8">{t('sharedEmailAccounts')}</td>
+                    <td colSpan="8">{t('preferences.sharedEmailAccounts')}</td>
                   </tr>
                 )}
               </tbody>

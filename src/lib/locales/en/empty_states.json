@@ -38,6 +38,10 @@
     "unassignedDeals": "All deals for the selected types and teams have been assigned.",
     "unreadEmail": "Awesome! All of the unread emails in the selected inbox(es) have been read."
   },
-  "emailAccounts": "No email accounts setup yet",
-  "sharedEmailAccounts": "No email accounts shared with you"
+  "preferences": {
+    "emailAccounts": "No email accounts setup yet",
+    "sharedEmailAccounts": "No email accounts shared with you",
+    "noVariables": "No template variables yet. You should create one!",
+    "noPublicVariables": "No public template variables yet."
+  }
 }

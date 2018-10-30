@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 
+import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import Editable from 'components/Editable';
 import Dropdown from 'components/Dropdown';
 import EmailTemplate from 'models/EmailTemplate';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
+import DeleteConfirmation from '../Utils/DeleteConfirmation';
 
 class EmailTemplateList extends Component {
   constructor(props) {
@@ -146,6 +148,21 @@ class EmailTemplateList extends Component {
     folders[index].collapsed = !folders[index].collapsed;
 
     this.setState({ folders });
+  };
+
+  removeItem = async item => {
+    const { t } = this.props;
+
+    try {
+      await del(`/messaging/email/templates/${item.id}/`);
+
+      const text = t('toasts:modelDeleted', { model: 'email template' });
+      successToast(text);
+
+      await this.loadItems();
+    } catch (error) {
+      errorToast(t('error'));
+    }
   };
 
   render() {
@@ -296,20 +313,21 @@ class EmailTemplateList extends Component {
                               )}
                             </td>
                             <td className="float-right">
-                              <button className="hl-primary-btn small m-r-5">
+                              <button className="hl-primary-btn borderless">
                                 <FontAwesomeIcon icon="star" className="yellow" /> Manage defaults
                               </button>
 
-                              <button className="hl-primary-btn small m-r-5">
-                                <i className="lilicon hl-edit-icon" />
-                              </button>
-
-                              <button
-                                className="hl-primary-btn small"
-                                onClick={() => this.delete()}
+                              <Link
+                                to={`/preferences/emailtemplates/edit/${emailTemplate.id}`}
+                                className="hl-primary-btn borderless"
                               >
-                                <i className="lilicon hl-trashcan-icon" />
-                              </button>
+                                <i className="lilicon hl-edit-icon" />
+                              </Link>
+
+                              <DeleteConfirmation
+                                item={emailTemplate}
+                                deleteCallback={this.removeItem}
+                              />
                             </td>
                           </tr>
                         ))}

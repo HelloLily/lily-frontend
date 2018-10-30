@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
-import ListActions from 'components/List/ListActions';
+import { del } from 'lib/api';
+import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import TemplateVariable from 'models/TemplateVariable';
 
 class TemplateVariableList extends Component {
@@ -27,8 +30,28 @@ class TemplateVariableList extends Component {
     });
   }
 
+  removeItem = async item => {
+    const { variables } = this.state;
+    const { t } = this.props;
+
+    try {
+      await del(`/messaging/email/template-variables/${item.id}/`);
+
+      const text = t('toasts:modelDeleted', { model: 'template variable' });
+      successToast(text);
+
+      const index = variables.findIndex(variable => variable.id === item.id);
+      variables.splice(index, 1);
+
+      this.setState({ variables });
+    } catch (error) {
+      errorToast(t('toasts:error'));
+    }
+  };
+
   render() {
     const { variables, publicVariables, loading } = this.state;
+    const { t } = this.props;
 
     return (
       <BlockUI blocking={loading}>
@@ -49,21 +72,22 @@ class TemplateVariableList extends Component {
             </thead>
 
             <tbody>
-              {variables.map((variable, index) => (
+              {variables.map(variable => (
                 <tr key={variable.id}>
                   <td>{variable.name}</td>
                   <td className="float-right">
-                    <button className="hl-primary-btn small m-r-5">
+                    <button className="hl-primary-btn borderless">
                       <FontAwesomeIcon icon="eye" /> Preview
                     </button>
 
-                    <button className="hl-primary-btn small m-r-5">
+                    <Link
+                      to={`/preferences/templatevariables/edit/${variable.id}`}
+                      className="hl-primary-btn borderless"
+                    >
                       <i className="lilicon hl-edit-icon" />
-                    </button>
+                    </Link>
 
-                    <button className="hl-primary-btn small" onClick={() => this.delete(index)}>
-                      <i className="lilicon hl-trashcan-icon" />
-                    </button>
+                    <DeleteConfirmation item={variable} deleteCallback={this.removeItem} />
                   </td>
                 </tr>
               ))}
@@ -72,7 +96,7 @@ class TemplateVariableList extends Component {
             {variables.length === 0 && (
               <tbody>
                 <tr>
-                  <td colSpan="2">No templates variables yet. You should create one!</td>
+                  <td colSpan="2">{t('emptyStates:preferences.noVariables')}</td>
                 </tr>
               </tbody>
             )}
@@ -110,10 +134,10 @@ class TemplateVariableList extends Component {
               ))}
             </tbody>
 
-            {variables.length === 0 && (
+            {publicVariables.length === 0 && (
               <tbody>
                 <tr>
-                  <td colSpan="2">No templates variables yet. You should create one!</td>
+                  <td colSpan="2">{t('emptyStates:preferences.noPublicVariables')}</td>
                 </tr>
               </tbody>
             )}
@@ -124,4 +148,4 @@ class TemplateVariableList extends Component {
   }
 }
 
-export default TemplateVariableList;
+export default withNamespaces(['emptyStates', 'toasts'])(TemplateVariableList);
