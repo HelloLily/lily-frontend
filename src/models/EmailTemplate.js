@@ -13,10 +13,12 @@ class EmailTemplate {
     return patch(`/messaging/email/templates/${data.id}/`, data);
   }
 
-  query() {
-    const response = get('/messaging/email/templates/');
+  query(params) {
+    return get('/messaging/email/templates/', params);
+  }
 
-    return response;
+  move(data) {
+    return patch('/messaging/email/templates/move/', data);
   }
 }
 

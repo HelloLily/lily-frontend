@@ -45,5 +45,6 @@
   "webhooksUpdated": "Your webhooks have been updated",
   "unauthorizedEmailAccount": "Oops, something went wrong with one of your email accounts, could you help me fix it?",
   "accountUpdated": "Your account has been updated",
-  "twoFactorDisabled": "Two factor auth was successfully disabled"
+  "twoFactorDisabled": "Two factor auth was successfully disabled",
+  "templatesMoved": "Email templates have been moved"
 }

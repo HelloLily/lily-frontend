@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
+import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import Editable from 'components/Editable';
+import Dropdown from 'components/Dropdown';
 import EmailTemplate from 'models/EmailTemplate';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
 
@@ -11,15 +14,25 @@ class EmailTemplateList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { folders: [], loading: true, showMoveTo: false };
+    this.state = {
+      folders: [],
+      templateCount: 0,
+      loading: true,
+      showMoveTo: false
+    };
 
     document.title = 'Email templates';
   }
 
   async componentDidMount() {
+    await this.loadItems();
+  }
+
+  loadItems = async () => {
+    this.setState({ loading: true });
+
     const folderResponse = await EmailTemplateFolder.query();
     const templateResponse = await EmailTemplate.query({ folder__isnull: 'True' });
-
     const folders = [
       ...folderResponse.results,
       {
@@ -29,13 +42,14 @@ class EmailTemplateList extends Component {
     ];
 
     // Count the total amount of templates.
-    this.templateCount = folders.reduce((acc, folder) => acc + folder.emailTemplates.length, 0);
+    const templateCount = folders.reduce((acc, folder) => acc + folder.emailTemplates.length, 0);
 
     this.setState({
       folders,
+      templateCount,
       loading: false
     });
-  }
+  };
 
   deleteFolder = folder => {
     const { folders } = this.state;
@@ -96,6 +110,36 @@ class EmailTemplateList extends Component {
     this.setState({ newFolder: null });
   };
 
+  move = async folder => {
+    const { folders } = this.state;
+    const { t } = this.props;
+
+    const moveTo = folder ? folder.id : null;
+    const selected = folders.reduce((acc, currFolder) => {
+      const filtered = currFolder.emailTemplates.filter(template => template.checked);
+
+      if (filtered.length > 0) {
+        acc.push(...filtered);
+      }
+
+      return acc;
+    }, []);
+
+    const templates = selected.map(item => item.id);
+
+    if (selected.length > 0) {
+      try {
+        await EmailTemplate.move({ templates, folder: moveTo });
+
+        successToast(t('templatesMoved'));
+
+        await this.loadItems();
+      } catch (error) {
+        errorToast(t('error'));
+      }
+    }
+  };
+
   toggleCollapse = index => {
     const { folders } = this.state;
 
@@ -105,7 +149,7 @@ class EmailTemplateList extends Component {
   };
 
   render() {
-    const { folders, loading, showMoveTo, newFolder } = this.state;
+    const { folders, templateCount, showMoveTo, newFolder, loading } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -114,10 +158,25 @@ class EmailTemplateList extends Component {
             <div className="list-title flex-grow">Your email templates</div>
 
             {showMoveTo && (
-              <button className="hl-primary-btn m-r-10">
-                <FontAwesomeIcon icon="folder" /> Move to
-                <i className="lilicon hl-toggle-down-icon m-l-5" />
-              </button>
+              <Dropdown
+                clickable={
+                  <button className="hl-primary-btn m-r-10">
+                    <FontAwesomeIcon icon="folder" /> Move to
+                    <i className="lilicon hl-toggle-down-icon m-l-5" />
+                  </button>
+                }
+                menu={
+                  <ul className="dropdown-menu">
+                    {folders.map(folder => (
+                      <li className="dropdown-menu-item" key={folder.id || 'noFolder'}>
+                        <button className="dropdown-button" onClick={() => this.move(folder)}>
+                          {folder.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                }
+              />
             )}
 
             <button className="hl-primary-btn m-r-10" onClick={this.addFolder}>
@@ -260,7 +319,7 @@ class EmailTemplateList extends Component {
                 ) : null
             )}
 
-            {this.templateCount === 0 && (
+            {templateCount === 0 && (
               <tbody>
                 <tr>
                   <td colSpan="2">No templates yet. You should create one!</td>
@@ -274,4 +333,4 @@ class EmailTemplateList extends Component {
   }
 }
 
-export default EmailTemplateList;
+export default withNamespaces('toasts')(EmailTemplateList);
