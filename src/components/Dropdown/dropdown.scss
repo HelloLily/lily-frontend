@@ -2,6 +2,8 @@
 @import '~style/variables/measurements';
 
 .dropdown-container {
+  display: inline-block;
+
   &.is-clearable {
     display: flex;
 

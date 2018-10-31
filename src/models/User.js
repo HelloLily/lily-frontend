@@ -13,8 +13,8 @@ class User {
     return patch(`/users/${data.id}/`, data);
   }
 
-  query() {
-    const response = get('/users/');
+  query(params) {
+    const response = get('/users/', params);
 
     return response;
   }

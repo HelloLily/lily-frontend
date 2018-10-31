@@ -17,8 +17,8 @@ class Contact {
     return del(`/contacts/${id}/`);
   }
 
-  query() {
-    const response = get('/contacts/');
+  query(params) {
+    const response = get('/contacts/', params);
 
     return response;
   }

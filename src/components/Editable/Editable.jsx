@@ -128,7 +128,7 @@ class Editable extends Component {
     const { multi, field, type, object } = this.props;
 
     let args = {
-      id: this.props.object.id
+      id: object.id
     };
 
     if (!data) {

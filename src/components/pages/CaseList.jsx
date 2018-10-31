@@ -145,6 +145,7 @@ class CaseList extends Component {
       query,
       loading,
       pagination,
+      page,
       sortColumn,
       sortStatus
     } = this.state;
@@ -267,7 +268,7 @@ class CaseList extends Component {
           )}
 
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={page} />
           </div>
         </div>
       </BlockUI>

@@ -46,5 +46,9 @@
   "unauthorizedEmailAccount": "Oops, something went wrong with one of your email accounts, could you help me fix it?",
   "accountUpdated": "Your account has been updated",
   "twoFactorDisabled": "Two factor auth was successfully disabled",
-  "templatesMoved": "Email templates have been moved"
+  "templatesMoved": "Email templates have been moved",
+  "userDeactivated": "The user has been deactivated",
+  "userActivated": "The user has been activated",
+  "internalNumberCleared": "The internal number for {{name}} has been cleared",
+  "internalNumberUpdated": "The internal number for {{name}} has been updated"
 }

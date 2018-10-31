@@ -17,8 +17,8 @@ class Note {
     return del(`/notes/${id}/`);
   }
 
-  query() {
-    const response = get('/notes/');
+  query(params) {
+    const response = get('/notes/', params);
 
     return response;
   }

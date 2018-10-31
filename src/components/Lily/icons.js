@@ -8,7 +8,7 @@ import {
   faKey,
   faRocket,
   faEnvelope,
-  faEnvelopeOpen,
+  faEnvelopeOpenText,
   faCode,
   faPlug,
   faCreditCard,
@@ -49,7 +49,8 @@ import {
   faLink,
   faImage,
   faHourglassStart,
-  faSearch
+  faSearch,
+  faFileImport
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
 import { faExpandAlt, faSpinnerThird, faArrowAltRight } from '@fortawesome/pro-solid-svg-icons';
@@ -63,7 +64,7 @@ library.add(
   faKey,
   faRocket,
   faEnvelope,
-  faEnvelopeOpen,
+  faEnvelopeOpenText,
   faCode,
   faPlug,
   faCreditCard,
@@ -106,6 +107,7 @@ library.add(
   faImage,
   faHourglassStart,
   faSearch,
+  faFileImport,
   faExpandAlt,
   faSpinnerThird,
   faArrowAltRight

@@ -31,7 +31,7 @@ class Dropdown extends Component {
     const { clickable, menu, clearCallback } = this.props;
 
     return (
-      <div>
+      <div className="display-inline-block">
         <div className={`dropdown-container${clearCallback ? ' is-clearable' : ''}`}>
           <div className="clickable" onClick={this.showMenu}>
             {clickable}

@@ -11,11 +11,12 @@ const DeletedIndicator = props => {
       <i
         className="lilicon hl-trashcan-icon m-r-5"
         data-tip={t('deletedIndicator', { name: object[field] })}
+        data-for={`item-${object.id}`}
       />
 
       <span>{object[field]}</span>
 
-      <LilyTooltip />
+      <LilyTooltip id={`item-${object.id}`} />
     </span>
   ) : (
     <React.Fragment>{props.children}</React.Fragment>

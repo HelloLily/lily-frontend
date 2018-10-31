@@ -164,7 +164,7 @@ class ContactList extends Component {
   };
 
   render() {
-    const { columns, items, query, pagination, sortColumn, sortStatus, loading } = this.state;
+    const { columns, items, query, pagination, sortColumn, sortStatus, page, loading } = this.state;
     const { t } = this.props;
 
     return (
@@ -277,7 +277,7 @@ class ContactList extends Component {
           )}
 
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={page} />
           </div>
         </div>
       </BlockUI>

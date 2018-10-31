@@ -17,8 +17,8 @@ class Deal {
     return del(`/deals/${id}/`);
   }
 
-  query() {
-    const response = get('/deals/');
+  query(params) {
+    const response = get('/deals/', params);
 
     return response;
   }

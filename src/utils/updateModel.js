@@ -11,7 +11,7 @@ export default async function updateModel(item, data) {
     const text = i18n.t('toasts:modelUpdated', { model });
 
     successToast(text);
-  } catch (e) {
+  } catch (error) {
     const text = i18n.t('toasts:error');
 
     errorToast(text);

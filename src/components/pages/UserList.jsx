@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { NO_SORT_STATUS } from 'lib/constants';
+import { successToast, errorToast } from 'utils/toasts';
 import Editable from 'components/Editable';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import LilyPagination from 'components/LilyPagination';
+import LilyTooltip from 'components/LilyTooltip';
 import BlockUI from 'components/Utils/BlockUI';
 import ListColumns from 'components/List/ListColumns';
 import SearchBar from 'components/List/SearchBar';
@@ -41,12 +44,13 @@ class UserList extends Component {
       query: '',
       pagination: {},
       loading: true,
+      page: 1,
       statusFilter: 0,
       sortColumn: '',
       sortStatus: NO_SORT_STATUS
     };
 
-    document.title = 'Users - Lily';
+    document.title = 'Colleagues - Lily';
   }
 
   async componentDidMount() {
@@ -60,7 +64,7 @@ class UserList extends Component {
   }
 
   setFilter = value => {
-    this.setState({ statusFilter: value });
+    this.setState({ statusFilter: value }, this.loadItems);
   };
 
   setPage = async page => {
@@ -111,16 +115,32 @@ class UserList extends Component {
   };
 
   loadItems = async () => {
-    const { page, sortColumn, sortStatus } = this.state;
+    const { statusFilter, page, sortColumn, sortStatus } = this.state;
 
-    this.setState({ loading: true });
+    if (statusFilter === 3) {
+      // Only display invites.
+      this.setState({ users: [] });
+      return;
+    }
 
-    const data = await User.query({
+    // Just calling loadItems doesn't re-render the Editable components.
+    // So clear the users to make sure the list is up-to-date when edited.
+    this.setState({ loading: true, users: [] });
+
+    const params = {
       pageSize: 20,
       page,
       sortColumn,
       sortStatus
-    });
+    };
+
+    if (statusFilter === 1) {
+      params.isActive = 1;
+    } else if (statusFilter === 2) {
+      params.isActive = 0;
+    }
+
+    const data = await User.query(params);
 
     this.setState({
       users: data.results,
@@ -129,12 +149,73 @@ class UserList extends Component {
     });
   };
 
-  submitCallback = args => {
+  submitCallback = async args => {
+    const { t } = this.props;
+
     this.setState({ loading: true });
 
-    return User.patch(args).then(() => {
+    try {
+      await User.patch(args);
+
+      successToast(t('modelUpdated', { model: 'user' }));
+
       this.setState({ loading: false }, this.loadItems);
-    });
+    } catch (error) {
+      errorToast(t('error'));
+    }
+  };
+
+  submitInternalNumber = async args => {
+    const { users } = this.state;
+    const { t } = this.props;
+
+    this.setState({ loading: true });
+
+    const internalNumber = parseInt(args.internalNumber, 10);
+    const foundUser = users.find(user => user.internalNumber === internalNumber);
+
+    args.internalNumber = internalNumber || null;
+
+    try {
+      await User.patch(args);
+
+      if (foundUser) {
+        successToast(t('internalNumberCleared', { name: foundUser.fullName }));
+      }
+
+      const updatedUser = users.find(user => user.id === args.id);
+
+      successToast(t('internalNumberCleared', { name: updatedUser.fullName }));
+
+      this.setState({ loading: false }, this.loadItems);
+    } catch (error) {
+      errorToast(t('error'));
+    }
+  };
+
+  toggleStatus = async item => {
+    const { users } = this.state;
+    const { t } = this.props;
+
+    const isActive = !item.isActive;
+    const args = {
+      id: item.id,
+      isActive
+    };
+
+    try {
+      await User.patch(args);
+
+      const index = users.findIndex(user => user.id === item.id);
+      users[index].isActive = isActive;
+
+      const text = isActive ? t('userActivated') : t('userDeactivated');
+      successToast(text);
+
+      this.setState({ users });
+    } catch (error) {
+      errorToast(t('error'));
+    }
   };
 
   render() {
@@ -146,6 +227,7 @@ class UserList extends Component {
       statusFilter,
       newTeam,
       pagination,
+      page,
       sortColumn,
       sortStatus,
       loading
@@ -158,7 +240,7 @@ class UserList extends Component {
       <BlockUI blocking={loading}>
         <div className="list">
           <div className="list-header">
-            <div className="list-title flex-grow">Users</div>
+            <div className="list-title flex-grow">Colleagues</div>
 
             <Link to="/preferences/invite" className="hl-primary-btn m-r-10">
               <FontAwesomeIcon icon="plus" /> User
@@ -232,27 +314,31 @@ class UserList extends Component {
             )}
 
             <tbody>
-              {invites.map(invite => (
-                <tr key={invite.id}>
-                  <td>{invite.firstName}</td>
-                  <td />
-                  <td>{invite.email}</td>
-                  <td colSpan="2" />
-                  <td>
-                    <div className="label info w-100">Invited</div>
-                  </td>
-                  <td />
-                  <td>
-                    <button className="hl-primary-btn borderless" type="button">
-                      <FontAwesomeIcon icon="undo" />
-                    </button>
+              {(statusFilter === 0 || statusFilter === 3) && (
+                <React.Fragment>
+                  {invites.map(invite => (
+                    <tr key={invite.id}>
+                      <td>{invite.firstName}</td>
+                      <td />
+                      <td>{invite.email}</td>
+                      <td colSpan="2" />
+                      <td>
+                        <div className="label info w-100">Invited</div>
+                      </td>
+                      <td />
+                      <td>
+                        <button className="hl-primary-btn borderless" type="button">
+                          <FontAwesomeIcon icon="undo" />
+                        </button>
 
-                    <button className="hl-primary-btn borderless" type="button">
-                      <i className="lilicon hl-trashcan-icon" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                        <button className="hl-primary-btn borderless" type="button">
+                          <i className="lilicon hl-trashcan-icon" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              )}
 
               {users.map(user => (
                 <tr key={user.id}>
@@ -277,7 +363,7 @@ class UserList extends Component {
                           type="text"
                           object={user}
                           field="internalNumber"
-                          // submitCallback={submitCallback}
+                          submitCallback={this.submitInternalNumber}
                         />
                       ) : (
                         <React.Fragment>{user.internalNumber}</React.Fragment>
@@ -291,17 +377,37 @@ class UserList extends Component {
                       </div>
                     </td>
                   )}
-                  {columns[6].selected &&
-                    currentUser.isAdmin && (
-                      <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
-                    )}
-                  <td />
+                  {columns[6].selected && (
+                    <React.Fragment>
+                      {currentUser.isAdmin ? (
+                        <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
+                      ) : (
+                        <td />
+                      )}
+                    </React.Fragment>
+                  )}
+                  <td>
+                    <button
+                      className="hl-primary-btn borderless"
+                      onClick={() => this.toggleStatus(user)}
+                      data-tip={`${user.isActive ? 'Deactivate' : 'Activate'} colleague`}
+                      data-for={`user-${user.id}`}
+                    >
+                      {user.isActive ? (
+                        <i className="lilicon hl-entity-status-inactive-icon" />
+                      ) : (
+                        <i className="lilicon hl-entity-status-active-icon" />
+                      )}
+                    </button>
+
+                    <LilyTooltip id={`user-${user.id}`} />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={page} />
           </div>
         </div>
       </BlockUI>
@@ -309,4 +415,4 @@ class UserList extends Component {
   }
 }
 
-export default withContext(UserList);
+export default withNamespaces('toasts')(withContext(UserList));

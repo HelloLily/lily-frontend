@@ -65,7 +65,7 @@ const NavDropdown = ({ currentUser }) => (
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/emailtemplates" exact>
-              <FontAwesomeIcon icon="envelope-open" /> Email templates
+              <FontAwesomeIcon icon="envelope-open-text" /> Email templates
             </NavLink>
           </li>
 
@@ -79,7 +79,7 @@ const NavDropdown = ({ currentUser }) => (
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/users" exact>
-              <i className="lilicon hl-entities-icon" /> Users
+              <i className="lilicon hl-entities-icon" /> Colleagues
             </NavLink>
           </li>
 
@@ -101,7 +101,7 @@ const NavDropdown = ({ currentUser }) => (
 
               <li className="dropdown-menu-item">
                 <NavLink to="/preferences/import" exact>
-                  <i className="lilicon hl-entities-icon" /> Import
+                  <FontAwesomeIcon icon="file-import" /> Import
                 </NavLink>
               </li>
 

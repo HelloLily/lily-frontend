@@ -144,6 +144,7 @@ class DealList extends Component {
       filters,
       query,
       loading,
+      page,
       pagination,
       sortColumn,
       sortStatus
@@ -256,7 +257,7 @@ class DealList extends Component {
           )}
 
           <div className="list-footer">
-            <LilyPagination setPage={this.setPage} pagination={pagination} page={this.state.page} />
+            <LilyPagination setPage={this.setPage} pagination={pagination} page={page} />
           </div>
         </div>
       </BlockUI>

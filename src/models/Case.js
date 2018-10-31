@@ -33,8 +33,8 @@ class Case {
     return del(`/cases/${id}/`);
   }
 
-  query() {
-    const response = get('/cases/');
+  query(params) {
+    const response = get('/cases/', params);
 
     return response;
   }
