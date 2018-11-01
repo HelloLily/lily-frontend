@@ -318,7 +318,7 @@ class EmailTemplateList extends Component {
                               </button>
 
                               <Link
-                                to={`/preferences/emailtemplates/edit/${emailTemplate.id}`}
+                                to={`/preferences/emailtemplates/${emailTemplate.id}/edit`}
                                 className="hl-primary-btn borderless"
                               >
                                 <i className="lilicon hl-edit-icon" />

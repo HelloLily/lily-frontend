@@ -37,6 +37,10 @@ class Contact {
 
     return response;
   }
+
+  import(data) {
+    return post('/contacts/import/', data);
+  }
 }
 
 export default new Contact();

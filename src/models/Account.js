@@ -71,6 +71,10 @@ class Account {
 
     return response;
   }
+
+  import(data) {
+    return post('/accounts/import/', data);
+  }
 }
 
 export default new Account();

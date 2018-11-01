@@ -72,19 +72,19 @@ const Preferences = ({ currentUser }) => (
 
         <ul>
           <li>
-            <NavLink to="/preferences/emailaccounts" exact>
+            <NavLink to="/preferences/emailaccounts">
               <i className="lilicon hl-email-icon" /> Email accounts
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/preferences/emailtemplates" exact>
+            <NavLink to="/preferences/emailtemplates">
               <FontAwesomeIcon icon="envelope-open-text" /> Email templates
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/preferences/templatevariables" exact>
+            <NavLink to="/preferences/templatevariables">
               <FontAwesomeIcon icon="code" /> Template variables
             </NavLink>
           </li>
@@ -138,6 +138,7 @@ const Preferences = ({ currentUser }) => (
           <Route path="/preferences/webhooks" component={WebhookForm} />
           <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
           <Route path="/preferences/emailaccounts" component={EmailAccountList} />
+          <Route path="/preferences/emailtemplates/:id/edit" component={EmailTemplateForm} />
           <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
           <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
           <Route path="/preferences/templatevariables/:id/edit" component={TemplateVariableForm} />

@@ -204,7 +204,7 @@ class InnerEmailTemplateForm extends Component {
                     />
                   </div>
 
-                  {errors.folder && <div className="error-message">{errors.folder}</div>}
+                  {errors.bodyHtml && <div className="error-message">{errors.bodyHtml}</div>}
                 </div>
 
                 <div className="form-section">

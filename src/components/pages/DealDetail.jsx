@@ -9,6 +9,7 @@ import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import Postpone from 'components/Postpone';
 import BlockUI from 'components/Utils/BlockUI';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import ActivityStream from 'components/ActivityStream';

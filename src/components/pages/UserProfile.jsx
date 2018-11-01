@@ -25,6 +25,8 @@ class InnerProfileForm extends Component {
       internalNumber: currentUser.internalNumber
     };
 
+    this.pictureRef = React.createRef();
+
     this.props.setValues(data);
 
     document.title = 'My profile - Lily';
@@ -122,12 +124,7 @@ class InnerProfileForm extends Component {
 
                     {values.picture && <img src={values.picture} alt="User avatar" />}
 
-                    <input
-                      id="picture"
-                      type="file"
-                      value={values.picture}
-                      onChange={handleChange}
-                    />
+                    <input id="picture" type="file" ref={this.pictureRef} />
 
                     {errors.picture && <div className="error-message">{errors.picture}</div>}
 

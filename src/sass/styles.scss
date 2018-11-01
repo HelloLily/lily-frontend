@@ -509,3 +509,38 @@ li {
   display: block;
   height: 300px;
 }
+
+.hl-instruction-list {
+  border: 1px $inner-border-color solid;
+  background: #fff;
+  border-radius: 3px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .hl-instruction-list-item {
+    position: relative;
+    padding: 10px 10px 10px 25px;
+    border-top: 1px $inner-border-color solid;
+    vertical-align: middle;
+
+    strong {
+      margin-left: 5px;
+    }
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:before {
+      color: $app-color-aqua;
+      position: absolute;
+      top: 50%;
+      font-size: 10px;
+      margin-top: -9px;
+      left: 10px;
+      content: $hl-arrow-right-icon;
+      font-family: 'lilicon';
+    }
+  }
+}

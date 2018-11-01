@@ -6,6 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
+import LilyModal from 'components/LilyModal';
 import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import TemplateVariable from 'models/TemplateVariable';
 
@@ -26,6 +27,8 @@ class TemplateVariableList extends Component {
     this.setState({
       variables,
       publicVariables,
+      selectedVariable: null,
+      modalOpen: false,
       loading: false
     });
   }
@@ -49,8 +52,16 @@ class TemplateVariableList extends Component {
     }
   };
 
+  preview = item => {
+    this.setState({ selectedVariable: item, modalOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ selectedVariable: null, modalOpen: false });
+  };
+
   render() {
-    const { variables, publicVariables, loading } = this.state;
+    const { variables, publicVariables, selectedVariable, modalOpen, loading } = this.state;
     const { t } = this.props;
 
     return (
@@ -76,12 +87,16 @@ class TemplateVariableList extends Component {
                 <tr key={variable.id}>
                   <td>{variable.name}</td>
                   <td className="float-right">
-                    <button className="hl-primary-btn borderless">
+                    <button
+                      className="hl-primary-btn borderless"
+                      onClick={() => this.preview(variable)}
+                      type="button"
+                    >
                       <FontAwesomeIcon icon="eye" /> Preview
                     </button>
 
                     <Link
-                      to={`/preferences/templatevariables/edit/${variable.id}`}
+                      to={`/preferences/templatevariables/${variable.id}/edit`}
                       className="hl-primary-btn borderless"
                     >
                       <i className="lilicon hl-edit-icon" />
@@ -122,12 +137,12 @@ class TemplateVariableList extends Component {
                 <tr key={variable.id}>
                   <td>{variable.name}</td>
                   <td className="float-right">
-                    <button className="hl-primary-btn small m-r-5">
+                    <button
+                      className="hl-primary-btn borderless"
+                      onClick={() => this.preview(variable)}
+                      type="button"
+                    >
                       <FontAwesomeIcon icon="eye" /> Preview
-                    </button>
-
-                    <button className="hl-primary-btn small m-r-5">
-                      <i className="lilicon hl-edit-icon" />
                     </button>
                   </td>
                 </tr>
@@ -142,6 +157,18 @@ class TemplateVariableList extends Component {
               </tbody>
             )}
           </table>
+
+          {selectedVariable && (
+            <LilyModal modalOpen={modalOpen} closeModal={this.closeModal} alignCenter>
+              <div dangerouslySetInnerHTML={{ __html: selectedVariable.text }} />
+
+              <div className="modal-footer">
+                <button className="hl-primary-btn m-l-10" onClick={this.closeModal}>
+                  Cancel
+                </button>
+              </div>
+            </LilyModal>
+          )}
         </div>
       </BlockUI>
     );

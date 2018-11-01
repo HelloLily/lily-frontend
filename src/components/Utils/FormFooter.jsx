@@ -1,19 +1,15 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const FormFooter = props => (
+const FormFooter = ({ isSubmitting, dirty, confirmText, indent = true }) => (
   <div className="form-section">
-    <div className="form-section-heading no-border" />
+    {indent && <div className="form-section-heading no-border" />}
     <div className="form-section-content">
-      <button type="submit" disabled={props.isSubmitting} className="hl-primary-btn-blue">
-        <FontAwesomeIcon icon="check" /> {props.confirmText || 'Save'}
+      <button type="submit" disabled={isSubmitting} className="hl-primary-btn-blue">
+        <FontAwesomeIcon icon="check" /> {confirmText || 'Save'}
       </button>
 
-      <button
-        type="button"
-        className="hl-primary-btn m-l-10"
-        disabled={!props.dirty || props.isSubmitting}
-      >
+      <button type="button" className="hl-primary-btn m-l-10" disabled={!dirty || isSubmitting}>
         Cancel
       </button>
     </div>
