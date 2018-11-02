@@ -48,6 +48,9 @@ class CaseList extends Component {
       filters: { list: [], dueDate: [], user: [] },
       query: '',
       pagination: {},
+      page: 1,
+      sortColumn: '',
+      sortStatus: NO_SORT_STATUS,
       showEmptyState: false,
       loading: true
     };
@@ -143,11 +146,12 @@ class CaseList extends Component {
       caseTypes,
       filters,
       query,
-      loading,
       pagination,
       page,
       sortColumn,
-      sortStatus
+      sortStatus,
+      showEmptyState,
+      loading
     } = this.state;
     const { t } = this.props;
 
@@ -258,7 +262,7 @@ class CaseList extends Component {
             </tbody>
           </table>
 
-          {this.state.showEmptyState && (
+          {showEmptyState && (
             <div className="empty-state-description">
               <h3>{t('cases.emptyStateTitle')}</h3>
 

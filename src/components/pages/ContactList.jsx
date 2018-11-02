@@ -41,6 +41,9 @@ class ContactList extends Component {
       query: '',
       pagination: {},
       showEmptyState: false,
+      page: 1,
+      sortColumn: '',
+      sortStatus: NO_SORT_STATUS,
       loading: true
     };
 
