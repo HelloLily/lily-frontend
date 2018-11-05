@@ -12,16 +12,22 @@ class UserShare extends Component {
   constructor(props) {
     super(props);
 
+    const privacyOptions = EmailAccount.privacyOptions();
+    const privacy = privacyOptions[0];
+
     this.state = {
-      emailAccount: {},
-      privacyOptions: EmailAccount.privacyOptions(),
+      privacyOptions,
+      privacy,
       users: [],
+      shareAdditions: [],
       loading: true
     };
   }
 
   async componentDidMount() {
-    const promises = this.state.emailAccount.sharedEmailConfigs.map(async config => {
+    const { emailAccount } = this.props;
+
+    const promises = emailAccount.sharedEmailConfigs.map(async config => {
       const user = await User.get(config.user);
 
       return user;
@@ -31,10 +37,8 @@ class UserShare extends Component {
     this.setState({ users, loading: false });
   }
 
-  static getDerivedStateFromProps = nextProps => ({ emailAccount: nextProps.emailAccount });
-
   toggleDelete = config => {
-    const { emailAccount } = this.state;
+    const { emailAccount, updateEmailAccount } = this.props;
 
     const foundConfig = emailAccount.sharedEmailConfigs.find(
       emailConfig => emailConfig.id === config.id
@@ -44,7 +48,7 @@ class UserShare extends Component {
       foundConfig.isDeleted = !foundConfig.isDeleted;
     }
 
-    this.setState({ emailAccount });
+    updateEmailAccount(emailAccount);
   };
 
   searchUsers = async query => {
@@ -55,18 +59,61 @@ class UserShare extends Component {
     return request.results;
   };
 
+  handlePrivacy = value => {
+    this.setState({ privacy: value });
+  };
+
+  handleConfigPrivacy = (index, value) => {
+    const { emailAccount, updateEmailAccount } = this.props;
+
+    emailAccount.sharedEmailConfigs[index].privacy = value.id;
+
+    updateEmailAccount(emailAccount);
+  };
+
+  handleAdditions = value => {
+    this.setState({ shareAdditions: value });
+  };
+
+  addAdditions = () => {
+    const { shareAdditions, privacy } = this.state;
+    const { emailAccount, updateEmailAccount } = this.props;
+
+    shareAdditions.forEach(user => {
+      emailAccount.sharedEmailConfigs.push({
+        user,
+        privacy: privacy.id,
+        emailAccount: emailAccount.id
+      });
+    });
+
+    updateEmailAccount(emailAccount);
+
+    this.setState({ shareAdditions: [] });
+  };
+
   render() {
-    const { emailAccount, privacyOptions, users, loading } = this.state;
+    const { privacyOptions, privacy, users, shareAdditions, loading } = this.state;
+    const { emailAccount } = this.props;
 
     return (
       <React.Fragment>
         {!loading ? (
           <div className="shared-with-users">
-            {emailAccount.sharedEmailConfigs.map(config => {
-              const foundUser = users.find(user => user.id === config.user);
+            {emailAccount.sharedEmailConfigs.map((config, index) => {
+              let foundUser;
+
+              if (config.user.hasOwnProperty('id')) {
+                foundUser = config.user;
+              } else {
+                foundUser = users.find(user => user.id === config.user);
+              }
 
               return (
-                <div className={`user-row${config.isDeleted ? ' is-deleted' : ''}`} key={config.id}>
+                <div
+                  className={`user-row${config.isDeleted ? ' is-deleted' : ''}`}
+                  key={config.user.id || config.user}
+                >
                   <div className="user-info">
                     <img
                       className="user-avatar m-r-15"
@@ -78,9 +125,13 @@ class UserShare extends Component {
 
                   <Select
                     styles={SELECT_STYLES}
-                    options={EmailAccount.privacyOptions()}
-                    getOptionLabel={option => option.name}
+                    options={privacyOptions}
                     className="user-share-container"
+                    onChange={value => this.handleConfigPrivacy(index, value)}
+                    value={privacyOptions[config.privacy]}
+                    getOptionLabel={option => option.name}
+                    getOptionValue={option => option.id}
+                    menuPortalTarget={document.body}
                   />
 
                   <button
@@ -104,37 +155,39 @@ class UserShare extends Component {
                 defaultOptions
                 styles={SELECT_STYLES}
                 placeholder="Select people to share the account with"
-                onChange={value => this.props.handleAdditions(value)}
+                onChange={this.handleAdditions}
                 loadOptions={this.searchUsers}
                 getOptionLabel={option => option.fullName}
                 getOptionValue={option => option.id}
                 className="user-share-container"
                 classNamePrefix="user-share"
+                value={shareAdditions}
                 menuPortalTarget={document.body}
               />
 
               <Select
-                value={privacyOptions[0]}
+                value={privacy}
                 styles={SELECT_STYLES}
                 options={privacyOptions}
-                getOptionLabel={option => option.name}
-                getOptionValue={option => option.id}
+                onChange={this.handlePrivacy}
                 className="user-share-container"
                 classNamePrefix="user-share"
+                getOptionLabel={option => option.name}
+                getOptionValue={option => option.id}
                 menuPortalTarget={document.body}
               />
 
               <button
                 className="hl-primary-btn-green m-l-5"
-                onClick={this.props.addAdditions}
                 type="button"
+                onClick={this.addAdditions}
               >
                 Add
               </button>
             </div>
           </div>
         ) : (
-          <LoadingIndicator />
+          <LoadingIndicator small />
         )}
       </React.Fragment>
     );

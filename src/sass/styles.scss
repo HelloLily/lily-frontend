@@ -250,6 +250,10 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.small {
+    height: 100%;
+  }
 }
 
 .loading-header {

@@ -94,7 +94,8 @@ export const SELECT_STYLES = {
   }),
   placeholder: base => ({
     ...base,
-    color: '#b5b5b5'
+    color: '#b5b5b5',
+    whiteSpace: 'nowrap'
   }),
   clearIndicator: base => ({
     ...base,

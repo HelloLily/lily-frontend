@@ -29,6 +29,7 @@
     "react/jsx-one-expression-per-line": 0,
     "react/button-has-type": 0,
     "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
+    "react/destructuring-assignment": 0,
 
     "import/no-unresolved": 0,
     "import/extensions": 0,

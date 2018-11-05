@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import { errorToast, successToast } from 'utils/toasts';
+import updateModel from 'utils/updateModel';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
 import UserShare from 'components/UserShare';
@@ -16,18 +18,22 @@ class EmailAccountList extends Component {
     super(props);
 
     this.state = {
-      items: [],
+      emailAccounts: [],
       sharedAccounts: [],
-      loading: true,
       modalOpen: false,
       selectedAccount: null,
-      users: []
+      users: [],
+      loading: true
     };
 
     document.title = 'Email accounts';
   }
 
   async componentDidMount() {
+    await this.loadItems();
+  }
+
+  loadItems = async () => {
     const { currentUser } = this.props;
 
     const ownedAccountsResponse = await EmailAccount.query({ owner: currentUser.id });
@@ -35,12 +41,18 @@ class EmailAccountList extends Component {
       sharedemailconfig__user__id: currentUser.id
     });
     const publicAccountsResponse = await EmailAccount.query({ privacy: EmailAccount.PUBLIC });
+    const emailAccounts = ownedAccountsResponse.results.map(emailAccount => {
+      const emailConfig = emailAccount.sharedEmailConfigs.find(
+        config => config.user === currentUser.id
+      );
 
-    const items = ownedAccountsResponse.results.map(emailAccount => {
+      if (emailConfig) {
+        emailAccount.isHidden = emailConfig.isHidden;
+      }
+
       emailAccount.sharedEmailConfigs = emailAccount.sharedEmailConfigs.filter(
-        config =>
-          // Filter out the user's own configuration.
-          config.user !== currentUser.id
+        // Filter out the user's own configuration.
+        config => config.user !== currentUser.id
       );
 
       return emailAccount;
@@ -52,11 +64,12 @@ class EmailAccountList extends Component {
     ].filter(emailAccount => emailAccount.owner.id !== currentUser.id);
 
     this.setState({
-      items,
+      emailAccounts,
       sharedAccounts,
+      selectedAccount: null,
       loading: false
     });
-  }
+  };
 
   openSharedWithModal = async emailAccount => {
     const promises = emailAccount.sharedEmailConfigs.map(async config => {
@@ -73,14 +86,57 @@ class EmailAccountList extends Component {
     this.setState({ modalOpen: false, selectedAccount: null, users: [] });
   };
 
-  toggleHidden = emailAccount => {
+  toggleHidden = async emailAccount => {
+    const { emailAccounts, sharedAccounts } = this.state;
+    const { currentUser, t } = this.props;
+
     const args = {
       emailAccount: emailAccount.id,
-      user: this.props.currentUser.id,
-      isHidden: emailAccount.isHidden
+      isHidden: !emailAccount.isHidden,
+      user: currentUser.id
     };
 
-    SharedEmailConfig.post(args);
+    try {
+      await SharedEmailConfig.post(args);
+
+      let index = emailAccounts.findIndex(account => account.id === emailAccount.id);
+
+      if (index > -1) {
+        emailAccounts[index].isHidden = args.isHidden;
+      } else {
+        index = sharedAccounts.findIndex(account => account.id === emailAccount.id);
+
+        if (index > -1) {
+          sharedAccounts[index].isHidden = args.isHidden;
+        }
+      }
+
+      this.setState({ emailAccounts, sharedAccounts });
+
+      successToast(t('toasts:modelUpdated', { model: 'email account' }));
+    } catch (error) {
+      errorToast(t('toasts:error'));
+    }
+  };
+
+  setPrimaryAccount = async emailAccount => {
+    const { currentUser, setCurrentUser, t } = this.props;
+
+    const args = {
+      id: 'me',
+      primaryEmailAccount: { id: emailAccount.id }
+    };
+
+    try {
+      await User.patch(args);
+
+      currentUser.primaryEmailAccount = emailAccount;
+      setCurrentUser(currentUser);
+
+      successToast(t('toasts:primaryAccountUpdated', { label: emailAccount.label }));
+    } catch (error) {
+      errorToast(t('toasts:error'));
+    }
   };
 
   setupEmailAccount = async () => {
@@ -107,18 +163,56 @@ class EmailAccountList extends Component {
     return fullAccess;
   };
 
-  removeItem = item => {
-    const { items } = this.state;
+  updateEmailAccount = () => {
+    const { emailAccounts, selectedAccount } = this.state;
+    const index = emailAccounts.findIndex(item => item.id === selectedAccount.id);
 
-    const index = items.findIndex(iterItem => iterItem.id === item.id);
-    items.splice(index, 1);
+    emailAccounts[index] = selectedAccount;
 
-    this.setState({ items });
+    this.setState({ emailAccounts });
+  };
+
+  updateModel = async () => {
+    const { selectedAccount } = this.state;
+    const { t } = this.props;
+
+    const sharedEmailConfigs = selectedAccount.sharedEmailConfigs.map(config => {
+      config.user = config.user.id || config.user;
+
+      return config;
+    });
+
+    const args = {
+      id: selectedAccount.id,
+      sharedEmailConfigs
+    };
+
+    try {
+      await EmailAccount.patch(args);
+      await this.loadItems();
+
+      successToast(t('toasts:modelUpdated', { model: 'email account' }));
+    } catch (error) {
+      errorToast(t('toasts:error'));
+    }
+  };
+
+  removeItem = ({ id }) => {
+    const { emailAccounts } = this.state;
+
+    const index = emailAccounts.findIndex(item => item.id === id);
+    emailAccounts.splice(index, 1);
+
+    this.setState({ emailAccounts });
   };
 
   render() {
-    const { items, sharedAccounts, loading, selectedAccount, users } = this.state;
+    const { emailAccounts, sharedAccounts, selectedAccount, users, loading } = this.state;
     const { currentUser, t } = this.props;
+
+    const primaryEmailAccount = currentUser.primaryEmailAccount
+      ? currentUser.primaryEmailAccount.id
+      : null;
 
     return (
       <BlockUI blocking={loading}>
@@ -144,10 +238,14 @@ class EmailAccountList extends Component {
               </tr>
             </thead>
             <tbody>
-              {items.map(emailAccount => (
+              {emailAccounts.map(emailAccount => (
                 <tr key={emailAccount.id}>
                   <td>
-                    <input type="radio" />
+                    <input
+                      type="radio"
+                      checked={primaryEmailAccount === emailAccount.id}
+                      onChange={() => this.setPrimaryAccount(emailAccount)}
+                    />
                   </td>
                   <td>{emailAccount.emailAddress}</td>
                   <td>{emailAccount.label}</td>
@@ -186,9 +284,9 @@ class EmailAccountList extends Component {
                 </tr>
               ))}
 
-              {items.length === 0 && (
+              {emailAccounts.length === 0 && (
                 <tr>
-                  <td colSpan="8">{t('preferences.emailAccounts')}</td>
+                  <td colSpan="8">{t('emptyStates:preferences.emailAccounts')}</td>
                 </tr>
               )}
             </tbody>
@@ -255,7 +353,7 @@ class EmailAccountList extends Component {
 
                 {sharedAccounts.length === 0 && (
                   <tr>
-                    <td colSpan="8">{t('preferences.sharedEmailAccounts')}</td>
+                    <td colSpan="8">{t('emptyStates:preferences.sharedEmailAccounts')}</td>
                   </tr>
                 )}
               </tbody>
@@ -275,11 +373,19 @@ class EmailAccountList extends Component {
                 </div>
 
                 <UserShare
-                  handleAdditions={this.handleAdditions}
-                  addAdditions={this.addAdditions}
+                  updateEmailAccount={this.updateEmailAccount}
                   emailAccount={selectedAccount}
-                  // shareAdditions={shareAdditions}
                 />
+
+                <div className="m-t-15">
+                  <button className="hl-primary-btn-blue" onClick={this.updateModel}>
+                    Save
+                  </button>
+
+                  <button className="hl-primary-btn m-l-10" onClick={this.closeModal}>
+                    Cancel
+                  </button>
+                </div>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -316,4 +422,4 @@ class EmailAccountList extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(withContext(EmailAccountList));
+export default withNamespaces(['emptyStates', 'toasts'])(withContext(EmailAccountList));

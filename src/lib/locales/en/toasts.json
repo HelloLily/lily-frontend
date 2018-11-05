@@ -50,5 +50,6 @@
   "userDeactivated": "The user has been deactivated",
   "userActivated": "The user has been activated",
   "internalNumberCleared": "The internal number for {{name}} has been cleared",
-  "internalNumberUpdated": "The internal number for {{name}} has been updated"
+  "internalNumberUpdated": "The internal number for {{name}} has been updated",
+  "primaryAccountUpdated": "Primary email account has been set to {{label}}"
 }

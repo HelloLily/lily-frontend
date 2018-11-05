@@ -1,8 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const LoadingIndicator = ({ children }) => (
-  <div className="loading-indicator">
+const LoadingIndicator = ({ children, small }) => (
+  <div className={`loading-indicator${small ? ' small' : ''}`}>
     <div className="loading-header m-l-10">
       {children ? (
         <React.Fragment>{children}</React.Fragment>

@@ -115,10 +115,10 @@ class AccountList extends Component {
     });
   };
 
-  removeItem = item => {
+  removeItem = ({ id }) => {
     const { items } = this.state;
 
-    const index = items.findIndex(iterItem => iterItem.id === item.id);
+    const index = items.findIndex(item => item.id === id);
     items.splice(index, 1);
 
     this.setState({ items });

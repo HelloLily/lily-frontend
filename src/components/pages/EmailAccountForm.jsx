@@ -4,6 +4,7 @@ import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import getColorCode from 'utils/getColorCode';
 import BlockUI from 'components/Utils/BlockUI';
@@ -17,33 +18,32 @@ class InnerEmailAccountForm extends Component {
     super(props);
 
     this.privacyOptions = EmailAccount.privacyOptions();
-
-    this.state = { shareAdditions: [] };
   }
 
   async componentDidMount() {
+    const { currentUser } = this.props;
     const emailAccount = await EmailAccount.get(this.props.match.params.id);
 
     if (!emailAccount.color) {
       emailAccount.color = getColorCode(emailAccount.emailAddress);
     }
 
+    emailAccount.sharedEmailConfigs = emailAccount.sharedEmailConfigs.filter(
+      // Filter out the user's own configuration.
+      config => config.user !== currentUser.id
+    );
+
     this.props.setValues(emailAccount);
 
     document.title = 'Email account - Lily';
   }
 
-  handleAdditions = value => {
-    this.setState({ shareAdditions: value });
-  };
-
-  addAdditions = () => {
-    this.setState({ shareAdditions: [] });
+  updateEmailAccount = emailAccount => {
+    this.props.setValues(emailAccount);
   };
 
   render() {
     const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
-    const { shareAdditions } = this.state;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -174,10 +174,8 @@ class InnerEmailAccountForm extends Component {
                       <p>{t('forms:emailAccount.advancedInfo')}</p>
 
                       <UserShare
-                        handleAdditions={this.handleAdditions}
-                        addAdditions={this.addAdditions}
+                        updateEmailAccount={this.updateEmailAccount}
                         emailAccount={values}
-                        shareAdditions={shareAdditions}
                       />
                     </TabPanel>
                   </Tabs>
@@ -199,11 +197,25 @@ const EmailAccountForm = withRouter(
       fromName: '',
       label: '',
       color: '',
-      privacy: EmailAccount.READONLY
+      privacy: EmailAccount.PUBLIC
     }),
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const { t } = props;
-      const request = EmailAccount.patch(values);
+
+      const sharedEmailConfigs = values.sharedEmailConfigs.map(config => {
+        config.user = config.user.id || config.user;
+
+        return config;
+      });
+      const cleanedValues = {
+        id: values.id,
+        fromName: values.fromName,
+        label: values.label,
+        color: values.color,
+        privacy: values.privacy,
+        sharedEmailConfigs
+      };
+      const request = EmailAccount.patch(cleanedValues);
       const text = t('toasts:modelUpdated', { model: 'email account' });
 
       request
@@ -222,4 +234,4 @@ const EmailAccountForm = withRouter(
   })(InnerEmailAccountForm)
 );
 
-export default withNamespaces(['forms', 'toasts'])(EmailAccountForm);
+export default withNamespaces(['forms', 'toasts'])(withContext(EmailAccountForm));
