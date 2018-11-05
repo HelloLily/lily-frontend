@@ -5,12 +5,14 @@ import { withNamespaces } from 'react-i18next';
 
 import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
+import toggleFilter from 'utils/toggleFilter';
 import BlockUI from 'components/Utils/BlockUI';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import Editable from 'components/Editable';
 import Dropdown from 'components/Dropdown';
+import EmailAccount from 'models/EmailAccount';
 import EmailTemplate from 'models/EmailTemplate';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
-import DeleteConfirmation from '../Utils/DeleteConfirmation';
 
 class EmailTemplateList extends Component {
   constructor(props) {
@@ -19,8 +21,10 @@ class EmailTemplateList extends Component {
     this.state = {
       folders: [],
       templateCount: 0,
-      loading: true,
-      showMoveTo: false
+      selectedTemplate: null,
+      selectedAccounts: [],
+      showMoveTo: false,
+      loading: true
     };
 
     document.title = 'Email templates';
@@ -42,6 +46,7 @@ class EmailTemplateList extends Component {
         emailTemplates: templateResponse.results
       }
     ];
+    const accountResponse = await EmailAccount.mine();
 
     // Count the total amount of templates.
     const templateCount = folders.reduce((acc, folder) => acc + folder.emailTemplates.length, 0);
@@ -49,6 +54,7 @@ class EmailTemplateList extends Component {
     this.setState({
       folders,
       templateCount,
+      emailAccounts: accountResponse.results,
       loading: false
     });
   };
@@ -132,10 +138,9 @@ class EmailTemplateList extends Component {
     if (selected.length > 0) {
       try {
         await EmailTemplate.move({ templates, folder: moveTo });
+        await this.loadItems();
 
         successToast(t('templatesMoved'));
-
-        await this.loadItems();
       } catch (error) {
         errorToast(t('error'));
       }
@@ -155,18 +160,93 @@ class EmailTemplateList extends Component {
 
     try {
       await del(`/messaging/email/templates/${item.id}/`);
+      await this.loadItems();
 
       const text = t('toasts:modelDeleted', { model: 'email template' });
       successToast(text);
-
-      await this.loadItems();
     } catch (error) {
       errorToast(t('error'));
     }
   };
 
+  openMenu = template => {
+    this.setState({
+      selectedTemplate: template,
+      selectedAccounts: template.defaultFor.slice()
+    });
+  };
+
+  submitDefaultFor = async () => {
+    const { selectedTemplate, selectedAccounts } = this.state;
+    const { t } = this.props;
+
+    const args = {
+      ...selectedTemplate,
+      defaultFor: selectedAccounts
+    };
+
+    try {
+      await EmailTemplate.put(args);
+      await this.loadItems();
+
+      const text = t('toasts:modelUpdated', { model: 'email template' });
+      successToast(text);
+
+      this.setState({ selectedTemplate: null, selectedAccounts: [] });
+    } catch (error) {
+      errorToast(t('error'));
+    }
+  };
+
+  toggleAccount = value => {
+    const { selectedAccounts } = this.state;
+
+    const newSelection = toggleFilter(selectedAccounts, value);
+
+    this.setState({ selectedAccounts: newSelection });
+  };
+
+  renderMenu = () => {
+    const { emailAccounts, selectedAccounts } = this.state;
+
+    return (
+      <div className="dropdown-menu has-header">
+        <div className="dropdown-header">Set as default for</div>
+
+        <ul>
+          {emailAccounts.map(emailAccount => {
+            const isSelected = selectedAccounts.includes(emailAccount.id);
+
+            return (
+              <li className="dropdown-menu-item" key={emailAccount.id}>
+                <input
+                  id={emailAccount.id}
+                  type="checkbox"
+                  checked={isSelected}
+                  onChange={() => this.toggleAccount(emailAccount.id)}
+                />
+
+                <label htmlFor={emailAccount.id}>
+                  {emailAccount.label} ({emailAccount.emailAddress})
+                </label>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="dropdown-footer">
+          <button className="hl-primary-btn-blue" onClick={this.submitDefaultFor}>
+            Save
+          </button>
+
+          <button className="hl-primary-btn m-l-10">Cancel</button>
+        </div>
+      </div>
+    );
+  };
+
   render() {
-    const { folders, templateCount, showMoveTo, newFolder, loading } = this.state;
+    const { folders, templateCount, showMoveTo, newFolder, selectedTemplate, loading } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -313,9 +393,22 @@ class EmailTemplateList extends Component {
                               )}
                             </td>
                             <td className="float-right">
-                              <button className="hl-primary-btn borderless">
-                                <FontAwesomeIcon icon="star" className="yellow" /> Manage defaults
-                              </button>
+                              <Dropdown
+                                clickable={
+                                  <button
+                                    className="hl-primary-btn borderless"
+                                    onClick={() => this.openMenu(emailTemplate)}
+                                  >
+                                    <FontAwesomeIcon icon="star" className="yellow" /> Manage
+                                    defaults
+                                  </button>
+                                }
+                                menu={
+                                  selectedTemplate && selectedTemplate.id === emailTemplate.id
+                                    ? this.renderMenu()
+                                    : null
+                                }
+                              />
 
                               <Link
                                 to={`/preferences/emailtemplates/${emailTemplate.id}/edit`}

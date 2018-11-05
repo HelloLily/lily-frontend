@@ -1,4 +1,4 @@
-import { get, post, patch } from 'src/lib/api';
+import { get, post, patch, put } from 'src/lib/api';
 
 class EmailTemplate {
   get(id) {
@@ -11,6 +11,10 @@ class EmailTemplate {
 
   patch(data) {
     return patch(`/messaging/email/templates/${data.id}/`, data);
+  }
+
+  put(data) {
+    return put(`/messaging/email/templates/${data.id}/`, data);
   }
 
   query(params) {
