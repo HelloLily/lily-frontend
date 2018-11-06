@@ -1,8 +1,8 @@
 import { get, post, patch, del } from 'src/lib/api';
 
 class Contact {
-  get(id) {
-    return get(`/contacts/${id}/`);
+  get(id, params) {
+    return get(`/contacts/${id}/`, params);
   }
 
   post(data) {

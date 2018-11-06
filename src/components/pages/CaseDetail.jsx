@@ -28,11 +28,11 @@ class CaseDetail extends Component {
     const statusRequest = await Case.statuses();
 
     if (caseObj.account) {
-      caseObj.account = await Account.get(caseObj.account.id);
+      caseObj.account = await Account.get(caseObj.account.id, { filterDeleted: false });
     }
 
     if (caseObj.contact) {
-      caseObj.contact = await Contact.get(caseObj.contact.id);
+      caseObj.contact = await Contact.get(caseObj.contact.id, { filterDeleted: false });
     }
 
     this.setState({ caseObj, caseStatuses: statusRequest.results, loading: false });
@@ -200,7 +200,7 @@ class CaseDetail extends Component {
                   </div>
                 </ContentBlock>
 
-                <AccountDetailWidget account={caseObj.account} />
+                {caseObj.account && <AccountDetailWidget clickable account={caseObj.account} />}
               </div>
 
               <div className="grid-column-2">

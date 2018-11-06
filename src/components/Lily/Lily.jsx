@@ -25,6 +25,7 @@ import CaseForm from 'pages/CaseForm';
 import CaseDetail from 'pages/CaseDetail';
 import CaseList from 'pages/CaseList';
 import NotFound from 'pages/NotFound';
+import Tenant from 'models/Tenant';
 import User from 'models/User';
 import './icons';
 // import history from '../../utils/history';
@@ -45,12 +46,9 @@ class Lily extends Component {
 
   async componentDidMount() {
     const currentUser = await User.me();
+    const objectCountResponse = await Tenant.objectCounts();
 
-    // TODO: Temporary.
-    currentUser.objectCounts = {
-      cases: 1,
-      deals: 0
-    };
+    currentUser.objectCounts = { ...objectCountResponse.results };
 
     this.props.setCurrentUser(currentUser);
 

@@ -4,7 +4,6 @@ import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { errorToast, successToast } from 'utils/toasts';
-import updateModel from 'utils/updateModel';
 import ListActions from 'components/List/ListActions';
 import BlockUI from 'components/Utils/BlockUI';
 import UserShare from 'components/UserShare';

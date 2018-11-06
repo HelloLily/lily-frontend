@@ -57,11 +57,13 @@ class DeleteConfirmation extends Component {
         </button>
 
         <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeModal} alignCenter>
-          <div>
+          <div className="modal-content">
             <Trans
               defaults={t('alerts:delete.confirmText', { name: display })}
-              components={[<strong>text</strong>, <br />]}
+              components={[<strong>text</strong>]}
             />
+            <br />
+            {t('alerts.delete.confirmTextTwo')}
           </div>
 
           <div className="modal-footer">

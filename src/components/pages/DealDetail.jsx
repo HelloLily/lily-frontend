@@ -38,11 +38,11 @@ class DealDetail extends Component {
     const documentResponse = await Deal.documents(id);
 
     if (deal.account) {
-      deal.account = await Account.get(deal.account.id);
+      deal.account = await Account.get(deal.account.id, { filterDeleted: false });
     }
 
     if (deal.contact) {
-      deal.contact = await Contact.get(deal.contact.id);
+      deal.contact = await Contact.get(deal.contact.id, { filterDeleted: false });
     }
 
     this.setState({
@@ -378,9 +378,9 @@ class DealDetail extends Component {
                   <React.Fragment>
                     <div className="m-b-25" />
                     <AccountDetailWidget
+                      clickable
                       account={deal.account}
                       submitCallback={this.submitCallback}
-                      clickable
                     />
                   </React.Fragment>
                 )}

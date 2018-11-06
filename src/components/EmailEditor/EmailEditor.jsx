@@ -760,7 +760,7 @@ class EmailEditor extends Component {
           <button
             className="hl-primary-btn-green no-margin"
             onClick={this.handleSubmit}
-            type="button"
+            type="submit"
           >
             <FontAwesomeIcon icon="check" /> Send
           </button>

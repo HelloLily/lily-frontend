@@ -1,21 +1,25 @@
 import React from 'react';
 
-import MyCases from 'components/ContentBlock/MyCases';
-import MyDeals from 'components/ContentBlock/MyDeals';
-import UnassignedCases from 'components/ContentBlock/UnassignedCases';
-import UnassignedDeals from 'components/ContentBlock/UnassignedDeals';
-import UnreadEmail from 'components/ContentBlock/UnreadEmail';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
+
+const MyCases = React.lazy(() => import('components/ContentBlock/MyCases'));
+const MyDeals = React.lazy(() => import('components/ContentBlock/MyDeals'));
+const UnassignedCases = React.lazy(() => import('components/ContentBlock/UnassignedCases'));
+const UnassignedDeals = React.lazy(() => import('components/ContentBlock/UnassignedDeals'));
+const UnreadEmail = React.lazy(() => import('components/ContentBlock/UnreadEmail'));
 
 const Dashboard = () => {
   document.title = 'Dashboard - Lily';
 
   return (
     <div className="dashboard-widgets">
-      <MyCases />
-      <MyDeals />
-      <UnassignedCases />
-      <UnassignedDeals />
-      <UnreadEmail />
+      <React.Suspense fallback={<LoadingIndicator />}>
+        <MyCases />
+        <MyDeals />
+        <UnassignedCases />
+        <UnassignedDeals />
+        <UnreadEmail />
+      </React.Suspense>
     </div>
   );
 };

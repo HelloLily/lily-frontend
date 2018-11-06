@@ -6,7 +6,8 @@
   },
   "delete": {
     "confirmTitle": "Are you sure?",
-    "confirmText": "You are about to delete <0>{{name}}</0>.<1 />You won't be able to revert this!",
+    "confirmText": "You are about to delete <0>{{name}}</0>.",
+    "confirmTextTwo": "You won't be able to revert this!",
     "confirmButtonText": "Yes, delete it!",
     "successTitle": "Deleted",
     "successText": "The {{model}} <strong>{{name}}</strong> has been deleted.",

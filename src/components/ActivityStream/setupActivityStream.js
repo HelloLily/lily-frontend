@@ -21,7 +21,8 @@ export default async function setupActivityStream(object, dateStart = null, date
   }
 
   const getNotes = async item => {
-    const response = await get(`/${item.contentType.appLabel}/${item.id}/notes`);
+    const url = `/${item.contentType.appLabel}/${item.id}/notes`;
+    const response = await get(url, { filterDeleted: false });
 
     return response.results;
   };
@@ -36,7 +37,8 @@ export default async function setupActivityStream(object, dateStart = null, date
   };
 
   const getChanges = async () => {
-    const response = await get(`/${object.contentType.appLabel}/${object.id}/changes`);
+    const url = `/${object.contentType.appLabel}/${object.id}/changes`;
+    const response = await get(url, { filterDeleted: false });
 
     return response.results;
   };
@@ -56,7 +58,8 @@ export default async function setupActivityStream(object, dateStart = null, date
   };
 
   const getCalls = async () => {
-    const response = await get(`/${object.contentType.appLabel}/${object.id}/calls`);
+    const url = `/${object.contentType.appLabel}/${object.id}/calls`;
+    const response = await get(url, { filterDeleted: false });
 
     return response.results;
   };
@@ -78,7 +81,8 @@ export default async function setupActivityStream(object, dateStart = null, date
   };
 
   const getTimeLogs = async () => {
-    const response = await get(`/${object.contentType.appLabel}/${object.id}/timelogs`);
+    const url = `/${object.contentType.appLabel}/${object.id}/timelogs`;
+    const response = await get(url, { filterDeleted: false });
 
     return response.results;
   };

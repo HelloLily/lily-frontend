@@ -1,6 +1,6 @@
 import convertKeys from './utils';
 
-const successCodes = [200, 201, 202, 203, 204];
+const successCodes = [200, 201, 202, 203, 204, 404];
 
 export default async function handleResponse(response) {
   const { status, statusText } = response;

@@ -6,9 +6,7 @@ import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const AccountDetailWidget = props => {
-  const { account, clickable } = props;
-
+const AccountDetailWidget = ({ account, clickable }) => {
   const submitCallback = async args => {
     await updateModel(account, args);
   };

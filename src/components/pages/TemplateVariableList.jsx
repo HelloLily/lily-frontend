@@ -160,11 +160,14 @@ class TemplateVariableList extends Component {
 
           {selectedVariable && (
             <LilyModal modalOpen={modalOpen} closeModal={this.closeModal} alignCenter>
-              <div dangerouslySetInnerHTML={{ __html: selectedVariable.text }} />
+              <div
+                className="modal-content"
+                dangerouslySetInnerHTML={{ __html: selectedVariable.text }}
+              />
 
               <div className="modal-footer">
-                <button className="hl-primary-btn m-l-10" onClick={this.closeModal}>
-                  Cancel
+                <button className="hl-primary-btn" onClick={this.closeModal}>
+                  Close
                 </button>
               </div>
             </LilyModal>

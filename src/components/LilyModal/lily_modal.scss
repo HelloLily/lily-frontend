@@ -40,8 +40,12 @@
     }
   }
 
+  .modal-content {
+    min-height: 225px;
+  }
+
   .modal-footer {
-    position: absolute;
-    bottom: 15px;
+    // position: absolute;
+    // bottom: 15px;
   }
 }

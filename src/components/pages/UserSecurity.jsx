@@ -149,7 +149,9 @@ class UserSecurity extends Component {
                 </div>
               </div>
 
-              <div>{t('alerts:preferences.twoFactorAuth.disable.confirmText')}</div>
+              <div className="modal-content">
+                {t('alerts:preferences.twoFactorAuth.disable.confirmText')}
+              </div>
 
               <div className="modal-footer">
                 <button className="hl-primary-btn-red" onClick={this.confirm}>

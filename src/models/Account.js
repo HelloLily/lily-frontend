@@ -1,8 +1,8 @@
 import { get, post, patch, del } from 'src/lib/api';
 
 class Account {
-  get(id) {
-    return get(`/accounts/${id}/`);
+  get(id, params) {
+    return get(`/accounts/${id}/`, params);
   }
 
   post(data) {
