@@ -157,6 +157,11 @@ class InnerAccountForm extends Component {
   loadDataproviderInfo = async () => {
     const { values, currentUser } = this.props;
     const data = await Account.dataproviderInfo('url', values.primaryWebsite);
+
+    if (data.error) {
+      return;
+    }
+
     // Filter out empty items (default form values).
     const emailAddresses = values.emailAddresses.filter(emailAddress => emailAddress.emailAddress);
 

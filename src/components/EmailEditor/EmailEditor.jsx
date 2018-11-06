@@ -659,6 +659,7 @@ class EmailEditor extends Component {
                 className="hl-primary-btn no-border"
                 onClick={() => this.setState({ showCcInput: true })}
                 type="button"
+                tabIndex="-1"
               >
                 Cc
               </button>
@@ -668,6 +669,7 @@ class EmailEditor extends Component {
                 className="hl-primary-btn no-border"
                 onClick={() => this.setState({ showBccInput: true })}
                 type="button"
+                tabIndex="-1"
               >
                 Bcc
               </button>

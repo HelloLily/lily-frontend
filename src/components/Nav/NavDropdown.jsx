@@ -21,7 +21,7 @@ const NavDropdown = ({ currentUser }) => (
         </div>
       }
       menu={
-        <ul className="nav-dropdown-menu m-t-5">
+        <ul className="nav-dropdown-menu">
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/profile" exact>
               <i className="lilicon hl-entity-icon" /> My profile

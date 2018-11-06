@@ -234,6 +234,24 @@ class EmailDetail extends Component {
     });
   };
 
+  move = label => {
+    const { emailMessage } = this.state;
+    const { currentLabel } = this.props;
+
+    const addedLabels = [label.labelId];
+    const removedLabels = currentLabel ? [currentLabel] : [];
+
+    // Gmail API needs to know the new labels as well as the old ones, so send them too.
+    const data = {
+      addLabels: addedLabels,
+      removeLabels: removedLabels
+    };
+
+    EmailMessage.move({ id: emailMessage.id, data }).then(() => {
+      this.props.history.push(`/email`);
+    });
+  };
+
   render() {
     const { emailMessage, emailAccount, recipients, thread, plainText } = this.state;
 
@@ -273,20 +291,20 @@ class EmailDetail extends Component {
 
             <div className="email-actions">
               <div className="hl-btn-group m-r-10">
-                <Link to="/email" className="hl-primary-btn">
+                <Link to={`/email/compose/${emailMessage.id}`} className="hl-primary-btn">
                   <FontAwesomeIcon icon="reply" /> Reply
                 </Link>
 
                 <Dropdown
                   clickable={
-                    <button className="hl-primary-btn">
+                    <button className="hl-primary-btn" type="button">
                       <FontAwesomeIcon icon="angle-down" />
                     </button>
                   }
                   menu={
                     <ul className="dropdown-menu">
                       <li className="dropdown-menu-item">
-                        <Link to="/email" className="dropdown-button">
+                        <Link to={`/email/compose/${emailMessage.id}`} className="dropdown-button">
                           <FontAwesomeIcon icon="reply-all" /> Reply all
                         </Link>
                       </li>
@@ -312,10 +330,10 @@ class EmailDetail extends Component {
 
               <Dropdown
                 clickable={
-                  <div className="hl-primary-btn m-r-10">
+                  <button className="hl-primary-btn" type="button">
                     <FontAwesomeIcon icon="folder" /> Move to
                     <i className="lilicon hl-toggle-down-icon m-l-5" />
-                  </div>
+                  </button>
                 }
                 menu={
                   <ul className="dropdown-menu">
