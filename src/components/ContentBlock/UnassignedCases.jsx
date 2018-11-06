@@ -25,7 +25,7 @@ class UnassignedCases extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const settingsResponse = await this.settings.get();
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
@@ -47,7 +47,7 @@ class UnassignedCases extends Component {
       caseTypes,
       teams
     });
-  };
+  }
 
   loadItems = async () => {
     const request = await Case.query();

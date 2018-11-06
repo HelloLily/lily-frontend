@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
+import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
@@ -19,7 +20,7 @@ class InnerWebhookForm extends Component {
     document.title = 'My webhooks - Lily';
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { currentUser } = this.props;
 
     if (currentUser.webhooks.length > 0) {
@@ -29,7 +30,7 @@ class InnerWebhookForm extends Component {
 
       this.props.setValues(data);
     }
-  };
+  }
 
   handleChange = (value, index, field) => {
     const items = this.props.values.webhooks;
@@ -59,7 +60,7 @@ class InnerWebhookForm extends Component {
             <div className="content-block-content">
               <p>{t('preferences:user.webhookIntro')}</p>
 
-              <form onSubmit={handleSubmit}>
+              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                 <FormSection header="Webhook info">
                   {values.webhooks.map((webhook, index) => {
                     const key = `webhook-${index}`;

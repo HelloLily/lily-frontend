@@ -15,6 +15,7 @@ import {
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
+import handleKeydown from 'utils/handleKeydown';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -345,7 +346,7 @@ class InnerContactForm extends Component {
                 </div>
 
                 <div className="content-block-content">
-                  <form onSubmit={handleSubmit}>
+                  <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                     <FormSection header="Who was it?">
                       <div className="form-field">
                         <label required>Salutation</label>

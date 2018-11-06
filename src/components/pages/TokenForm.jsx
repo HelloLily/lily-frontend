@@ -15,11 +15,11 @@ class TokenForm extends Component {
     document.title = 'My API token - Lily';
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const response = await User.token();
 
     this.setState({ token: response.authToken, loading: false });
-  };
+  }
 
   deleteToken = async () => {
     const { t } = this.props;

@@ -45,7 +45,7 @@ class EmailEditor extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const { subject } = this.state;
     const { email, recipients = [], documentId, currentUser } = this.props;
 
@@ -142,7 +142,7 @@ class EmailEditor extends Component {
     }
 
     this.setState(state);
-  };
+  }
 
   getRecipients = async query => {
     const searchQuery = query ? `?search=first_name:${query}` : '';

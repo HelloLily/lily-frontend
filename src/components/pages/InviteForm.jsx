@@ -7,6 +7,7 @@ import cx from 'classnames';
 
 import { INVITE_EMPTY_ROW } from 'lib/constants';
 import { successToast } from 'utils/toasts';
+import handleKeydown from 'utils/handleKeydown';
 import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -48,7 +49,7 @@ class InnerInviteForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
+              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                 <FormSection>
                   {values.invites.map((item, index) => {
                     const hasError =

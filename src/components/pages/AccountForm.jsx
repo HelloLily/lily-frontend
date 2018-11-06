@@ -23,6 +23,7 @@ import {
 import { successToast, errorToast } from 'utils/toasts';
 import ucfirst from 'utils/ucfirst';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
+import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
@@ -409,7 +410,7 @@ class InnerAccountForm extends Component {
                 </div>
 
                 <div className="content-block-content">
-                  <form onSubmit={handleSubmit}>
+                  <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                     <FormSection header="Who was it?">
                       <div className="form-field">
                         <label htmlFor="primaryWebsite">Primary website</label>

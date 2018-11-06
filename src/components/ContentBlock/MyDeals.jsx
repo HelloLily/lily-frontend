@@ -28,13 +28,13 @@ class MyDeals extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const settingsResponse = await this.settings.get();
 
     await this.loadItems();
 
     this.setState({ ...settingsResponse.results });
-  };
+  }
 
   loadItems = async () => {
     this.setState({ loading: true });

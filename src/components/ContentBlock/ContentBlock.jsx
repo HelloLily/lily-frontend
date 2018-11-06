@@ -23,13 +23,13 @@ class ContentBlock extends Component {
     this.state = { loading: true, showFade: true };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const settingsRequest = await this.settings.get();
     // Fill in any settings which aren't in the database yet.
     const settings = { ...DEFAULT_SETTINGS, ...settingsRequest.results };
 
     this.setState({ ...settings, loading: false });
-  };
+  }
 
   heightToggle = async () => {
     const expandHeight = !this.state.expandHeight;

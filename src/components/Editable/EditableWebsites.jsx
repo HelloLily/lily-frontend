@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
-import { WEBSITE_EMPTY_ROW } from 'lib/constants';
+import { WEBSITE_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
 
 class EditableWebsites extends Component {
   componentDidMount = () => {
@@ -12,7 +12,7 @@ class EditableWebsites extends Component {
   };
 
   onInputKeyDown = event => {
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }

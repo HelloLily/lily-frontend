@@ -17,11 +17,11 @@ class CaseListWidget extends Component {
     this.state = { items: [], loading: true };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const caseRequest = await Case.query({ account: this.props.object });
 
     this.setState({ items: caseRequest.results, loading: false });
-  };
+  }
 
   setSidebar = () => {
     this.props.setSidebar('case', { object: this.props.object });

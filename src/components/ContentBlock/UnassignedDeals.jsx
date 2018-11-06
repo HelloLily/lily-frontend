@@ -25,7 +25,7 @@ class UnassignedDeals extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const settingsResponse = await this.settings.get();
     const nextStepResponse = await Deal.nextSteps();
     const nextSteps = nextStepResponse.results.map(nextStep => {
@@ -47,7 +47,7 @@ class UnassignedDeals extends Component {
       nextSteps,
       teams
     });
-  };
+  }
 
   loadItems = async () => {
     const request = await Deal.query();

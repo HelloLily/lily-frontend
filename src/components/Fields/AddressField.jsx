@@ -14,7 +14,7 @@ class AddressField extends Component {
     this.state = { countries: {}, countryOptions: [] };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const countryRequest = await Country.query();
     const countries = countryRequest.results;
     const countryOptions = Object.entries(countries).map(([code, country]) => ({
@@ -25,7 +25,7 @@ class AddressField extends Component {
     this.setState({ countries, countryOptions });
 
     if (this.props.items.length === 0) this.addRow();
-  };
+  }
 
   handleChange = (value, index, field) => {
     const { items } = this.props;

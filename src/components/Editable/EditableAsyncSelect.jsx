@@ -3,15 +3,16 @@ import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { get } from 'src/lib/api';
+import { ENTER_KEY, ESCAPE_KEY } from 'lib/constants';
 
 class EditableSelect extends Component {
   onInputKeyDown = event => {
-    if (this.props.multi && event.keyCode === 13 && event.metaKey) {
+    if (this.props.multi && event.keyCode === ENTER_KEY && event.metaKey) {
       // Instead of showing the options when 'Meta' key + 'Enter' are pressed we submit the form.
       event.preventDefault();
     }
 
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }

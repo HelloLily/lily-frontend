@@ -7,6 +7,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import getColorCode from 'utils/getColorCode';
+import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
 import FormFooter from 'components/Utils/FormFooter';
 import UserShare from 'components/UserShare';
@@ -54,7 +55,7 @@ class InnerEmailAccountForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
+              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                 <div className={`form-field${errors.fromName ? ' has-error' : ''}`}>
                   <label htmlFor="fromName" required>
                     From name

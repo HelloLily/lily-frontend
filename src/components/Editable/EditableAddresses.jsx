@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
-import { ADDRESS_EMPTY_ROW } from 'lib/constants';
+import { ADDRESS_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
 import Country from 'models/Country';
 
 const addressTypes = [
@@ -21,7 +21,7 @@ class EditableAddresses extends Component {
     this.state = { countries: {}, countryOptions: [] };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const countryRequest = await Country.query();
 
     const countries = countryRequest.results;
@@ -36,10 +36,10 @@ class EditableAddresses extends Component {
     if (this.props.value.length === 0) {
       this.props.addRow(ADDRESS_EMPTY_ROW);
     }
-  };
+  }
 
   onInputKeyDown = event => {
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }

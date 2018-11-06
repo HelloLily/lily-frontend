@@ -23,7 +23,7 @@ class UnreadEmail extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const settingsResponse = await this.settings.get();
     const accountResponse = await EmailAccount.mine();
     const emailAccounts = accountResponse.results.map(emailAccount => {
@@ -40,7 +40,7 @@ class UnreadEmail extends Component {
       ...settingsResponse.results,
       emailAccounts
     });
-  };
+  }
 
   loadItems = async () => {
     const response = await EmailMessage.query({});

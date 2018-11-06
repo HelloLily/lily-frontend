@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 
 import { get } from 'src/lib/api';
+import { ESCAPE_KEY } from 'lib/constants';
 
 class EditableSelect extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class EditableSelect extends Component {
     this.state = { options: [] };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const { model } = this.props.selectConfig;
 
     let options;
@@ -26,10 +27,10 @@ class EditableSelect extends Component {
     options = this.props.createOptions(options);
 
     this.setState({ options });
-  };
+  }
 
   onInputKeyDown = event => {
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }

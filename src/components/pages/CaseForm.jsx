@@ -10,6 +10,7 @@ import withContext from 'src/withContext';
 import { SELECT_STYLES, FORM_DATE_FORMAT, API_DATE_FORMAT } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
+import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
@@ -220,7 +221,7 @@ class InnerCaseForm extends Component {
                 </div>
 
                 <div className="content-block-content">
-                  <form onSubmit={handleSubmit}>
+                  <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                     <FormSection header="Who was it?">
                       <div className={`form-field${errors.account ? ' has-error' : ''}`}>
                         <label htmlFor="account">Account</label>

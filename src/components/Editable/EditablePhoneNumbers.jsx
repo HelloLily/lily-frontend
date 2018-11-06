@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
-import { MOBILE_PHONE_TYPE, PHONE_TYPE_OPTIONS, PHONE_EMPTY_ROW } from 'lib/constants';
+import { MOBILE_PHONE_TYPE, PHONE_TYPE_OPTIONS, PHONE_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
 
 class EditablePhoneNumbers extends Component {
   componentDidMount = () => {
@@ -15,7 +15,7 @@ class EditablePhoneNumbers extends Component {
   };
 
   onInputKeyDown = event => {
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }

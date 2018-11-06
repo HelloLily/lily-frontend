@@ -9,7 +9,7 @@ import Deal from 'models/Deal';
 import Contact from 'models/Contact';
 
 class PandaDocCreate extends Component {
-  componentDidMount = async () => {
+  async componentDidMount() {
     const { currentUser } = this.props;
     const { id } = this.props.match.params;
     const deal = await Deal.get(id);
@@ -95,7 +95,7 @@ class PandaDocCreate extends Component {
         onDocumentCreated: this.saveDocument
       }
     });
-  };
+  }
 
   saveDocument = data => {
     const { deal, contact } = data.document.metadata;

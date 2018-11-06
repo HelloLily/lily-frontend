@@ -17,11 +17,11 @@ class DealListWidget extends Component {
     this.state = { items: [], loading: true };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const dealRequest = await Deal.query({ account: this.props.object });
 
     this.setState({ items: dealRequest.results, loading: false });
-  };
+  }
 
   setSidebar = () => {
     this.props.setSidebar('deal', { object: this.props.object });

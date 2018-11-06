@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
+import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
 import FormFooter from 'components/Utils/FormFooter';
@@ -38,7 +39,7 @@ class InnerUserAccountForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onSubmit={handleSubmit}>
+              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                 <FormSection header="Email address">
                   <div className={`form-field${errors.email ? ' has-error' : ''}`}>
                     <label htmlFor="email">Email address</label>

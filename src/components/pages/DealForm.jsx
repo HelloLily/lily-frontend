@@ -17,6 +17,7 @@ import {
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
+import handleKeydown from 'utils/handleKeydown';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Utils/FormSection';
@@ -291,7 +292,7 @@ class InnerDealForm extends Component {
                 </div>
 
                 <div className="content-block-content">
-                  <form onSubmit={handleSubmit}>
+                  <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
                     <FormSection header="Who is it?">
                       <div className={`form-field${errors.account ? ' has-error' : ''}`}>
                         <label htmlFor="account">Account</label>

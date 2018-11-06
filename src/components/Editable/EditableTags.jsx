@@ -3,10 +3,11 @@ import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Tag from 'models/Tag';
+import { ESCAPE_KEY } from 'lib/constants';
 
 class EditableTags extends Component {
   onInputKeyDown = event => {
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }

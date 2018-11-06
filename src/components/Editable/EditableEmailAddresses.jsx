@@ -9,7 +9,8 @@ import {
   PRIMARY_EMAIL_STATUS,
   EMAIL_STATUSES,
   EMAIL_STATUS_OPTIONS,
-  EMAIL_EMPTY_ROW
+  EMAIL_EMPTY_ROW,
+  ESCAPE_KEY
 } from 'lib/constants';
 
 class EditableEmailAddresses extends Component {
@@ -20,7 +21,7 @@ class EditableEmailAddresses extends Component {
   };
 
   onInputKeyDown = event => {
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       // Don't blur when Esc is pressed, but cancel the editing.
       event.preventDefault();
     }

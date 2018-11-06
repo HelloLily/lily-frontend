@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
-import { SELECT_STYLES } from 'lib/constants';
+import { SELECT_STYLES, ESCAPE_KEY } from 'lib/constants';
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
 import LilyTooltip from 'components/LilyTooltip';
@@ -99,14 +99,14 @@ class Editable extends Component {
     }
 
     // Handle ESC key.
-    if (event.keyCode === 27) {
+    if (event.keyCode === ESCAPE_KEY) {
       this.cancel();
     }
   };
 
   enableEditing = event => {
     const selection = window.getSelection().toString();
-    const elementName = event.target.localName;
+    const elementName = event.target.type;
 
     // Allow users to select the field without opening the edit form.
     // Also prevent the input from showing if we're clicking a link.

@@ -16,11 +16,11 @@ class ContactListWidget extends Component {
     this.state = { items: [], loading: true };
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     const contactRequest = await Contact.query({ account: this.props.object });
 
     this.setState({ items: contactRequest.results, loading: false });
-  };
+  }
 
   setSidebar = () => {
     this.props.setSidebar('contact', { object: this.props.object });

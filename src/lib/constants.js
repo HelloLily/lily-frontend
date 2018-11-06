@@ -181,3 +181,6 @@ export const DRAFT_MESSAGE = 1;
 export const REPLY_MESSAGE = 2;
 export const REPLY_ALL_MESSAGE = 3;
 export const FORWARD_MESSAGE = 4;
+
+export const ENTER_KEY = 13;
+export const ESCAPE_KEY = 27;
