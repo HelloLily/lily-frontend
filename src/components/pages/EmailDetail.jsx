@@ -386,7 +386,7 @@ class EmailDetail extends Component {
                   ))}
                 </div>
 
-                <button className="no-border" onClick={this.togglePlainText}>
+                <button className="plain-text-button" onClick={this.togglePlainText}>
                   {plainText ? 'Show HTML' : 'Show plain text'}
                 </button>
               </div>

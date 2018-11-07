@@ -63,7 +63,7 @@ class DeleteConfirmation extends Component {
               components={[<strong>text</strong>]}
             />
             <br />
-            {t('alerts.delete.confirmTextTwo')}
+            {t('alerts:delete.confirmTextTwo')}
           </div>
 
           <div className="modal-footer">

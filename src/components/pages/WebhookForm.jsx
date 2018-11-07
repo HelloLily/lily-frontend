@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
-import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormSection from 'components/Form/FormSection';
+import FormFooter from 'components/Form/FormFooter';
 import User from 'models/User';
 
 const WEBHOOK_EMPTY_ROW = { url: '', name: '' };
@@ -60,7 +60,7 @@ class InnerWebhookForm extends Component {
             <div className="content-block-content">
               <p>{t('preferences:user.webhookIntro')}</p>
 
-              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+              <Form handleSubmit={handleSubmit}>
                 <FormSection header="Webhook info">
                   {values.webhooks.map((webhook, index) => {
                     const key = `webhook-${index}`;
@@ -117,7 +117,7 @@ class InnerWebhookForm extends Component {
                 </FormSection>
 
                 <FormFooter {...this.props} />
-              </form>
+              </Form>
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ const FormFooter = ({ isSubmitting, dirty, handleSubmit, confirmText, indent = t
         disabled={isSubmitting}
         className="hl-primary-btn-blue"
         onClick={handleSubmit}
-        type="submit"
+        type="button"
       >
         <FontAwesomeIcon icon="check" /> {confirmText || 'Save'}
       </button>

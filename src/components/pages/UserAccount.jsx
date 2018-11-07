@@ -5,10 +5,10 @@ import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
-import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormSection from 'components/Form/FormSection';
+import FormFooter from 'components/Form/FormFooter';
 import User from 'models/User';
 
 class InnerUserAccountForm extends Component {
@@ -39,7 +39,7 @@ class InnerUserAccountForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+              <Form handleSubmit={handleSubmit}>
                 <FormSection header="Email address">
                   <div className={`form-field${errors.email ? ' has-error' : ''}`}>
                     <label htmlFor="email">Email address</label>
@@ -109,7 +109,7 @@ class InnerUserAccountForm extends Component {
                 </FormSection>
 
                 <FormFooter {...this.props} />
-              </form>
+              </Form>
             </div>
           </div>
         </div>

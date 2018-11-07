@@ -17,11 +17,11 @@ import {
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
-import handleKeydown from 'utils/handleKeydown';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormSection from 'components/Form/FormSection';
+import FormFooter from 'components/Form/FormFooter';
 import TagField from 'components/Fields/TagField';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
@@ -292,7 +292,7 @@ class InnerDealForm extends Component {
                 </div>
 
                 <div className="content-block-content">
-                  <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+                  <Form handleSubmit={handleSubmit}>
                     <FormSection header="Who is it?">
                       <div className={`form-field${errors.account ? ' has-error' : ''}`}>
                         <label htmlFor="account">Account</label>
@@ -642,7 +642,7 @@ class InnerDealForm extends Component {
                     </FormSection>
 
                     <FormFooter {...this.props} />
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>

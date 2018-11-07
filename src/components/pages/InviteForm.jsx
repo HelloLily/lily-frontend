@@ -7,11 +7,11 @@ import cx from 'classnames';
 
 import { INVITE_EMPTY_ROW } from 'lib/constants';
 import { successToast } from 'utils/toasts';
-import handleKeydown from 'utils/handleKeydown';
 import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormSection from 'components/Form/FormSection';
+import FormFooter from 'components/Form/FormFooter';
 import UserInvite from 'models/UserInvite';
 
 class InnerInviteForm extends Component {
@@ -49,7 +49,7 @@ class InnerInviteForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+              <Form handleSubmit={handleSubmit}>
                 <FormSection>
                   {values.invites.map((item, index) => {
                     const hasError =
@@ -107,7 +107,7 @@ class InnerInviteForm extends Component {
                 </FormSection>
 
                 <FormFooter {...this.props} confirmText="Send invite(s)" />
-              </form>
+              </Form>
             </div>
           </div>
         </div>

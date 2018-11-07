@@ -36,14 +36,16 @@ class Sidebar extends Component {
   };
 
   expandSidebar = () => {
-    this.setState({ expanded: !this.state.expanded });
+    const { expanded } = this.state;
+
+    this.setState({ expanded: !expanded });
   };
 
   render() {
     const { sidebar, expanded } = this.state;
 
     // Dynamically decide what form to load.
-    const Form = sidebar ? Forms[sidebar] : null;
+    const FormComponent = sidebar ? Forms[sidebar] : null;
 
     const className = cx('sidebar', {
       slide: sidebar,
@@ -64,7 +66,7 @@ class Sidebar extends Component {
               </button>
             </div>
             <div className="sidebar-content">
-              <Form closeSidebar={this.closeSidebar} />
+              <FormComponent closeSidebar={this.closeSidebar} />
             </div>
           </React.Suspense>
         )}

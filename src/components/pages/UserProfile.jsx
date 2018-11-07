@@ -7,8 +7,8 @@ import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
-import FormFooter from 'components/Utils/FormFooter';
+import FormSection from 'components/Form/FormSection';
+import FormFooter from 'components/Form/FormFooter';
 import User from 'models/User';
 
 class InnerProfileForm extends Component {

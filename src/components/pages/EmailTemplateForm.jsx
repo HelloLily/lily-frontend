@@ -8,9 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SELECT_STYLES } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import ucfirst from 'utils/ucfirst';
-import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyEditor from 'components/LilyEditor';
+import Form from 'components/Form';
 import TemplateVariable from 'models/TemplateVariable';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
 import EmailTemplate from 'models/EmailTemplate';
@@ -106,7 +106,7 @@ class InnerEmailTemplateForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onKeyDown={event => handleKeydown(event, this.handleSubmit)}>
+              <Form handleSubmit={this.handleSubmit}>
                 <div className={`form-field${errors.name ? ' has-error' : ''}`}>
                   <label htmlFor="name" required>
                     Template name
@@ -211,10 +211,10 @@ class InnerEmailTemplateForm extends Component {
                 <div className="form-section">
                   <div className="form-section-content">
                     <button
-                      type="submit"
                       disabled={isSubmitting}
                       className="hl-primary-btn-blue"
                       onClick={this.handleSubmit}
+                      type="button"
                     >
                       <FontAwesomeIcon icon="check" /> Save
                     </button>
@@ -224,7 +224,7 @@ class InnerEmailTemplateForm extends Component {
                     </button>
                   </div>
                 </div>
-              </form>
+              </Form>
             </div>
           </div>
         </div>

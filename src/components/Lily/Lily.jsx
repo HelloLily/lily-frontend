@@ -41,7 +41,7 @@ class Lily extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: true, data: undefined };
+    this.state = { loading: true };
   }
 
   async componentDidMount() {

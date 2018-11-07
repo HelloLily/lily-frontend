@@ -7,11 +7,11 @@ import Select from 'react-select';
 import withContext from 'src/withContext';
 import { SELECT_STYLES } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
-import handleKeydown from 'utils/handleKeydown';
 import ucfirst from 'utils/ucfirst';
 import BlockUI from 'components/Utils/BlockUI';
 import RadioButtons from 'components/RadioButtons';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormFooter from 'components/Form/FormFooter';
 import LilyEditor from 'components/LilyEditor';
 import TemplateVariable from 'models/TemplateVariable';
 
@@ -101,7 +101,7 @@ class InnerTemplateVariableForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+              <Form handleSubmit={handleSubmit}>
                 <div className={`form-field${errors.name ? ' has-error' : ''}`}>
                   <label htmlFor="firstName" required>
                     Variable name
@@ -181,7 +181,7 @@ class InnerTemplateVariableForm extends Component {
                 </div>
 
                 <FormFooter {...this.props} indent={false} />
-              </form>
+              </Form>
             </div>
           </div>
         </div>

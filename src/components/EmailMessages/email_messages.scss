@@ -96,6 +96,11 @@
       flex-grow: 1;
     }
   }
+
+  .plain-text-button {
+    border: none;
+    white-space: nowrap;
+  }
 }
 
 .star-active {

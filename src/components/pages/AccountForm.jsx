@@ -23,10 +23,10 @@ import {
 import { successToast, errorToast } from 'utils/toasts';
 import ucfirst from 'utils/ucfirst';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
-import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormSection from 'components/Form/FormSection';
+import FormFooter from 'components/Form/FormFooter';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
@@ -410,7 +410,7 @@ class InnerAccountForm extends Component {
                 </div>
 
                 <div className="content-block-content">
-                  <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+                  <Form handleSubmit={handleSubmit}>
                     <FormSection header="Who was it?">
                       <div className="form-field">
                         <label htmlFor="primaryWebsite">Primary website</label>
@@ -624,7 +624,7 @@ class InnerAccountForm extends Component {
                     </FormSection>
 
                     <FormFooter {...this.props} />
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>

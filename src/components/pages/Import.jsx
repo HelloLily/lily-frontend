@@ -5,7 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
+import FormSection from 'components/Form/FormSection';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 

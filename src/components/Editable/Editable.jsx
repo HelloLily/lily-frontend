@@ -116,7 +116,9 @@ class Editable extends Component {
   };
 
   cancel = () => {
-    this.setState({ value: this.state.initialValue, editing: false, error: null });
+    const { initialValue } = this.state;
+
+    this.setState({ value: initialValue, editing: false, error: null });
   };
 
   handleChange = (value = '') => {
@@ -201,8 +203,9 @@ class Editable extends Component {
   };
 
   addRow = data => {
+    const { value } = this.state;
     // Adds a row to the related field.
-    this.setState({ value: [...this.state.value, Object.assign({}, data)] });
+    this.setState({ value: [...value, Object.assign({}, data)] });
   };
 
   render() {
@@ -324,7 +327,7 @@ class Editable extends Component {
 
     return (
       <BlockUI blocking={submitting}>
-        <span onKeyDown={this.handleKeyPress} ref={this.editableRef}>
+        <span role="presentation" onKeyDown={this.handleKeyPress} ref={this.editableRef}>
           {editing ? (
             <span className={`editable-wrap${hasError ? ' has-error' : ''}`}>
               <React.Suspense fallback={<span>{display || emptyText}</span>}>
@@ -335,6 +338,7 @@ class Editable extends Component {
             </span>
           ) : (
             <span
+              role="presentation"
               onClick={this.enableEditing}
               className={`editable${!display ? ' editable-empty' : ''}`}
             >

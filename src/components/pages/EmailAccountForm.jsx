@@ -7,9 +7,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import getColorCode from 'utils/getColorCode';
-import handleKeydown from 'utils/handleKeydown';
 import BlockUI from 'components/Utils/BlockUI';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormFooter from 'components/Form/FormFooter';
 import UserShare from 'components/UserShare';
 import RadioButtons from 'components/RadioButtons';
 import EmailAccount from 'models/EmailAccount';
@@ -55,7 +55,7 @@ class InnerEmailAccountForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+              <Form handleSubmit={handleSubmit}>
                 <div className={`form-field${errors.fromName ? ' has-error' : ''}`}>
                   <label htmlFor="fromName" required>
                     From name
@@ -183,7 +183,7 @@ class InnerEmailAccountForm extends Component {
                 </div>
 
                 <FormFooter {...this.props} />
-              </form>
+              </Form>
             </div>
           </div>
         </div>

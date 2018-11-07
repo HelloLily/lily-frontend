@@ -15,11 +15,11 @@ import {
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
-import handleKeydown from 'utils/handleKeydown';
 import RadioButtons from 'components/RadioButtons';
 import BlockUI from 'components/Utils/BlockUI';
-import FormSection from 'components/Utils/FormSection';
-import FormFooter from 'components/Utils/FormFooter';
+import Form from 'components/Form';
+import FormSection from 'components/Form/FormSection';
+import FormFooter from 'components/Form/FormFooter';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
@@ -346,7 +346,7 @@ class InnerContactForm extends Component {
                 </div>
 
                 <div className="content-block-content">
-                  <form onKeyDown={event => handleKeydown(event, handleSubmit)}>
+                  <Form handleSubmit={handleSubmit}>
                     <FormSection header="Who was it?">
                       <div className="form-field">
                         <label required>Salutation</label>
@@ -643,7 +643,7 @@ class InnerContactForm extends Component {
                     </FormSection>
 
                     <FormFooter {...this.props} />
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>

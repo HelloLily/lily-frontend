@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import throttle from 'lodash.throttle';
 import Select, { components } from 'react-select';
-import AsyncCreatable from 'react-select/lib/Async';
+import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as JsDiff from 'diff';
 
@@ -22,13 +22,16 @@ import LilyEditor from 'components/LilyEditor';
 // Styling overrides for selects in the editor component.
 const styles = {
   ...SELECT_STYLES,
-  control: base => ({
+  control: (base, state) => ({
     ...base,
     background: '#fff',
-    minHeight: '30px',
-    height: '34px',
-    border: 'none',
-    borderRadius: '0'
+    minHeight: '34px',
+    boxShadow: '0',
+    borderRadius: '0',
+    borderColor: state.isFocused ? '#27244c' : '#fff',
+    '&:hover': {
+      borderColor: state.isFocused ? '#27244c' : '#fff'
+    }
   })
 };
 
@@ -454,7 +457,7 @@ class EmailEditor extends Component {
 
     customVariables.forEach(variable => {
       // Replace any custom variables before we scan for regular template variables.
-      const customVariableRegex = new RegExp(`\\[\\[ ?(custom\.${variable.variable}) ?\\]\\]`, 'g');
+      const customVariableRegex = new RegExp(`\\[\\[ ?(custom.${variable.variable}) ?\\]\\]`, 'g');
 
       newHtml = newHtml.replace(customVariableRegex, () => variable.text);
     });
@@ -510,7 +513,7 @@ class EmailEditor extends Component {
     return allValid;
   };
 
-  validateEmailAddress = option => EMAIL_REGEX.test(option.label);
+  validateEmailAddress = option => EMAIL_REGEX.test(option);
 
   createRecipient = (option, type) => {
     const recipients = this.state[type];
@@ -646,7 +649,7 @@ class EmailEditor extends Component {
           <div className="editor-input-group">
             <label>To</label>
 
-            <AsyncCreatable
+            <AsyncCreatableSelect
               name="recipients"
               value={this.state.recipients}
               onChange={this.handleRecipientChange}
@@ -680,7 +683,7 @@ class EmailEditor extends Component {
             <div className="editor-input-group">
               <label>Cc</label>
 
-              <AsyncCreatable
+              <AsyncCreatableSelect
                 name="recipientsCc"
                 value={this.state.recipientsCc}
                 onChange={this.handleAdditionalRecipients}
@@ -704,7 +707,7 @@ class EmailEditor extends Component {
             <div className="editor-input-group">
               <label>Bcc</label>
 
-              <AsyncCreatable
+              <AsyncCreatableSelect
                 name="recipientsBcc"
                 value={this.state.recipientsBcc}
                 onChange={recipients => this.handleAdditionalRecipients(recipients, true)}
@@ -738,7 +741,7 @@ class EmailEditor extends Component {
             />
           </div>
 
-          <div className="editor-input-group">
+          <div className="editor-input-group no-border">
             <label>Subject</label>
 
             <input
