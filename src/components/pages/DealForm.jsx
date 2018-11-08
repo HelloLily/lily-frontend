@@ -25,6 +25,7 @@ import FormFooter from 'components/Form/FormFooter';
 import TagField from 'components/Fields/TagField';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import Utils from 'models/Utils';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import User from 'models/User';
@@ -44,6 +45,7 @@ class InnerDealForm extends Component {
       whyCustomer: [],
       whyLost: [],
       statuses: [],
+      currencies: [],
       dealSuggestions: [],
       showSuggestions: true,
       loading: true
@@ -51,7 +53,7 @@ class InnerDealForm extends Component {
   }
 
   async componentDidMount() {
-    const { currentUser, data } = this.props;
+    const { currentUser, data, setFieldValue } = this.props;
 
     const nextStepResponse = await Deal.nextSteps();
     const foundThroughResponse = await Deal.foundThrough();
@@ -59,6 +61,7 @@ class InnerDealForm extends Component {
     const whyCustomerResponse = await Deal.whyCustomer();
     const whyLostResponse = await Deal.whyLost();
     const statusResponse = await Deal.statuses();
+    const currencyResponse = await Utils.currencies();
 
     this.setState({
       nextSteps: nextStepResponse.results,
@@ -66,7 +69,8 @@ class InnerDealForm extends Component {
       contactedBy: contactedByResponse.results,
       whyCustomer: whyCustomerResponse.results,
       whyLost: whyLostResponse.results,
-      statuses: statusResponse.results
+      statuses: statusResponse.results,
+      currencies: currencyResponse.results
     });
 
     this.wonStatus = statusResponse.results.find(status => status.name === DEAL_WON_STATUS);
@@ -80,16 +84,16 @@ class InnerDealForm extends Component {
 
       document.title = `${this.props.values.name} - Lily`;
     } else {
-      this.props.setFieldValue('assignedToTeams', currentUser.teams);
-      this.props.setFieldValue('assignedTo', currentUser);
+      setFieldValue('assignedToTeams', currentUser.teams);
+      setFieldValue('assignedTo', currentUser);
 
       if (data.object) {
-        this.props.setFieldValue(data.object.contentType.model, data.model);
+        setFieldValue(data.object.contentType.model, data.model);
       }
 
       if (this.props.data) {
         Object.keys(this.props.data).forEach(key => {
-          this.props.setFieldValue(key, this.props.data[key]);
+          setFieldValue(key, this.props.data[key]);
         });
       }
 
@@ -100,6 +104,8 @@ class InnerDealForm extends Component {
   }
 
   loadDeal = async id => {
+    const { currencies } = this.state;
+
     const dealResponse = await Deal.get(id);
 
     if (!dealResponse.nextStepDate) {
@@ -113,6 +119,8 @@ class InnerDealForm extends Component {
     if (dealResponse.contact && dealResponse.contact.isDeleted) {
       dealResponse.contact = null;
     }
+
+    dealResponse.currency = currencies.find(currency => currency.code === dealResponse.currency);
 
     this.props.setValues(dealResponse);
   };
@@ -269,11 +277,20 @@ class InnerDealForm extends Component {
       whyCustomer,
       whyLost,
       statuses,
+      currencies,
       dealSuggestions,
       showSuggestions,
       loading
     } = this.state;
-    const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
+    const {
+      values,
+      errors,
+      isSubmitting,
+      handleChange,
+      handleSubmit,
+      setFieldValue,
+      t
+    } = this.props;
 
     return (
       <React.Fragment>
@@ -376,7 +393,7 @@ class InnerDealForm extends Component {
                         <label required>Business</label>
                         <RadioButtons
                           options={['New', 'Existing']}
-                          setSelection={value => this.props.setFieldValue('newBusiness', value)}
+                          setSelection={value => setFieldValue('newBusiness', value)}
                         />
                       </div>
 
@@ -388,7 +405,7 @@ class InnerDealForm extends Component {
                           name="foundThrough"
                           value={values.foundThrough}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('foundThrough', value)}
+                          onChange={value => setFieldValue('foundThrough', value)}
                           options={foundThrough}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
@@ -408,7 +425,7 @@ class InnerDealForm extends Component {
                           name="contactedBy"
                           value={values.contactedBy}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('contactedBy', value)}
+                          onChange={value => setFieldValue('contactedBy', value)}
                           options={contactedBy}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
@@ -428,7 +445,7 @@ class InnerDealForm extends Component {
                           name="whyCustomer"
                           value={values.whyCustomer}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('whyCustomer', value)}
+                          onChange={value => setFieldValue('whyCustomer', value)}
                           options={whyCustomer}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
@@ -441,7 +458,7 @@ class InnerDealForm extends Component {
                       </div>
                     </FormSection>
 
-                    <FormSection header="What to do?">
+                    <FormSection header="What is it?">
                       <div className={`form-field${errors.name ? ' has-error' : ''}`}>
                         <label htmlFor="name" required>
                           Name
@@ -468,6 +485,24 @@ class InnerDealForm extends Component {
                           value={values.description}
                           onChange={handleChange}
                         />
+                      </div>
+
+                      <div className={`form-field${errors.currency ? ' has-error' : ''}`}>
+                        <label htmlFor="currency" required>
+                          Currency
+                        </label>
+                        <Select
+                          name="currency"
+                          value={values.currency}
+                          styles={SELECT_STYLES}
+                          onChange={value => setFieldValue('currency', value)}
+                          options={currencies}
+                          getOptionLabel={option => option.name}
+                          getOptionValue={option => option.code}
+                          placeholder="Select a currency"
+                        />
+
+                        {errors.currency && <div className="error-message">{errors.currency}</div>}
                       </div>
 
                       <div className={`form-field${errors.amountOnce ? ' has-error' : ''}`}>
@@ -549,7 +584,7 @@ class InnerDealForm extends Component {
                             name="whyLost"
                             value={values.whyLost}
                             styles={SELECT_STYLES}
-                            onChange={value => this.props.setFieldValue('whyLost', value)}
+                            onChange={value => setFieldValue('whyLost', value)}
                             options={whyLost}
                             getOptionLabel={option => option.name}
                             getOptionValue={option => option.id}
@@ -584,7 +619,7 @@ class InnerDealForm extends Component {
 
                         <LilyDatepicker
                           date={values.nextStepDate}
-                          onChange={value => this.props.setFieldValue('nextStepDate', value)}
+                          onChange={value => setFieldValue('nextStepDate', value)}
                           placeholder="Next step date"
                         />
 
@@ -603,7 +638,7 @@ class InnerDealForm extends Component {
                           name="assignedToTeams"
                           value={values.assignedToTeams}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('assignedToTeams', value)}
+                          onChange={value => setFieldValue('assignedToTeams', value)}
                           loadOptions={this.searchTeams}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
@@ -698,6 +733,7 @@ const DealForm = withRouter(
       if (cleanedValues.assignedToTeams) {
         cleanedValues.assignedToTeams = cleanedValues.assignedToTeams.map(team => team.id);
       }
+      if (cleanedValues.currency) cleanedValues.currency = cleanedValues.currency.code;
 
       if (cleanedValues.nextStepDate === '') {
         cleanedValues.nextStepDate = null;

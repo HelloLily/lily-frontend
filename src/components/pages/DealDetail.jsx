@@ -10,6 +10,7 @@ import LilyDate from 'components/Utils/LilyDate';
 import Postpone from 'components/Postpone';
 import BlockUI from 'components/Utils/BlockUI';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import LilyCurrency from 'components/Utils/LilyCurrency';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import ActivityStream from 'components/ActivityStream';
@@ -151,12 +152,16 @@ class DealDetail extends Component {
                 <ContentBlock title={title} component="dealDetailWidget" fullHeight>
                   <div className="detail-row">
                     <div>One-time cost</div>
-                    <div>{deal.amountOnce}</div>
+                    <div>
+                      <LilyCurrency value={deal.amountOnce} currency={deal.currency} />
+                    </div>
                   </div>
 
                   <div className="detail-row">
                     <div>Recurring cost</div>
-                    <div>{deal.amountRecurring}</div>
+                    <div>
+                      <LilyCurrency value={deal.amountRecurring} currency={deal.currency} />
+                    </div>
                   </div>
 
                   {deal.whyLost && (
@@ -289,21 +294,20 @@ class DealDetail extends Component {
                               <i className="lilicon hl-edit-icon" />
                             </a>
 
-                            {contact.emailAddresses.length > 0 &&
-                              document.status !== 'completed' && (
-                                <Link
-                                  to={{
-                                    pathname: '/email/compose',
-                                    state: {
-                                      emailAddress: contact.emailAddresses[0].emailAddress,
-                                      documentId: document.id
-                                    }
-                                  }}
-                                  className="hl-interface-btn"
-                                >
-                                  <FontAwesomeIcon icon="envelope" />
-                                </Link>
-                              )}
+                            {contact.emailAddresses.length > 0 && document.status !== 'completed' && (
+                              <Link
+                                to={{
+                                  pathname: '/email/compose',
+                                  state: {
+                                    emailAddress: contact.emailAddresses[0].emailAddress,
+                                    documentId: document.id
+                                  }
+                                }}
+                                className="hl-interface-btn"
+                              >
+                                <FontAwesomeIcon icon="envelope" />
+                              </Link>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -434,13 +438,12 @@ class DealDetail extends Component {
                           />
                         </div>
 
-                        {deal.nextStepDate &&
-                          deal.nextStep.name !== 'None' && (
-                            <div>
-                              <strong>Next step date: </strong>
-                              <Postpone object={deal} field="nextStepDate" />
-                            </div>
-                          )}
+                        {deal.nextStepDate && deal.nextStep.name !== 'None' && (
+                          <div>
+                            <strong>Next step date: </strong>
+                            <Postpone object={deal} field="nextStepDate" />
+                          </div>
+                        )}
                       </div>
 
                       <div className="content-block-content">

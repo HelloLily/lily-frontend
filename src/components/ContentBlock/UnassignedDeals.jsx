@@ -7,6 +7,7 @@ import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import ClientDisplay from 'components/Utils/ClientDisplay';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import LilyCurrency from 'components/Utils/LilyCurrency';
 import ListFilter from 'components/List/ListFilter';
 import UserTeam from 'models/UserTeam';
 import Settings from 'models/Settings';
@@ -120,9 +121,18 @@ class UnassignedDeals extends Component {
                   <ClientDisplay contact={item.contact} account={item.account} />
                 </td>
                 <td>
-                  {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}
+                  {item.amountOnce !== 0 && (
+                    <span>
+                      <LilyCurrency value={item.amountOnce} currency={item.currency} /> /month
+                    </span>
+                  )}
                   {item.amountOnce !== 0 && item.amountRecurring !== 0 && <span> | </span>}
-                  {item.amountRecurring !== 0 && <span>{item.amountRecurring} /once</span>}
+                  {item.amountRecurring !== 0 && (
+                    <span>
+                      <LilyCurrency value={item.amountRecurring} currency={item.currency} />{' '}
+                      /recurring
+                    </span>
+                  )}
                 </td>
                 <td>
                   {item.assignedToTeams.map(team => (
@@ -147,12 +157,11 @@ class UnassignedDeals extends Component {
               </tr>
             ))}
 
-            {!loading &&
-              items.length === 0 && (
-                <tr>
-                  <td colSpan="7">{t('dashboard.unassignedDeals')}</td>
-                </tr>
-              )}
+            {!loading && items.length === 0 && (
+              <tr>
+                <td colSpan="7">{t('dashboard.unassignedDeals')}</td>
+              </tr>
+            )}
           </tbody>
         </table>
 

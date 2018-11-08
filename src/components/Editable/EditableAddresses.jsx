@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import { ADDRESS_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
-import Country from 'models/Country';
+import Utils from 'models/Utils';
 
 const addressTypes = [
   { value: 'visiting', label: 'Visiting address' },
@@ -22,10 +22,8 @@ class EditableAddresses extends Component {
   }
 
   async componentDidMount() {
-    const countryRequest = await Country.query();
-
+    const countryRequest = await Utils.countries();
     const countries = countryRequest.results;
-
     const countryOptions = Object.entries(countries).map(([code, country]) => ({
       value: code,
       label: country
@@ -150,8 +148,9 @@ class EditableAddresses extends Component {
                 )}
               </button>
 
-              {error &&
-                error[index].address && <div className="error-message">{error[index].address}</div>}
+              {error && error[index].address && (
+                <div className="error-message">{error[index].address}</div>
+              )}
             </div>
           );
         })}

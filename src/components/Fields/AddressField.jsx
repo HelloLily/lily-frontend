@@ -5,7 +5,7 @@ import Select from 'react-select';
 
 import withContext from 'src/withContext';
 import { ADDRESS_TYPES, ADDRESS_EMPTY_ROW, SELECT_STYLES } from 'lib/constants';
-import Country from 'models/Country';
+import Utils from 'models/Utils';
 
 class AddressField extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class AddressField extends Component {
   }
 
   async componentDidMount() {
-    const countryRequest = await Country.query();
+    const countryRequest = await Utils.countries();
     const countries = countryRequest.results;
     const countryOptions = Object.entries(countries).map(([code, country]) => ({
       value: code,
@@ -135,12 +135,11 @@ class AddressField extends Component {
                     )}
                   </button>
 
-                  {!inline &&
-                    index === items.length - 1 && (
-                      <button className="hl-primary-btn" onClick={this.addRow} type="button">
-                        <FontAwesomeIcon icon="plus" />
-                      </button>
-                    )}
+                  {!inline && index === items.length - 1 && (
+                    <button className="hl-primary-btn" onClick={this.addRow} type="button">
+                      <FontAwesomeIcon icon="plus" />
+                    </button>
+                  )}
                 </div>
               </div>
 

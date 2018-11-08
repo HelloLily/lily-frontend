@@ -10,6 +10,7 @@ import ContentBlock from 'components/ContentBlock';
 import Postpone from 'components/Postpone';
 import ClientDisplay from 'components/Utils/ClientDisplay';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import LilyCurrency from 'components/Utils/LilyCurrency';
 import UserFilter from 'components/UserFilter';
 import DueDateFilter from 'components/DueDateFilter';
 import LilyTooltip from 'components/LilyTooltip';
@@ -118,9 +119,18 @@ class MyDeals extends Component {
                 <ClientDisplay contact={item.contact} account={item.account} />
               </td>
               <td>
-                {item.amountOnce !== 0 && <span>{item.amountOnce} /month</span>}
+                {item.amountOnce !== 0 && (
+                  <span>
+                    <LilyCurrency value={item.amountOnce} currency={item.currency} /> /month
+                  </span>
+                )}
                 {item.amountOnce !== 0 && item.amountRecurring !== 0 && <span> | </span>}
-                {item.amountRecurring !== 0 && <span>{item.amountRecurring} /once</span>}
+                {item.amountRecurring !== 0 && (
+                  <span>
+                    <LilyCurrency value={item.amountRecurring} currency={item.currency} />{' '}
+                    /recurring
+                  </span>
+                )}
               </td>
               <td>{item.status.name}</td>
               <td>{item.nextStep.name}</td>

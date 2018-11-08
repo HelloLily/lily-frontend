@@ -7,6 +7,7 @@ import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
+import LilyCurrency from 'components/Utils/LilyCurrency';
 import Postpone from 'components/Postpone';
 import Deal from 'models/Deal';
 
@@ -107,11 +108,11 @@ class DealListWidget extends Component {
                         </div>
                         <div>
                           <strong>Amount once: </strong>
-                          {item.amountOnce}
+                          <LilyCurrency value={item.amountOnce} currency={item.currency} />
                         </div>
                         <div>
                           <strong>Recurring amount: </strong>
-                          {item.amountRecurring}
+                          <LilyCurrency value={item.amountRecurring} currency={item.currency} />
                         </div>
                         <div>
                           <strong>Created by: </strong>

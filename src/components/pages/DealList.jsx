@@ -13,6 +13,7 @@ import Editable from 'components/Editable';
 import DueDateFilter from 'components/DueDateFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
+import LilyCurrency from 'components/Utils/LilyCurrency';
 import Postpone from 'components/Postpone';
 import ClientDisplay from 'components/Utils/ClientDisplay';
 import Settings from 'models/Settings';
@@ -219,8 +220,16 @@ class DealList extends Component {
                       ))}
                     </td>
                   )}
-                  {columns[8].selected && <td>{deal.amountOnce}</td>}
-                  {columns[9].selected && <td>{deal.amountRecurring}</td>}
+                  {columns[8].selected && (
+                    <td>
+                      <LilyCurrency value={deal.amountOnce} currency={deal.currency} />
+                    </td>
+                  )}
+                  {columns[9].selected && (
+                    <td>
+                      <LilyCurrency value={deal.amountRecurring} currency={deal.currency} />
+                    </td>
+                  )}
                   {columns[10].selected && <td>{deal.newBusiness ? 'New' : 'Existing'}</td>}
                   {columns[11].selected && (
                     <td>
