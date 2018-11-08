@@ -27,7 +27,29 @@ class ContactDetail extends Component {
   }
 
   submitCallback = async args => {
-    await updateModel(this.state.contact, args);
+    const { contact } = this.state;
+
+    await updateModel(contact, args);
+
+    if (args.hasOwnProperty('socialMedia')) {
+      const profile = args.socialMedia[0];
+      const index = contact.socialMedia.findIndex(item => item.name === profile.name);
+
+      if (index > -1) {
+        if (!profile.isDeleted) {
+          contact.socialMedia[index].username = profile.username;
+        } else {
+          // Profile was deleted, so just remove it.
+          contact.socialMedia.splice(index, 1);
+        }
+      } else {
+        // New profile added.
+        contact.socialMedia.push(profile);
+      }
+
+      // Force the editable components to update.
+      this.forceUpdate();
+    }
   };
 
   render() {

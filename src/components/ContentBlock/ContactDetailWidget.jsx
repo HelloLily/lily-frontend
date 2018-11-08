@@ -2,11 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { TWITTER_EMPTY_ROW, LINKEDIN_EMPTY_ROW } from 'lib/constants';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const ContactDetailWidget = props => {
-  const { contact, submitCallback, clickable } = props;
+const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
+  const socialMediaCallback = async args => {
+    const isDeleted = args.username === '';
+    const profile = {
+      ...args,
+      isDeleted
+    };
+
+    const newArgs = {
+      id: contact.id,
+      socialMedia: [profile]
+    };
+
+    await submitCallback(newArgs);
+  };
+
+  const twitterCallback = async args => {
+    await socialMediaCallback({ ...args, name: 'twitter' });
+  };
+
+  const linkedInCallback = async args => {
+    await socialMediaCallback({ ...args, name: 'linkedin' });
+  };
 
   const title = (
     <React.Fragment>
@@ -20,6 +42,12 @@ const ContactDetailWidget = props => {
       </div>
     </React.Fragment>
   );
+
+  const twitterProfile = contact.socialMedia.find(profile => profile.name === 'twitter');
+  const linkedInProfile = contact.socialMedia.find(profile => profile.name === 'linkedin');
+
+  contact.twitter = twitterProfile || TWITTER_EMPTY_ROW;
+  contact.linkedIn = linkedInProfile || LINKEDIN_EMPTY_ROW;
 
   return (
     <ContentBlock title={title} component="contactDetailWidget">
@@ -109,11 +137,20 @@ const ContactDetailWidget = props => {
           <FontAwesomeIcon icon={['fab', 'twitter']} /> Twitter
         </div>
         <div>
-          {contact.twitter && (
-            <a href={contact.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
-              {contact.twitter.username}
-            </a>
-          )}
+          <Editable
+            type="text"
+            field="username"
+            object={contact.twitter}
+            submitCallback={twitterCallback}
+          >
+            {contact.twitter.username ? (
+              <a href={contact.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
+                {contact.twitter.username}
+              </a>
+            ) : (
+              <span className="editable-empty">No Twitter profile</span>
+            )}
+          </Editable>
         </div>
       </div>
 
@@ -122,11 +159,20 @@ const ContactDetailWidget = props => {
           <FontAwesomeIcon icon={['fab', 'linkedin']} /> LinkedIn
         </div>
         <div>
-          {contact.linkedin && (
-            <a href={contact.linkedin.profileUrl} target="_blank" rel="noopener noreferrer">
-              {contact.linkedin.username}
-            </a>
-          )}
+          <Editable
+            type="text"
+            field="username"
+            object={contact.linkedIn}
+            submitCallback={linkedInCallback}
+          >
+            {contact.linkedIn.username ? (
+              <a href={contact.linkedIn.profileUrl} target="_blank" rel="noopener noreferrer">
+                {contact.linkedIn.username}
+              </a>
+            ) : (
+              <span className="editable-empty">No LinkedIn profile</span>
+            )}
+          </Editable>
         </div>
       </div>
 

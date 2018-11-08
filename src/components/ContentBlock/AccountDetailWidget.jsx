@@ -2,13 +2,29 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import updateModel from 'utils/updateModel';
+import withContext from 'src/withContext';
+import { TWITTER_EMPTY_ROW } from 'lib/constants';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const AccountDetailWidget = ({ account, clickable }) => {
-  const submitCallback = async args => {
-    await updateModel(account, args);
+const AccountDetailWidget = ({ account, clickable, currentUser, submitCallback }) => {
+  const socialMediaCallback = async args => {
+    const isDeleted = args.username === '';
+    const profile = {
+      ...args,
+      isDeleted
+    };
+
+    const newArgs = {
+      id: account.id,
+      socialMedia: [profile]
+    };
+
+    await submitCallback(newArgs);
+  };
+
+  const twitterCallback = async args => {
+    await socialMediaCallback({ ...args, name: 'twitter' });
   };
 
   const title = (
@@ -24,8 +40,28 @@ const AccountDetailWidget = ({ account, clickable }) => {
     </React.Fragment>
   );
 
+  const externalAppLink =
+    currentUser.tenant.externalAppLinks.length > 0 ? currentUser.tenant.externalAppLinks[0] : null;
+
+  const extra =
+    account.customerId && externalAppLink ? (
+      <a
+        href={externalAppLink.url.replace(/\[\[.+\]\]/, account.customerId)}
+        className="hl-primary-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FontAwesomeIcon icon="external-link" className="m-r-5" />
+        {externalAppLink.name}
+      </a>
+    ) : null;
+
+  const twitterProfile = account.socialMedia.find(profile => profile.name === 'twitter');
+
+  account.twitter = twitterProfile || TWITTER_EMPTY_ROW;
+
   return (
-    <ContentBlock title={title} component="accountDetailWidget">
+    <ContentBlock title={title} extra={extra} component="accountDetailWidget">
       <div className="detail-row">
         <div>
           <i className="lilicon hl-status-icon" /> Status
@@ -110,11 +146,20 @@ const AccountDetailWidget = ({ account, clickable }) => {
           <FontAwesomeIcon icon={['fab', 'twitter']} /> Twitter
         </div>
         <div>
-          {account.twitter && (
-            <a href={account.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
-              {account.twitter.username}
-            </a>
-          )}
+          <Editable
+            type="text"
+            field="username"
+            object={account.twitter}
+            submitCallback={twitterCallback}
+          >
+            {account.twitter.username ? (
+              <a href={account.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
+                {account.twitter.username}
+              </a>
+            ) : (
+              <span className="editable-empty">No Twitter profile</span>
+            )}
+          </Editable>
         </div>
       </div>
 
@@ -162,4 +207,4 @@ const AccountDetailWidget = ({ account, clickable }) => {
   );
 };
 
-export default AccountDetailWidget;
+export default withContext(AccountDetailWidget);

@@ -39,7 +39,6 @@ class EditableTags extends Component {
           isMulti
           allowCreateWhileLoading
           name="options"
-          className="editable-input"
           placeholder="Add tags..."
           value={value}
           styles={selectStyles}
@@ -49,6 +48,7 @@ class EditableTags extends Component {
           onBlur={this.props.cancel}
           getOptionLabel={option => option.name}
           getOptionValue={option => option.name}
+          menuPortalTarget={document.body}
         />
 
         <div className="editable-multi-actions m-t-5">

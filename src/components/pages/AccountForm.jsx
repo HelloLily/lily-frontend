@@ -132,7 +132,7 @@ class InnerAccountForm extends Component {
       account.websites = this.concatUnique(existingValues.websites, websites, ['website']);
       account.tags = this.concatUnique(existingValues.tags, tags, ['name']);
 
-      const twitterProfile = account.socialMedia.find(profile => profile.type === 'twitter');
+      const twitterProfile = account.socialMedia.find(profile => profile.name === 'twitter');
 
       if (!twitterProfile) account.socialMedia = existingValues.socialMedia;
     }

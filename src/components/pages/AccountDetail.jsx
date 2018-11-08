@@ -27,7 +27,29 @@ class AccountDetail extends Component {
   }
 
   submitCallback = async args => {
-    await updateModel(this.state.account, args);
+    const { account } = this.state;
+
+    await updateModel(account, args);
+
+    if (args.hasOwnProperty('socialMedia')) {
+      const profile = args.socialMedia[0];
+      const index = account.socialMedia.findIndex(item => item.name === profile.name);
+
+      if (index > -1) {
+        if (!profile.isDeleted) {
+          account.socialMedia[index].username = profile.username;
+        } else {
+          // Profile was deleted, so just remove it.
+          account.socialMedia.splice(index, 1);
+        }
+      } else {
+        // New profile added.
+        account.socialMedia.push(profile);
+      }
+
+      // Force the editable components to update.
+      this.forceUpdate();
+    }
   };
 
   render() {

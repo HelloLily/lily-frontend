@@ -95,9 +95,9 @@ class InnerContactForm extends Component {
       ]);
       contact.tags = this.concatUnique(existingValues.tags, tags, ['name']);
 
-      const twitterProfile = contact.socialMedia.find(profile => profile.type === 'twitter');
+      const twitterProfile = contact.socialMedia.find(profile => profile.name === 'twitter');
       const existingTwitterProfile = existingValues.socialMedia.find(
-        profile => profile.type === 'twitter'
+        profile => profile.name === 'twitter'
       );
 
       if (!twitterProfile && existingTwitterProfile) {
