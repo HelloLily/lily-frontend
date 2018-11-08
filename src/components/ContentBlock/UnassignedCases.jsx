@@ -6,6 +6,7 @@ import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import ClientDisplay from 'components/Utils/ClientDisplay';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import ListFilter from 'components/List/ListFilter';
 import UserTeam from 'models/UserTeam';
 import Settings from 'models/Settings';
@@ -21,7 +22,8 @@ class UnassignedCases extends Component {
       items: [],
       caseTypes: [],
       teams: [],
-      filters: { list: [] }
+      filters: { list: [] },
+      loading: true
     };
   }
 
@@ -50,13 +52,15 @@ class UnassignedCases extends Component {
   }
 
   loadItems = async () => {
+    this.setState({ loading: true });
+
     const request = await Case.query();
     const total = request.results.length;
     const criticalCount = request.results.filter(item => item.priority === Case.CRITICAL_PRIORITY)
       .length;
     const items = request.results;
 
-    this.setState({ items, total, criticalCount });
+    this.setState({ items, total, criticalCount, loading: false });
   };
 
   setFilters = async filters => {
@@ -66,7 +70,7 @@ class UnassignedCases extends Component {
   };
 
   render() {
-    const { items, caseTypes, teams, filters, total, criticalCount } = this.state;
+    const { items, caseTypes, teams, filters, total, criticalCount, loading } = this.state;
     const { t } = this.props;
 
     const title = (
@@ -143,13 +147,16 @@ class UnassignedCases extends Component {
               </tr>
             ))}
 
-            {items.length === 0 && (
-              <tr>
-                <td colSpan="7">{t('dashboard.unassignedCases')}</td>
-              </tr>
-            )}
+            {!loading &&
+              items.length === 0 && (
+                <tr>
+                  <td colSpan="7">{t('dashboard.unassignedCases')}</td>
+                </tr>
+              )}
           </tbody>
         </table>
+
+        {loading && <LoadingIndicator />}
       </ContentBlock>
     );
   }

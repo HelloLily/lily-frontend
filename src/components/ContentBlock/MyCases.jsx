@@ -10,6 +10,7 @@ import Postpone from 'components/Postpone';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import ClientDisplay from 'components/Utils/ClientDisplay';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import UserFilter from 'components/UserFilter';
 import DueDateFilter from 'components/DueDateFilter';
 import LilyTooltip from 'components/LilyTooltip';
@@ -193,6 +194,8 @@ class MyCases extends Component {
             <p>{t('emptyStates:dashboard.myCases')}</p>
           </div>
         )}
+
+        {loading && <LoadingIndicator />}
 
         <LilyTooltip />
       </ContentBlock>

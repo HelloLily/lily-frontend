@@ -7,6 +7,10 @@ $max-height: 400px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(750px, 1fr));
   grid-gap: 15px;
+
+  .loading-indicator {
+    height: $max-height - 25px;
+  }
 }
 
 .content-block-container {

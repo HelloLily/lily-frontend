@@ -9,6 +9,7 @@ import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
 import Postpone from 'components/Postpone';
 import ClientDisplay from 'components/Utils/ClientDisplay';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import UserFilter from 'components/UserFilter';
 import DueDateFilter from 'components/DueDateFilter';
 import LilyTooltip from 'components/LilyTooltip';
@@ -176,6 +177,8 @@ class MyDeals extends Component {
             </tbody>
           )}
         </table>
+
+        {loading && <LoadingIndicator />}
 
         {currentUser.objectCounts.deals === 0 && (
           <div className="empty-state-description">

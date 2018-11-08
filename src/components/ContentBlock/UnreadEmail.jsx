@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import ListFilter from 'components/List/ListFilter';
 import Settings from 'models/Settings';
 import EmailMessage from 'models/EmailMessage';
@@ -19,7 +20,8 @@ class UnreadEmail extends Component {
     this.state = {
       items: [],
       emailAccounts: [],
-      filters: { list: [] }
+      filters: { list: [] },
+      loading: true
     };
   }
 
@@ -43,12 +45,14 @@ class UnreadEmail extends Component {
   }
 
   loadItems = async () => {
+    this.setState({ loading: true });
+
     const response = await EmailMessage.query({});
     // TODO: Change hits to results once email API is done.
     const total = response.hits.length;
     const items = response.hits;
 
-    this.setState({ items, total });
+    this.setState({ items, total, loading: false });
   };
 
   setFilters = async filters => {
@@ -58,7 +62,7 @@ class UnreadEmail extends Component {
   };
 
   render() {
-    const { items, emailAccounts, filters, total } = this.state;
+    const { items, emailAccounts, filters, total, loading } = this.state;
     const { t } = this.props;
 
     const title = (
@@ -106,20 +110,23 @@ class UnreadEmail extends Component {
                   <LilyDate date={item.sentDate} showTime />
                 </td>
                 <td>
-                  <Link to={`/email/${item.id}`}>
+                  <Link to={`/email/${item.id}`} className="hl-primary-btn borderless">
                     <FontAwesomeIcon icon="envelope" />
                   </Link>
                 </td>
               </tr>
             ))}
 
-            {items.length === 0 && (
-              <tr>
-                <td colSpan="5">{t('dashboard.unreadEmail')}</td>
-              </tr>
-            )}
+            {!loading &&
+              items.length === 0 && (
+                <tr>
+                  <td colSpan="5">{t('dashboard.unreadEmail')}</td>
+                </tr>
+              )}
           </tbody>
         </table>
+
+        {loading && <LoadingIndicator />}
       </ContentBlock>
     );
   }
