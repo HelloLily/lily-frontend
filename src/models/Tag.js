@@ -21,9 +21,7 @@ class Tag {
     // TODO: Temporary until there's a proper tag API.
     const url = `/search/search/?type=tags_tag&facet_field=name_flat&facet_filter=name:${query}&size=60&key=superuser1`;
 
-    const response = get(url);
-
-    return response;
+    return get(url);
   }
 }
 

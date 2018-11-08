@@ -18,15 +18,11 @@ class Account {
   }
 
   query(params) {
-    const response = get('/accounts/', params);
-
-    return response;
+    return get('/accounts/', params);
   }
 
   statuses() {
-    const response = get('/accounts/statuses/');
-
-    return response;
+    return get('/accounts/statuses/');
   }
 
   dataproviderInfo(type, value) {
@@ -34,42 +30,31 @@ class Account {
     const data = {
       [type]: value
     };
-    const response = post(uri, data);
 
-    return response;
+    return post(uri, data);
   }
 
   searchByEmailAddress(emailAddress) {
-    const response = get(`/search/emailaddress/${emailAddress}`);
-
-    return response;
+    return get(`/search/emailaddress/${emailAddress}`);
   }
 
   searchByPhoneNumber(phoneNumber) {
-    const response = get(`/search/number/${phoneNumber}`);
-
-    return response;
+    return get(`/search/number/${phoneNumber}`);
   }
 
   searchByWebsite(website) {
-    const response = get(`/search/website/${website}`);
-
-    return response;
+    return get(`/search/website/${website}`);
   }
 
   // TODO: Temporary code. Actual search will be different.
   search(filterquery) {
     const url = `/search/search/?type=accounts_account&filterquery=${filterquery}`;
 
-    const response = get(url);
-
-    return response;
+    return get(url);
   }
 
   exists() {
-    const response = get('/accounts/exists/');
-
-    return response;
+    return get('/accounts/exists/');
   }
 
   import(data) {

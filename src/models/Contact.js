@@ -18,24 +18,18 @@ class Contact {
   }
 
   query(params) {
-    const response = get('/contacts/', params);
-
-    return response;
+    return get('/contacts/', params);
   }
 
   // TODO: Temporary code. Actual search will be different.
   search(filterquery) {
     const url = `/search/search/?type=contacts_contact&filterquery=${filterquery}`;
 
-    const response = get(url);
-
-    return response;
+    return get(url);
   }
 
   exists() {
-    const response = get('/contacts/exists/');
-
-    return response;
+    return get('/contacts/exists/');
   }
 
   import(data) {

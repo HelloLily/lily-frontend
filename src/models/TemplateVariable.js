@@ -14,9 +14,7 @@ class TemplateVariable {
   }
 
   query() {
-    const response = get('/messaging/email/template-variables/');
-
-    return response;
+    return get('/messaging/email/template-variables/');
   }
 }
 

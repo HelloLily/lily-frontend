@@ -12,9 +12,7 @@ class Settings {
   store(data) {
     data.component = this.component;
 
-    const response = patch('/users/me/settings/', data);
-
-    return response;
+    return patch('/users/me/settings/', data);
   }
 }
 

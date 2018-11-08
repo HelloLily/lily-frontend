@@ -14,9 +14,7 @@ class EmailTemplateFolder {
   }
 
   query() {
-    const response = get('/messaging/email/folders/');
-
-    return response;
+    return get('/messaging/email/folders/');
   }
 }
 

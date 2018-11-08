@@ -18,45 +18,31 @@ class Deal {
   }
 
   query(params) {
-    const response = get('/deals/', params);
-
-    return response;
+    return get('/deals/', params);
   }
 
   statuses() {
-    const response = get('/deals/statuses/');
-
-    return response;
+    return get('/deals/statuses/');
   }
 
   nextSteps() {
-    const response = get('/deals/next-steps/');
-
-    return response;
+    return get('/deals/next-steps/');
   }
 
   foundThrough() {
-    const response = get('/deals/found-through/');
-
-    return response;
+    return get('/deals/found-through/');
   }
 
   contactedBy() {
-    const response = get('/deals/contacted-by/');
-
-    return response;
+    return get('/deals/contacted-by/');
   }
 
   whyCustomer() {
-    const response = get('/deals/why-customer/');
-
-    return response;
+    return get('/deals/why-customer/');
   }
 
   whyLost() {
-    const response = get('/deals/why-lost/');
-
-    return response;
+    return get('/deals/why-lost/');
   }
 
   openDeals(data) {
@@ -67,9 +53,7 @@ class Deal {
   search(filterquery) {
     const url = `/search/search/?type=deals_deal&filterquery=${filterquery}`;
 
-    const response = get(url);
-
-    return response;
+    return get(url);
   }
 
   documents(id) {
@@ -77,9 +61,7 @@ class Deal {
   }
 
   exists() {
-    const response = get('/deals/exists/');
-
-    return response;
+    return get('/deals/exists/');
   }
 }
 

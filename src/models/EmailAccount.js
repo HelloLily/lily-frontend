@@ -34,27 +34,19 @@ class EmailAccount {
   }
 
   query(params) {
-    const response = get('/messaging/email/accounts/', params);
-
-    return response;
+    return get('/messaging/email/accounts/', params);
   }
 
   mine() {
-    const response = get('/messaging/email/accounts/mine');
-
-    return response;
+    return get('/messaging/email/accounts/mine');
   }
 
   setup() {
-    const response = get('/messaging/email/accounts/setup');
-
-    return response;
+    return get('/messaging/email/accounts/setup');
   }
 
   exists() {
-    const response = get('/messaging/email/accounts/exists/');
-
-    return response;
+    return get('/messaging/email/accounts/exists/');
   }
 
   privacyOptions() {

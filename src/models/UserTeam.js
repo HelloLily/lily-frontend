@@ -14,9 +14,7 @@ class UserTeam {
   }
 
   query(params) {
-    const response = get('/users/team', params);
-
-    return response;
+    return get('/users/team', params);
   }
 }
 

@@ -18,9 +18,7 @@ class Note {
   }
 
   query(params) {
-    const response = get('/notes/', params);
-
-    return response;
+    return get('/notes/', params);
   }
 }
 

@@ -14,9 +14,7 @@ class UserInvite {
   }
 
   query() {
-    const response = get('/users/invites');
-
-    return response;
+    return get('/users/invites');
   }
 }
 

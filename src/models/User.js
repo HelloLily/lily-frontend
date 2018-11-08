@@ -14,15 +14,11 @@ class User {
   }
 
   query(params) {
-    const response = get('/users/', params);
-
-    return response;
+    return get('/users/', params);
   }
 
   unassigned() {
-    const response = get('/users/unassigned');
-
-    return response;
+    return get('/users/unassigned');
   }
 
   token() {

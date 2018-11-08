@@ -34,27 +34,19 @@ class Case {
   }
 
   query(params) {
-    const response = get('/cases/', params);
-
-    return response;
+    return get('/cases/', params);
   }
 
   caseTypes() {
-    const response = get('/cases/types/');
-
-    return response;
+    return get('/cases/types/');
   }
 
   statuses() {
-    const response = get('/cases/statuses/');
-
-    return response;
+    return get('/cases/statuses/');
   }
 
   priorities() {
-    const response = get('/cases/priorities/');
-
-    return response;
+    return get('/cases/priorities/');
   }
 
   openCases(data) {
@@ -65,15 +57,11 @@ class Case {
   search(filterquery) {
     const url = `/search/search/?type=cases_case&filterquery=${filterquery}`;
 
-    const response = get(url);
-
-    return response;
+    return get(url);
   }
 
   exists() {
-    const response = get('/cases/exists/');
-
-    return response;
+    return get('/cases/exists/');
   }
 }
 
