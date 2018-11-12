@@ -85,8 +85,6 @@ class InnerProfileForm extends Component {
       Notification.requestPermission(() => {
         console.log('Accepted');
       });
-    } else {
-      // Otherwise just save the data.
     }
 
     this.props.handleSubmit(event);

@@ -37,6 +37,7 @@ class InnerEmailTemplateForm extends Component {
       const emailTemplate = await EmailTemplate.get(id);
 
       this.props.setValues(emailTemplate);
+      this.editorRef.current.setHtml(emailTemplate.bodyHtml);
 
       document.title = `${emailTemplate.name} - Lily`;
     } else {
@@ -58,7 +59,16 @@ class InnerEmailTemplateForm extends Component {
     Object.keys(options).map(option => ({ value: option, label: ucfirst(option) }));
 
   handleSubmit = event => {
+    const { t } = this.props;
+
     const bodyHtml = this.editorRef.current.getHtml();
+    const isEmpty = this.editorRef.current.isEmpty();
+
+    if (isEmpty) {
+      // The editor already contains HTML, which the back end accepts as valid.
+      this.props.setFieldError('bodyHtml', t('forms:templateEmpty'));
+      return;
+    }
 
     // The content of the editor is maintained in the editor itself.
     // So retrieve the value and update the form value.
@@ -177,23 +187,22 @@ class InnerEmailTemplateForm extends Component {
                   </div>
                 </div>
 
-                {category &&
-                  variable && (
-                    <div className="form-field">
-                      <div>Variable preview</div>
-                      <div>
-                        <code>{`[[ ${category}.${variable} ]]`}</code>
+                {category && variable && (
+                  <div className="form-field">
+                    <div>Variable preview</div>
+                    <div>
+                      <code>{`[[ ${category}.${variable} ]]`}</code>
 
-                        <button
-                          className="hl-primary-btn m-l-10"
-                          type="button"
-                          onClick={this.insertVariable}
-                        >
-                          Insert
-                        </button>
-                      </div>
+                      <button
+                        className="hl-primary-btn m-l-10"
+                        type="button"
+                        onClick={this.insertVariable}
+                      >
+                        Insert
+                      </button>
                     </div>
-                  )}
+                  </div>
+                )}
 
                 <div className={`form-field${errors.bodyHtml ? ' has-error' : ''}`}>
                   <label htmlFor="bodyHtml">HTML content</label>
@@ -257,10 +266,10 @@ const EmailTemplateForm = withRouter(
 
       if (cleanedValues.id) {
         request = EmailTemplate.patch(cleanedValues);
-        text = t('modelUpdated', { model: 'email template' });
+        text = t('toasts:modelUpdated', { model: 'email template' });
       } else {
         request = EmailTemplate.post(cleanedValues);
-        text = t('modelCreated', { model: 'email template' });
+        text = t('toasts:modelCreated', { model: 'email template' });
       }
 
       request
@@ -270,7 +279,7 @@ const EmailTemplateForm = withRouter(
           props.history.push('/preferences/emailtemplates');
         })
         .catch(errors => {
-          errorToast(t('error'));
+          errorToast(t('toasts:error'));
           setErrors(errors.data);
           setSubmitting(false);
         });
@@ -279,4 +288,4 @@ const EmailTemplateForm = withRouter(
   })(InnerEmailTemplateForm)
 );
 
-export default withNamespaces('toasts')(EmailTemplateForm);
+export default withNamespaces(['forms', 'toasts'])(EmailTemplateForm);

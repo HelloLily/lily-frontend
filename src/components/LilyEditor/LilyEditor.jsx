@@ -43,6 +43,8 @@ class LilyEditor extends Component {
       }
     });
 
+    const fullPage = props.fullPage === undefined ? true : props.fullPage;
+
     // Configuration for the Froala Editor.
     this.config = {
       toolbarButtons: [
@@ -60,7 +62,7 @@ class LilyEditor extends Component {
         'html'
       ],
       spellcheck: false,
-      fullPage: true,
+      fullPage,
       // TODO: TEMPORARY STYLING
       iframeStyle:
         'body {font-family: Roboto, sans-serif; font-size: 14px;} body table td {border: 0 !important;}',
@@ -99,8 +101,10 @@ class LilyEditor extends Component {
         indent_char: ' ',
         indent_size: 4
       },
-      heightMax: this.props.maxHeight,
-      iconsTemplate: 'font_awesome_5'
+      heightMin: 150,
+      heightMax: props.maxHeight,
+      iconsTemplate: 'font_awesome_5',
+      enter: $.FroalaEditor.ENTER_BR
       // saveURL: '/api/messaging/email/email/save_draft/',
       // saveParams: {
       //   subject: 'test'
@@ -122,12 +126,16 @@ class LilyEditor extends Component {
 
   insertHtml = html => this.state.editor.html.insert(html);
 
+  isEmpty = () => this.state.editor.core.isEmpty();
+
   handleCommandAfter = (e, editor, cmd) => {
-    if (cmd === 'html') {
+    const { codeViewCallback } = this.props;
+
+    if (codeViewCallback && cmd === 'html') {
       const isActive = editor.codeView.isActive();
 
       if (!isActive) {
-        this.props.codeViewCallback(editor.html.get());
+        codeViewCallback(editor.html.get());
       }
     }
   };

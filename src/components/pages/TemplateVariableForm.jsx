@@ -84,7 +84,7 @@ class InnerTemplateVariableForm extends Component {
 
   render() {
     const { categories, variables, category, variable } = this.state;
-    const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
+    const { values, errors, isSubmitting, handleChange } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -101,7 +101,7 @@ class InnerTemplateVariableForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <Form handleSubmit={handleSubmit}>
+              <Form handleSubmit={this.handleSubmit}>
                 <div className={`form-field${errors.name ? ' has-error' : ''}`}>
                   <label htmlFor="firstName" required>
                     Variable name
@@ -142,23 +142,22 @@ class InnerTemplateVariableForm extends Component {
                   </div>
                 </div>
 
-                {category &&
-                  variable && (
-                    <div className="form-field">
-                      <div>Variable preview</div>
-                      <div>
-                        <code>{`[[ ${category}.${variable} ]]`}</code>
+                {category && variable && (
+                  <div className="form-field">
+                    <div>Variable preview</div>
+                    <div>
+                      <code>{`[[ ${category}.${variable} ]]`}</code>
 
-                        <button
-                          className="hl-primary-btn m-l-10"
-                          type="button"
-                          onClick={this.insertVariable}
-                        >
-                          Insert
-                        </button>
-                      </div>
+                      <button
+                        className="hl-primary-btn m-l-10"
+                        type="button"
+                        onClick={this.insertVariable}
+                      >
+                        Insert
+                      </button>
                     </div>
-                  )}
+                  </div>
+                )}
 
                 <div className={`form-field${errors.text ? ' has-error' : ''}`}>
                   <label htmlFor="text" required>
@@ -166,7 +165,7 @@ class InnerTemplateVariableForm extends Component {
                   </label>
 
                   <div className="editor">
-                    <LilyEditor ref={this.editorRef} />
+                    <LilyEditor ref={this.editorRef} fullPage={false} />
                   </div>
 
                   {errors.text && <div className="error-message">{errors.text}</div>}
@@ -180,7 +179,7 @@ class InnerTemplateVariableForm extends Component {
                   />
                 </div>
 
-                <FormFooter {...this.props} indent={false} />
+                <FormFooter {...this.props} indent={false} handleSubmit={this.handleSubmit} />
               </Form>
             </div>
           </div>
