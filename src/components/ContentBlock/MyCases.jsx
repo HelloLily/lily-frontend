@@ -168,7 +168,7 @@ class MyCases extends Component {
               <th>Status</th>
               <th>Priority</th>
               <th>Expires</th>
-              <th>Actions</th>
+              <th className="table-actions">Actions</th>
             </tr>
           </thead>
 

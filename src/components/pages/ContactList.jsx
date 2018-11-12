@@ -83,36 +83,34 @@ class ContactList extends Component {
       <React.Fragment>
         {contact.accounts.map(account => (
           <React.Fragment key={account.id}>
-            {!contact.primaryEmail &&
-              account.primaryEmail && (
-                <React.Fragment>
-                  <i className="lilicon hl-company-icon" data-tip={tooltip} />
-                  <Link to={`/email/compose/${account.primaryEmail.emailAddress}`}>
-                    <span> {account.primaryEmail.emailAddress}</span>
-                  </Link>
-                </React.Fragment>
-              )}
-            {!contact.phoneNumber &&
-              account.phoneNumber && (
-                <React.Fragment>
-                  {account.phoneNumber.type === MOBILE_PHONE_TYPE ||
-                  account.phoneNumber.type === 'work' ? (
-                    <React.Fragment>
-                      <span data-tip={tooltip}>
-                        {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
-                          <FontAwesomeIcon icon="mobile" />
-                        ) : (
-                          <i className="lilicon hl-phone-filled-icon" />
-                        )}
-                      </span>
+            {!contact.primaryEmail && account.primaryEmail && (
+              <React.Fragment>
+                <i className="lilicon hl-company-icon" data-tip={tooltip} />
+                <Link to={`/email/compose/${account.primaryEmail.emailAddress}`}>
+                  <span> {account.primaryEmail.emailAddress}</span>
+                </Link>
+              </React.Fragment>
+            )}
+            {!contact.phoneNumber && account.phoneNumber && (
+              <React.Fragment>
+                {account.phoneNumber.type === MOBILE_PHONE_TYPE ||
+                account.phoneNumber.type === 'work' ? (
+                  <React.Fragment>
+                    <span data-tip={tooltip}>
+                      {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
+                        <FontAwesomeIcon icon="mobile" />
+                      ) : (
+                        <i className="lilicon hl-phone-filled-icon" />
+                      )}
+                    </span>
 
-                      <a href={`tel:${account.phoneNumber.number}`}>
-                        <span> {account.phoneNumber.number}</span>
-                      </a>
-                    </React.Fragment>
-                  ) : null}
-                </React.Fragment>
-              )}
+                    <a href={`tel:${account.phoneNumber.number}`}>
+                      <span> {account.phoneNumber.number}</span>
+                    </a>
+                  </React.Fragment>
+                ) : null}
+              </React.Fragment>
+            )}
           </React.Fragment>
         ))}
 
@@ -193,7 +191,7 @@ class ContactList extends Component {
                   sortColumn={sortColumn}
                   sortStatus={sortStatus}
                 />
-                <th>Actions</th>
+                <th className="table-actions">Actions</th>
               </tr>
             </thead>
             <tbody>

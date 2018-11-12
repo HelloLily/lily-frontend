@@ -109,7 +109,7 @@ class UnassignedCases extends Component {
               <th>Priority</th>
               <th>Teams</th>
               <th>Created</th>
-              <th>Actions</th>
+              <th className="table-actions">Actions</th>
             </tr>
           </thead>
 
@@ -147,12 +147,11 @@ class UnassignedCases extends Component {
               </tr>
             ))}
 
-            {!loading &&
-              items.length === 0 && (
-                <tr>
-                  <td colSpan="7">{t('dashboard.unassignedCases')}</td>
-                </tr>
-              )}
+            {!loading && items.length === 0 && (
+              <tr>
+                <td colSpan="7">{t('dashboard.unassignedCases')}</td>
+              </tr>
+            )}
           </tbody>
         </table>
 

@@ -8,7 +8,12 @@ import Deal from 'models/Deal';
 import EmailMessage from 'models/EmailMessage';
 import setupChanges from './setupChanges';
 
-export default async function setupActivityStream(object, dateStart = null, dateEnd = null) {
+export default async function setupActivityStream(
+  object,
+  dateStart = null,
+  dateEnd = null,
+  parentObject = null
+) {
   const { model } = object.contentType;
   const activityStream = [];
 
@@ -104,16 +109,19 @@ export default async function setupActivityStream(object, dateStart = null, date
     const cases = await getCases();
 
     cases.forEach(async caseObj => {
-      // TODO: Temporary code since these are still Elasticsearch results.
-      caseObj.contentType = {
-        id: caseObj.contentType,
-        model: 'case',
-        appLabel: 'cases'
-      };
+      // Filter out the object that's being viewed if we're dealing with a child activity stream.
+      if (!parentObject || (parentObject && caseObj.id !== parentObject.id)) {
+        // TODO: Temporary code since these are still Elasticsearch results.
+        caseObj.contentType = {
+          id: caseObj.contentType,
+          model: 'case',
+          appLabel: 'cases'
+        };
 
-      caseObj.notes = [];
+        caseObj.notes = [];
 
-      activityStream.push(caseObj);
+        activityStream.push(caseObj);
+      }
     });
 
     const caseIds = cases.map(caseObj => caseObj.id);
@@ -130,16 +138,19 @@ export default async function setupActivityStream(object, dateStart = null, date
     const deals = await getDeals();
 
     deals.forEach(async deal => {
-      // TODO: Temporary code since these are still Elasticsearch results.
-      deal.contentType = {
-        id: deal.contentType,
-        model: 'deal',
-        appLabel: 'deals'
-      };
+      // Filter out the object that's being viewed if we're dealing with a child activity stream.
+      if (!parentObject || (parentObject && deal.id !== parentObject.id)) {
+        // TODO: Temporary code since these are still Elasticsearch results.
+        deal.contentType = {
+          id: deal.contentType,
+          model: 'deal',
+          appLabel: 'deals'
+        };
 
-      deal.notes = [];
+        deal.notes = [];
 
-      activityStream.push(deal);
+        activityStream.push(deal);
+      }
     });
 
     const dealIds = deals.map(deal => deal.id);

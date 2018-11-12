@@ -167,7 +167,7 @@ class MyDeals extends Component {
               <th>Status</th>
               <th>Next step</th>
               <th>Next step date</th>
-              <th>Actions</th>
+              <th className="table-actions">Actions</th>
             </tr>
           </thead>
 

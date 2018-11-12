@@ -173,7 +173,7 @@ class AccountList extends Component {
                   sortColumn={sortColumn}
                   sortStatus={sortStatus}
                 />
-                <th>Actions</th>
+                <th className="table-actions">Actions</th>
               </tr>
             </thead>
             <tbody>

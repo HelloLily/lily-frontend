@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 
+import withContext from 'src/withContext';
 import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
@@ -22,6 +23,12 @@ import Deal from 'models/Deal';
 class DealDetail extends Component {
   constructor(props) {
     super(props);
+
+    const hasPandaDoc = props.currentUser.tenant.integrations.find(
+      integration => integration.type === 1
+    );
+
+    this.hasPandaDoc = hasPandaDoc;
 
     this.state = {
       deal: null,
@@ -243,85 +250,92 @@ class DealDetail extends Component {
 
                 <div className="m-b-25" />
 
-                <ContentBlock
-                  title={documentsTitle}
-                  extra={documentsExtra}
-                  component="documentListWidget"
-                >
-                  <table className="hl-table">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
+                {this.hasPandaDoc && (
+                  <React.Fragment>
+                    <ContentBlock
+                      title={documentsTitle}
+                      extra={documentsExtra}
+                      component="documentListWidget"
+                    >
+                      <table className="hl-table">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th className="table-actions">Actions</th>
+                          </tr>
+                        </thead>
 
-                    <tbody>
-                      {documents.map(document => (
-                        <tr key={document.id}>
-                          <td>
-                            <a
-                              href={`https://app.pandadoc.com/a/#/documents/${document.id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {document.name}
-                            </a>
-                          </td>
-                          <td>
-                            <Link to={`/contacts/${deal.contact.id}`}>{deal.contact.fullName}</Link>
-                          </td>
-                          <td>
-                            <span
-                              className={`document-status ${document.status.replace(
-                                'document.',
-                                ''
-                              )}`}
-                            />
-                            <span className="text-capitalize">
-                              {document.status.replace('document.', '')}
-                            </span>
-                          </td>
-                          <td>
-                            <a
-                              href={`https://app.pandadoc.com/a/#/documents/${document.id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="hl-interface-btn"
-                            >
-                              <i className="lilicon hl-edit-icon" />
-                            </a>
+                        <tbody>
+                          {documents.map(document => (
+                            <tr key={document.id}>
+                              <td>
+                                <a
+                                  href={`https://app.pandadoc.com/a/#/documents/${document.id}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {document.name}
+                                </a>
+                              </td>
+                              <td>
+                                <Link to={`/contacts/${deal.contact.id}`}>
+                                  {deal.contact.fullName}
+                                </Link>
+                              </td>
+                              <td>
+                                <span
+                                  className={`document-status ${document.status.replace(
+                                    'document.',
+                                    ''
+                                  )}`}
+                                />
+                                <span className="text-capitalize">
+                                  {document.status.replace('document.', '')}
+                                </span>
+                              </td>
+                              <td>
+                                <a
+                                  href={`https://app.pandadoc.com/a/#/documents/${document.id}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hl-interface-btn"
+                                >
+                                  <i className="lilicon hl-edit-icon" />
+                                </a>
 
-                            {contact.emailAddresses.length > 0 && document.status !== 'completed' && (
-                              <Link
-                                to={{
-                                  pathname: '/email/compose',
-                                  state: {
-                                    emailAddress: contact.emailAddresses[0].emailAddress,
-                                    documentId: document.id
-                                  }
-                                }}
-                                className="hl-interface-btn"
-                              >
-                                <FontAwesomeIcon icon="envelope" />
-                              </Link>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
+                                {contact.emailAddresses.length > 0 &&
+                                  document.status !== 'completed' && (
+                                    <Link
+                                      to={{
+                                        pathname: '/email/compose',
+                                        state: {
+                                          emailAddress: contact.emailAddresses[0].emailAddress,
+                                          documentId: document.id
+                                        }
+                                      }}
+                                      className="hl-interface-btn"
+                                    >
+                                      <FontAwesomeIcon icon="envelope" />
+                                    </Link>
+                                  )}
+                              </td>
+                            </tr>
+                          ))}
 
-                      {documents.length === 0 && (
-                        <tr>
-                          <td colSpan="4">No documents</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </ContentBlock>
+                          {documents.length === 0 && (
+                            <tr>
+                              <td colSpan="4">No documents</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </ContentBlock>
 
-                <div className="m-b-25" />
+                    <div className="m-b-25" />
+                  </React.Fragment>
+                )}
 
                 <div className="content-block-container">
                   <div className="content-block">
@@ -493,4 +507,4 @@ class DealDetail extends Component {
   }
 }
 
-export default withNamespaces('tooltips')(DealDetail);
+export default withNamespaces('tooltips')(withContext(DealDetail));

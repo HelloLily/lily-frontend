@@ -28,25 +28,27 @@ class Nav extends Component {
       // so try to find an account or contact with the given number.
       const { data } = await Account.searchByPhoneNumber(phoneNumber);
 
-      if (data.account) {
-        // Account found so redirect to the account.
-        history.push(`/accounts/${data.account.id}`);
-      } else if (data.contact) {
-        // Contact found so redirect to the contact.
-        history.push(`/contacts/${data.account.id}`);
-      } else {
-        const formData = {
-          phoneNumber,
-          name: call.caller.name
-        };
-        // No account or contact found so redirect to the account form.
-        history.push(`/accounts/create`, formData);
-      }
+      if (data) {
+        if (data.account) {
+          // Account found so redirect to the account.
+          history.push(`/accounts/${data.account.id}`);
+        } else if (data.contact) {
+          // Contact found so redirect to the contact.
+          history.push(`/contacts/${data.account.id}`);
+        } else {
+          const formData = {
+            phoneNumber,
+            name: call.caller.name
+          };
+          // No account or contact found so redirect to the account form.
+          history.push(`/accounts/create`, formData);
+        }
 
-      // Track clicking on the caller info button in Segment.
-      window.analytics.track('caller-info-click', {
-        phone_number: phoneNumber
-      });
+        // Track clicking on the caller info button in Segment.
+        window.analytics.track('caller-info-click', {
+          phone_number: phoneNumber
+        });
+      }
     } else {
       infoToast(t('noCalls'));
     }

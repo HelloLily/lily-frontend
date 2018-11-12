@@ -15,6 +15,11 @@
       padding: 6px 12px;
       text-align: left;
 
+      &.table-actions {
+        width: 5%;
+        padding-left: 17px;
+      }
+
       button {
         border: 0;
         background: 0;

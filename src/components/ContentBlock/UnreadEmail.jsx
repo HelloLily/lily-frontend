@@ -94,7 +94,7 @@ class UnreadEmail extends Component {
               <th>From</th>
               <th>Subject</th>
               <th>Sent</th>
-              <th>Actions</th>
+              <th className="table-actions">Actions</th>
             </tr>
           </thead>
 
@@ -117,12 +117,11 @@ class UnreadEmail extends Component {
               </tr>
             ))}
 
-            {!loading &&
-              items.length === 0 && (
-                <tr>
-                  <td colSpan="5">{t('dashboard.unreadEmail')}</td>
-                </tr>
-              )}
+            {!loading && items.length === 0 && (
+              <tr>
+                <td colSpan="5">{t('dashboard.unreadEmail')}</td>
+              </tr>
+            )}
           </tbody>
         </table>
 

@@ -49,9 +49,14 @@ class ActivityStream extends Component {
   }
 
   async componentDidMount() {
-    const { object, dateStart, dateEnd } = this.props;
+    const { object, dateStart, dateEnd, parentObject } = this.props;
 
-    const { activityStream, options } = await setupActivityStream(object, dateStart, dateEnd);
+    const { activityStream, options } = await setupActivityStream(
+      object,
+      dateStart,
+      dateEnd,
+      parentObject
+    );
 
     this.setState({ activityStream, options, loading: false });
   }
@@ -170,14 +175,12 @@ class ActivityStream extends Component {
 
   orderActivityStream = () => {
     const { activityStream } = this.state;
-    const { parentObject } = this.props;
 
     const orderedActivityStream = {
       pinned: [],
       nonPinned: {},
       totalItems: activityStream.length
     };
-    const parentObjectId = parentObject ? parentObject.id : null;
 
     activityStream.forEach(item => {
       if (item.isPinned) {
@@ -204,6 +207,7 @@ class ActivityStream extends Component {
   render() {
     const { note, options, collapsed, filter, loading, activityStream } = this.state;
     const { object, parentObject } = this.props;
+
     const orderedActivityStream = this.orderActivityStream(activityStream);
     const defaultProps = {
       object,
@@ -213,21 +217,20 @@ class ActivityStream extends Component {
       deleteItemNote: this.deleteItemNote,
       togglePinned: this.togglePinned
     };
+    const { model } = object.contentType;
 
     return (
       <div className="activity-stream">
         {!loading ? (
           <React.Fragment>
             {parentObject && (
-              <div className="activity-stream-title">
-                {`Latest ${object.contentType.model} activity`}
-              </div>
+              <div className="activity-stream-title">{`Latest ${model} activity`}</div>
             )}
             <div className="activity-stream-filter capitalize">
               <div className="radio-button-group">
                 {options.map((option, index) => {
                   const isSelected = filter === option.id;
-                  const radioId = `radio-activity-stream-${index}`;
+                  const radioId = `radio-activity-${model}-${index}`;
                   const className = cx('radio-button', {
                     active: isSelected
                   });
@@ -311,9 +314,10 @@ class ActivityStream extends Component {
                   <React.Fragment key={key}>
                     <div className="activity-stream-indicator" />
 
-                    <div
+                    <button
                       className="activity-stream-category"
                       onClick={() => this.toggleCollapse(key)}
+                      type="button"
                     >
                       <LilyDate date={key} format="MMMM y" />
 
@@ -324,7 +328,7 @@ class ActivityStream extends Component {
                           }`}
                         />
                       </div>
-                    </div>
+                    </button>
 
                     {!isCollapsed && (
                       <React.Fragment>
@@ -355,7 +359,7 @@ class ActivityStream extends Component {
                     <div className="stream-item-header">Until now</div>
                     <div className="stream-item-title">
                       <span className="flex-grow">
-                        <span className="text-capitalize">{object.contentType.model} </span>
+                        <span className="text-capitalize">{model} </span>
                         was created
                       </span>
                     </div>
