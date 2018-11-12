@@ -506,33 +506,32 @@ class InnerContactForm extends Component {
                       <div className="form-field">
                         <label>Phone number</label>
 
-                        {values.accounts.length > 0 &&
-                          values.accounts[0].phoneNumbers.length > 0 && (
-                            <table className="form-info-table m-b-10">
-                              <tbody>
-                                {values.accounts[0].phoneNumbers.map((phoneNumber, index) => (
-                                  <tr key={`account-phone-${phoneNumber.id}`}>
-                                    <td>
-                                      {index === 0 && (
-                                        <React.Fragment>
-                                          <i
-                                            className="lilicon hl-company-icon"
-                                            data-tip={t('contact.accountInfoTooltip')}
-                                          />
+                        {values.accounts.length > 0 && values.accounts[0].phoneNumbers.length > 0 && (
+                          <table className="form-info-table m-b-10">
+                            <tbody>
+                              {values.accounts[0].phoneNumbers.map((phoneNumber, index) => (
+                                <tr key={`account-phone-${phoneNumber.id}`}>
+                                  <td>
+                                    {index === 0 && (
+                                      <React.Fragment>
+                                        <i
+                                          className="lilicon hl-company-icon"
+                                          data-tip={t('contact.accountInfoTooltip')}
+                                        />
 
-                                          <LilyTooltip />
-                                        </React.Fragment>
-                                      )}
-                                    </td>
-                                    <td>
-                                      {phoneNumber.number}
-                                      <span className="text-capitalize"> ({phoneNumber.type})</span>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          )}
+                                        <LilyTooltip />
+                                      </React.Fragment>
+                                    )}
+                                  </td>
+                                  <td>
+                                    {phoneNumber.number}
+                                    <span className="text-capitalize"> ({phoneNumber.type})</span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
 
                         <PhoneNumberField
                           items={values.phoneNumbers}
@@ -563,32 +562,31 @@ class InnerContactForm extends Component {
                       <div className="form-field">
                         <label>Address</label>
 
-                        {values.accounts.length > 0 &&
-                          values.accounts[0].addresses.length > 0 && (
-                            <table className="form-info-table m-b-10">
-                              <tbody>
-                                {values.accounts[0].addresses.map((address, index) => (
-                                  <tr key={`account-address-${address.id}`}>
-                                    <td>
-                                      {index === 0 && (
-                                        <React.Fragment>
-                                          <i
-                                            className="lilicon hl-company-icon"
-                                            data-tip={t('contact.accountInfoTooltip')}
-                                          />
+                        {values.accounts.length > 0 && values.accounts[0].addresses.length > 0 && (
+                          <table className="form-info-table m-b-10">
+                            <tbody>
+                              {values.accounts[0].addresses.map((address, index) => (
+                                <tr key={`account-address-${address.id}`}>
+                                  <td>
+                                    {index === 0 && (
+                                      <React.Fragment>
+                                        <i
+                                          className="lilicon hl-company-icon"
+                                          data-tip={t('contact.accountInfoTooltip')}
+                                        />
 
-                                          <LilyTooltip />
-                                        </React.Fragment>
-                                      )}
-                                    </td>
-                                    <td>
-                                      <Address address={address} />
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          )}
+                                        <LilyTooltip />
+                                      </React.Fragment>
+                                    )}
+                                  </td>
+                                  <td>
+                                    <Address address={address} />
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
 
                         <AddressField
                           items={values.addresses}
@@ -697,6 +695,8 @@ const ContactForm = withRouter(
           }
 
           successToast(text);
+
+          if (!values.id) window.Intercom('trackEvent', 'contact-created');
 
           props.history.push(`/contacts/${response.id}`);
         })

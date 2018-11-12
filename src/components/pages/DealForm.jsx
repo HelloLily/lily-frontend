@@ -760,6 +760,8 @@ const DealForm = withRouter(
 
           successToast(text);
 
+          if (!values.id) window.Intercom('trackEvent', 'deal-created');
+
           props.history.push(`/deals/${response.id}`);
         })
         .catch(errors => {

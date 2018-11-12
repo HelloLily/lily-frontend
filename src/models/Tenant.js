@@ -12,6 +12,14 @@ class Tenant {
   objectCounts() {
     return get(`/tenants/object_counts`);
   }
+
+  isVoysNL(id) {
+    return id === 50 || process.env.DEBUG;
+  }
+
+  isVoysZA(id) {
+    return id === 52;
+  }
 }
 
 export default new Tenant();

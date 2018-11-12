@@ -543,6 +543,8 @@ const CaseForm = withRouter(
 
           successToast(text);
 
+          if (!values.id) window.Intercom('trackEvent', 'case-created');
+
           props.history.push(`/cases/${response.id}`);
         })
         .catch(errors => {

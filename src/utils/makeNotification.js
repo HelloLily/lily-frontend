@@ -1,11 +1,13 @@
 export default function makeNotification({ params, destination, icon }) {
+  const { name, number, id } = params;
+
   let notification;
 
   // If there is no name available, use the phone number in the title of the notification
-  if (params.name !== '') {
-    notification = new Notification(`${params.name} calling`, { body: params.number, icon });
+  if (name !== '') {
+    notification = new Notification(`${name} calling`, { body: number, icon });
   } else {
-    notification = new Notification(`${params.number} calling`, { body: '', icon });
+    notification = new Notification(`${number} calling`, { body: '', icon });
   }
 
   setTimeout(() => {
@@ -17,15 +19,15 @@ export default function makeNotification({ params, destination, icon }) {
   notification.onclick = () => {
     switch (destination) {
       case 'account':
-        window.open(`/accounts/${params.id}`, '_blank');
+        window.open(`/accounts/${id}`, '_blank');
         break;
       case 'contact':
-        window.open(`/contacts/${params.id}`, '_blank');
+        window.open(`/contacts/${id}`, '_blank');
         break;
       case 'create':
         // There is no way to know if an account or contact needs to be created. As it's more
         // likely an account needs to be created, this links to account.create.
-        window.open(`/accounts/create?name=${params.name}&phoneNumber=${params.number}`, '_blank');
+        window.open(`/accounts/create?name=${name}&phoneNumber=${number}`, '_blank');
         break;
       default:
         break;
@@ -33,11 +35,12 @@ export default function makeNotification({ params, destination, icon }) {
 
     notification.close();
 
+    // Track clicking on the caller info button in Segment.
+    window.analytics.track('caller-info-click', {
+      phone_number: number
+    });
+
     // Track clicking on the caller notification in Google analytics and Segment.
     // ga('send', 'event', 'Caller info', 'Open', 'Popup');
-
-    // analytics.track('caller-notification-click', {
-    //   'phone_number': data.params.number
-    // });
   };
 }

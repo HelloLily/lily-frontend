@@ -18,7 +18,7 @@ class Nav extends Component {
   }
 
   getLatestCall = async () => {
-    const { t } = this.props;
+    const { history, t } = this.props;
 
     const { call } = await Call.latestCall();
 
@@ -30,18 +30,23 @@ class Nav extends Component {
 
       if (data.account) {
         // Account found so redirect to the account.
-        this.props.history.push(`/accounts/${data.account.id}`);
+        history.push(`/accounts/${data.account.id}`);
       } else if (data.contact) {
         // Contact found so redirect to the contact.
-        this.props.history.push(`/contacts/${data.account.id}`);
+        history.push(`/contacts/${data.account.id}`);
       } else {
         const formData = {
           phoneNumber,
           name: call.caller.name
         };
         // No account or contact found so redirect to the account form.
-        this.props.history.push(`/accounts/create`, formData);
+        history.push(`/accounts/create`, formData);
       }
+
+      // Track clicking on the caller info button in Segment.
+      window.analytics.track('caller-info-click', {
+        phone_number: phoneNumber
+      });
     } else {
       infoToast(t('noCalls'));
     }

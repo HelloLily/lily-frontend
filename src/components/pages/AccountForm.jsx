@@ -687,6 +687,8 @@ const AccountForm = withRouter(
 
           successToast(text);
 
+          if (!values.id) window.Intercom('trackEvent', 'account-created');
+
           props.history.push(`/accounts/${response.id}`);
         })
         .catch(errors => {
