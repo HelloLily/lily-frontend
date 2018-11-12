@@ -548,3 +548,13 @@ li {
     }
   }
 }
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}

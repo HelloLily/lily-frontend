@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
+import { DashboardModal } from '@uppy/react';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
@@ -11,7 +12,32 @@ import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
 import User from 'models/User';
 
+const Uppy = require('@uppy/core');
+
+const MAX_FILE_SIZE = 300 * 1000;
+
+const uppy = Uppy({
+  allowMultipleUploads: false,
+  closeAfterFinish: true,
+  autoProceed: true,
+  restrictions: {
+    maxFileSize: MAX_FILE_SIZE,
+    maxNumberOfFiles: 1
+  }
+});
+
+uppy.run();
+
 class InnerProfileForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalOpen: false,
+      picturePreview: ''
+    };
+  }
+
   componentDidMount() {
     const { currentUser } = this.props;
 
@@ -28,6 +54,13 @@ class InnerProfileForm extends Component {
     this.pictureRef = React.createRef();
 
     this.props.setValues(data);
+
+    uppy.on('file-added', file => {
+      const picturePreview = URL.createObjectURL(file.data);
+
+      this.props.setFieldValue('picture', file.data);
+      this.setState({ picturePreview });
+    });
 
     document.title = 'My profile - Lily';
   }
@@ -59,7 +92,16 @@ class InnerProfileForm extends Component {
     this.props.handleSubmit(event);
   };
 
+  openModal = () => {
+    this.setState({ modalOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ modalOpen: false });
+  };
+
   render() {
+    const { picturePreview } = this.state;
     const { values, errors, isSubmitting, handleChange } = this.props;
 
     return (
@@ -122,9 +164,25 @@ class InnerProfileForm extends Component {
                   <div className={`form-field${errors.picture ? ' has-error' : ''}`}>
                     <label htmlFor="picture">Picture</label>
 
-                    {values.picture && <img src={values.picture} alt="User avatar" />}
+                    {picturePreview && (
+                      <img src={picturePreview} alt="User avatar" className="profile-image" />
+                    )}
 
-                    <input id="picture" type="file" ref={this.pictureRef} />
+                    <div>
+                      <button className="hl-primary-btn" onClick={this.openModal} type="button">
+                        Select
+                      </button>
+
+                      {values.picture && (
+                        <button
+                          className="hl-primary-btn-red m-l-10"
+                          onClick={() => this.setState({ picturePreview: '' })}
+                          type="button"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
 
                     {errors.picture && <div className="error-message">{errors.picture}</div>}
 
@@ -172,6 +230,16 @@ class InnerProfileForm extends Component {
                 </FormSection>
 
                 <FormFooter {...this.props} />
+
+                <DashboardModal
+                  uppy={uppy}
+                  hideUploadButton
+                  closeModalOnClickOutside
+                  closeAfterFinish
+                  showProgressDetails
+                  open={this.state.modalOpen}
+                  onRequestCloseModal={this.closeModal}
+                />
               </form>
             </div>
           </div>
