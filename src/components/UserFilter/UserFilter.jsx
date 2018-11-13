@@ -13,8 +13,7 @@ class UserFilter extends Component {
     this.currentUserValue = `assignedTo.id: ${props.currentUser.id}`;
 
     this.state = {
-      teams: [],
-      loading: true
+      teams: []
     };
   }
 
@@ -85,7 +84,7 @@ class UserFilter extends Component {
       }
 
       team.users.forEach(user => {
-        if (filters.includes(user.value)) {
+        if (filters.includes(user.value) && !display.includes(user.fullName)) {
           display.push(user.fullName);
         }
       });
@@ -192,20 +191,21 @@ class UserFilter extends Component {
               );
               // Main item is considered selected if every sub item has been selected.
               const isSelected = teamSelected && filteredItems.length === 0;
+              const teamKey = `team-${team.id}`;
 
               return (
-                <React.Fragment key={`team-${team.id}`}>
+                <React.Fragment key={teamKey}>
                   {team.id === 'unassigned' || team.users.length > 0 ? (
                     <React.Fragment>
                       <li className="dropdown-menu-item">
                         <input
-                          id={team.id}
+                          id={teamKey}
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => this.toggleTeam(team)}
                         />
 
-                        <label htmlFor={team.id}>{team.name}</label>
+                        <label htmlFor={teamKey}>{team.name}</label>
 
                         {team.id !== 'unassigned' && (
                           <button
@@ -218,44 +218,44 @@ class UserFilter extends Component {
                           </button>
                         )}
                       </li>
-                      {!team.collapsed &&
-                        team.users.length > 0 && (
-                          <ul className="dropdown-menu-sub">
-                            <li className="dropdown-menu-sub-item" key={`user-${team.id}`}>
-                              <input
-                                id={`${team.id}-filter`}
-                                type="checkbox"
-                                checked={teamSelected}
-                                onChange={() => this.toggleFilter(team.value)}
-                              />
+                      {!team.collapsed && team.users.length > 0 && (
+                        <ul className="dropdown-menu-sub">
+                          <li className="dropdown-menu-sub-item" key={`user-team-${team.id}`}>
+                            <input
+                              id={`${team.id}-filter`}
+                              type="checkbox"
+                              checked={teamSelected}
+                              onChange={() => this.toggleFilter(team.value)}
+                            />
 
-                              <label htmlFor={`${team.id}-filter`}>
-                                {team.id !== 'teamless' ? (
-                                  <React.Fragment>{team.name} team</React.Fragment>
-                                ) : (
-                                  <React.Fragment>{team.name}</React.Fragment>
-                                )}
-                              </label>
-                            </li>
+                            <label htmlFor={`${team.id}-filter`}>
+                              {team.id !== 'teamless' ? (
+                                <React.Fragment>{team.name} team</React.Fragment>
+                              ) : (
+                                <React.Fragment>{team.name}</React.Fragment>
+                              )}
+                            </label>
+                          </li>
 
-                            {team.users.map(user => {
-                              const userSelected = filters.some(filter => filter === user.value);
+                          {team.users.map(user => {
+                            const userSelected = filters.some(filter => filter === user.value);
+                            const userKey = `user-${user.id}`;
 
-                              return (
-                                <li className="dropdown-menu-sub-item" key={`user-${user.id}`}>
-                                  <input
-                                    id={user.id}
-                                    type="checkbox"
-                                    checked={userSelected}
-                                    onChange={() => this.toggleFilter(user.value)}
-                                  />
+                            return (
+                              <li className="dropdown-menu-sub-item" key={userKey}>
+                                <input
+                                  id={userKey}
+                                  type="checkbox"
+                                  checked={userSelected}
+                                  onChange={() => this.toggleFilter(user.value)}
+                                />
 
-                                  <label htmlFor={user.id}>{user.fullName}</label>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        )}
+                                <label htmlFor={userKey}>{user.fullName}</label>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
                     </React.Fragment>
                   ) : null}
                 </React.Fragment>

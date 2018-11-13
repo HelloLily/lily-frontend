@@ -33,7 +33,7 @@ class Dropdown extends Component {
     return (
       <div className={className || 'display-inline-block'}>
         <div className={`dropdown-container${clearCallback ? ' is-clearable' : ''}`}>
-          <div className="clickable" onClick={this.showMenu}>
+          <div className="clickable" onClick={this.showMenu} role="button" tabIndex={0}>
             {clickable}
           </div>
 

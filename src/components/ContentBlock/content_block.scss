@@ -94,25 +94,16 @@ $max-height: 400px;
   position: absolute;
   height: 14px;
   background-color: lighten($sky-grey, 3);
-  opacity: 0.8;
+  opacity: 0.85;
+  border: 0;
   border-top: 1px solid $base-border-color;
-  bottom: 1px;
-  left: 1px;
-  right: 1px;
+  border-radius: 0;
   z-index: 2;
   text-align: center;
-
-  &:before {
-    content: ' ';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: #fff;
-  }
+  width: 100%;
+  bottom: 0;
 
   i {
-    color: $base-border-color;
     font-size: 10px;
     position: absolute;
     top: 50%;

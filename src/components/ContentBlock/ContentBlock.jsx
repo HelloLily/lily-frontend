@@ -32,10 +32,10 @@ class ContentBlock extends Component {
   }
 
   heightToggle = async () => {
-    const expandHeight = !this.state.expandHeight;
+    const { expandHeight } = this.state;
 
-    await this.settings.store({ expandHeight });
-    this.setState({ expandHeight });
+    await this.settings.store({ expandHeight: !expandHeight });
+    this.setState({ expandHeight: !expandHeight });
   };
 
   removeContentBlock = async () => {
@@ -108,15 +108,14 @@ class ContentBlock extends Component {
                   {this.props.children}
                 </div>
 
-                {!fullHeight &&
-                  showFade && (
-                    <div
-                      className="content-block-scroll-fade clickable"
-                      onClick={this.heightToggle}
-                    >
-                      <i className={`lilicon hl-toggle-${expandHeight ? 'up' : 'down'}-icon`} />
-                    </div>
-                  )}
+                {!fullHeight && showFade && (
+                  <button
+                    className="content-block-scroll-fade hl-interface-btn"
+                    onClick={this.heightToggle}
+                  >
+                    <i className={`lilicon hl-toggle-${expandHeight ? 'up' : 'down'}-icon`} />
+                  </button>
+                )}
               </React.Fragment>
             )}
           </div>

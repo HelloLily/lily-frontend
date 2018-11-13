@@ -176,13 +176,8 @@ class EmailEditor extends Component {
     return value;
   };
 
-  createRecipientLabel = (emailAddress, name = null) => {
-    if (name) {
-      return `${name} <${emailAddress}>`;
-    }
-
-    return emailAddress;
-  };
+  createRecipientLabel = (emailAddress, name = null) =>
+    name ? `${name} <${emailAddress}>` : emailAddress;
 
   createRecipientOptions = (contacts, query = '') => {
     // TODO: This shouldn't be needed in the live version,
@@ -276,9 +271,7 @@ class EmailEditor extends Component {
       newState.account = null;
     }
 
-    this.setState(newState);
-
-    setTimeout(() => this.scanTemplate());
+    this.setState(newState, this.scanTemplate);
   };
 
   handleAdditionalRecipients = (recipients, bcc = false) => {
@@ -423,7 +416,7 @@ class EmailEditor extends Component {
           .toString(36)
           .substring(2, 15);
 
-      // Add our randomly generated key to the link's data attributes.
+      // Add the randomly generated key to the link's data attributes.
       link.dataset.key = key;
 
       // Replace all square brackets with normal ones.
@@ -546,11 +539,10 @@ class EmailEditor extends Component {
       emailAddress: recipient.value.emailAddress
     }));
 
+    // Creates a container div to read the template variables.
     const container = document.createElement('div');
-
     container.innerHTML = this.editorRef.current.getHtml();
-
-    // Get all the template variables.
+    // Get all template variables.
     const variables = container.querySelectorAll('[data-variable]');
 
     let unparsedVariables = 0;
@@ -627,7 +619,7 @@ class EmailEditor extends Component {
       components: { Option: this.RecipientOption },
       isValidNewOption: this.validateEmailAddress,
       className: 'editor-select-input',
-      placeholder: ''
+      placeholder: 'Add recipients'
     };
 
     return (
