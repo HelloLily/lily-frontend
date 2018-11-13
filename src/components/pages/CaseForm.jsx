@@ -41,6 +41,8 @@ class InnerCaseForm extends Component {
 
   async componentDidMount() {
     const { currentUser, data } = this.props;
+
+    let title;
     const typeData = await Case.caseTypes();
     const statusData = await Case.statuses();
     const priorityData = await Case.priorities();
@@ -56,7 +58,7 @@ class InnerCaseForm extends Component {
     if (id) {
       await this.loadCase(id);
 
-      document.title = `${this.props.values.subject} - Lily`;
+      title = `${this.props.values.subject} - Lily`;
     } else {
       this.props.setFieldValue('assignedToTeams', currentUser.teams);
       this.props.setFieldValue('assignedTo', currentUser);
@@ -72,7 +74,11 @@ class InnerCaseForm extends Component {
         });
       }
 
-      document.title = 'Add case - Lily';
+      title = 'Add case - Lily';
+    }
+
+    if (!this.props.sidebar) {
+      document.title = title;
     }
 
     this.setState({ loading: false });

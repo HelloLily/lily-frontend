@@ -106,22 +106,24 @@ export default async function setupActivityStream(
   });
 
   if (['account', 'contact'].includes(model)) {
-    const cases = await getCases();
+    let cases = await getCases();
+
+    if (parentObject && parentObject.contentType.model === 'case') {
+      // Filter out the object that's being viewed if we're dealing with a child activity stream.
+      cases = cases.filter(caseObj => caseObj.id !== parentObject.id);
+    }
 
     cases.forEach(async caseObj => {
-      // Filter out the object that's being viewed if we're dealing with a child activity stream.
-      if (!parentObject || (parentObject && caseObj.id !== parentObject.id)) {
-        // TODO: Temporary code since these are still Elasticsearch results.
-        caseObj.contentType = {
-          id: caseObj.contentType,
-          model: 'case',
-          appLabel: 'cases'
-        };
+      // TODO: Temporary code since these are still Elasticsearch results.
+      caseObj.contentType = {
+        id: caseObj.contentType,
+        model: 'case',
+        appLabel: 'cases'
+      };
 
-        caseObj.notes = [];
+      caseObj.notes = [];
 
-        activityStream.push(caseObj);
-      }
+      activityStream.push(caseObj);
     });
 
     const caseIds = cases.map(caseObj => caseObj.id);
@@ -135,22 +137,24 @@ export default async function setupActivityStream(
       });
     });
 
-    const deals = await getDeals();
+    let deals = await getDeals();
+
+    if (parentObject && parentObject.contentType.model === 'case') {
+      // Filter out the object that's being viewed if we're dealing with a child activity stream.
+      deals = deals.filter(deal => deal.id !== parentObject.id);
+    }
 
     deals.forEach(async deal => {
-      // Filter out the object that's being viewed if we're dealing with a child activity stream.
-      if (!parentObject || (parentObject && deal.id !== parentObject.id)) {
-        // TODO: Temporary code since these are still Elasticsearch results.
-        deal.contentType = {
-          id: deal.contentType,
-          model: 'deal',
-          appLabel: 'deals'
-        };
+      // TODO: Temporary code since these are still Elasticsearch results.
+      deal.contentType = {
+        id: deal.contentType,
+        model: 'deal',
+        appLabel: 'deals'
+      };
 
-        deal.notes = [];
+      deal.notes = [];
 
-        activityStream.push(deal);
-      }
+      activityStream.push(deal);
     });
 
     const dealIds = deals.map(deal => deal.id);

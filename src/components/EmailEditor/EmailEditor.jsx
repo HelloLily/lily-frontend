@@ -612,8 +612,8 @@ class EmailEditor extends Component {
   };
 
   render() {
-    const { fixed } = this.props;
     const { showCcInput, showBccInput } = this.state;
+    const { fixed } = this.props;
     const className = fixed ? 'editor fixed' : 'editor no-border';
     const recipientProps = {
       styles,

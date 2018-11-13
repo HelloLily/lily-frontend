@@ -53,12 +53,13 @@ class InnerAccountForm extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
 
+    let title;
     const statusResponse = await Account.statuses();
 
     if (id) {
       await this.loadAccount(id);
 
-      document.title = `${this.props.values.name} - Lily`;
+      title = `${this.props.values.name} - Lily`;
     } else {
       const relation = statusResponse.results.find(
         status => status.name === ACCOUNT_RELATION_STATUS
@@ -92,7 +93,11 @@ class InnerAccountForm extends Component {
         }
       }
 
-      document.title = `Add account - Lily`;
+      title = `Add account - Lily`;
+    }
+
+    if (!this.props.sidebar) {
+      document.title = title;
     }
 
     this.props.setFieldValue('assignedTo', this.props.currentUser);

@@ -46,12 +46,18 @@ class InnerContactForm extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
 
+    let title;
+
     if (id) {
       await this.loadContact(id);
 
-      document.title = `${this.props.values.fullName} - Lily`;
+      title = `${this.props.values.fullName} - Lily`;
     } else {
-      document.title = 'Add contact - Lily';
+      title = 'Add contact - Lily';
+    }
+
+    if (!this.props.sidebar) {
+      document.title = title;
     }
 
     const { data } = this.props;

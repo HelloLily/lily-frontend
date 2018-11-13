@@ -55,6 +55,7 @@ class InnerDealForm extends Component {
   async componentDidMount() {
     const { currentUser, data, setFieldValue } = this.props;
 
+    let title;
     const nextStepResponse = await Deal.nextSteps();
     const foundThroughResponse = await Deal.foundThrough();
     const contactedByResponse = await Deal.contactedBy();
@@ -82,7 +83,7 @@ class InnerDealForm extends Component {
     if (id) {
       await this.loadDeal(id);
 
-      document.title = `${this.props.values.name} - Lily`;
+      title = `${this.props.values.name} - Lily`;
     } else {
       setFieldValue('assignedToTeams', currentUser.teams);
       setFieldValue('assignedTo', currentUser);
@@ -97,7 +98,11 @@ class InnerDealForm extends Component {
         });
       }
 
-      document.title = 'Add deal - Lily';
+      title = 'Add deal - Lily';
+    }
+
+    if (!this.props.sidebar) {
+      document.title = title;
     }
 
     this.setState({ loading: false });
