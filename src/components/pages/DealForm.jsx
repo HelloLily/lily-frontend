@@ -26,6 +26,7 @@ import TagField from 'components/Fields/TagField';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Utils from 'models/Utils';
+import Tenant from 'models/Tenant';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import User from 'models/User';
@@ -37,6 +38,8 @@ class InnerDealForm extends Component {
     super(props);
 
     this.originalDate = props.values.id ? new Date(props.values.nextStepDate) : new Date();
+    const tenantId = props.currentUser.tenant.id;
+    this.showQuoteSection = Tenant.isVoysNL(tenantId) || Tenant.isVoysZA(tenantId);
 
     this.state = {
       nextSteps: [],
@@ -546,19 +549,21 @@ class InnerDealForm extends Component {
                         )}
                       </div>
 
-                      <div className={`form-field${errors.quoteId ? ' has-error' : ''}`}>
-                        <label htmlFor="name">Freedom quote ID</label>
-                        <input
-                          id="quoteId"
-                          type="text"
-                          className="hl-input"
-                          placeholder="Freedom quote ID"
-                          value={values.quoteId}
-                          onChange={handleChange}
-                        />
+                      {this.showQuoteSection && (
+                        <div className={`form-field${errors.quoteId ? ' has-error' : ''}`}>
+                          <label htmlFor="name">Freedom quote ID</label>
+                          <input
+                            id="quoteId"
+                            type="text"
+                            className="hl-input"
+                            placeholder="Freedom quote ID"
+                            value={values.quoteId}
+                            onChange={handleChange}
+                          />
 
-                        {errors.quoteId && <div className="error-message">{errors.quoteId}</div>}
-                      </div>
+                          {errors.quoteId && <div className="error-message">{errors.quoteId}</div>}
+                        </div>
+                      )}
                     </FormSection>
 
                     <FormSection header="What's the status?">

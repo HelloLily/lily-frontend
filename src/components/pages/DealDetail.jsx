@@ -16,6 +16,7 @@ import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import ActivityStream from 'components/ActivityStream';
 import LilyTooltip from 'components/LilyTooltip';
+import Tenant from 'models/Tenant';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import Deal from 'models/Deal';
@@ -29,6 +30,10 @@ class DealDetail extends Component {
     );
 
     this.hasPandaDoc = hasPandaDoc;
+
+    const tenantId = props.currentUser.tenant.id;
+    this.isVoysNL = Tenant.isVoysNL(tenantId);
+    this.showQuoteSection = this.isVoysNL || Tenant.isVoysZA(tenantId);
 
     this.state = {
       deal: null,
@@ -64,7 +69,7 @@ class DealDetail extends Component {
     document.title = `${deal.name} - Lily`;
   }
 
-  toggleArchive = () => {
+  toggleArchive = async () => {
     const { deal } = this.state;
     const isArchived = !deal.isArchived;
 
@@ -73,14 +78,13 @@ class DealDetail extends Component {
       isArchived
     };
 
-    this.submitCallback(args).then(() => {
-      deal.isArchived = isArchived;
+    await this.submitCallback(args);
+    deal.isArchived = isArchived;
 
-      this.setState({ deal });
-    });
+    this.setState({ deal });
   };
 
-  changeStatus = status => {
+  changeStatus = async status => {
     const { deal } = this.state;
 
     const args = {
@@ -88,19 +92,24 @@ class DealDetail extends Component {
       status: status.id
     };
 
-    this.submitCallback(args).then(() => {
-      deal.status = status;
+    await this.submitCallback(args);
+    deal.status = status;
 
-      this.setState({ deal });
-    });
+    this.setState({ deal });
   };
 
   submitCallback = async args => {
+    const { deal } = this.state;
     this.setState({ loading: true });
 
-    await updateModel(this.state.deal, args);
+    await updateModel(deal, args);
 
-    this.setState({ loading: false });
+    if (args.hasOwnProperty('quoteId')) {
+      // Quote ID doesn't seem to be updated automatically, so update it manually.
+      deal.quoteId = args.quoteId;
+    }
+
+    this.setState({ deal, loading: false });
   };
 
   render() {
@@ -190,6 +199,34 @@ class DealDetail extends Component {
                       <div>Closed date</div>
                       <div>
                         <LilyDate date={deal.closedDate} />
+                      </div>
+                    </div>
+                  )}
+
+                  {this.showQuoteSection && (
+                    <div className="detail-row">
+                      <div>Quote</div>
+                      <div className="has-editable">
+                        <Editable
+                          type="text"
+                          field="quoteId"
+                          object={deal}
+                          submitCallback={this.submitCallback}
+                        >
+                          {deal.quoteId ? (
+                            <a
+                              href={`https://freedom.voys.${
+                                this.isVoysNL ? 'nl' : 'co.za'
+                              }/quotes/pdf/${deal.quoteId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {deal.quoteId}
+                            </a>
+                          ) : (
+                            <span className="editable-empty">No quote ID</span>
+                          )}
+                        </Editable>
                       </div>
                     </div>
                   )}
