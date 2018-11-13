@@ -139,13 +139,18 @@ class MyCases extends Component {
               </td>
               <td>
                 {newlyAssigned && (
-                  <button
-                    className="hl-primary-btn round"
-                    onClick={() => this.acceptCase(item)}
-                    data-tip={acceptTooltip}
-                  >
-                    <FontAwesomeIcon icon="check" />
-                  </button>
+                  <React.Fragment>
+                    <button
+                      className="hl-primary-btn round"
+                      onClick={() => this.acceptCase(item)}
+                      data-tip={acceptTooltip}
+                      data-for={`case-${item.id}-accept`}
+                    >
+                      <FontAwesomeIcon icon="check" />
+                    </button>
+
+                    <LilyTooltip id={`case-${item.id}-accept`} />
+                  </React.Fragment>
                 )}
               </td>
             </tr>
@@ -196,8 +201,6 @@ class MyCases extends Component {
         )}
 
         {loading && <LoadingIndicator />}
-
-        <LilyTooltip />
       </ContentBlock>
     );
   }

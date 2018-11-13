@@ -210,11 +210,11 @@ class Editable extends Component {
 
   render() {
     const { editing, submitting, error } = this.state;
-    const { field, type, multi } = this.props;
+    const { object, field, type, multi } = this.props;
     const config = Object.assign({}, this.selectConfig);
 
     if (field === 'status') {
-      config.model = `${this.props.object.contentType.appLabel}${config.model}`;
+      config.model = `${object.contentType.appLabel}${config.model}`;
     }
 
     let { value } = this.state;
@@ -303,13 +303,14 @@ class Editable extends Component {
 
         if (this.props.icon) {
           const tooltip = this.props.hideValue ? display : '';
+          const tooltipId = `icon-${object.id}-${field}`;
 
           display = (
-            <span data-tip={tooltip}>
+            <span data-tip={tooltip} data-for={tooltipId}>
               <i className={`${this.createIconLabel(value)} m-r-5`} />
 
               {/* Add a tooltip if the value isn't shown */}
-              {!this.props.hideValue ? display : <LilyTooltip />}
+              {!this.props.hideValue ? display : <LilyTooltip id={tooltipId} />}
             </span>
           );
         }

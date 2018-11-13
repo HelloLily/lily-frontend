@@ -1,25 +1,25 @@
 import React from 'react';
 import { withNamespaces } from 'react-i18next';
 
+import withContext from 'src/withContext';
 import LilyTooltip from 'components/LilyTooltip';
 import './feature_unavailable.scss';
 
 const ObjectLimit = props => {
-  const { model, t } = props;
+  const { currentUser, model, t } = props;
 
   const tooltip = t('limitReached', { model });
-  // TODO: Change to actual value.
-  const isDisabled = false;
+  const isDisabled = currentUser.limitReached ? currentUser.limitReached[model] : false;
 
   return (
     <React.Fragment>
       {isDisabled ? (
         <React.Fragment>
-          <span data-tip={tooltip}>
+          <span data-tip={tooltip} data-for={`${model}-limit`}>
             <span className="is-disabled">{props.children}</span>
           </span>
 
-          <LilyTooltip />
+          <LilyTooltip id={`${model}-limit`} />
         </React.Fragment>
       ) : (
         <React.Fragment>{props.children}</React.Fragment>
@@ -28,4 +28,4 @@ const ObjectLimit = props => {
   );
 };
 
-export default withNamespaces('tooltips')(ObjectLimit);
+export default withNamespaces('tooltips')(withContext(ObjectLimit));

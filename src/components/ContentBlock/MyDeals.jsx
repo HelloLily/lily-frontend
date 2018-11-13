@@ -139,13 +139,18 @@ class MyDeals extends Component {
               </td>
               <td>
                 {newlyAssigned && (
-                  <button
-                    className="hl-primary-btn round"
-                    onClick={() => this.acceptDeal(item)}
-                    data-tip={acceptTooltip}
-                  >
-                    <FontAwesomeIcon icon="check" />
-                  </button>
+                  <React.Fragment>
+                    <button
+                      className="hl-primary-btn round"
+                      onClick={() => this.acceptDeal(item)}
+                      data-tip={acceptTooltip}
+                      data-for={`deal-${item.id}-accept`}
+                    >
+                      <FontAwesomeIcon icon="check" />
+                    </button>
+
+                    <LilyTooltip id={`deal-${item.id}-accept`} />
+                  </React.Fragment>
                 )}
               </td>
             </tr>
@@ -195,8 +200,6 @@ class MyDeals extends Component {
             <p>{t('emptyStates:dashboard.myDeals')}</p>
           </div>
         )}
-
-        <LilyTooltip />
       </ContentBlock>
     );
   }

@@ -44,7 +44,8 @@ class Postpone extends Component {
   };
 
   toggleDatepicker = () => {
-    this.setState({ datepickerOpen: !this.state.datepickerOpen });
+    const { datepickerOpen } = this.state;
+    this.setState({ datepickerOpen: !datepickerOpen });
   };
 
   formatDate = dateObject => format(dateObject, FORM_DATE_FORMAT);
@@ -101,19 +102,26 @@ class Postpone extends Component {
 
   render() {
     const { date, menuOpen, datepickerOpen, dateInput, submitting } = this.state;
-    const { field, t } = this.props;
+    const { object, field, t } = this.props;
     const { PostponeButton } = this;
+
+    const tooltipId = `item-${object.id}-${field}`;
 
     return (
       <React.Fragment>
         <div className="postpone" ref={this.postponeRef}>
-          <button className="hl-primary-btn-link" data-tip={t('postpone')} onClick={this.showMenu}>
+          <button
+            className="hl-primary-btn-link"
+            data-tip={t('postpone')}
+            data-for={tooltipId}
+            onClick={this.showMenu}
+          >
             <i className="lilicon hl-postpone-icon m-r-5" />
 
             <LilyDate date={date} />
           </button>
 
-          <LilyTooltip />
+          <LilyTooltip id={tooltipId} />
 
           {menuOpen ? (
             <div className="postpone-container" ref={this.postponeContainer}>

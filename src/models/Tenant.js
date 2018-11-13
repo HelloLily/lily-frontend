@@ -9,8 +9,8 @@ class Tenant {
     return patch(`/tenants/${data.id}/`, data);
   }
 
-  objectCounts() {
-    return get(`/tenants/object_counts`);
+  info() {
+    return get(`/tenants/info`);
   }
 
   isVoysNL(id) {

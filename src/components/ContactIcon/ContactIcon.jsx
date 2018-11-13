@@ -7,7 +7,7 @@ import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT } from 'lib/constants';
 import LilyTooltip from 'components/LilyTooltip';
 
 const ContactIcon = props => {
-  const { status } = props.emailMessage;
+  const { id, status } = props.emailMessage;
   const { t, tReady } = props;
 
   let icon;
@@ -36,9 +36,11 @@ const ContactIcon = props => {
 
   return (
     <React.Fragment>
-      <div data-tip={tooltip}>{icon}</div>
+      <div data-tip={tooltip} data-for={`status-${id}`}>
+        {icon}
+      </div>
 
-      <LilyTooltip />
+      <LilyTooltip id={`status-${id}`} />
     </React.Fragment>
   );
 };

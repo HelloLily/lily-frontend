@@ -77,15 +77,14 @@ class ContactListWidget extends Component {
                       )}
                     </td>
                     <td>
-                      {item.primaryEmail &&
-                        object.primaryEmail && (
-                          <div>
-                            <i className="lilicon hl-company-icon m-r-5" />
-                            <Link to={`/email/compose/${object.primaryEmail.emailAddress}`}>
-                              {object.primaryEmail.emailAddress}
-                            </Link>
-                          </div>
-                        )}
+                      {item.primaryEmail && object.primaryEmail && (
+                        <div>
+                          <i className="lilicon hl-company-icon m-r-5" />
+                          <Link to={`/email/compose/${object.primaryEmail.emailAddress}`}>
+                            {object.primaryEmail.emailAddress}
+                          </Link>
+                        </div>
+                      )}
 
                       {item.primaryEmail && (
                         <div>
@@ -95,20 +94,20 @@ class ContactListWidget extends Component {
                         </div>
                       )}
 
-                      {!item.phoneNumber &&
-                        object.phoneNumber && (
-                          <div>
-                            <i
-                              className="lilicon hl-company-icon m-r-5"
-                              data-tip={t('contactListInfoTooltip')}
-                            />
-                            <a href={`tel:${object.phoneNumber.number}`}>
-                              {object.phoneNumber.number}
-                            </a>
+                      {!item.phoneNumber && object.phoneNumber && (
+                        <div>
+                          <i
+                            className="lilicon hl-company-icon m-r-5"
+                            data-tip={t('contactListInfoTooltip')}
+                            data-for={`contact-${item.id}`}
+                          />
+                          <a href={`tel:${object.phoneNumber.number}`}>
+                            {object.phoneNumber.number}
+                          </a>
 
-                            <LilyTooltip />
-                          </div>
-                        )}
+                          <LilyTooltip id={`contact-${item.id}`} />
+                        </div>
+                      )}
 
                       {item.phoneNumber && (
                         <div>

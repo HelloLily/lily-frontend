@@ -85,18 +85,24 @@ class ContactList extends Component {
           <React.Fragment key={account.id}>
             {!contact.primaryEmail && account.primaryEmail && (
               <React.Fragment>
-                <i className="lilicon hl-company-icon" data-tip={tooltip} />
+                <i
+                  className="lilicon hl-company-icon"
+                  data-tip={tooltip}
+                  data-for={`account-${account.id}-email`}
+                />
                 <Link to={`/email/compose/${account.primaryEmail.emailAddress}`}>
                   <span> {account.primaryEmail.emailAddress}</span>
                 </Link>
+
+                <LilyTooltip id={`account-${account.id}-email`} />
               </React.Fragment>
             )}
             {!contact.phoneNumber && account.phoneNumber && (
               <React.Fragment>
                 {account.phoneNumber.type === MOBILE_PHONE_TYPE ||
-                account.phoneNumber.type === 'work' ? (
+                account.phoneNumber.type === WORK_PHONE_TYPE ? (
                   <React.Fragment>
-                    <span data-tip={tooltip}>
+                    <span data-tip={tooltip} data-for={`account-${account.id}-phone`}>
                       {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
                         <FontAwesomeIcon icon="mobile" />
                       ) : (
@@ -107,14 +113,14 @@ class ContactList extends Component {
                     <a href={`tel:${account.phoneNumber.number}`}>
                       <span> {account.phoneNumber.number}</span>
                     </a>
+
+                    <LilyTooltip id={`account-${account.id}-phone`} />
                   </React.Fragment>
                 ) : null}
               </React.Fragment>
             )}
           </React.Fragment>
         ))}
-
-        <LilyTooltip />
       </React.Fragment>
     );
   };

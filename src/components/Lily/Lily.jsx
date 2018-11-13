@@ -46,9 +46,11 @@ class Lily extends Component {
 
   async componentDidMount() {
     const currentUser = await User.me();
-    const objectCountResponse = await Tenant.objectCounts();
+    const tenantInfoResponse = await Tenant.info();
+    const tenantInfo = tenantInfoResponse.results;
 
-    currentUser.objectCounts = { ...objectCountResponse.results };
+    currentUser.objectCounts = { ...tenantInfo.objectCounts };
+    currentUser.limitReached = tenantInfo.limitReached ? { ...tenantInfo.limitReached } : null;
 
     this.props.setCurrentUser(currentUser);
 
