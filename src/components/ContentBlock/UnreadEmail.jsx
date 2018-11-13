@@ -110,8 +110,8 @@ class UnreadEmail extends Component {
                   <LilyDate date={item.sentDate} showTime />
                 </td>
                 <td>
-                  <Link to={`/email/${item.id}`} className="hl-primary-btn borderless">
-                    <FontAwesomeIcon icon="envelope" />
+                  <Link to={`/email/compose/${item.id}`} className="hl-primary-btn borderless">
+                    <FontAwesomeIcon icon="reply" />
                   </Link>
                 </td>
               </tr>

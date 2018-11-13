@@ -528,6 +528,9 @@ class EmailEditor extends Component {
 
     const recipientsValid = this.checkRecipientValidity();
 
+    // Block the parent UI.
+    this.props.setSending(true);
+
     if (!recipientsValid) {
       // Don't submit and show errors.
       return;

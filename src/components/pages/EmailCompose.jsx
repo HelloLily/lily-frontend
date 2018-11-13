@@ -1,27 +1,40 @@
 import React, { Component } from 'react';
 
 import EmailEditor from 'components/EmailEditor';
+import BlockUI from 'components/Utils/BlockUI';
 
 class EmailCompose extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isSending: false
+    };
+
     document.title = 'Compose email - Lily';
   }
 
-  render() {
-    return (
-      <div className="content-block-container">
-        <div className="content-block">
-          <div className="content-block-header">
-            <div className="content-block-name">Compose</div>
-          </div>
+  setSending = isSending => {
+    this.setState({ isSending });
+  };
 
-          <div className="content-block-content no-padding">
-            <EmailEditor />
+  render() {
+    const { isSending } = this.state;
+
+    return (
+      <BlockUI blocking={isSending}>
+        <div className="content-block-container">
+          <div className="content-block">
+            <div className="content-block-header">
+              <div className="content-block-name">Compose</div>
+            </div>
+
+            <div className="content-block-content no-padding">
+              <EmailEditor setSending={this.setSending} />
+            </div>
           </div>
         </div>
-      </div>
+      </BlockUI>
     );
   }
 }

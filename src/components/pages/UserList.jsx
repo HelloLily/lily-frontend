@@ -110,8 +110,8 @@ class UserList extends Component {
     this.setState({ columns });
   };
 
-  handleSearch = event => {
-    this.setState({ query: event.target.value }, this.loadItems);
+  handleSearch = query => {
+    this.setState({ query }, this.loadItems);
   };
 
   loadItems = async () => {
@@ -273,7 +273,7 @@ class UserList extends Component {
               })}
             </div>
 
-            <SearchBar query={query} handleSearch={this.handleSearch} />
+            <SearchBar query={query} searchCallback={this.handleSearch} />
           </div>
 
           <table className="hl-table">

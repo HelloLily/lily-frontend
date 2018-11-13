@@ -92,8 +92,8 @@ class AccountList extends Component {
     this.setState({ columns });
   };
 
-  handleSearch = event => {
-    this.setState({ query: event.target.value }, this.loadItems);
+  handleSearch = query => {
+    this.setState({ query }, this.loadItems);
   };
 
   loadItems = async () => {
@@ -162,7 +162,7 @@ class AccountList extends Component {
 
             <div className="flex-grow" />
 
-            <SearchBar query={query} handleSearch={this.handleSearch} />
+            <SearchBar query={query} searchCallback={this.handleSearch} />
           </div>
           <table className="hl-table">
             <thead>

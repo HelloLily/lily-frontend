@@ -98,8 +98,8 @@ class EmailMessages extends Component {
     return header;
   };
 
-  handleSearch = event => {
-    this.setState({ query: event.target.value }, this.loadItems);
+  handleSearch = query => {
+    this.setState({ query }, this.loadItems);
   };
 
   setPage = async page => {
@@ -368,7 +368,7 @@ class EmailMessages extends Component {
 
               <div className="flex-grow" />
 
-              <SearchBar query={query} handleSearch={this.handleSearch} />
+              <SearchBar query={query} searchCallback={this.handleSearch} />
             </div>
 
             <table className="hl-table">
@@ -423,8 +423,9 @@ class EmailMessages extends Component {
                       <td>{emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}</td> */}
                       <td className="navigation-cell">
                         <Link to={`/email/${emailMessage.id}`}>
-                          {emailMessage.history &&
-                            emailMessage.history.repliedWith && <FontAwesomeIcon icon="reply" />}
+                          {emailMessage.history && emailMessage.history.repliedWith && (
+                            <FontAwesomeIcon icon="reply" />
+                          )}
                         </Link>
                       </td>
                       <td className="navigation-cell">
