@@ -31,10 +31,6 @@ class Contact {
   exists() {
     return get('/contacts/exists/');
   }
-
-  import(data) {
-    return post('/contacts/import/', data);
-  }
 }
 
 export default new Contact();

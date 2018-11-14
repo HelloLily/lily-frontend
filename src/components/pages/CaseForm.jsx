@@ -397,9 +397,9 @@ class InnerCaseForm extends Component {
                             return (
                               <button
                                 key={priority.id}
-                                type="button"
                                 className={`hl-primary-btn ${priority.name.toLowerCase()}-priority`}
                                 onClick={() => this.handlePriority(priority)}
+                                type="button"
                               >
                                 <label
                                   className={`radio-button${

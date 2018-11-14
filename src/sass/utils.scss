@@ -83,6 +83,10 @@ $sides: (top, bottom, left, right);
     align-items: center;
   }
 
+  .display-none {
+    display: none;
+  }
+
   .flex-grow {
     flex-grow: 1;
   }

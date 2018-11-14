@@ -56,10 +56,6 @@ class Account {
   exists() {
     return get('/accounts/exists/');
   }
-
-  import(data) {
-    return post('/accounts/import/', data);
-  }
 }
 
 export default new Account();

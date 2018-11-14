@@ -1,4 +1,4 @@
-import { get } from 'src/lib/api';
+import { get, post } from 'src/lib/api';
 
 class Utils {
   countries() {
@@ -7,6 +7,10 @@ class Utils {
 
   currencies() {
     return get('/utils/currencies/');
+  }
+
+  import(data) {
+    return post('/import/', data, true);
   }
 }
 

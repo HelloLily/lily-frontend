@@ -4,7 +4,7 @@
     "credentials": "same-origin",
     "method": "GET",
     "headers": {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
       "X-csrftoken": "random"
     }
   },

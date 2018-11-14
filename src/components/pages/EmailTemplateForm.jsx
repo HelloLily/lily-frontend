@@ -195,8 +195,8 @@ class InnerEmailTemplateForm extends Component {
 
                       <button
                         className="hl-primary-btn m-l-10"
-                        type="button"
                         onClick={this.insertVariable}
+                        type="button"
                       >
                         Insert
                       </button>

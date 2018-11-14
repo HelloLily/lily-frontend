@@ -10,6 +10,7 @@
     "@fortawesome/pro-solid-svg-icons": "^5.5.0",
     "@fortawesome/react-fontawesome": "^0.1.0-11",
     "@uppy/core": "^0.28.0",
+    "@uppy/file-input": "^0.28.0",
     "@uppy/react": "^0.28.0",
     "@uppy/xhr-upload": "^0.28.0",
     "bundle-loader": "^0.5.6",

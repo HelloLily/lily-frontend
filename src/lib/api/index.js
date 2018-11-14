@@ -41,12 +41,19 @@ export function get(path, params, _options) {
   return promise;
 }
 
-export function post(path, body) {
+export function post(path, body, hasFiles = false) {
   const { uri, options } = setupRequestOptions(path, { body, method: 'POST' });
 
+  if (hasFiles) {
+    // Delete the Content-Type header so fetch can send files.
+    delete options.headers['Content-Type'];
+  }
+
   if (options.body && typeof options.body === 'object') {
-    const data = convertKeys(options.body, true);
-    options.body = JSON.stringify(data);
+    if (!hasFiles) {
+      const data = convertKeys(options.body, true);
+      options.body = JSON.stringify(data);
+    }
   }
 
   const promise = fetch(uri, options).then(handleResponse);

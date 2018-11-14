@@ -99,8 +99,8 @@ class InnerWebhookForm extends Component {
                             <div className="form-related-actions">
                               <button
                                 className="hl-primary-btn"
-                                type="button"
                                 onClick={() => this.toggleDelete(index)}
+                                type="button"
                               >
                                 {webhook.isDeleted ? (
                                   <FontAwesomeIcon icon="undo" />

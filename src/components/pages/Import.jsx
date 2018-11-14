@@ -6,46 +6,66 @@ import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Form/FormSection';
-import Account from 'models/Account';
-import Contact from 'models/Contact';
+import Utils from 'models/Utils';
 
-class TokenForm extends Component {
+class Import extends Component {
   constructor(props) {
     super(props);
 
-    this.fileAccountsRef = React.createRef();
-    this.fileContactsRef = React.createRef();
+    this.accountFileRef = React.createRef();
+
+    this.state = {
+      accountError: null,
+      contactError: null
+    };
 
     document.title = 'Import - Lily';
   }
 
   importAccounts = async () => {
     const { t } = this.props;
-    const data = { csv: this.fileAccountsRef.current.files[0] };
+
+    this.setState({ accountError: null });
+
+    const csv = this.accountFileRef.current.files[0];
+    const formData = new FormData();
+
+    formData.append('csv', csv);
+    formData.append('import_type', 'account');
 
     try {
-      await Account.import(data);
+      await Utils.import(formData);
 
       successToast(t('toasts:accountImportSuccess'));
     } catch (error) {
+      this.setState({ accountError: error.data.importFile });
       errorToast(t('toasts:error'));
     }
   };
 
   importContacts = async () => {
     const { t } = this.props;
-    const data = { csv: this.fileContactsRef.current.files[0] };
+
+    this.setState({ contactError: null });
+
+    const csv = this.contactFileRef.current.files[0];
+    const formData = new FormData();
+
+    formData.append('csv', csv);
+    formData.append('import_type', 'contact');
 
     try {
-      await Contact.import(data);
+      await Utils.import(formData);
 
       successToast(t('toasts:contactImportSuccess'));
     } catch (error) {
+      this.setState({ contactError: error.data.importFile });
       errorToast(t('toasts:error'));
     }
   };
 
   render() {
+    const { accountError, contactError } = this.state;
     const { t } = this.props;
 
     return (
@@ -81,21 +101,16 @@ class TokenForm extends Component {
                 </ul>
 
                 <div className="m-t-15">
-                  <input
-                    id="fileAccounts"
-                    type="file"
-                    accept="text/csv"
-                    ref={this.fileAccountsRef}
-                  />
-
-                  {/* {errors.fileAccounts && <div className="error-message">{errors.fileAccounts}</div>} */}
-
-                  <p className="text-muted small m-t-5">Maximum file size is 2mb.</p>
+                  <input id="accountFile" type="file" accept="text/csv" ref={this.accountFileRef} />
                 </div>
 
                 <button className="hl-primary-btn-blue m-t-10" onClick={this.importAccounts}>
                   <FontAwesomeIcon icon="upload" /> Import
                 </button>
+
+                <div className="m-t-10">
+                  {accountError && <div className="error-message">{accountError}</div>}
+                </div>
               </FormSection>
 
               <FormSection header="Import contacts">
@@ -123,21 +138,16 @@ class TokenForm extends Component {
                 </ul>
 
                 <div className="m-t-15">
-                  <input
-                    id="fileContacts"
-                    type="file"
-                    accept="text/csv"
-                    ref={this.fileContactsRef}
-                  />
-
-                  {/* {errors.fileContacts && <div className="error-message">{errors.fileContacts}</div>} */}
-
-                  <p className="text-muted small m-t-5">Maximum file size is 2mb.</p>
+                  <input id="contactFile" type="file" accept="text/csv" ref={this.contactFileRef} />
                 </div>
 
-                <button className="hl-primary-btn-blue m-t-10">
+                <button className="hl-primary-btn-blue m-t-10" onClick={this.importContacts}>
                   <FontAwesomeIcon icon="upload" /> Import
                 </button>
+
+                <div className="m-t-10">
+                  {contactError && <div className="error-message">{contactError}</div>}
+                </div>
               </FormSection>
             </div>
           </div>
@@ -147,4 +157,4 @@ class TokenForm extends Component {
   }
 }
 
-export default withNamespaces(['preferences', 'toasts'])(withContext(TokenForm));
+export default withNamespaces(['preferences', 'toasts'])(withContext(Import));
