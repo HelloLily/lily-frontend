@@ -91,13 +91,15 @@ class InnerDealForm extends Component {
       setFieldValue('assignedToTeams', currentUser.teams);
       setFieldValue('assignedTo', currentUser);
 
-      if (data.object) {
-        setFieldValue(data.object.contentType.model, data.model);
-      }
+      if (data) {
+        setFieldValue('description', data.emailMessageLink);
 
-      if (this.props.data) {
-        Object.keys(this.props.data).forEach(key => {
-          setFieldValue(key, this.props.data[key]);
+        if (data.account) {
+          setFieldValue('account', data.account);
+        }
+
+        Object.keys(data).forEach(key => {
+          setFieldValue(key, data[key]);
         });
       }
 

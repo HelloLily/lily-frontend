@@ -20,6 +20,12 @@
       margin-left: -10px;
     }
   }
+
+  .clickable {
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .dropdown-menu-container {

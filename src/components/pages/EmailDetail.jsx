@@ -167,6 +167,7 @@ class EmailDetail extends Component {
       }
 
       if (sidebarType) {
+        sidebarData.emailMessageLink = window.location.href;
         this.props.setSidebar(sidebarType, sidebarData);
       }
     }

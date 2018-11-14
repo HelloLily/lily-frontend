@@ -40,7 +40,7 @@ class InnerCaseForm extends Component {
   }
 
   async componentDidMount() {
-    const { currentUser, data } = this.props;
+    const { currentUser, data, setFieldValue } = this.props;
 
     let title;
     const typeData = await Case.caseTypes();
@@ -60,17 +60,19 @@ class InnerCaseForm extends Component {
 
       title = `${this.props.values.subject} - Lily`;
     } else {
-      this.props.setFieldValue('assignedToTeams', currentUser.teams);
-      this.props.setFieldValue('assignedTo', currentUser);
-      this.props.setFieldValue('status', statusData.results[0]);
+      setFieldValue('assignedToTeams', currentUser.teams);
+      setFieldValue('assignedTo', currentUser);
+      setFieldValue('status', statusData.results[0]);
 
-      if (data.account) {
-        this.props.setFieldValue('account', data.account);
-      }
+      if (data) {
+        setFieldValue('description', data.emailMessageLink);
 
-      if (this.props.data) {
-        Object.keys(this.props.data).forEach(key => {
-          this.props.setFieldValue(key, this.props.data[key]);
+        if (data.account) {
+          setFieldValue('account', data.account);
+        }
+
+        Object.keys(data).forEach(key => {
+          setFieldValue(key, data[key]);
         });
       }
 
@@ -208,7 +210,15 @@ class InnerCaseForm extends Component {
       caseSuggestions,
       showSuggestions
     } = this.state;
-    const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
+    const {
+      values,
+      errors,
+      isSubmitting,
+      handleChange,
+      handleSubmit,
+      setFieldValue,
+      t
+    } = this.props;
 
     return (
       <React.Fragment>
@@ -345,7 +355,7 @@ class InnerCaseForm extends Component {
                           name="type"
                           value={values.type}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('type', value)}
+                          onChange={value => setFieldValue('type', value)}
                           options={caseTypes}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
@@ -364,7 +374,7 @@ class InnerCaseForm extends Component {
                           classNamePrefix="editable-input"
                           value={values.status}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('status', value)}
+                          onChange={value => setFieldValue('status', value)}
                           options={caseStatuses}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
@@ -433,7 +443,7 @@ class InnerCaseForm extends Component {
                         </label>
                         <LilyDatepicker
                           date={values.expires}
-                          onChange={value => this.props.setFieldValue('expires', value)}
+                          onChange={value => setFieldValue('expires', value)}
                           placeholder="Expiry date"
                         />
 
@@ -450,7 +460,7 @@ class InnerCaseForm extends Component {
                           name="assignedToTeams"
                           value={values.assignedToTeams}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('assignedToTeams', value)}
+                          onChange={value => setFieldValue('assignedToTeams', value)}
                           loadOptions={this.searchTeams}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
@@ -469,7 +479,7 @@ class InnerCaseForm extends Component {
                           classNamePrefix="editable-input"
                           value={values.assignedTo}
                           styles={SELECT_STYLES}
-                          onChange={value => this.props.setFieldValue('assignedTo', value)}
+                          onChange={value => setFieldValue('assignedTo', value)}
                           loadOptions={this.searchUsers}
                           getOptionLabel={option => option.fullName}
                           getOptionValue={option => option.id}
