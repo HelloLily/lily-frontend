@@ -46,7 +46,6 @@ class Sidebar extends Component {
 
     // Dynamically decide what form to load.
     const FormComponent = sidebar ? Forms[sidebar] : null;
-
     const className = cx('sidebar', {
       slide: sidebar,
       expanded

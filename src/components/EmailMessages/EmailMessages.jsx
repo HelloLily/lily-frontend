@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
+import { debounce } from 'debounce';
 
-import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT, COMPLETE, TRASH_LABEL } from 'lib/constants';
+import {
+  NEEDS_ALL,
+  NEEDS_CONTACT,
+  NEEDS_ACCOUNT,
+  COMPLETE,
+  TRASH_LABEL,
+  DEBOUNCE_WAIT
+} from 'lib/constants';
 import getColorCode from 'utils/getColorCode';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
@@ -15,6 +23,8 @@ import EmailMessage from 'models/EmailMessage';
 class EmailMessages extends Component {
   constructor(props) {
     super(props);
+
+    this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
     this.state = {
       emailMessages: [],
@@ -99,7 +109,7 @@ class EmailMessages extends Component {
   };
 
   handleSearch = query => {
-    this.setState({ query }, this.loadItems);
+    this.setState({ query }, this.debouncedSearch);
   };
 
   setPage = async page => {

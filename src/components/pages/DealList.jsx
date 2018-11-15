@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
+import { debounce } from 'debounce';
 
-import { NO_SORT_STATUS } from 'lib/constants';
+import { NO_SORT_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
@@ -24,6 +25,7 @@ class DealList extends Component {
     super(props);
 
     this.settings = new Settings('dealList');
+    this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
     const columns = [
       { key: 'name', text: 'Subject', selected: true },
@@ -106,7 +108,7 @@ class DealList extends Component {
   };
 
   handleSearch = query => {
-    this.setState({ query }, this.loadItems);
+    this.setState({ query }, this.debouncedSearch);
   };
 
   loadItems = async () => {

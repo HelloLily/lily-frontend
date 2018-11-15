@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
+import { debounce } from 'debounce';
 
 import {
   INACTIVE_EMAIL_STATUS,
   MOBILE_PHONE_TYPE,
   WORK_PHONE_TYPE,
-  NO_SORT_STATUS
+  NO_SORT_STATUS,
+  DEBOUNCE_WAIT
 } from 'lib/constants';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
@@ -25,6 +27,7 @@ class ContactList extends Component {
     super(props);
 
     this.settings = new Settings('contactList');
+    this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
     const columns = [
       { key: 'name', text: 'Name', selected: true, sort: 'lastName' },
@@ -139,7 +142,7 @@ class ContactList extends Component {
   };
 
   handleSearch = query => {
-    this.setState({ query }, this.loadItems);
+    this.setState({ query }, this.debouncedSearch);
   };
 
   loadItems = async () => {

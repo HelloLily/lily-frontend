@@ -157,6 +157,7 @@ export const DEFAULT_LABELS = [
   { labelId: '', name: 'All mail' }
 ];
 
+// List sorting.
 export const NO_SORT_STATUS = 0;
 export const ASCENDING_STATUS = 1;
 export const DESCENDING_STATUS = 2;
@@ -188,3 +189,5 @@ export const FORWARD_MESSAGE = 4;
 
 export const ENTER_KEY = 13;
 export const ESCAPE_KEY = 27;
+
+export const DEBOUNCE_WAIT = 200;

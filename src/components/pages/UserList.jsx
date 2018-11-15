@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
+import { debounce } from 'debounce';
 
 import withContext from 'src/withContext';
-import { NO_SORT_STATUS } from 'lib/constants';
+import { NO_SORT_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import Editable from 'components/Editable';
 import ColumnDisplay from 'components/List/ColumnDisplay';
@@ -23,6 +24,7 @@ class UserList extends Component {
     super(props);
 
     this.settings = new Settings('userList');
+    this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
     const columns = [
       { key: 'fullName', text: 'Name', selected: true, sort: 'fullName' },
@@ -111,7 +113,7 @@ class UserList extends Component {
   };
 
   handleSearch = query => {
-    this.setState({ query }, this.loadItems);
+    this.setState({ query }, this.debouncedSearch);
   };
 
   loadItems = async () => {

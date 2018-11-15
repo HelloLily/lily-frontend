@@ -72,6 +72,14 @@ class EmailDetail extends Component {
     document.title = 'Email message - Lily';
   }
 
+  componentWillUnmount() {
+    if (!this.props.sidebar) {
+      // Clear the sidebar if it's been closed by the user
+      // and they're navigating away from the email page.
+      this.props.setSidebar(null, {});
+    }
+  }
+
   setupSidebar = async emailMessage => {
     if (emailMessage.sender && emailMessage.sender.emailAddress) {
       const sidebarData = {};
