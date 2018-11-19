@@ -38,7 +38,11 @@ class Postpone extends Component {
         className={`hl-primary-btn borderless${submitting ? ' is-disabled' : ''}`}
         onClick={() => this.submitData(newDate)}
       >
-        {children} (<LilyDate date={newDate} />)
+        {children}
+
+        <div className="float-right">
+          <LilyDate date={newDate} />)
+        </div>
       </button>
     );
   };

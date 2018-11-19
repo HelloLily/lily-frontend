@@ -37,7 +37,7 @@ const TimeLogDisplay = props => {
       )}
 
       {hoursLogged.minutes > 0 && (
-        <span>
+        <span className="m-l-5">
           {hoursLogged.minutes}
 
           <React.Fragment>

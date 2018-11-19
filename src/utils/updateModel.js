@@ -5,7 +5,7 @@ import { successToast, errorToast } from 'utils/toasts';
 
 export default async function updateModel(item, data) {
   try {
-    await patch(`/${item.contentType.appLabel}/${data.id}/`, data);
+    await patch(`/${item.contentType.appLabel}/${item.id}/`, data);
 
     const { model } = item.contentType;
     const text = i18n.t('toasts:modelUpdated', { model });

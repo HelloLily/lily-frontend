@@ -1,72 +1,107 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { format } from 'date-fns';
 
+import { API_DATE_FORMAT } from 'lib/constants';
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
 import TimeLogDisplay from 'components/Utils/TimeLogDisplay';
+import TimeLogModal from 'components/TimeLogModal';
 import StreamAvatar from './StreamAvatar';
 
-const StreamTimeLog = props => {
-  const { item, submitCallback } = props;
+class StreamTimeLog extends Component {
+  constructor(props) {
+    super(props);
 
-  const submitTimeLog = args => submitCallback(item, args);
+    this.state = {
+      modalOpen: false
+    };
+  }
 
-  return (
-    <React.Fragment>
-      <StreamAvatar object={item} field="user" />
+  submit = args => {
+    args.date = format(args.date, API_DATE_FORMAT);
 
-      <div className="stream-item">
-        <div className="stream-item-header">
-          <LilyDate date={item.date} includeTime />
-        </div>
-        <div className="stream-item-title">
-          <div>{item.user.fullName} logged time</div>
+    this.props.submitCallback(this.props.item, args);
+  };
 
-          <div>
-            <button
-              className="hl-primary-btn borderless"
-              onClick={() => props.deleteCallback(item)}
-            >
-              <i className="lilicon hl-trashcan-icon" /> Delete
-            </button>
+  openModal = () => {
+    this.setState({ modalOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ modalOpen: false });
+  };
+
+  render() {
+    const { modalOpen } = this.state;
+    const { item, deleteCallback } = this.props;
+
+    return (
+      <React.Fragment>
+        <StreamAvatar object={item} field="user" />
+
+        <div className="stream-item">
+          <div className="stream-item-header">
+            <LilyDate date={item.date} includeTime />
           </div>
-        </div>
+          <div className="stream-item-title">
+            <div>{item.user.fullName} logged time</div>
 
-        <div className="stream-item-content is-timelog">
-          <div className="stream-item-extra-info">
             <div>
-              <strong>Logged time: </strong>
+              <button className="hl-primary-btn borderless" onClick={this.openModal}>
+                <i className="lilicon hl-edit-icon" /> Edit
+              </button>
 
-              <TimeLogDisplay timeLogs={item} />
+              <button className="hl-primary-btn borderless" onClick={() => deleteCallback(item)}>
+                <i className="lilicon hl-trashcan-icon" /> Delete
+              </button>
+            </div>
+          </div>
+
+          <div className="stream-item-content is-timelog">
+            <div className="stream-item-extra-info">
+              <div>
+                <strong>Logged time: </strong>
+
+                <TimeLogDisplay timeLogs={item} />
+              </div>
+
+              <div>
+                <strong>Billable: </strong>
+
+                {item.billable ? (
+                  <React.Fragment>
+                    <FontAwesomeIcon icon="check" className="green" /> Yes
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <FontAwesomeIcon icon="times" className="red" /> No
+                  </React.Fragment>
+                )}
+              </div>
             </div>
 
-            <div>
-              <strong>Billable: </strong>
-
-              {item.billable ? (
-                <React.Fragment>
-                  <FontAwesomeIcon icon="check" className="green" /> Yes
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <FontAwesomeIcon icon="times" className="red" /> No
-                </React.Fragment>
-              )}
+            <div className="stream-item-body">
+              <Editable
+                type="textarea"
+                object={item}
+                field="content"
+                submitCallback={this.submitTimeLog}
+              />
             </div>
           </div>
 
-          <div className="stream-item-body">
-            <Editable
-              type="textarea"
-              object={item}
-              field="content"
-              submitCallback={submitTimeLog}
-            />
-          </div>
+          <TimeLogModal
+            modalOpen={modalOpen}
+            closeModal={this.closeModal}
+            submitCallback={this.submit}
+            timeLog={item}
+            object={item}
+          />
         </div>
-      </div>
-    </React.Fragment>
-  );
-};
+      </React.Fragment>
+    );
+  }
+}
 
 export default StreamTimeLog;

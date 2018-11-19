@@ -59,11 +59,11 @@ class DeleteConfirmation extends Component {
         <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeModal} alignCenter>
           <div className="modal-content">
             <Trans
-              defaults={t('alerts:delete.confirmText', { name: display })}
+              defaults={t('modals:delete.confirmText', { name: display })}
               components={[<strong>text</strong>]}
             />
             <br />
-            {t('alerts:delete.confirmTextTwo')}
+            {t('modals:delete.confirmTextTwo')}
           </div>
 
           <div className="modal-footer">
@@ -80,4 +80,4 @@ class DeleteConfirmation extends Component {
   }
 }
 
-export default withNamespaces(['alerts', 'toasts'])(DeleteConfirmation);
+export default withNamespaces(['modals', 'toasts'])(DeleteConfirmation);

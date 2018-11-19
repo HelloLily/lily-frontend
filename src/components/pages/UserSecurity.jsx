@@ -145,12 +145,12 @@ class UserSecurity extends Component {
             <LilyModal modalOpen={modalOpen} closeModal={this.closeModal} alignCenter>
               <div className="modal-header">
                 <div className="modal-title">
-                  {t('alerts:preferences.twoFactorAuth.disable.confirmTitle')}
+                  {t('modals:preferences.twoFactorAuth.disable.confirmTitle')}
                 </div>
               </div>
 
               <div className="modal-content">
-                {t('alerts:preferences.twoFactorAuth.disable.confirmText')}
+                {t('modals:preferences.twoFactorAuth.disable.confirmText')}
               </div>
 
               <div className="modal-footer">
@@ -171,4 +171,4 @@ class UserSecurity extends Component {
   }
 }
 
-export default withNamespaces(['alerts', 'preferences', 'toasts'])(UserSecurity);
+export default withNamespaces(['modals', 'preferences', 'toasts'])(UserSecurity);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withNamespaces } from 'react-i18next';
+import Textarea from 'react-textarea-autosize';
 
 import { errorToast, successToast } from 'utils/toasts';
 
@@ -51,11 +52,13 @@ class StreamItemNoteAdd extends Component {
         </div>
 
         <div>
-          <textarea
-            value={note.content}
-            onChange={this.handleContent}
+          <Textarea
             className="hl-input"
             placeholder="Write your note here"
+            minRows={3}
+            maxRows={15}
+            value={note.content}
+            onChange={this.handleContent}
           />
 
           <div className="float-right">

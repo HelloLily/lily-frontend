@@ -109,4 +109,4 @@ class TokenForm extends Component {
   }
 }
 
-export default withNamespaces(['alerts', 'preferences'])(withContext(TokenForm));
+export default withNamespaces(['modals', 'preferences'])(withContext(TokenForm));

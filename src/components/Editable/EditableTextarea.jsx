@@ -1,30 +1,13 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Textarea from 'react-textarea-autosize';
 
 class EditableTextarea extends Component {
-  constructor(props) {
-    super(props);
-
-    this.textareaRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.setHeight();
-  }
-
-  setHeight = () => {
-    // Set the height to 'auto' to properly calculate the scrollHeight.
-    this.textareaRef.current.style.height = 'auto';
-    this.textareaRef.current.style.height = `${this.textareaRef.current.scrollHeight}px`;
-  };
-
   handleSubmit = () => {
     this.props.handleSubmit();
   };
 
   handleChange = event => {
-    this.setHeight();
-
     this.props.handleChange(event.target.value);
   };
 
@@ -33,12 +16,13 @@ class EditableTextarea extends Component {
 
     return (
       <span className="editable-input-wrap editable-stretched">
-        <textarea
+        <Textarea
           autoFocus
           value={value}
           onChange={this.handleChange}
+          minRows={3}
+          maxRows={15}
           className="editable-input editable-has-buttons"
-          ref={this.textareaRef}
         />
 
         <span className="editable-buttons">

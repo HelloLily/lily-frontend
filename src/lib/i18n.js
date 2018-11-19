@@ -5,7 +5,7 @@ import tooltipsEn from 'lib/locales/en/tooltips.json';
 import formsEn from 'lib/locales/en/forms.json';
 import toastsEn from 'lib/locales/en/toasts.json';
 import emptyStatesEn from 'lib/locales/en/empty_states.json';
-import alertsEn from 'lib/locales/en/alerts.json';
+import modalsEn from 'lib/locales/en/modals.json';
 import preferencesEn from 'lib/locales/en/preferences.json';
 
 i18n.use(XHR).init({
@@ -17,7 +17,7 @@ i18n.use(XHR).init({
       forms: formsEn,
       toasts: toastsEn,
       emptyStates: emptyStatesEn,
-      alerts: alertsEn,
+      modals: modalsEn,
       preferences: preferencesEn
     }
   },

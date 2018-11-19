@@ -116,5 +116,7 @@
       }
     }
   },
-  "widgetSettings": "Check/uncheck a widget to toggle the visibility of the widget."
+  "widgetSettings": "Check/uncheck a widget to toggle the visibility of the widget.",
+  "timeLogZeroError": "Please enter a value greater than 0",
+  "timeLogInvalid": "Please enter a valid value"
 }

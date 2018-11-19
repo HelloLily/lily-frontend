@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getYear, getMonth } from 'date-fns';
 import { withNamespaces } from 'react-i18next';
+import Textarea from 'react-textarea-autosize';
 import cx from 'classnames';
 
 import { successToast, errorToast } from 'utils/toasts';
@@ -266,11 +267,13 @@ class ActivityStream extends Component {
               </div>
 
               <div>
-                <textarea
+                <Textarea
                   value={note.content}
                   onChange={this.handleContent}
                   className="hl-input"
                   placeholder="Write your note here"
+                  minRows={3}
+                  maxRows={15}
                 />
 
                 <div className="float-right">

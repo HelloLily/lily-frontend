@@ -81,7 +81,7 @@ class InnerProfileForm extends Component {
       Notification.permission !== 'denied'
     ) {
       // TODO: Implement proper notification.
-      alert(t('alerts:notificationPermission.text'));
+      alert(t('modals:notificationPermission.text'));
       Notification.requestPermission(() => {
         console.log('Accepted');
       });
@@ -277,4 +277,4 @@ const ProfileForm = withRouter(
   })(InnerProfileForm)
 );
 
-export default withNamespaces(['alerts', 'toasts'])(withContext(ProfileForm));
+export default withNamespaces(['modals', 'toasts'])(withContext(ProfileForm));

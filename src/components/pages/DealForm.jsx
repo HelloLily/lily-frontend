@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import { format } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
+import Textarea from 'react-textarea-autosize';
 
 import withContext from 'src/withContext';
 import {
@@ -488,10 +489,11 @@ class InnerDealForm extends Component {
 
                       <div className="form-field">
                         <label htmlFor="description">Description</label>
-                        <textarea
+                        <Textarea
                           id="description"
                           placeholder="Description"
-                          rows="3"
+                          minRows={3}
+                          maxRows={20}
                           value={values.description}
                           onChange={handleChange}
                         />

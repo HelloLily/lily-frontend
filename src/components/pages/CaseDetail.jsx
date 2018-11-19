@@ -8,8 +8,10 @@ import LilyDate from 'components/Utils/LilyDate';
 import Postpone from 'components/Postpone';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
+import TimeLoggingWidget from 'components/ContentBlock/TimeLoggingWidget';
 import ActivityStream from 'components/ActivityStream';
 import BlockUI from 'components/Utils/BlockUI';
+import TimeLog from 'models/TimeLog';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import Case from 'models/Case';
@@ -25,7 +27,8 @@ class CaseDetail extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
     const caseObj = await Case.get(id);
-    const statusRequest = await Case.statuses();
+    const statusResponse = await Case.statuses();
+    const timeLogResponse = await TimeLog.getForObject(caseObj);
 
     if (caseObj.account) {
       caseObj.account = await Account.get(caseObj.account.id, { filterDeleted: false });
@@ -35,7 +38,13 @@ class CaseDetail extends Component {
       caseObj.contact = await Contact.get(caseObj.contact.id, { filterDeleted: false });
     }
 
-    this.setState({ caseObj, caseStatuses: statusRequest.results, loading: false });
+    caseObj.timeLogs = timeLogResponse.results;
+
+    this.setState({
+      caseObj,
+      caseStatuses: statusResponse.results,
+      loading: false
+    });
 
     document.title = `${caseObj.subject} - Lily`;
   }
@@ -200,7 +209,15 @@ class CaseDetail extends Component {
                   </div>
                 </ContentBlock>
 
-                {caseObj.account && <AccountDetailWidget clickable account={caseObj.account} />}
+                {caseObj.account && (
+                  <React.Fragment>
+                    <AccountDetailWidget clickable account={caseObj.account} />
+
+                    <div className="m-b-25" />
+                  </React.Fragment>
+                )}
+
+                <TimeLoggingWidget object={caseObj} />
               </div>
 
               <div className="grid-column-2">
