@@ -103,6 +103,14 @@
   }
 }
 
+.email-detail-widgets {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 25px;
+  grid-auto-rows: min-content;
+}
+
 .star-active {
   &:hover {
     > * {

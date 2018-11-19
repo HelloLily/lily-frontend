@@ -40,8 +40,8 @@ class Postpone extends Component {
       >
         {children}
 
-        <div className="float-right">
-          <LilyDate date={newDate} />)
+        <div className="text-muted float-right">
+          (<LilyDate date={newDate} />)
         </div>
       </button>
     );
@@ -130,7 +130,7 @@ class Postpone extends Component {
           {menuOpen ? (
             <div className="postpone-container" ref={this.postponeContainer}>
               <div className="postpone-buttons">
-                <div className="postpone-header">Postpone the {field} date</div>
+                <div className="postpone-header">{t(`${object.contentType.model}Postpone`)}</div>
 
                 <PostponeButton>Set to today</PostponeButton>
                 <PostponeButton amount={1}>Add 1 day</PostponeButton>

@@ -11,6 +11,7 @@ import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
 import User from 'models/User';
+import LilyModal from '../LilyModal/index';
 
 const Uppy = require('@uppy/core');
 
@@ -33,6 +34,7 @@ class InnerProfileForm extends Component {
     super(props);
 
     this.state = {
+      uppyOpen: false,
       modalOpen: false,
       picturePreview: ''
     };
@@ -73,34 +75,33 @@ class InnerProfileForm extends Component {
   };
 
   handleSubmit = event => {
-    const { t } = this.props;
-
     if (
       'Notification' in window &&
       Notification.permission !== 'granted' &&
       Notification.permission !== 'denied'
     ) {
-      // TODO: Implement proper notification.
-      alert(t('modals:notificationPermission.text'));
-      Notification.requestPermission(() => {
-        console.log('Accepted');
-      });
-    }
+      this.setState({ modalOpen: true });
 
-    this.props.handleSubmit(event);
+      Notification.requestPermission(() => {
+        this.props.handleSubmit(event);
+        this.setState({ modalOpen: false });
+      });
+    } else {
+      this.props.handleSubmit(event);
+    }
   };
 
   openModal = () => {
-    this.setState({ modalOpen: true });
+    this.setState({ uppyOpen: true });
   };
 
   closeModal = () => {
-    this.setState({ modalOpen: false });
+    this.setState({ uppyOpen: false });
   };
 
   render() {
-    const { picturePreview } = this.state;
-    const { values, errors, isSubmitting, handleChange } = this.props;
+    const { picturePreview, uppyOpen, modalOpen } = this.state;
+    const { values, errors, isSubmitting, handleChange, t } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>
@@ -227,7 +228,7 @@ class InnerProfileForm extends Component {
                   </div>
                 </FormSection>
 
-                <FormFooter {...this.props} />
+                <FormFooter {...this.props} handleSubmit={this.handleSubmit} />
 
                 <DashboardModal
                   uppy={uppy}
@@ -235,13 +236,21 @@ class InnerProfileForm extends Component {
                   closeModalOnClickOutside
                   closeAfterFinish
                   showProgressDetails
-                  open={this.state.modalOpen}
+                  open={uppyOpen}
                   onRequestCloseModal={this.closeModal}
                 />
               </form>
             </div>
           </div>
         </div>
+
+        <LilyModal modalOpen={modalOpen} alignCenter>
+          <div className="modal-header">
+            <div className="modal-title">{t('modals:notificationPermission.title')}</div>
+          </div>
+
+          <div className="modal-content">{t('modals:notificationPermission.text')}</div>
+        </LilyModal>
       </BlockUI>
     );
   }

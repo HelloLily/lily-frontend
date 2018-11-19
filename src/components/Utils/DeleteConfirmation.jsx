@@ -57,6 +57,10 @@ class DeleteConfirmation extends Component {
         </button>
 
         <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeModal} alignCenter>
+          <div className="modal-header">
+            <div className="modal-title">{t('modals:delete.confirmTitle')}</div>
+          </div>
+
           <div className="modal-content">
             <Trans
               defaults={t('modals:delete.confirmText', { name: display })}

@@ -10,7 +10,8 @@
 // react-daypicker
 .DayPicker {
   .DayPicker-Day {
-    padding: 0 8px;
+    padding: 1px 8px;
+    line-height: 32px;
 
     &:focus {
       outline: none;

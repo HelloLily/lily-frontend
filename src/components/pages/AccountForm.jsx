@@ -688,15 +688,15 @@ const AccountForm = withRouter(
 
       request
         .then(response => {
-          if (props.closeSidebar) {
-            props.closeSidebar();
-          }
-
           successToast(text);
 
           if (!values.id) window.Intercom('trackEvent', 'account-created');
 
-          props.history.push(`/accounts/${response.id}`);
+          if (props.closeSidebar) {
+            props.closeSidebar();
+          } else {
+            props.history.push(`/accounts/${response.id}`);
+          }
         })
         .catch(errors => {
           errorToast(t('error'));

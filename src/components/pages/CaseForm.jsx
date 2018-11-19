@@ -555,15 +555,15 @@ const CaseForm = withRouter(
 
       request
         .then(response => {
-          if (props.closeSidebar) {
-            props.closeSidebar();
-          }
-
           successToast(text);
 
           if (!values.id) window.Intercom('trackEvent', 'case-created');
 
-          props.history.push(`/cases/${response.id}`);
+          if (props.closeSidebar) {
+            props.closeSidebar();
+          } else {
+            props.history.push(`/cases/${response.id}`);
+          }
         })
         .catch(errors => {
           errorToast(t('toasts:error'));

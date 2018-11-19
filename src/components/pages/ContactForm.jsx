@@ -698,15 +698,15 @@ const ContactForm = withRouter(
 
       request
         .then(response => {
-          if (props.closeSidebar) {
-            props.closeSidebar();
-          }
-
           successToast(text);
 
           if (!values.id) window.Intercom('trackEvent', 'contact-created');
 
-          props.history.push(`/contacts/${response.id}`);
+          if (props.closeSidebar) {
+            props.closeSidebar();
+          } else {
+            props.history.push(`/contacts/${response.id}`);
+          }
         })
         .catch(errors => {
           errorToast(t('toasts:error'));

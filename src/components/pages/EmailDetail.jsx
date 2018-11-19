@@ -6,8 +6,12 @@ import { TRASH_LABEL, PHONE_EMPTY_ROW } from 'lib/constants';
 import withContext from 'src/withContext';
 import LilyDate from 'components/Utils/LilyDate';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
+import ContactListWidget from 'components/ContentBlock/ContactListWidget';
+import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import Dropdown from 'components/Dropdown';
 import Account from 'models/Account';
+import Contact from 'models/Contact';
 import EmailAccount from 'models/EmailAccount';
 import EmailMessage from 'models/EmailMessage';
 
@@ -101,7 +105,7 @@ class EmailDetail extends Component {
       if (response && response.data) {
         if (type === 'account') {
           if (response.data.id) {
-            sidebarData.account = response.data;
+            sidebarData.account = await Account.get(response.data.id);
 
             if (!response.complete) {
               // Account found, but no contact belongs to account, so setup autofill data.
@@ -114,12 +118,12 @@ class EmailDetail extends Component {
           const contact = response.data;
 
           if (contact.id) {
-            sidebarData.contact = response.data;
+            sidebarData.contact = await Contact.get(contact.id);
 
             if (contact.accounts && contact.accounts.length > 0) {
               if (contact.accounts.length === 1) {
                 // Contact is linked to a single account, so autofill that account.
-                [sidebarData.account] = contact.accounts;
+                sidebarData.account = await Account.get(contact.accounts[0].id);
 
                 filterQuery = `contact.id:${contact.id} OR account.id:${contact.accounts[0].id}`;
               } else {
@@ -174,7 +178,7 @@ class EmailDetail extends Component {
         }
       }
 
-      if (sidebarType) {
+      if (sidebarType || sidebarData) {
         sidebarData.emailMessageLink = window.location.href;
         this.props.setSidebar(sidebarType, sidebarData);
       }
@@ -263,6 +267,7 @@ class EmailDetail extends Component {
 
   render() {
     const { emailMessage, emailAccount, recipients, thread, plainText } = this.state;
+    const { data } = this.props;
 
     const recipientElements = recipients.map(recipient => {
       let element;
@@ -271,9 +276,7 @@ class EmailDetail extends Component {
         if (recipient.contactId) {
           element = (
             <React.Fragment>
-              <Link to={`/contacts/${recipient.contactId}`} exact>
-                {recipient.name}
-              </Link>
+              <Link to={`/contacts/${recipient.contactId}`}>{recipient.name}</Link>
 
               {` <${recipient.emailAddress}>`}
             </React.Fragment>
@@ -291,128 +294,149 @@ class EmailDetail extends Component {
     });
 
     return (
-      <div>
+      <React.Fragment>
         {emailMessage ? (
-          <div className="email-detail">
-            <div className="email-subject">
-              <span className="header">{emailMessage.subject}</span>
-            </div>
+          <React.Fragment>
+            <div className="email-detail">
+              <div className="email-subject">
+                <span className="header">{emailMessage.subject}</span>
+              </div>
 
-            <div className="email-actions">
-              <div className="hl-btn-group m-r-10">
-                <Link to={`/email/compose/${emailMessage.id}`} className="hl-primary-btn">
-                  <FontAwesomeIcon icon="reply" /> Reply
-                </Link>
+              <div className="email-actions">
+                <div className="hl-btn-group m-r-10">
+                  <Link to={`/email/compose/${emailMessage.id}`} className="hl-primary-btn">
+                    <FontAwesomeIcon icon="reply" /> Reply
+                  </Link>
+
+                  <Dropdown
+                    clickable={
+                      <button className="hl-primary-btn" type="button">
+                        <FontAwesomeIcon icon="angle-down" />
+                      </button>
+                    }
+                    menu={
+                      <ul className="dropdown-menu">
+                        <li className="dropdown-menu-item">
+                          <Link
+                            to={`/email/compose/${emailMessage.id}`}
+                            className="dropdown-button"
+                          >
+                            <FontAwesomeIcon icon="reply-all" /> Reply all
+                          </Link>
+                        </li>
+
+                        <li className="dropdown-menu-item">
+                          <Link to="/email" className="dropdown-button">
+                            <FontAwesomeIcon icon="arrow-alt-right" /> Forward
+                          </Link>
+                        </li>
+                      </ul>
+                    }
+                  />
+                </div>
+
+                <div className="hl-btn-group m-r-10">
+                  <button className="hl-primary-btn" onClick={this.archive}>
+                    <FontAwesomeIcon icon="archive" /> Archive
+                  </button>
+                  <button className="hl-primary-btn" onClick={this.delete}>
+                    <i className="lilicon hl-trashcan-icon" /> Delete
+                  </button>
+                </div>
 
                 <Dropdown
                   clickable={
                     <button className="hl-primary-btn" type="button">
-                      <FontAwesomeIcon icon="angle-down" />
+                      <FontAwesomeIcon icon="folder" /> Move to
+                      <i className="lilicon hl-toggle-down-icon m-l-5" />
                     </button>
                   }
                   menu={
                     <ul className="dropdown-menu">
-                      <li className="dropdown-menu-item">
-                        <Link to={`/email/compose/${emailMessage.id}`} className="dropdown-button">
-                          <FontAwesomeIcon icon="reply-all" /> Reply all
-                        </Link>
-                      </li>
-
-                      <li className="dropdown-menu-item">
-                        <Link to="/email" className="dropdown-button">
-                          <FontAwesomeIcon icon="arrow-alt-right" /> Forward
-                        </Link>
-                      </li>
+                      {emailAccount.labels.map(label => (
+                        <li className="dropdown-menu-item" key={label.id}>
+                          <button className="dropdown-button" onClick={() => this.move(label)}>
+                            {label.name}
+                          </button>
+                        </li>
+                      ))}
                     </ul>
                   }
                 />
               </div>
 
-              <div className="hl-btn-group m-r-10">
-                <button className="hl-primary-btn" onClick={this.archive}>
-                  <FontAwesomeIcon icon="archive" /> Archive
-                </button>
-                <button className="hl-primary-btn" onClick={this.delete}>
-                  <i className="lilicon hl-trashcan-icon" /> Delete
-                </button>
-              </div>
+              <div className="email-info">
+                <div className="email-info-top">
+                  <strong>{emailMessage.sender.name}</strong>
+                  <span className="email-sender-email m-l-5">
+                    &lt;
+                    {emailMessage.sender.emailAddress}
+                    &gt;
+                  </span>
 
-              <Dropdown
-                clickable={
-                  <button className="hl-primary-btn" type="button">
-                    <FontAwesomeIcon icon="folder" /> Move to
-                    <i className="lilicon hl-toggle-down-icon m-l-5" />
+                  <button
+                    className={`hl-interface-btn larger${
+                      emailMessage.isStarred ? ' star-active' : ''
+                    }`}
+                    onClick={this.toggleStarred}
+                  >
+                    {emailMessage.isStarred ? (
+                      <FontAwesomeIcon icon="star" className="yellow" />
+                    ) : (
+                      <FontAwesomeIcon icon={['far', 'star']} />
+                    )}
                   </button>
-                }
-                menu={
-                  <ul className="dropdown-menu">
-                    {emailAccount.labels.map(label => (
-                      <li className="dropdown-menu-item" key={label.id}>
-                        <button className="dropdown-button" onClick={() => this.move(label)}>
-                          {label.name}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                }
-              />
-            </div>
 
-            <div className="email-info">
-              <div className="email-info-top">
-                <strong>{emailMessage.sender.name}</strong>
-                <span className="email-sender-email m-l-5">
-                  &lt;
-                  {emailMessage.sender.emailAddress}
-                  &gt;
-                </span>
-
-                <button
-                  className={`hl-interface-btn larger${
-                    emailMessage.isStarred ? ' star-active' : ''
-                  }`}
-                  onClick={this.toggleStarred}
-                >
-                  {emailMessage.isStarred ? (
-                    <FontAwesomeIcon icon="star" className="yellow" />
-                  ) : (
-                    <FontAwesomeIcon icon={['far', 'star']} />
-                  )}
-                </button>
-
-                <LilyDate date={emailMessage.sentDate} />
-              </div>
-
-              <div className="email-info-bottom">
-                <div className="email-recipients">
-                  <span>to </span>
-
-                  {recipientElements.map((element, index) => (
-                    <React.Fragment key={element.key}>
-                      {element}
-                      {index < recipientElements.length - 1 && <span>, </span>}
-                    </React.Fragment>
-                  ))}
+                  <LilyDate date={emailMessage.sentDate} />
                 </div>
 
-                <button className="plain-text-button" onClick={this.togglePlainText}>
-                  {plainText ? 'Show HTML' : 'Show plain text'}
-                </button>
+                <div className="email-info-bottom">
+                  <div className="email-recipients">
+                    <span>to </span>
+
+                    {recipientElements.map((element, index) => (
+                      <React.Fragment key={element.key}>
+                        {element}
+                        {index < recipientElements.length - 1 && <span>, </span>}
+                      </React.Fragment>
+                    ))}
+                  </div>
+
+                  <button className="plain-text-button" onClick={this.togglePlainText}>
+                    {plainText ? 'Show HTML' : 'Show plain text'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="email-content">
+                {plainText ? (
+                  <div>{emailMessage.bodyText}</div>
+                ) : (
+                  <iframe srcDoc={emailMessage.bodyHtml} title="Email message" />
+                )}
               </div>
             </div>
 
-            <div className="email-content">
-              {plainText ? (
-                <div>{emailMessage.bodyText}</div>
-              ) : (
-                <iframe srcDoc={emailMessage.bodyHtml} title="Email message" />
+            <div className="email-detail-widgets">
+              {data.account && data.account.hasOwnProperty('id') && (
+                <React.Fragment>
+                  <AccountDetailWidget account={data.account} />
+
+                  <ContactListWidget object={data.account} />
+                </React.Fragment>
+              )}
+
+              {data.contact && data.contact.hasOwnProperty('id') && (
+                <React.Fragment>
+                  <ContactDetailWidget contact={data.contact} />
+                </React.Fragment>
               )}
             </div>
-          </div>
+          </React.Fragment>
         ) : (
           <LoadingIndicator />
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }

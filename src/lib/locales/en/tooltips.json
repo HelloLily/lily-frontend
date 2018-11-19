@@ -26,5 +26,7 @@
   },
   "documentContactMissing": "Please add a contact first",
   "deletedIndicator": "{{name}} is deleted",
-  "postpone": "Postpone the date"
+  "postpone": "Postpone the date",
+  "casePostpone": "Change the expiry date",
+  "dealPostpone": "Change the next step date"
 }

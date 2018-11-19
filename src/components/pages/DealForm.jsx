@@ -768,15 +768,15 @@ const DealForm = withRouter(
 
       request
         .then(response => {
-          if (props.closeSidebar) {
-            props.closeSidebar();
-          }
-
           successToast(text);
 
           if (!values.id) window.Intercom('trackEvent', 'deal-created');
 
-          props.history.push(`/deals/${response.id}`);
+          if (props.closeSidebar) {
+            props.closeSidebar();
+          } else {
+            props.history.push(`/deals/${response.id}`);
+          }
         })
         .catch(errors => {
           errorToast(t('toasts:error'));
