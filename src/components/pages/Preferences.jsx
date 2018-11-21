@@ -18,6 +18,7 @@ import TemplateVariableList from './TemplateVariableList';
 import UserList from './UserList';
 import Integrations from './Integrations';
 import BillingOverview from './BillingOverview';
+import BillingChangePlan from './BillingChangePlan';
 import InviteForm from './InviteForm';
 import Import from './Import';
 import TenantSettings from './TenantSettings';
@@ -146,6 +147,7 @@ const Preferences = ({ currentUser }) => (
           <Route path="/preferences/templatevariables" component={TemplateVariableList} />
           <Route path="/preferences/users" component={UserList} />
           <Route path="/preferences/integrations" component={Integrations} />
+          <Route path="/preferences/billing/change" component={BillingChangePlan} />
           <Route path="/preferences/billing" component={BillingOverview} />
           <Route path="/preferences/invite" component={InviteForm} />
           <Route path="/preferences/import" component={Import} />

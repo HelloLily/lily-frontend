@@ -6,7 +6,7 @@ class Billing {
   }
 
   patch(data) {
-    return patch('/billing/subscription', data);
+    return patch('/billing/subscription/', data);
   }
 
   plans() {

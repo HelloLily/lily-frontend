@@ -127,7 +127,8 @@ class AccountList extends Component {
   };
 
   export = () => {
-    console.log('Exported accounts');
+    const columns = this.state.columns.filter(column => column.selected).map(column => column.key);
+    Account.export({ columns });
   };
 
   render() {

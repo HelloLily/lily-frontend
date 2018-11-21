@@ -129,7 +129,8 @@ class ContactList extends Component {
   };
 
   export = () => {
-    console.log('Exported contacts');
+    const columns = this.state.columns.filter(column => column.selected).map(column => column.key);
+    Contact.export({ columns });
   };
 
   toggleColumn = async index => {

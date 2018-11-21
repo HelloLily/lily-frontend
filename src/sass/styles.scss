@@ -558,3 +558,35 @@ li {
   background-repeat: no-repeat;
   border-radius: 50%;
 }
+
+.plan-item {
+  border: 1px $inner-border-color solid;
+  border-radius: $base-border-radius;
+  padding: 10px;
+  text-align: center;
+  height: 200px;
+  width: 175px;
+  position: relative;
+
+  &:nth-child(2) {
+    margin: 0 25px;
+  }
+
+  &:hover {
+    border-color: $base-border-color;
+  }
+
+  &.is-selected {
+    border-color: $app-color-darkblue;
+  }
+
+  button {
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    width: 100%;
+    border: 0;
+    border-top: 1px $inner-border-color solid;
+    border-radius: 0;
+  }
+}

@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces, Trans } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { parse } from 'date-fns';
 
 import withContext from 'src/withContext';
-import LilyDate from 'components/Utils/LilyDate';
+import ucfirst from 'utils/ucfirst';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import LilyDate from 'components/Utils/LilyDate';
+import LilyCurrency from 'components/Utils/LilyCurrency';
 import Billing from 'models/Billing';
 
 class BillingOverview extends Component {
@@ -41,21 +46,60 @@ class BillingOverview extends Component {
 
   render() {
     const { subscription, customer, card, plan, paymentMethod, invoices, loading } = this.state;
-    const { currentUser } = this.props;
+    const { currentUser, t } = this.props;
+
+    const { trialRemaining } = currentUser.tenant;
+    const unit = t('billing.unit', { count: trialRemaining });
 
     return (
       <React.Fragment>
         {!loading ? (
           <div className="content-block-container">
-            <div className="content-block">
-              <div className="content-block-header">
-                <div className="content-block-name">Trial</div>
+            {currentUser.tenant.billing.plan.tier !== 0 && (
+              <div className="content-block m-b-25">
+                <div className="content-block-header">
+                  <div className="content-block-name">Trial</div>
+                </div>
+
+                <div className="content-block-content">
+                  <p>
+                    <Trans
+                      defaults={t('billing.trialInfoLine1', {
+                        amount: currentUser.tenant.trialRemaining,
+                        unit
+                      })}
+                      components={[<strong>text</strong>]}
+                    />
+
+                    <span> {t('billing.trialInfoLine2')}</span>
+                  </p>
+
+                  <p>{t('billing.trialInfoLine3')}</p>
+
+                  <p>
+                    Read more about all
+                    <a
+                      href="https://hellolily.com/features/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span> Features</span>
+                    </a>
+                    <span> and </span>
+                    <a
+                      href="https://hellolily.com/pricing/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Pricing
+                    </a>{' '}
+                    and send us a message if you have any questions.
+                  </p>
+                </div>
               </div>
+            )}
 
-              <div className="content-block-content" />
-            </div>
-
-            <div className="content-block m-t-25">
+            <div className="content-block">
               <div className="content-block-header">
                 <div className="content-block-name">Subscription</div>
               </div>
@@ -76,25 +120,37 @@ class BillingOverview extends Component {
 
                 <div className="detail-row">
                   <div>Plan</div>
-                  <div>{plan.name}</div>
+                  <div>
+                    {plan.name}
+
+                    <Link to="/preferences/billing/change" className="hl-interface-btn">
+                      <i className="lilicon hl-edit-icon" />
+                    </Link>
+                  </div>
                 </div>
 
                 <div className="detail-row">
                   <div>Price per user</div>
                   <div>
-                    {plan.price} x {subscription.planQuantity} users
+                    <LilyCurrency value={plan.price / 100} currency={plan.currencyCode} /> x{' '}
+                    {subscription.planQuantity} users
                   </div>
                 </div>
 
                 <div className="detail-row">
                   <div>Total per month</div>
-                  <div>{plan.price * subscription.planQuantity}</div>
+                  <div>
+                    <LilyCurrency
+                      value={(plan.price / 100) * subscription.planQuantity}
+                      currency={plan.currencyCode}
+                    />
+                  </div>
                 </div>
 
                 <div className="detail-row">
                   <div>Next billing date</div>
                   <div>
-                    <LilyDate date={subscription.nextBillingAt} />
+                    <LilyDate date={parse(subscription.nextBillingAt, 't', new Date())} />
                   </div>
                 </div>
               </div>
@@ -185,14 +241,19 @@ class BillingOverview extends Component {
                     {invoices.map(invoice => (
                       <tr key={invoice.invoice.id}>
                         <td>{invoice.invoice.id}</td>
-                        <td>{invoice.invoice.status}</td>
+                        <td>{ucfirst(invoice.invoice.status)}</td>
                         <td>
-                          <LilyDate date={invoice.invoice.date} />
+                          <LilyDate date={parse(invoice.invoice.date, 't', new Date())} />
                         </td>
                         <td>
-                          <LilyDate date={invoice.invoice.paidAt} />
+                          <LilyDate date={parse(invoice.invoice.paidAt, 't', new Date())} />
                         </td>
-                        <td>{invoice.invoice.total}</td>
+                        <td>
+                          <LilyCurrency
+                            value={invoice.invoice.total / 100}
+                            currency={invoice.invoice.currencyCode}
+                          />
+                        </td>
                         <td>
                           <button className="hl-primary-btn borderless">Download</button>
                         </td>
@@ -211,4 +272,4 @@ class BillingOverview extends Component {
   }
 }
 
-export default withContext(BillingOverview);
+export default withNamespaces('preferences')(withContext(BillingOverview));

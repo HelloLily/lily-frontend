@@ -57,5 +57,12 @@
   },
   "other": {
     "inviteUsersIntro": "Adding users adds extra costs to your team's subscription. Ask <0>{{name}}</0> if you’re not sure about this."
+  },
+  "billing": {
+    "trialInfoLine1": "Your free trial period will end in <0>{{amount}}</0> {{unit}}.",
+    "trialInfoLine2": "Upgrade to the Team or Professional plans to continue using all of the Lily features.",
+    "trialInfoLine3": "Once your trial is over, you'll be set to the free Personal plan if you haven't upgraded.",
+    "unit": "day",
+    "unit_plural": "days"
   }
 }

@@ -56,6 +56,10 @@ class Account {
   exists() {
     return get('/accounts/exists/');
   }
+
+  export(params) {
+    return get('/accounts/export', params);
+  }
 }
 
 export default new Account();

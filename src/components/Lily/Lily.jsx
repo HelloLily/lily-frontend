@@ -51,6 +51,7 @@ class Lily extends Component {
 
     currentUser.objectCounts = { ...tenantInfo.objectCounts };
     currentUser.limitReached = tenantInfo.limitReached ? { ...tenantInfo.limitReached } : null;
+    currentUser.tenant.trialRemaining = tenantInfo.trialRemaining;
 
     this.props.setCurrentUser(currentUser);
 

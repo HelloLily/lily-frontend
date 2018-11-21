@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 
 import { API_DATE_FORMAT } from 'lib/constants';
 import Editable from 'components/Editable';
@@ -19,7 +19,7 @@ class StreamTimeLog extends Component {
   }
 
   submit = args => {
-    args.date = format(args.date, API_DATE_FORMAT);
+    args.date = format(parse(args.date, 'dd/MM/yyyy', new Date()), API_DATE_FORMAT);
 
     this.props.submitCallback(this.props.item, args);
   };

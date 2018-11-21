@@ -31,6 +31,10 @@ class Contact {
   exists() {
     return get('/contacts/exists/');
   }
+
+  export(params) {
+    return get('/contacts/export', params);
+  }
 }
 
 export default new Contact();
