@@ -3,7 +3,7 @@ import { isBefore, format } from 'date-fns';
 import DayPicker from 'react-day-picker';
 import { withNamespaces } from 'react-i18next';
 
-import { FORM_DATE_FORMAT, API_DATE_FORMAT } from 'lib/constants';
+import { FORM_DATE_FORMAT, API_DATE_FORMAT, ESCAPE_KEY } from 'lib/constants';
 import updateModel from 'utils/updateModel';
 import addBusinessDays from 'utils/addBusinessDays';
 import LilyTooltip from 'components/LilyTooltip';
@@ -27,6 +27,14 @@ class Postpone extends Component {
       dateInput: date,
       submitting: false
     };
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.closeMenu);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.closeMenu);
   }
 
   PostponeButton = ({ amount, children }) => {
@@ -62,8 +70,11 @@ class Postpone extends Component {
 
   closeMenu = event => {
     const postponeContainer = this.postponeContainer.current;
+    const closeMenu =
+      event.keyCode === ESCAPE_KEY ||
+      (postponeContainer && !postponeContainer.contains(event.target));
 
-    if (postponeContainer && !postponeContainer.contains(event.target)) {
+    if (closeMenu) {
       this.setState({ menuOpen: false }, () => {
         document.removeEventListener('click', this.closeMenu);
       });

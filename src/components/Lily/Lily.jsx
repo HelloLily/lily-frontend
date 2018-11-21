@@ -73,8 +73,10 @@ class Lily extends Component {
 
     Notifications.init();
 
-    // Load Segment.
-    window.analytics.load(process.env.SEGMENT_WRITE_KEY);
+    if (!process.env.debug) {
+      // Load Segment.
+      window.analytics.load(process.env.SEGMENT_WRITE_KEY);
+    }
 
     this.props.history.listen(location => {
       // Display any new Intercom messages for the current user.

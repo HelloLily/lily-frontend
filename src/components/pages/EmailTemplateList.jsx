@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 
 import { del } from 'lib/api';
+import { ESCAPE_KEY } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import toggleFilter from 'utils/toggleFilter';
 import BlockUI from 'components/Utils/BlockUI';
@@ -32,7 +33,19 @@ class EmailTemplateList extends Component {
 
   async componentDidMount() {
     await this.loadItems();
+
+    document.addEventListener('keydown', this.closeMenu);
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.closeMenu);
+  }
+
+  handleEvent = event => {
+    if (event.keyCode === ESCAPE_KEY) {
+      this.closeMenu();
+    }
+  };
 
   loadItems = async () => {
     this.setState({ loading: true });
@@ -176,6 +189,13 @@ class EmailTemplateList extends Component {
     });
   };
 
+  closeMenu = () => {
+    this.setState({
+      selectedTemplate: null,
+      selectedAccounts: []
+    });
+  };
+
   submitDefaultFor = async () => {
     const { selectedTemplate, selectedAccounts } = this.state;
     const { t } = this.props;
@@ -192,7 +212,7 @@ class EmailTemplateList extends Component {
       const text = t('toasts:modelUpdated', { model: 'email template' });
       successToast(text);
 
-      this.setState({ selectedTemplate: null, selectedAccounts: [] });
+      this.closeMenu();
     } catch (error) {
       errorToast(t('error'));
     }
@@ -314,48 +334,29 @@ class EmailTemplateList extends Component {
                 </tr>
               </tbody>
             )}
-            {folders.map(
-              (folder, index) =>
-                folder.id || (!folder.id && folder.emailTemplates.length > 0) ? (
-                  <tbody key={folder.id || 'noFolder'}>
-                    <tr className="email-template-folder-header">
-                      <td colSpan="2">
-                        <strong>
-                          {folder.id ? (
-                            <React.Fragment>
-                              <Editable type="text" object={folder} field="name" />
+            {folders.map((folder, index) =>
+              folder.id || (!folder.id && folder.emailTemplates.length > 0) ? (
+                <tbody key={folder.id || 'noFolder'}>
+                  <tr className="email-template-folder-header">
+                    <td colSpan="2">
+                      <strong>
+                        {folder.id ? (
+                          <React.Fragment>
+                            <Editable type="text" object={folder} field="name" />
 
-                              <div className="float-right">
-                                <button className="hl-interface-btn">
-                                  <i className="lilicon hl-edit-icon" />
-                                </button>
+                            <div className="float-right">
+                              <button className="hl-interface-btn">
+                                <i className="lilicon hl-edit-icon" />
+                              </button>
 
-                                <button
-                                  className="hl-interface-btn"
-                                  onClick={() => this.deleteFolder(folder)}
-                                >
-                                  <i className="lilicon hl-trashcan-icon" />
-                                </button>
+                              <button
+                                className="hl-interface-btn"
+                                onClick={() => this.deleteFolder(folder)}
+                              >
+                                <i className="lilicon hl-trashcan-icon" />
+                              </button>
 
-                                {folder.emailTemplates.length > 0 && (
-                                  <button
-                                    className="hl-interface-btn"
-                                    onClick={() => this.toggleCollapse(index)}
-                                  >
-                                    <i
-                                      className={`lilicon hl-toggle-${
-                                        folder.collapsed ? 'down' : 'up'
-                                      }-icon`}
-                                    />
-                                  </button>
-                                )}
-                              </div>
-                            </React.Fragment>
-                          ) : (
-                            <React.Fragment>
-                              {folder.name}
-
-                              <div className="float-right">
+                              {folder.emailTemplates.length > 0 && (
                                 <button
                                   className="hl-interface-btn"
                                   onClick={() => this.toggleCollapse(index)}
@@ -366,68 +367,85 @@ class EmailTemplateList extends Component {
                                     }-icon`}
                                   />
                                 </button>
-                              </div>
-                            </React.Fragment>
-                          )}
-                        </strong>
-                      </td>
-                    </tr>
-
-                    {!folder.collapsed ? (
-                      <React.Fragment>
-                        {folder.emailTemplates.map(emailTemplate => (
-                          <tr key={emailTemplate.id}>
-                            <td className="indented-cell">
-                              <input
-                                type="checkbox"
-                                checked={emailTemplate.checked || false}
-                                onChange={() => this.handleSelect(emailTemplate)}
-                              />
-
-                              <span> {emailTemplate.name}</span>
-
-                              {emailTemplate.defaultFor.length > 0 && (
-                                <div className="label m-l-5">
-                                  Default for {emailTemplate.defaultFor.length} address(es)
-                                </div>
                               )}
-                            </td>
-                            <td className="float-right">
-                              <Dropdown
-                                clickable={
-                                  <button
-                                    className="hl-primary-btn borderless"
-                                    onClick={() => this.openMenu(emailTemplate)}
-                                  >
-                                    <FontAwesomeIcon icon="star" className="yellow" /> Manage
-                                    defaults
-                                  </button>
-                                }
-                                menu={
-                                  selectedTemplate && selectedTemplate.id === emailTemplate.id
-                                    ? this.renderMenu()
-                                    : null
-                                }
-                              />
+                            </div>
+                          </React.Fragment>
+                        ) : (
+                          <React.Fragment>
+                            {folder.name}
 
-                              <Link
-                                to={`/preferences/emailtemplates/${emailTemplate.id}/edit`}
-                                className="hl-primary-btn borderless"
+                            <div className="float-right">
+                              <button
+                                className="hl-interface-btn"
+                                onClick={() => this.toggleCollapse(index)}
                               >
-                                <i className="lilicon hl-edit-icon" />
-                              </Link>
+                                <i
+                                  className={`lilicon hl-toggle-${
+                                    folder.collapsed ? 'down' : 'up'
+                                  }-icon`}
+                                />
+                              </button>
+                            </div>
+                          </React.Fragment>
+                        )}
+                      </strong>
+                    </td>
+                  </tr>
 
-                              <DeleteConfirmation
-                                item={emailTemplate}
-                                deleteCallback={this.removeItem}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                      </React.Fragment>
-                    ) : null}
-                  </tbody>
-                ) : null
+                  {!folder.collapsed ? (
+                    <React.Fragment>
+                      {folder.emailTemplates.map(emailTemplate => (
+                        <tr key={emailTemplate.id}>
+                          <td className="indented-cell">
+                            <input
+                              type="checkbox"
+                              checked={emailTemplate.checked || false}
+                              onChange={() => this.handleSelect(emailTemplate)}
+                            />
+
+                            <span> {emailTemplate.name}</span>
+
+                            {emailTemplate.defaultFor.length > 0 && (
+                              <div className="label m-l-5">
+                                Default for {emailTemplate.defaultFor.length} address(es)
+                              </div>
+                            )}
+                          </td>
+                          <td className="float-right">
+                            <Dropdown
+                              clickable={
+                                <button
+                                  className="hl-primary-btn borderless"
+                                  onClick={() => this.openMenu(emailTemplate)}
+                                >
+                                  <FontAwesomeIcon icon="star" className="yellow" /> Manage defaults
+                                </button>
+                              }
+                              menu={
+                                selectedTemplate && selectedTemplate.id === emailTemplate.id
+                                  ? this.renderMenu()
+                                  : null
+                              }
+                            />
+
+                            <Link
+                              to={`/preferences/emailtemplates/${emailTemplate.id}/edit`}
+                              className="hl-primary-btn borderless"
+                            >
+                              <i className="lilicon hl-edit-icon" />
+                            </Link>
+
+                            <DeleteConfirmation
+                              item={emailTemplate}
+                              deleteCallback={this.removeItem}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </React.Fragment>
+                  ) : null}
+                </tbody>
+              ) : null
             )}
 
             {templateCount === 0 && (

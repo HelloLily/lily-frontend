@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { ESCAPE_KEY } from 'lib/constants';
+
 class Dropdown extends Component {
   constructor(props) {
     super(props);
@@ -8,6 +10,14 @@ class Dropdown extends Component {
     this.state = {
       menuOpen: false
     };
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.closeMenu);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.closeMenu);
   }
 
   showMenu = event => {
@@ -19,7 +29,11 @@ class Dropdown extends Component {
   };
 
   closeMenu = event => {
-    if (this.dropdownMenu && !this.dropdownMenu.contains(event.target)) {
+    const closeMenu =
+      event.keyCode === ESCAPE_KEY ||
+      (this.dropdownMenu && !this.dropdownMenu.contains(event.target));
+
+    if (closeMenu) {
       this.setState({ menuOpen: false }, () => {
         document.removeEventListener('click', this.closeMenu);
       });
