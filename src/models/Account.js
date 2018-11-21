@@ -1,4 +1,4 @@
-import { get, post, patch, del } from 'src/lib/api';
+import { get, post, patch, del } from 'lib/api';
 
 class Account {
   get(id, params) {

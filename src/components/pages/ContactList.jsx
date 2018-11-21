@@ -8,7 +8,7 @@ import {
   INACTIVE_EMAIL_STATUS,
   MOBILE_PHONE_TYPE,
   WORK_PHONE_TYPE,
-  NO_SORT_STATUS,
+  DESCENDING_STATUS,
   DEBOUNCE_WAIT
 } from 'lib/constants';
 import ColumnDisplay from 'components/List/ColumnDisplay';
@@ -45,8 +45,8 @@ class ContactList extends Component {
       pagination: {},
       showEmptyState: false,
       page: 1,
-      sortColumn: '',
-      sortStatus: NO_SORT_STATUS,
+      sortColumn: 'modified',
+      sortStatus: DESCENDING_STATUS,
       loading: true
     };
 
@@ -58,22 +58,22 @@ class ContactList extends Component {
     const existsResponse = await Contact.exists();
     const showEmptyState = !existsResponse.exists;
 
-    await this.loadItems();
-
-    this.setState({
-      ...settingsResponse.results,
-      page: 1,
-      sortColumn: '',
-      sortStatus: NO_SORT_STATUS,
-      showEmptyState
-    });
+    this.setState(
+      {
+        ...settingsResponse.results,
+        page: 1,
+        showEmptyState
+      },
+      this.loadItems
+    );
   }
 
   setPage = async page => {
     this.setState({ page }, this.loadItems);
   };
 
-  setSorting = (sortColumn, sortStatus) => {
+  setSorting = async (sortColumn, sortStatus) => {
+    await this.settings.store({ sortColumn, sortStatus });
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
@@ -147,11 +147,12 @@ class ContactList extends Component {
   };
 
   loadItems = async () => {
-    const { page, sortColumn, sortStatus } = this.state;
+    const { query, page, sortColumn, sortStatus } = this.state;
 
     this.setState({ loading: true });
 
     const data = await Contact.query({
+      search: query,
       pageSize: 20,
       page,
       sortColumn,

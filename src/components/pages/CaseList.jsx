@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 import { debounce } from 'debounce';
 
-import { NO_SORT_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
+import { DESCENDING_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
 import Editable from 'components/Editable';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
@@ -51,8 +51,8 @@ class CaseList extends Component {
       query: '',
       pagination: {},
       page: 1,
-      sortColumn: '',
-      sortStatus: NO_SORT_STATUS,
+      sortColumn: 'expires',
+      sortStatus: DESCENDING_STATUS,
       showEmptyState: false,
       loading: true
     };
@@ -66,34 +66,33 @@ class CaseList extends Component {
     const showEmptyState = !existsResponse.exists;
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
-      caseType.value = `type.id: ${caseType.id}`;
+      caseType.value = `type.id=${caseType.id}`;
 
       return caseType;
     });
 
-    await this.loadItems();
-
-    this.setState({
-      ...settingsResponse.results,
-      caseTypes,
-      page: 1,
-      sortColumn: '',
-      sortStatus: NO_SORT_STATUS,
-      showEmptyState
-    });
+    this.setState(
+      {
+        ...settingsResponse.results,
+        caseTypes,
+        page: 1,
+        showEmptyState
+      },
+      this.loadItems
+    );
   }
 
   setPage = async page => {
     this.setState({ page }, this.loadItems);
   };
 
-  setSorting = (sortColumn, sortStatus) => {
+  setSorting = async (sortColumn, sortStatus) => {
+    await this.settings.store({ sortColumn, sortStatus });
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
   setFilters = async filters => {
     await this.settings.store({ filters });
-
     this.setState({ filters }, this.loadItems);
   };
 
@@ -112,17 +111,17 @@ class CaseList extends Component {
   };
 
   loadItems = async () => {
-    const { page, sortColumn, sortStatus, filters } = this.state;
+    const { query, page, sortColumn, sortStatus, filters } = this.state;
 
     this.setState({ loading: true });
 
-    const filter = filters.list.join(' AND ');
     const data = await Case.query({
+      search: query,
       pageSize: 20,
       page,
       sortColumn,
       sortStatus,
-      filter
+      filters
     });
 
     this.setState({

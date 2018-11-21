@@ -24,14 +24,14 @@ class UserFilter extends Component {
 
     const teamResponse = await UserTeam.query();
     const teams = teamResponse.results.map(team => {
-      team.value = `assignedToTeams.id: ${team.id}`;
+      team.value = `assignedToTeams.id=${team.id}`;
       // Expand the team if the current user is part of that team.
       team.collapsed = currentUser.teams.findIndex(userTeam => userTeam.id === team.id) === -1;
       // The current user is always displayed at the top of the user filter.
       // So filter it out of the team's users.
       team.users = team.users.reduce((acc, user) => {
         if (user.id !== currentUser.id) {
-          user.value = `assignedTo.id: ${user.id}`;
+          user.value = `assignedTo.id=${user.id}`;
 
           acc.push(user);
         }
@@ -44,7 +44,7 @@ class UserFilter extends Component {
 
     const userResponse = await User.unassigned();
     const teamlessUsers = userResponse.results.map(user => {
-      user.value = `assignedTo.id: ${user.id}`;
+      user.value = `assignedTo.id=${user.id}`;
 
       return user;
     });

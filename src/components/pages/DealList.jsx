@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 import { debounce } from 'debounce';
 
-import { NO_SORT_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
+import { DESCENDING_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
@@ -53,8 +53,8 @@ class DealList extends Component {
       query: '',
       pagination: {},
       page: 1,
-      sortColumn: '',
-      sortStatus: NO_SORT_STATUS,
+      sortColumn: 'nextStepDate',
+      sortStatus: DESCENDING_STATUS,
       showEmptyState: false,
       loading: true
     };
@@ -68,32 +68,33 @@ class DealList extends Component {
     const showEmptyState = !existsResponse.exists;
     const nextStepResponse = await Deal.nextSteps();
     const nextSteps = nextStepResponse.results.map(nextStep => {
-      nextStep.value = `nextStep.id: ${nextStep.id}`;
+      nextStep.value = `nextStep.id=${nextStep.id}`;
 
       return nextStep;
     });
 
-    await this.loadItems();
-
-    this.setState({
-      ...settingsResponse.results,
-      nextSteps,
-      showEmptyState,
-      loading: false
-    });
+    this.setState(
+      {
+        ...settingsResponse.results,
+        nextSteps,
+        showEmptyState,
+        loading: false
+      },
+      this.loadItems
+    );
   }
 
   setPage = async page => {
     this.setState({ page }, this.loadItems);
   };
 
-  setSorting = (sortColumn, sortStatus) => {
+  setSorting = async (sortColumn, sortStatus) => {
+    await this.settings.store({ sortColumn, sortStatus });
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
   setFilters = async filters => {
     await this.settings.store({ filters });
-
     this.setState({ filters }, this.loadItems);
   };
 
@@ -112,15 +113,17 @@ class DealList extends Component {
   };
 
   loadItems = async () => {
-    const { page, sortColumn, sortStatus, query } = this.state;
+    const { query, page, sortColumn, sortStatus, filters } = this.state;
 
     this.setState({ loading: true });
 
     const data = await Deal.query({
+      search: query,
       pageSize: 20,
       page,
       sortColumn,
-      sortStatus
+      sortStatus,
+      filters
     });
 
     this.setState({

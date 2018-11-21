@@ -3,11 +3,39 @@ import { cachePostResponseAsGet } from '../../config/api.json';
 import convertKeys from './utils';
 import handleResponse from './handleResponse';
 import setupRequestOptions from './setupRequestOptions';
+import { DESCENDING_STATUS } from '../constants';
 
 export function createParams(params = {}) {
+  const { sortColumn, filters } = params;
+
+  if (sortColumn) {
+    const { sortStatus } = params;
+
+    params.ordering = `${sortStatus === DESCENDING_STATUS ? '-' : ''}${params.sortColumn}`;
+
+    delete params.sortColumn;
+    delete params.sortStatus;
+  }
+
+  let filterQuery = '';
+
+  if (Object.keys(filters).length > 0) {
+    filterQuery = Object.keys(filters).reduce((acc, key) => {
+      // TODO: Optional if we want to use Django style nesting.
+      // filters[key].forEach(filter => {
+      //   acc.push(filter.replace('.', '__'));
+      // })
+      acc.push(...filters[key]);
+
+      return acc;
+    }, []);
+  }
+
+  delete params.filters;
+
   const convertedParams = convertKeys(params, true);
 
-  return Object.keys(convertedParams)
+  let urlParams = Object.keys(convertedParams)
     .map(key => {
       const encodedKey = encodeURIComponent(key);
       const encodedParam = encodeURIComponent(convertedParams[key]);
@@ -15,6 +43,10 @@ export function createParams(params = {}) {
       return `${encodedKey}=${encodedParam}`;
     })
     .join('&');
+
+  if (filterQuery) urlParams += `&${filterQuery}`;
+
+  return urlParams;
 }
 
 export function get(path, params, _options) {

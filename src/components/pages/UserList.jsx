@@ -5,7 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import { debounce } from 'debounce';
 
 import withContext from 'src/withContext';
-import { NO_SORT_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
+import { ASCENDING_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import Editable from 'components/Editable';
 import ColumnDisplay from 'components/List/ColumnDisplay';
@@ -45,11 +45,11 @@ class UserList extends Component {
       invites: [],
       query: '',
       pagination: {},
-      loading: true,
       page: 1,
       statusFilter: 0,
-      sortColumn: '',
-      sortStatus: NO_SORT_STATUS
+      sortColumn: 'fullName',
+      sortStatus: ASCENDING_STATUS,
+      loading: true
     };
 
     document.title = 'Colleagues - Lily';
@@ -57,12 +57,14 @@ class UserList extends Component {
 
   async componentDidMount() {
     const inviteResponse = await UserInvite.query({ pageSize: 20 });
-    await this.loadItems();
 
-    this.setState({
-      invites: inviteResponse.results,
-      loading: false
-    });
+    this.setState(
+      {
+        invites: inviteResponse.results,
+        loading: false
+      },
+      this.loadItems
+    );
   }
 
   setFilter = value => {

@@ -32,13 +32,13 @@ class UnassignedDeals extends Component {
     const settingsResponse = await this.settings.get();
     const nextStepResponse = await Deal.nextSteps();
     const nextSteps = nextStepResponse.results.map(nextStep => {
-      nextStep.value = `nextStep.id: ${nextStep.id}`;
+      nextStep.value = `nextStep.id=${nextStep.id}`;
 
       return nextStep;
     });
     const teamResponse = await UserTeam.query();
     const teams = teamResponse.results.map(team => {
-      team.value = `assignedToTeams.id:${team.id}`;
+      team.value = `assignedToTeams.id=${team.id}`;
 
       return team;
     });

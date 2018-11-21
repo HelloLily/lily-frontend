@@ -31,13 +31,13 @@ class UnassignedCases extends Component {
     const settingsResponse = await this.settings.get();
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
-      caseType.value = `type.id: ${caseType.id}`;
+      caseType.value = `type.id=${caseType.id}`;
 
       return caseType;
     });
     const teamResponse = await UserTeam.query();
     const teams = teamResponse.results.map(team => {
-      team.value = `assignedToTeams.id:${team.id}`;
+      team.value = `assignedToTeams.id=${team.id}`;
 
       return team;
     });

@@ -4,7 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 import { debounce } from 'debounce';
 
-import { MOBILE_PHONE_TYPE, WORK_PHONE_TYPE, NO_SORT_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
+import {
+  MOBILE_PHONE_TYPE,
+  WORK_PHONE_TYPE,
+  DESCENDING_STATUS,
+  DEBOUNCE_WAIT
+} from 'lib/constants';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
@@ -28,7 +33,7 @@ class AccountList extends Component {
       { key: 'customerId', text: 'Customer ID', selected: false, sort: 'customerId' },
       { key: 'name', text: 'Name', selected: true, sort: 'name' },
       { key: 'contactInformation', text: 'Contact information', selected: true },
-      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo' },
+      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.id' },
       { key: 'created', text: 'Created', selected: true, sort: 'created' },
       { key: 'modified', text: 'Modified', selected: true, sort: 'modified' },
       { key: 'status', text: 'Status', selected: true, sort: 'status' },
@@ -43,8 +48,8 @@ class AccountList extends Component {
       filters: { list: [] },
       query: '',
       page: 1,
-      sortColumn: '',
-      sortStatus: NO_SORT_STATUS,
+      sortColumn: 'modified',
+      sortStatus: DESCENDING_STATUS,
       showEmptyState: false,
       loading: true
     };
@@ -56,19 +61,20 @@ class AccountList extends Component {
     const settingsResponse = await this.settings.get();
     const statusResponse = await Account.statuses();
     const statuses = statusResponse.results.map(status => {
-      status.value = `status.id: ${status.id}`;
+      status.value = `status.id=${status.id}`;
       return status;
     });
     const existsResponse = await Account.exists();
     const showEmptyState = !existsResponse.exists;
 
-    await this.loadItems();
-
-    this.setState({
-      ...settingsResponse.results,
-      statuses,
-      showEmptyState
-    });
+    this.setState(
+      {
+        ...settingsResponse.results,
+        statuses,
+        showEmptyState
+      },
+      this.loadItems
+    );
   }
 
   setPage = async page => {
@@ -99,16 +105,17 @@ class AccountList extends Component {
   };
 
   loadItems = async () => {
-    const { page, sortColumn, sortStatus, query } = this.state;
+    const { page, sortColumn, sortStatus, query, filters } = this.state;
 
     this.setState({ loading: true });
 
     const data = await Account.query({
-      query,
+      search: query,
       pageSize: 20,
       page,
       sortColumn,
-      sortStatus
+      sortStatus,
+      filters
     });
 
     this.setState({
