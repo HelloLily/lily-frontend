@@ -19,7 +19,7 @@ export function createParams(params = {}) {
 
   let filterQuery = '';
 
-  if (Object.keys(filters).length > 0) {
+  if (filters && Object.keys(filters).length > 0) {
     filterQuery = Object.keys(filters).reduce((acc, key) => {
       // TODO: Optional if we want to use Django style nesting.
       // filters[key].forEach(filter => {
