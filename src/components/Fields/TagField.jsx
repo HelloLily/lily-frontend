@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
+import { debounce } from 'debounce';
 
-import { SELECT_STYLES } from 'lib/constants';
+import { SELECT_STYLES, DEBOUNCE_WAIT } from 'lib/constants';
 import Tag from 'models/Tag';
 
 class TagField extends Component {
@@ -33,7 +34,7 @@ class TagField extends Component {
           placeholder="Add tags..."
           styles={SELECT_STYLES}
           onChange={this.handleChange}
-          loadOptions={this.search}
+          loadOptions={debounce(this.search, DEBOUNCE_WAIT)}
           getOptionLabel={option => option.name}
           getOptionValue={option => option.name}
         />

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { debounce } from 'debounce';
 
-import { SELECT_STYLES } from 'lib/constants';
+import { SELECT_STYLES, DEBOUNCE_WAIT } from 'lib/constants';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import User from 'models/User';
 import EmailAccount from 'models/EmailAccount';
@@ -156,7 +157,7 @@ class UserShare extends Component {
                 styles={SELECT_STYLES}
                 placeholder="Select people to share the account with"
                 onChange={this.handleAdditions}
-                loadOptions={this.searchUsers}
+                loadOptions={debounce(this.searchContacts, DEBOUNCE_WAIT)}
                 getOptionLabel={option => option.fullName}
                 getOptionValue={option => option.id}
                 className="user-share-container"

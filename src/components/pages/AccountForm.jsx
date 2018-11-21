@@ -6,6 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
+import { debounce } from 'debounce';
 
 import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
@@ -19,7 +20,8 @@ import {
   VISITING_ADDRESS_TYPE,
   MOBILE_PHONE_TYPE,
   WORK_PHONE_TYPE,
-  TWITTER_EMPTY_ROW
+  TWITTER_EMPTY_ROW,
+  DEBOUNCE_WAIT
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import ucfirst from 'utils/ucfirst';
@@ -517,7 +519,7 @@ class InnerAccountForm extends Component {
                           value={values.assignedTo}
                           styles={SELECT_STYLES}
                           onChange={value => this.props.setFieldValue('assignedTo', value)}
-                          loadOptions={this.search}
+                          loadOptions={debounce(this.search, DEBOUNCE_WAIT)}
                           getOptionLabel={option => option.fullName}
                           getOptionValue={option => option.id}
                         />

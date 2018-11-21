@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
+import { debounce } from 'debounce';
 
 import withContext from 'src/withContext';
 import {
@@ -14,7 +15,8 @@ import {
   DEAL_WON_STATUS,
   DEAL_LOST_STATUS,
   DEAL_NONE_STEP,
-  API_DATE_FORMAT
+  API_DATE_FORMAT,
+  DEBOUNCE_WAIT
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import addBusinessDays from 'utils/addBusinessDays';
@@ -330,7 +332,7 @@ class InnerDealForm extends Component {
                           value={values.account}
                           styles={SELECT_STYLES}
                           onChange={this.handleAccount}
-                          loadOptions={this.searchAccounts}
+                          loadOptions={debounce(this.searchAccounts, DEBOUNCE_WAIT)}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
                           placeholder="Select an account"
@@ -347,7 +349,7 @@ class InnerDealForm extends Component {
                           value={values.contact}
                           styles={SELECT_STYLES}
                           onChange={this.handleContact}
-                          loadOptions={this.searchContacts}
+                          loadOptions={debounce(this.searchContacts, DEBOUNCE_WAIT)}
                           getOptionLabel={option => option.fullName}
                           getOptionValue={option => option.id}
                           placeholder="Select a contact"
@@ -653,7 +655,7 @@ class InnerDealForm extends Component {
                           value={values.assignedToTeams}
                           styles={SELECT_STYLES}
                           onChange={value => setFieldValue('assignedToTeams', value)}
-                          loadOptions={this.searchTeams}
+                          loadOptions={debounce(this.searchTeams, DEBOUNCE_WAIT)}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
                         />
@@ -672,7 +674,7 @@ class InnerDealForm extends Component {
                           value={values.assignedTo}
                           styles={SELECT_STYLES}
                           onChange={this.handleAssignedTo}
-                          loadOptions={this.searchUsers}
+                          loadOptions={debounce(this.searchUsers, DEBOUNCE_WAIT)}
                           getOptionLabel={option => option.fullName}
                           getOptionValue={option => option.id}
                         />

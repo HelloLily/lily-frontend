@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { debounce } from 'debounce';
 
 import Tag from 'models/Tag';
-import { ESCAPE_KEY } from 'lib/constants';
+import { ESCAPE_KEY, DEBOUNCE_WAIT } from 'lib/constants';
 
 class EditableTags extends Component {
   onInputKeyDown = event => {
@@ -43,7 +44,7 @@ class EditableTags extends Component {
           value={value}
           styles={selectStyles}
           onChange={this.handleChange}
-          loadOptions={this.search}
+          loadOptions={debounce(this.search, DEBOUNCE_WAIT)}
           onInputKeyDown={this.onInputKeyDown}
           onBlur={this.props.cancel}
           getOptionLabel={option => option.name}

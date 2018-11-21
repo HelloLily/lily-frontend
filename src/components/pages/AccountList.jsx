@@ -104,6 +104,7 @@ class AccountList extends Component {
     this.setState({ loading: true });
 
     const data = await Account.query({
+      query,
       pageSize: 20,
       page,
       sortColumn,

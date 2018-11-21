@@ -5,6 +5,7 @@ import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
+import { debounce } from 'debounce';
 
 import withContext from 'src/withContext';
 import setValues from 'utils/setValues';
@@ -12,7 +13,8 @@ import {
   SELECT_STYLES,
   TWITTER_EMPTY_ROW,
   LINKEDIN_EMPTY_ROW,
-  ACCOUNT_RELATION_STATUS
+  ACCOUNT_RELATION_STATUS,
+  DEBOUNCE_WAIT
 } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
@@ -435,7 +437,7 @@ class InnerContactForm extends Component {
                           value={values.accounts}
                           styles={SELECT_STYLES}
                           onChange={this.handleAccounts}
-                          loadOptions={this.searchAccounts}
+                          loadOptions={debounce(this.searchAccounts, DEBOUNCE_WAIT)}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
                           components={{ NoOptionsMessage: this.NoOptionsMessage }}

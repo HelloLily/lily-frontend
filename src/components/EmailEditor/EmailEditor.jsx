@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Select, { components } from 'react-select';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { debounce } from 'debounce';
 import * as JsDiff from 'diff';
 
 import withContext from 'src/withContext';
@@ -11,7 +12,8 @@ import {
   VARIABLE_REGEX,
   TYPED_TEXT_REGEX,
   SELECT_STYLES,
-  NEW_MESSAGE
+  NEW_MESSAGE,
+  DEBOUNCE_WAIT
 } from 'lib/constants';
 import { get } from 'lib/api';
 import { errorToast } from 'utils/toasts';
@@ -614,8 +616,7 @@ class EmailEditor extends Component {
       styles,
       isMulti: true,
       defaultOptions: true,
-      // loadOptions: throttle(this.getRecipients, 250),
-      loadOptions: this.getRecipients,
+      loadOptions: debounce(this.getRecipients, DEBOUNCE_WAIT),
       components: { Option: this.RecipientOption },
       isValidNewOption: this.validateEmailAddress,
       className: 'editor-select-input',

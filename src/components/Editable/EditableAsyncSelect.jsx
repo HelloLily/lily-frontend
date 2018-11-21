@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { debounce } from 'debounce';
 
 import { get } from 'src/lib/api';
-import { ENTER_KEY, ESCAPE_KEY } from 'lib/constants';
+import { ENTER_KEY, ESCAPE_KEY, DEBOUNCE_WAIT } from 'lib/constants';
 
 class EditableSelect extends Component {
   onInputKeyDown = event => {
@@ -61,7 +62,7 @@ class EditableSelect extends Component {
     const { model } = this.props.selectConfig;
     // TODO: This needs to have search query and sorting implemented.
     // Search the given model with the search query and any specific sorting.
-    const request = await get(`/${model}/`);
+    const request = await get(`/${model}/`, { query });
 
     return request.results;
   };
@@ -81,7 +82,7 @@ class EditableSelect extends Component {
           isMulti={multi}
           styles={selectStyles}
           onChange={this.handleChange}
-          loadOptions={this.search}
+          loadOptions={debounce(this.search, DEBOUNCE_WAIT)}
           onInputKeyDown={this.onInputKeyDown}
           onBlur={this.handleBlur}
           menuPortalTarget={document.body}
