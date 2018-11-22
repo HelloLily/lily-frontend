@@ -169,14 +169,28 @@ class DealDetail extends Component {
                   <div className="detail-row">
                     <div>One-time cost</div>
                     <div>
-                      <LilyCurrency value={deal.amountOnce} currency={deal.currency} />
+                      <Editable
+                        type="text"
+                        object={deal}
+                        field="amountOnce"
+                        submitCallback={this.submitCallback}
+                      >
+                        <LilyCurrency value={deal.amountOnce} currency={deal.currency} />
+                      </Editable>
                     </div>
                   </div>
 
                   <div className="detail-row">
                     <div>Recurring cost</div>
                     <div>
-                      <LilyCurrency value={deal.amountRecurring} currency={deal.currency} />
+                      <Editable
+                        type="text"
+                        object={deal}
+                        field="amountRecurring"
+                        submitCallback={this.submitCallback}
+                      >
+                        <LilyCurrency value={deal.amountRecurring} currency={deal.currency} />
+                      </Editable>
                     </div>
                   </div>
 

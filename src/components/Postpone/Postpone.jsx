@@ -147,30 +147,10 @@ class Postpone extends Component {
                 <PostponeButton amount={1}>Add 1 day</PostponeButton>
                 <PostponeButton amount={2}>Add 2 days</PostponeButton>
                 <PostponeButton amount={5}>Add 1 week</PostponeButton>
-
-                <div className={`datepicker-input${submitting ? ' is-disabled' : ''}`}>
-                  <div className="small">Pick a custom date</div>
-
-                  <div className="input-addon">
-                    <input
-                      className="hl-input"
-                      onChange={this.handleDate}
-                      value={dateInput}
-                      placeholder="Select a date"
-                    />
-
-                    <button
-                      className="hl-primary-btn"
-                      onClick={this.toggleDatepicker}
-                      type="button"
-                    >
-                      <i className="lilicon hl-calendar-icon" />
-                    </button>
-                  </div>
-                </div>
               </div>
 
-              {datepickerOpen && (
+              <div>
+                <div className="postpone-header">{t(`${object.contentType.model}Postpone`)}</div>
                 <DayPicker
                   showOutsideDays
                   disabledDays={[{ daysOfWeek: [0, 6] }]}
@@ -181,7 +161,7 @@ class Postpone extends Component {
                   value={dateInput}
                   selectedDays={new Date(date)}
                 />
-              )}
+              </div>
             </div>
           ) : null}
         </div>

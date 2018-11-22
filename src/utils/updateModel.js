@@ -15,5 +15,7 @@ export default async function updateModel(item, data) {
     const text = i18n.t('toasts:error');
 
     errorToast(text);
+
+    throw error;
   }
 }

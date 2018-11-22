@@ -38,6 +38,14 @@ class DueDateFilter extends Component {
       }
     ];
 
+    if (window.location.pathname !== '/') {
+      // Don't show this options when the current page is the dashboard.
+      options.unshift({
+        name: 'Archived',
+        value: ''
+      });
+    }
+
     this.options = options;
   }
 
