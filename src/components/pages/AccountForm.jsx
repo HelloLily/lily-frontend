@@ -256,9 +256,7 @@ class InnerAccountForm extends Component {
     const { name } = this.props.values;
 
     if (!this.props.values.id) {
-      // TODO: Change this to new way of searching.
-      const filterquery = `name: "${name}"`;
-      const response = await Account.search(filterquery);
+      const response = await Account.search(name);
 
       if (response.hits.length > 0) {
         accountSuggestions.name = response.hits;

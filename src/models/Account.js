@@ -46,11 +46,8 @@ class Account {
     return get(`/search/website/${website}`);
   }
 
-  // TODO: Temporary code. Actual search will be different.
-  search(filterquery) {
-    const url = `/search/search/?type=accounts_account&filterquery=${filterquery}`;
-
-    return get(url);
+  search(query) {
+    return get(`/accounts/?search=${query}`);
   }
 
   exists() {

@@ -172,11 +172,9 @@ class InnerDealForm extends Component {
     const { subject } = this.props.values;
 
     if (!this.props.values.id && subject) {
-      const filterquery = `subject:${subject}`;
-      // TODO: Change this to new way of searching.
-      const response = await Deal.search(filterquery);
+      const response = await Deal.search(subject);
 
-      if (response.hits.length > 0) {
+      if (response.results.length > 0) {
         contactSuggestions.name = response.hits;
       }
 

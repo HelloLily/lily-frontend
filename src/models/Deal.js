@@ -50,10 +50,8 @@ class Deal {
   }
 
   // TODO: Temporary code. Actual search will be different.
-  search(filterquery) {
-    const url = `/search/search/?type=deals_deal&filterquery=${filterquery}`;
-
-    return get(url);
+  search(query) {
+    return get(`/deals/?search=${query}`);
   }
 
   documents(id) {

@@ -132,6 +132,7 @@ class EmailDetail extends Component {
                   ' OR '
                 )}) AND email_addresses.email_address:${website}`;
                 // Contact works at multiple accounts, so try to filter accounts based on domain.
+                // TODO: This needs to be a custom API call.
                 const searchResponse = await Account.search({ filterquery: accountQuery });
 
                 if (searchResponse.objects.length) {

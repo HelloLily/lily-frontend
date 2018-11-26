@@ -1,9 +1,12 @@
-function convertKey(key, toSnakeCase) {
+export function convertKey(key, toSnakeCase) {
   let convertedKey = key;
 
   if (toSnakeCase) {
     // Since the back end uses snake_case, we also want to convert fields back when sending data.
-    convertedKey = convertedKey.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
+    convertedKey = convertedKey
+      .replace(/([a-z])([A-Z])/g, '$1_$2')
+      .toLowerCase()
+      .replace('.', '__');
   } else {
     const splitKey = key.split('_');
     [convertedKey] = splitKey;
@@ -23,7 +26,7 @@ function convertKey(key, toSnakeCase) {
  * Converts keys from the API's data from snake_case to camelCase (or vice-versa).
  * This is so the front end can have it's own code style rules.
  */
-export default function convertKeys(values, toSnakeCase = false) {
+export function convertKeys(values, toSnakeCase = false) {
   let data = null;
 
   if (Array.isArray(values)) {

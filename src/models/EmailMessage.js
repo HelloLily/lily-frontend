@@ -70,7 +70,7 @@ class EmailMessage {
     }
 
     const filterQuery = filter.join(' AND ');
-    const url = `/search/search/?filterquery=${filterQuery}&size=20&sort=-sent_date&type=email_emailmessage&user_email_related=1&key=superuser1`;
+    const url = `/messaging/email/email/?filterquery=${filterQuery}&size=20&sort=-sent_date&type=email_emailmessage&user_email_related=1&key=superuser1`;
 
     return get(url);
   }

@@ -116,9 +116,7 @@ class InnerCaseForm extends Component {
     const { subject } = this.props.values;
 
     if (!this.props.values.id && subject) {
-      const filterquery = `subject:${subject}`;
-      // TODO: Change this to new way of searching.
-      const response = await Case.search(filterquery);
+      const response = await Case.search(subject);
 
       if (response.hits.length > 0) {
         contactSuggestions.name = response.hits;

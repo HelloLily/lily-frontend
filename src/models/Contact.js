@@ -21,9 +21,8 @@ class Contact {
     return get('/contacts/', params);
   }
 
-  // TODO: Temporary code. Actual search will be different.
-  search(filterquery) {
-    const url = `/search/search/?type=contacts_contact&filterquery=${filterquery}`;
+  search(query) {
+    const url = get(`/contacts/?search=${query}`);
 
     return get(url);
   }

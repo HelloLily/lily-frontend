@@ -33,7 +33,7 @@ class AccountList extends Component {
       { key: 'customerId', text: 'Customer ID', selected: false, sort: 'customerId' },
       { key: 'name', text: 'Name', selected: true, sort: 'name' },
       { key: 'contactInformation', text: 'Contact information', selected: true },
-      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.id' },
+      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.firstName' },
       { key: 'created', text: 'Created', selected: true, sort: 'created' },
       { key: 'modified', text: 'Modified', selected: true, sort: 'modified' },
       { key: 'status', text: 'Status', selected: true, sort: 'status' },

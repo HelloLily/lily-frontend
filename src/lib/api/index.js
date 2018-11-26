@@ -1,6 +1,6 @@
 import * as cache from '../cache';
 import { cachePostResponseAsGet } from '../../config/api.json';
-import convertKeys from './utils';
+import { convertKey, convertKeys } from './utils';
 import handleResponse from './handleResponse';
 import setupRequestOptions from './setupRequestOptions';
 import { DESCENDING_STATUS } from '../constants';
@@ -11,7 +11,10 @@ export function createParams(params = {}) {
   if (sortColumn) {
     const { sortStatus } = params;
 
-    params.ordering = `${sortStatus === DESCENDING_STATUS ? '-' : ''}${params.sortColumn}`;
+    params.ordering = `${sortStatus === DESCENDING_STATUS ? '-' : ''}${convertKey(
+      params.sortColumn,
+      true
+    )}`;
 
     delete params.sortColumn;
     delete params.sortStatus;
@@ -21,11 +24,9 @@ export function createParams(params = {}) {
 
   if (filters && Object.keys(filters).length > 0) {
     filterQuery = Object.keys(filters).reduce((acc, key) => {
-      // TODO: Optional if we want to use Django style nesting.
-      // filters[key].forEach(filter => {
-      //   acc.push(filter.replace('.', '__'));
-      // })
-      acc.push(...filters[key]);
+      filters[key].forEach(filter => {
+        acc.push(convertKey(filter, true));
+      });
 
       return acc;
     }, []);

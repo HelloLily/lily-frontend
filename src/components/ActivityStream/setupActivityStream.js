@@ -82,7 +82,7 @@ export default async function setupActivityStream(
 
     const response = await EmailMessage.search(params);
 
-    return response.hits;
+    return response.results;
   };
 
   const getTimeLogs = async () => {

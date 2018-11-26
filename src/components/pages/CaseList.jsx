@@ -37,9 +37,9 @@ class CaseList extends Component {
       { key: 'created', text: 'Created', selected: true, sort: 'created' },
       { key: 'expires', text: 'Expires', selected: true, sort: 'expires' },
       { key: 'modified', text: 'Modified', selected: false, sort: 'modified' },
-      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.fullName' },
+      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.firstName' },
       { key: 'assignedToTeams', text: 'Assigned to teams', selected: true },
-      { key: 'createdBy', text: 'Created by', selected: true, sort: 'createdBy.fullName' },
+      { key: 'createdBy', text: 'Created by', selected: true, sort: 'createdBy.firstName' },
       { key: 'tags', text: 'Tags', selected: true }
     ];
 

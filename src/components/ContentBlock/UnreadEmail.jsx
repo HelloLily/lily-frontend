@@ -49,8 +49,8 @@ class UnreadEmail extends Component {
 
     const response = await EmailMessage.query({});
     // TODO: Change hits to results once email API is done.
-    const total = response.hits.length;
-    const items = response.hits;
+    const total = response.results.length;
+    const items = response.results;
 
     this.setState({ items, total, loading: false });
   };

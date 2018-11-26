@@ -34,14 +34,14 @@ class DealList extends Component {
       { key: 'lostReason', text: 'Lost reason', selected: false, sort: 'whyLost' },
       { key: 'nextStep', text: 'Next step', selected: false, sort: 'nextStep.name' },
       { key: 'nextStepDate', text: 'Next step date', selected: true, sort: 'nextStepDate' },
-      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.fullName' },
+      { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.firstName' },
       { key: 'assignedTeams', text: 'Assigned team(s)', selected: true },
       { key: 'amountOnce', text: 'One-time cost', selected: true, sort: 'amountOnce' },
       { key: 'amountRecurring', text: 'Recurring costs', selected: true, sort: 'amountRecurring' },
       { key: 'newBusiness', text: 'Business', selected: true, sort: 'newBusiness' },
       { key: 'created', text: 'Created', selected: true, sort: 'created' },
       { key: 'closedDate', text: 'Closed date', selected: false, sort: 'closedDate' },
-      { key: 'createdBy', text: 'Created by', selected: true, sort: 'createdBy.fullName' },
+      { key: 'createdBy', text: 'Created by', selected: true, sort: 'createdBy.firstName' },
       { key: 'tags', text: 'Tags', selected: true }
     ];
 

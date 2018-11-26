@@ -30,7 +30,7 @@ class ContactList extends Component {
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
     const columns = [
-      { key: 'name', text: 'Name', selected: true, sort: 'lastName' },
+      { key: 'name', text: 'Name', selected: true, sort: 'firstName' },
       { key: 'contactInformation', text: 'Contact information', selected: true },
       { key: 'worksAt', text: 'Works at', selected: true, sort: 'accounts.name' },
       { key: 'created', text: 'Created', selected: true, sort: 'created' },

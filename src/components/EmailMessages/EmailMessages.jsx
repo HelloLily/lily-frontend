@@ -126,7 +126,7 @@ class EmailMessages extends Component {
     };
     const messageResponse = await EmailMessage.query(params);
     // Fetch contact status for each message.
-    const emailMessagePromises = messageResponse.hits.map(async emailMessage => {
+    const emailMessagePromises = messageResponse.results.map(async emailMessage => {
       // const history = await EmailMessage.history(emailMessage.id);
 
       // emailMessage.history = history;

@@ -53,11 +53,8 @@ class Case {
     return get('/cases/open', data);
   }
 
-  // TODO: Temporary code. Actual search will be different.
-  search(filterquery) {
-    const url = `/search/search/?type=cases_case&filterquery=${filterquery}`;
-
-    return get(url);
+  search(query) {
+    return get(`/cases/?search=${query}`);
   }
 
   exists() {
