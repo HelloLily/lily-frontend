@@ -51,5 +51,6 @@
   "userActivated": "The user has been activated",
   "internalNumberCleared": "The internal number for {{name}} has been cleared",
   "internalNumberUpdated": "The internal number for {{name}} has been updated",
-  "primaryAccountUpdated": "Primary email account has been set to {{label}}"
+  "primaryAccountUpdated": "Primary email account has been set to {{label}}",
+  "tenantUpdated": "Your settings have been saved"
 }

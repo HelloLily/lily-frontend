@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { withNamespaces } from 'react-i18next';
 
+import { successToast } from 'utils/toasts';
 import Tenant from 'models/Tenant';
 
 class TenantSettings extends Component {
@@ -40,19 +42,21 @@ class TenantSettings extends Component {
 
   saveSettings = () => {
     const { tenant } = this.state;
+    const { t } = this.props;
 
     Tenant.patch(tenant).then(() => {
-      // TODO: Show success message.
+      successToast(t('toasts:tenantUpdated'));
     });
   };
 
   render() {
     const { tenant } = this.state;
+    const { t } = this.props;
 
     return (
       <div className="list">
         <div className="list-header">
-          <div className="list-title flex-grow">Additional features</div>
+          <div className="list-title flex-grow">{t('preferences:settings.header')}</div>
         </div>
 
         <table className="hl-table">
@@ -67,7 +71,7 @@ class TenantSettings extends Component {
           <tbody>
             <tr>
               <td>Time logging</td>
-              <td>Enable this feature so users can log hours on cases and deals.</td>
+              <td>{t('preferences:settings.timeLogging')}</td>
               <td>
                 <label className="switch">
                   <input
@@ -83,7 +87,7 @@ class TenantSettings extends Component {
             {tenant.timeloggingEnabled && (
               <tr>
                 <td>Billable default value</td>
-                <td>{"Sets the default for the 'Billable' value for logged hours."}</td>
+                <td>{t('preferences:settings.billingDefault')}</td>
                 <td>
                   <label className="switch">
                     <input type="checkbox" onChange={() => this.toggleField('billingDefault')} />
@@ -99,4 +103,4 @@ class TenantSettings extends Component {
   }
 }
 
-export default TenantSettings;
+export default withNamespaces(['preferences', 'toasts'])(TenantSettings);

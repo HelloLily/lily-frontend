@@ -180,7 +180,7 @@ class InnerDealForm extends Component {
     const { subject } = this.props.values;
 
     if (!this.props.values.id && subject) {
-      const response = await Deal.search(subject);
+      const response = await Deal.query({ search: subject });
 
       if (response.results.length > 0) {
         contactSuggestions.name = response.hits;
@@ -193,33 +193,25 @@ class InnerDealForm extends Component {
   };
 
   searchAccounts = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await Account.query({ name: query });
+    const request = await Account.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
 
   searchContacts = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await Contact.query({ fullName: query });
+    const request = await Contact.query({ search: query, ordering: 'firstName' });
 
     return request.results;
   };
 
   searchTeams = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await UserTeam.query({ query });
+    const request = await UserTeam.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
 
   searchUsers = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await User.query({ query });
+    const request = await User.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
@@ -742,7 +734,6 @@ const DealForm = withRouter(
       const { t } = props;
       const cleanedValues = Object.assign({}, values);
 
-      // TODO: Create some util function to take care of this.
       if (cleanedValues.account) cleanedValues.account = cleanedValues.account.id;
       if (cleanedValues.contact) cleanedValues.contact = cleanedValues.contact.id;
       if (cleanedValues.foundThrough) cleanedValues.foundThrough = cleanedValues.foundThrough.id;

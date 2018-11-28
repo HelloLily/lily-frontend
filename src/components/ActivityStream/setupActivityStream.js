@@ -1,6 +1,6 @@
 import { compareDesc } from 'date-fns';
 
-import { get } from 'src/lib/api';
+import { get } from 'lib/api';
 import User from 'models/User';
 import Note from 'models/Note';
 import Case from 'models/Case';
@@ -33,12 +33,14 @@ export default async function setupActivityStream(
   };
 
   const getItemNotes = async (contentType, ids) => {
-    // TODO: Temporary until there's an ES API.
-    const query = `gfk_content_type:${contentType} AND gfk_object_id:(${ids.join(' OR ')})`;
-    const url = `/search/search/?type=notes_note&size=20&sort=-date&filterquery=${query}`;
-    const response = await get(url);
+    const params = {
+      gfkContentType: contentType,
+      gfkObjectId__in: ids,
+      ordering: '-date'
+    };
+    const response = await Note.query(params);
 
-    return response.hits;
+    return response.results;
   };
 
   const getChanges = async () => {
@@ -49,17 +51,15 @@ export default async function setupActivityStream(
   };
 
   const getCases = async () => {
-    const query = `${model}.id: ${object.id}`;
-    const response = await Case.search(query);
+    const response = await Case.query({ [`${model}.id`]: object.id });
 
-    return response.hits;
+    return response.results;
   };
 
   const getDeals = async () => {
-    const query = `${model}.id: ${object.id}`;
-    const response = await Deal.search(query);
+    const response = await Deal.query({ [`${model}.id`]: object.id });
 
-    return response.hits;
+    return response.results;
   };
 
   const getCalls = async () => {
@@ -80,7 +80,7 @@ export default async function setupActivityStream(
       params.contactRelated = object.id;
     }
 
-    const response = await EmailMessage.search(params);
+    const response = await EmailMessage.query(params);
 
     return response.results;
   };
@@ -114,13 +114,6 @@ export default async function setupActivityStream(
     }
 
     cases.forEach(async caseObj => {
-      // TODO: Temporary code since these are still Elasticsearch results.
-      caseObj.contentType = {
-        id: caseObj.contentType,
-        model: 'case',
-        appLabel: 'cases'
-      };
-
       caseObj.notes = [];
 
       activityStream.push(caseObj);
@@ -145,13 +138,6 @@ export default async function setupActivityStream(
     }
 
     deals.forEach(async deal => {
-      // TODO: Temporary code since these are still Elasticsearch results.
-      deal.contentType = {
-        id: deal.contentType,
-        model: 'deal',
-        appLabel: 'deals'
-      };
-
       deal.notes = [];
 
       activityStream.push(deal);

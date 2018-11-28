@@ -6,24 +6,24 @@ const selectConfig = {
   accounts: {
     model: 'accounts',
     display: 'name',
-    sorting: 'name',
+    ordering: 'name',
     empty: 'Not linked to any accounts'
   },
   assignedTo: {
     model: 'users',
     display: 'fullName',
-    sorting: 'fullName',
+    ordering: 'fullName',
     empty: 'Nobody'
   },
   assignedToTeams: {
     model: 'users/team',
     display: 'name',
-    sorting: 'name'
+    ordering: 'name'
   },
   teams: {
     model: 'users/team',
     display: 'name',
-    sorting: 'name'
+    ordering: 'name'
   },
   type: {
     model: 'cases/types'

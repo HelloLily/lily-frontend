@@ -13,7 +13,6 @@ class EmailAccounts extends Component {
     this.mounted = false;
     this.settings = new Settings('inbox');
 
-    // TODO: Implement loading of previously selected inbox.
     this.state = {
       currentEmailAccount: props.currentEmailAccount,
       currentLabel: props.currentLabel,
@@ -32,7 +31,6 @@ class EmailAccounts extends Component {
 
     const settingsResponse = await this.settings.get();
     const accountRequest = await EmailAccount.mine();
-    // TODO: Fetch settings for label.
     const emailAccounts = accountRequest.results.map(emailAccount => {
       // Sort the labels by name.
       emailAccount.labels = emailAccount.labels.sort((a, b) => a.name.localeCompare(b.name));

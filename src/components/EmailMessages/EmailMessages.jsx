@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 import { debounce } from 'debounce';
 
+import withContext from 'src/withContext';
 import {
   NEEDS_ALL,
   NEEDS_CONTACT,
@@ -124,9 +125,12 @@ class EmailMessages extends Component {
   };
 
   loadItems = async () => {
+    const { query } = this.state;
+
     this.setState({ loading: true });
-    // TODO: Include value from search field.
+
     const params = {
+      search: query,
       emailAccount: this.props.currentEmailAccount,
       label: this.props.currentLabel,
       page: this.state.page
@@ -293,7 +297,7 @@ class EmailMessages extends Component {
 
   render() {
     const { emailMessages, showReplyActions, showMoveTo, loading, selectAll, query } = this.state;
-    const { currentEmailAccount, currentLabel, t } = this.props;
+    const { currentEmailAccount, currentLabel, currentUser, t } = this.props;
 
     let filteredLabels = [];
 
@@ -394,9 +398,10 @@ class EmailMessages extends Component {
               <tbody>
                 {emailMessages.map((emailMessage, index) => {
                   // TODO: Currently doesn't work since the
-                  // email message's data doesn't contain the color.
-                  const color =
-                    emailMessage.account.color || getColorCode(emailMessage.account.email);
+                  // email message's data doesn't contain the color or email.
+                  // const color =
+                  //   emailMessage.account.color || getColorCode(emailMessage.account.email);
+                  const color = '';
 
                   return (
                     <tr key={emailMessage.id} className={!emailMessage.read ? 'unread' : ''}>
@@ -466,8 +471,7 @@ class EmailMessages extends Component {
               </tbody>
             </table>
 
-            {/* TODO: Should check the amount of created email accounts */}
-            {false && (
+            {currentUser.objectCounts.emailAccounts === 0 && (
               <div>
                 <div className="empty-state-overlay" />
                 <div className="empty-state-description">
@@ -492,4 +496,4 @@ class EmailMessages extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(EmailMessages);
+export default withNamespaces('emptyStates')(withContext(EmailMessages));

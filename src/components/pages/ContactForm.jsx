@@ -168,10 +168,9 @@ class InnerContactForm extends Component {
     const { firstName, lastName } = this.props.values;
 
     if (!this.props.values.id && firstName && lastName) {
-      const filterquery = `full_name:"${firstName} ${lastName}"`;
+      const query = `${firstName} ${lastName}`;
 
-      // TODO: Change this to new way of searching.
-      const response = await Contact.search(filterquery);
+      const response = await Contact.query({ search: query, ordering: 'firstName' });
 
       if (response.hits.length > 0) {
         contactSuggestions.name = response.hits;
@@ -262,9 +261,7 @@ class InnerContactForm extends Component {
   };
 
   searchAccounts = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await Account.query({ name: query });
+    const request = await Account.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
@@ -276,7 +273,6 @@ class InnerContactForm extends Component {
   addAccount = async props => {
     const name = props.selectProps.inputValue;
 
-    // TODO: Implement filtering through url parameter;
     const statusRequest = await Account.statuses();
     const relationStatus = statusRequest.results.find(
       status => status.name === ACCOUNT_RELATION_STATUS

@@ -44,6 +44,8 @@ class LilyEditor extends Component {
     });
 
     const fullPage = props.fullPage === undefined ? true : props.fullPage;
+    const iframeStyle =
+      'body {font-family: Roboto, sans-serif; font-size: 14px;} body table td {border: 0 !important;}';
 
     // Configuration for the Froala Editor.
     this.config = {
@@ -63,9 +65,7 @@ class LilyEditor extends Component {
       ],
       spellcheck: false,
       fullPage,
-      // TODO: TEMPORARY STYLING
-      iframeStyle:
-        'body {font-family: Roboto, sans-serif; font-size: 14px;} body table td {border: 0 !important;}',
+      iframeStyle,
       events: {
         'froalaEditor.commands.after': this.handleCommandAfter,
         'froalaEditor.initialized': (e, editor) => this.setState({ editor })

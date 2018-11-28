@@ -254,9 +254,7 @@ class InnerAccountForm extends Component {
   };
 
   search = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await User.query({ query });
+    const request = await User.query({ search: query, ordering: 'firstName' });
 
     return request.results;
   };
@@ -266,7 +264,7 @@ class InnerAccountForm extends Component {
     const { name } = this.props.values;
 
     if (!this.props.values.id) {
-      const response = await Account.search(name);
+      const response = await Account.query({ search: name });
 
       if (response.hits.length > 0) {
         accountSuggestions.name = response.hits;
@@ -675,12 +673,10 @@ const AccountForm = withRouter(
       const { t } = props;
       const cleanedValues = cleanRelatedFields(values);
 
-      // TODO: Clean this up (util function or w/e).
       if (cleanedValues.status) {
         cleanedValues.status = { id: cleanedValues.status.id };
       }
 
-      // TODO: Clean this up (util function or w/e).
       if (cleanedValues.assignedTo) {
         cleanedValues.assignedTo = { id: cleanedValues.assignedTo.id };
       }

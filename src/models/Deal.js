@@ -49,11 +49,6 @@ class Deal {
     return get('/deals/open', data);
   }
 
-  // TODO: Temporary code. Actual search will be different.
-  search(query) {
-    return get(`/deals/?search=${query}`);
-  }
-
   documents(id) {
     return get(`/integrations/documents/${id}`);
   }

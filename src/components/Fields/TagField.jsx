@@ -11,10 +11,7 @@ class TagField extends Component {
   };
 
   search = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Also needs to be changed from ES -> normal API.
-    // Search the given model with the search query and any specific sorting.
-    const request = await Tag.query(query);
+    const request = await Tag.query({ search: query, ordering: 'name' });
 
     return request.hits;
   };

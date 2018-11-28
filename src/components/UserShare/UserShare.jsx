@@ -63,9 +63,7 @@ class UserShare extends Component {
   };
 
   searchUsers = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await User.query({ query });
+    const request = await User.query({ search: query, ordering: 'firstName' });
 
     return request.results;
   };

@@ -21,12 +21,6 @@ class Contact {
     return get('/contacts/', params);
   }
 
-  search(query) {
-    const url = get(`/contacts/?search=${query}`);
-
-    return get(url);
-  }
-
   exists() {
     return get('/contacts/exists/');
   }

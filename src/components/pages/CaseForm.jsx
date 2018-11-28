@@ -124,7 +124,7 @@ class InnerCaseForm extends Component {
     const { subject } = this.props.values;
 
     if (!this.props.values.id && subject) {
-      const response = await Case.search(subject);
+      const response = await Case.query({ search: subject });
 
       if (response.hits.length > 0) {
         contactSuggestions.name = response.hits;
@@ -137,33 +137,25 @@ class InnerCaseForm extends Component {
   };
 
   searchAccounts = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await Account.query({ query });
+    const request = await Account.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
 
   searchContacts = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await Contact.query({ query });
+    const request = await Contact.query({ search: query, ordering: 'firstName' });
 
     return request.results;
   };
 
   searchTeams = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await UserTeam.query({ query });
+    const request = await UserTeam.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
 
   searchUsers = async query => {
-    // TODO: This needs to have search query and sorting implemented.
-    // Search the given model with the search query and any specific sorting.
-    const request = await User.query({ query });
+    const request = await User.query({ search: query, ordering: 'firstName' });
 
     return request.results;
   };

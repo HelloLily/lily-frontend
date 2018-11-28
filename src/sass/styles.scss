@@ -9,9 +9,7 @@
 @import 'icons';
 @import 'inputs';
 @import 'list';
-
-// TODO: Temporary import, will probably be renamed and only imported in a certain component.
-@import 'selects';
+@import 'preferences';
 
 @mixin input-field($height) {
   background: #fff;
@@ -237,8 +235,6 @@ textarea {
   white-space: nowrap;
 }
 
-// TODO: Move the inbox and preference styling somewhere else.
-
 .inbox {
   display: flex;
 }
@@ -260,188 +256,6 @@ textarea {
   font-size: 1.5em;
   font-weight: 400;
   color: $app-color-darkblue;
-}
-
-.preferences {
-  display: flex;
-}
-
-.preferences-navigation {
-  ul {
-    background: #fff;
-    border-style: solid;
-    width: 300px;
-    margin-right: 25px;
-    margin-bottom: 25px;
-
-    li {
-      display: flex;
-      align-items: center;
-
-      a {
-        &:not(.unavailable-marker) {
-          flex: 1;
-          padding: 14px;
-          display: block;
-          text-decoration: none;
-          color: $app-color-darkblue;
-          white-space: nowrap;
-
-          &:hover {
-            background-color: $lily-white-tone-hover;
-            color: initial;
-          }
-        }
-
-        &.active {
-          background: $lily-white-tone-hover;
-        }
-
-        svg,
-        i {
-          margin-right: 5px;
-        }
-      }
-    }
-  }
-}
-
-li {
-  .is-disabled {
-    a {
-      &:not(.unavailable-marker) {
-        background-color: initial;
-        display: inline-block;
-        width: 200px;
-      }
-    }
-  }
-}
-
-.preferences-profile-picture {
-  display: block;
-  height: 150px;
-  width: 150px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 50%;
-  margin: 10px auto;
-}
-
-.preferences-username {
-  font-size: 1.4em;
-  font-weight: 600;
-  color: $app-color-darkblue;
-  text-align: center;
-}
-
-.label {
-  border-radius: 3px;
-  background: $text-muted;
-  text-transform: uppercase;
-  font-weight: 400;
-  font-size: 11px;
-  padding: 0 5px;
-  line-height: 21px;
-  margin: 2px;
-  color: #fff;
-  text-align: center;
-  display: inline-block;
-
-  &.success {
-    background: $app-color-mint;
-  }
-
-  &.info {
-    background: $lily-blue;
-  }
-
-  // Billing labels
-  &.future {
-    background: $app-color-purple;
-  }
-
-  &.in-trial {
-    background: $app-color-yellow;
-  }
-
-  &.active {
-    background: $app-color-mint;
-  }
-
-  &.non-renewing {
-    background: $lily-grey;
-  }
-
-  &.cancelled {
-    background: $app-color-red;
-  }
-}
-
-.privacy-radios {
-  color: $app-color-darkblue;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin: 0 -5px;
-
-  .privacy-option-container {
-    flex-grow: 1;
-    padding: 5px;
-  }
-
-  label {
-    height: 100%;
-    border: 1px solid $inner-border-color;
-    border-radius: 3px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  input {
-    &[type='radio'] {
-      display: none;
-    }
-
-    &[type='radio']:checked ~ label {
-      border: 2px solid $app-color-darkblue;
-      padding: 4px;
-    }
-  }
-}
-
-.privacy-option {
-  padding: 5px;
-}
-
-.privacy-examples {
-  border: 1px $inner-border-color solid;
-  border-radius: $base-border-radius;
-  padding: 20px;
-  background: $app-bg-color;
-}
-
-.privacy-example {
-  position: relative;
-}
-
-.privacy-info {
-  font-size: 14px;
-  margin-top: 15px;
-}
-
-.privacy-example-title {
-  text-transform: uppercase;
-  color: $app-color-grey;
-  font-size: 12px;
-  font-weight: 500;
-  margin: 20px 0 5px;
 }
 
 @keyframes fade-in {
@@ -514,79 +328,18 @@ li {
   height: 300px;
 }
 
-.hl-instruction-list {
-  border: 1px $inner-border-color solid;
-  background: #fff;
-  border-radius: 3px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  .hl-instruction-list-item {
-    position: relative;
-    padding: 10px 10px 10px 25px;
-    border-top: 1px $inner-border-color solid;
-    vertical-align: middle;
-
-    strong {
-      margin-left: 5px;
-    }
-
-    &:first-child {
-      border-top: 0;
-    }
-
-    &:before {
-      color: $app-color-aqua;
-      position: absolute;
-      top: 50%;
-      font-size: 10px;
-      margin-top: -9px;
-      left: 10px;
-      content: $hl-arrow-right-icon;
-      font-family: 'lilicon';
-    }
-  }
+.hl-prio-icon-low {
+  color: $low-prio-color;
 }
 
-.profile-image {
-  width: 60px;
-  height: 60px;
-  margin-right: 10px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 50%;
+.hl-prio-icon-medium {
+  color: $medium-prio-color;
 }
 
-.plan-item {
-  border: 1px $inner-border-color solid;
-  border-radius: $base-border-radius;
-  padding: 10px;
-  text-align: center;
-  height: 200px;
-  width: 175px;
-  position: relative;
+.hl-prio-icon-high {
+  color: $high-prio-color;
+}
 
-  &:nth-child(2) {
-    margin: 0 25px;
-  }
-
-  &:hover {
-    border-color: $base-border-color;
-  }
-
-  &.is-selected {
-    border-color: $app-color-darkblue;
-  }
-
-  button {
-    position: absolute;
-    bottom: 5px;
-    right: 0;
-    width: 100%;
-    border: 0;
-    border-top: 1px $inner-border-color solid;
-    border-radius: 0;
-  }
+.hl-prio-icon-critical {
+  color: $critical-prio-color;
 }

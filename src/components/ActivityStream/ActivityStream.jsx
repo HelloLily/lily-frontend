@@ -247,7 +247,7 @@ class ActivityStream extends Component {
                   });
 
                   return (
-                    <label className={className} key={option.id} htmlFor={radioId}>
+                    <label className={className} key={`option-${option.id}`} htmlFor={radioId}>
                       <input
                         type="radio"
                         id={radioId}

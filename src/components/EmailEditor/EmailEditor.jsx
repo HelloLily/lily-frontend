@@ -182,10 +182,6 @@ class EmailEditor extends Component {
     name ? `${name} <${emailAddress}>` : emailAddress;
 
   createRecipientOptions = (contacts, query = '') => {
-    // TODO: This shouldn't be needed in the live version,
-    // since we'll filter it out when querying.
-    // contacts = contacts.filter(contact => contact.emailAddresses.length > 0);
-
     const options = [];
 
     contacts.forEach(contact => {
@@ -223,7 +219,6 @@ class EmailEditor extends Component {
             ({ functions } = contact);
           }
 
-          // TODO: Temporary disable, re-enable on live.
           functions = functions.filter(func => func.isActive);
 
           if (functions.length === 0) {

@@ -40,7 +40,6 @@ class Inbox extends Component {
     }
 
     if (this.mounted) {
-      // TODO: Load previous label from database.
       this.setState({
         ...settings,
         currentEmailAccount: initialAccount,

@@ -24,16 +24,16 @@ const StreamEmail = props => {
             <div>
               <strong>From: </strong>
 
-              <Link to={`/email/compose`}>{item.senderName || item.senderEmail}</Link>
+              <Link to={`/email/compose/${item.senderEmail}`}>
+                {item.senderName || item.senderEmail}
+              </Link>
             </div>
 
             <div>
               <strong>To: </strong>
 
-              {item.receivedByEmail.length > 1 && (
-                <Link to={`/email/detail/${item.id}`}>
-                  {item.receivedByEmail.length} recipients
-                </Link>
+              {item.receivedBy.length > 1 && (
+                <Link to={`/email/detail/${item.id}`}>{item.receivedBy.length} recipients</Link>
               )}
             </div>
 

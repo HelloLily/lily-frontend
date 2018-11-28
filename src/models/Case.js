@@ -53,10 +53,6 @@ class Case {
     return get('/cases/open', data);
   }
 
-  search(query) {
-    return get(`/cases/?search=${query}`);
-  }
-
   exists() {
     return get('/cases/exists/');
   }
