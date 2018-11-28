@@ -24,6 +24,7 @@ class CaseList extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('caseList');
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
@@ -61,6 +62,8 @@ class CaseList extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
     const existsResponse = await Case.exists();
     const showEmptyState = !existsResponse.exists;
@@ -71,15 +74,21 @@ class CaseList extends Component {
       return caseType;
     });
 
-    this.setState(
-      {
-        ...settingsResponse.results,
-        caseTypes,
-        page: 1,
-        showEmptyState
-      },
-      this.loadItems
-    );
+    if (this.mounted) {
+      this.setState(
+        {
+          ...settingsResponse.results,
+          caseTypes,
+          page: 1,
+          showEmptyState
+        },
+        this.loadItems
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setPage = async page => {
@@ -124,11 +133,13 @@ class CaseList extends Component {
       filters
     });
 
-    this.setState({
-      items: data.results,
-      pagination: data.pagination,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        items: data.results,
+        pagination: data.pagination,
+        loading: false
+      });
+    }
   };
 
   removeItem = ({ id }) => {

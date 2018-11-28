@@ -14,23 +14,32 @@ class TemplateVariableList extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.state = { variables: [], publicVariables: [], loading: true };
 
     document.title = 'Template variables - Lily';
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const variableResponse = await TemplateVariable.query();
     const variables = variableResponse.custom.filter(variable => !variable.isPublic);
     const publicVariables = variableResponse.custom.filter(variable => variable.isPublic);
 
-    this.setState({
-      variables,
-      publicVariables,
-      selectedVariable: null,
-      modalOpen: false,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        variables,
+        publicVariables,
+        selectedVariable: null,
+        modalOpen: false,
+        loading: false
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   removeItem = async item => {

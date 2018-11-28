@@ -29,6 +29,7 @@ class InnerCaseForm extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.originalDate = props.values.id ? new Date(props.values.expires) : new Date();
 
     this.state = {
@@ -42,18 +43,14 @@ class InnerCaseForm extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { currentUser, data, setFieldValue } = this.props;
 
     let title;
     const typeData = await Case.caseTypes();
     const statusData = await Case.statuses();
     const priorityData = await Case.priorities();
-
-    this.setState({
-      caseTypes: typeData.results,
-      caseStatuses: statusData.results,
-      casePriorities: priorityData.results
-    });
 
     const { id } = this.props.match.params;
 
@@ -85,7 +82,18 @@ class InnerCaseForm extends Component {
       document.title = title;
     }
 
-    this.setState({ loading: false });
+    if (this.mounted) {
+      this.setState({
+        caseTypes: typeData.results,
+        caseStatuses: statusData.results,
+        casePriorities: priorityData.results,
+        loading: false
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadCase = async id => {

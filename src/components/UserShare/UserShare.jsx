@@ -13,6 +13,8 @@ class UserShare extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     const privacyOptions = EmailAccount.privacyOptions();
     const privacy = privacyOptions[0];
 
@@ -26,6 +28,8 @@ class UserShare extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { emailAccount } = this.props;
 
     const promises = emailAccount.sharedEmailConfigs.map(async config => {
@@ -35,7 +39,13 @@ class UserShare extends Component {
     });
     const users = await Promise.all(promises);
 
-    this.setState({ users, loading: false });
+    if (this.mounted) {
+      this.setState({ users, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   toggleDelete = config => {

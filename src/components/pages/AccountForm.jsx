@@ -44,6 +44,8 @@ class InnerAccountForm extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = {
       accountStatuses: [],
       accountSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
@@ -54,6 +56,8 @@ class InnerAccountForm extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
 
     let title;
@@ -105,7 +109,13 @@ class InnerAccountForm extends Component {
 
     this.props.setFieldValue('assignedTo', this.props.currentUser);
 
-    this.setState({ accountStatuses: statusResponse.results, loading: false });
+    if (this.mounted) {
+      this.setState({ accountStatuses: statusResponse.results, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadAccount = async (id, existingValues = null) => {

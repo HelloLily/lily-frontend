@@ -38,6 +38,8 @@ class InnerContactForm extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = {
       accountSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
       contactSuggestions: { name: [], emailAddress: [], phoneNumber: [] },
@@ -47,6 +49,8 @@ class InnerContactForm extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
 
     let title;
@@ -77,7 +81,13 @@ class InnerContactForm extends Component {
       }
     }
 
-    this.setState({ loading: false });
+    if (this.mounted) {
+      this.setState({ loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadContact = async (id, existingValues = null) => {
@@ -123,7 +133,9 @@ class InnerContactForm extends Component {
       }
     }
 
-    setValues(contact, this.props.setFieldValue);
+    if (this.mounted) {
+      setValues(contact, this.props.setFieldValue);
+    }
   };
 
   concatUnique = (existingValues, newValues, fields) => {

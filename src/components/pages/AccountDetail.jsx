@@ -14,16 +14,26 @@ class AccountDetail extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = { account: null };
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
     const account = await Account.get(id);
 
-    this.setState({ account });
+    if (this.mounted) {
+      this.setState({ account });
+    }
 
     document.title = `${account.name} - Lily`;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   submitCallback = async args => {

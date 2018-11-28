@@ -26,6 +26,7 @@ class ContactList extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('contactList');
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
@@ -54,18 +55,26 @@ class ContactList extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
     const existsResponse = await Contact.exists();
     const showEmptyState = !existsResponse.exists;
 
-    this.setState(
-      {
-        ...settingsResponse.results,
-        page: 1,
-        showEmptyState
-      },
-      this.loadItems
-    );
+    if (this.mounted) {
+      this.setState(
+        {
+          ...settingsResponse.results,
+          page: 1,
+          showEmptyState
+        },
+        this.loadItems
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setPage = async page => {
@@ -159,11 +168,13 @@ class ContactList extends Component {
       sortStatus
     });
 
-    this.setState({
-      items: data.results,
-      pagination: data.pagination,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        items: data.results,
+        pagination: data.pagination,
+        loading: false
+      });
+    }
   };
 
   removeItem = ({ id }) => {

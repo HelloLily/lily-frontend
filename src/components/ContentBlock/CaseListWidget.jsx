@@ -14,13 +14,23 @@ class CaseListWidget extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = { items: [], loading: true };
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const caseRequest = await Case.query({ account: this.props.object });
 
-    this.setState({ items: caseRequest.results, loading: false });
+    if (this.mounted) {
+      this.setState({ items: caseRequest.results, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setSidebar = () => {

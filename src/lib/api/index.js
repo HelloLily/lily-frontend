@@ -10,11 +10,9 @@ export function createParams(params = {}) {
 
   if (sortColumn) {
     const { sortStatus } = params;
+    const convertedKey = convertKey(params.sortColumn, true);
 
-    params.ordering = `${sortStatus === DESCENDING_STATUS ? '-' : ''}${convertKey(
-      params.sortColumn,
-      true
-    )}`;
+    params.ordering = `${sortStatus === DESCENDING_STATUS ? '-' : ''}${convertedKey}`;
 
     delete params.sortColumn;
     delete params.sortStatus;

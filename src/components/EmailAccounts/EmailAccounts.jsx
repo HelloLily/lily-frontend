@@ -10,6 +10,7 @@ class EmailAccounts extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('inbox');
 
     // TODO: Implement loading of previously selected inbox.
@@ -27,6 +28,8 @@ class EmailAccounts extends Component {
   });
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
     const accountRequest = await EmailAccount.mine();
     // TODO: Fetch settings for label.
@@ -73,7 +76,13 @@ class EmailAccounts extends Component {
       return emailAccount;
     });
 
-    this.setState({ emailAccounts, ...settingsResponse.results });
+    if (this.mounted) {
+      this.setState({ emailAccounts, ...settingsResponse.results });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   getParentLabelName = label => {
@@ -137,14 +146,13 @@ class EmailAccounts extends Component {
           )}
         </div>
 
-        {label.children.length > 0 &&
-          !isCollapsed && (
-            <ul>
-              {label.children.map(child => (
-                <li key={child.id}>{this.labelRenderer(emailAccount, child)}</li>
-              ))}
-            </ul>
-          )}
+        {label.children.length > 0 && !isCollapsed && (
+          <ul>
+            {label.children.map(child => (
+              <li key={child.id}>{this.labelRenderer(emailAccount, child)}</li>
+            ))}
+          </ul>
+        )}
       </React.Fragment>
     );
   };

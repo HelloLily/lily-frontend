@@ -13,6 +13,7 @@ class Inbox extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('inbox');
 
     this.state = {
@@ -25,6 +26,8 @@ class Inbox extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsRequest = await this.settings.get();
     const settings = { ...settingsRequest.results };
 
@@ -36,12 +39,18 @@ class Inbox extends Component {
       initialAccount = accountRequest;
     }
 
-    // TODO: Load previous label from database.
-    this.setState({
-      ...settings,
-      currentEmailAccount: initialAccount,
-      loading: false
-    });
+    if (this.mounted) {
+      // TODO: Load previous label from database.
+      this.setState({
+        ...settings,
+        currentEmailAccount: initialAccount,
+        loading: false
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setInbox = (emailAccount, label) => {

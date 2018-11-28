@@ -18,17 +18,26 @@ class ContentBlock extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings(props.component);
 
     this.state = { loading: true, showFade: true };
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsRequest = await this.settings.get();
     // Fill in any settings which aren't in the database yet.
     const settings = { ...DEFAULT_SETTINGS, ...settingsRequest.results };
 
-    this.setState({ ...settings, loading: false });
+    if (this.mounted) {
+      this.setState({ ...settings, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   heightToggle = async () => {

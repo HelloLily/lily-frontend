@@ -19,6 +19,8 @@ class EmailTemplateList extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = {
       folders: [],
       templateCount: 0,
@@ -32,12 +34,16 @@ class EmailTemplateList extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     await this.loadItems();
 
     document.addEventListener('keydown', this.closeMenu);
   }
 
   componentWillUnmount() {
+    this.mounted = false;
+
     document.removeEventListener('keydown', this.closeMenu);
   }
 
@@ -64,12 +70,14 @@ class EmailTemplateList extends Component {
     // Count the total amount of templates.
     const templateCount = folders.reduce((acc, folder) => acc + folder.emailTemplates.length, 0);
 
-    this.setState({
-      folders,
-      templateCount,
-      emailAccounts: accountResponse.results,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        folders,
+        templateCount,
+        emailAccounts: accountResponse.results,
+        loading: false
+      });
+    }
   };
 
   deleteFolder = folder => {

@@ -15,6 +15,7 @@ class UnreadEmail extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('unreadEmail');
 
     this.state = {
@@ -26,6 +27,8 @@ class UnreadEmail extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
     const accountResponse = await EmailAccount.mine();
     const emailAccounts = accountResponse.results.map(emailAccount => {
@@ -36,12 +39,19 @@ class UnreadEmail extends Component {
       return emailAccount;
     });
 
-    await this.loadItems();
+    if (this.mounted) {
+      this.setState(
+        {
+          ...settingsResponse.results,
+          emailAccounts
+        },
+        this.loadItems
+      );
+    }
+  }
 
-    this.setState({
-      ...settingsResponse.results,
-      emailAccounts
-    });
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadItems = async () => {
@@ -52,7 +62,9 @@ class UnreadEmail extends Component {
     const total = response.results.length;
     const items = response.results;
 
-    this.setState({ items, total, loading: false });
+    if (this.mounted) {
+      this.setState({ items, total, loading: false });
+    }
   };
 
   setFilters = async filters => {

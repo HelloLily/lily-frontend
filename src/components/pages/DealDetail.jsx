@@ -25,6 +25,8 @@ class DealDetail extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     const hasPandaDoc = props.currentUser.tenant.integrations.find(
       integration => integration.type === 1
     );
@@ -67,6 +69,10 @@ class DealDetail extends Component {
     });
 
     document.title = `${deal.name} - Lily`;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   toggleArchive = async () => {

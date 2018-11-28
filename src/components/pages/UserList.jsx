@@ -23,6 +23,7 @@ class UserList extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('userList');
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
@@ -56,15 +57,17 @@ class UserList extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const inviteResponse = await UserInvite.query({ pageSize: 20 });
 
-    this.setState(
-      {
-        invites: inviteResponse.results,
-        loading: false
-      },
-      this.loadItems
-    );
+    if (this.mounted) {
+      this.setState({ invites: inviteResponse.results }, this.loadItems);
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setFilter = value => {
@@ -123,13 +126,17 @@ class UserList extends Component {
 
     if (statusFilter === 3) {
       // Only display invites.
-      this.setState({ users: [] });
+      if (this.mounted) {
+        this.setState({ users: [] });
+      }
       return;
     }
 
-    // Just calling loadItems doesn't re-render the Editable components.
-    // So clear the users to make sure the list is up-to-date when edited.
-    this.setState({ loading: true, users: [] });
+    if (this.mounted) {
+      // Just calling loadItems doesn't re-render the Editable components.
+      // So clear the users to make sure the list is up-to-date when edited.
+      this.setState({ loading: true, users: [] });
+    }
 
     const params = {
       pageSize: 20,
@@ -146,11 +153,13 @@ class UserList extends Component {
 
     const data = await User.query(params);
 
-    this.setState({
-      users: data.results,
-      pagination: data.pagination,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        users: data.results,
+        pagination: data.pagination,
+        loading: false
+      });
+    }
   };
 
   submitCallback = async args => {

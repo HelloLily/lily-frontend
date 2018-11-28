@@ -14,16 +14,26 @@ class ContactDetail extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = { contact: null };
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
     const contact = await Contact.get(id);
 
-    this.setState({ contact });
+    if (this.mounted) {
+      this.setState({ contact });
+    }
 
     document.title = `${contact.fullName} - Lily`;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   submitCallback = async args => {

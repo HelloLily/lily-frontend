@@ -24,6 +24,7 @@ class EmailMessages extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
     this.state = {
@@ -36,7 +37,9 @@ class EmailMessages extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.mounted = true;
+
     this.loadItems();
   }
 
@@ -59,6 +62,10 @@ class EmailMessages extends Component {
     if (shouldUpdate) {
       this.loadItems();
     }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   getContactStatus = async emailMessage => {
@@ -137,7 +144,9 @@ class EmailMessages extends Component {
 
     const emailMessages = await Promise.all(emailMessagePromises);
 
-    this.setState({ emailMessages, loading: false });
+    if (this.mounted) {
+      this.setState({ emailMessages, loading: false });
+    }
   };
 
   toggleSelectAll = () => {

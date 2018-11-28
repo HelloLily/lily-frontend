@@ -15,13 +15,23 @@ class DealListWidget extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = { items: [], loading: true };
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const dealRequest = await Deal.query({ account: this.props.object });
 
-    this.setState({ items: dealRequest.results, loading: false });
+    if (this.mounted) {
+      this.setState({ items: dealRequest.results, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setSidebar = () => {

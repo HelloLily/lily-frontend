@@ -40,6 +40,7 @@ class InnerDealForm extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.originalDate = props.values.id ? new Date(props.values.nextStepDate) : new Date();
     const tenantId = props.currentUser.tenant.id;
     this.showQuoteSection = Tenant.isVoysNL(tenantId) || Tenant.isVoysZA(tenantId);
@@ -59,6 +60,8 @@ class InnerDealForm extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { currentUser, data, setFieldValue } = this.props;
 
     let title;
@@ -69,16 +72,6 @@ class InnerDealForm extends Component {
     const whyLostResponse = await Deal.whyLost();
     const statusResponse = await Deal.statuses();
     const currencyResponse = await Utils.currencies();
-
-    this.setState({
-      nextSteps: nextStepResponse.results,
-      foundThrough: foundThroughResponse.results,
-      contactedBy: contactedByResponse.results,
-      whyCustomer: whyCustomerResponse.results,
-      whyLost: whyLostResponse.results,
-      statuses: statusResponse.results,
-      currencies: currencyResponse.results
-    });
 
     this.wonStatus = statusResponse.results.find(status => status.name === DEAL_WON_STATUS);
     this.lostStatus = statusResponse.results.find(status => status.name === DEAL_LOST_STATUS);
@@ -113,7 +106,22 @@ class InnerDealForm extends Component {
       document.title = title;
     }
 
-    this.setState({ loading: false });
+    if (this.mounted) {
+      this.setState({
+        nextSteps: nextStepResponse.results,
+        foundThrough: foundThroughResponse.results,
+        contactedBy: contactedByResponse.results,
+        whyCustomer: whyCustomerResponse.results,
+        whyLost: whyLostResponse.results,
+        statuses: statusResponse.results,
+        currencies: currencyResponse.results,
+        loading: false
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadDeal = async id => {

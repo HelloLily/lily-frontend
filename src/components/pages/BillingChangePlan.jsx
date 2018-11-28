@@ -13,6 +13,8 @@ class BillingChangePlan extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = {
       plans: [],
       subscription: null,
@@ -25,17 +27,25 @@ class BillingChangePlan extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const planResponse = await Billing.plans();
 
     const { plans, subscription, currentPlan } = planResponse;
 
-    this.setState({
-      plans,
-      subscription,
-      currentPlan,
-      selectedPlan: currentPlan.id,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        plans,
+        subscription,
+        currentPlan,
+        selectedPlan: currentPlan.id,
+        loading: false
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   handleSubmit = async () => {

@@ -15,6 +15,8 @@ class BillingOverview extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = {
       subscription: null,
       customer: null,
@@ -29,19 +31,27 @@ class BillingOverview extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const billingResponse = await Billing.get();
     const { subscription, customer, card, plan, invoices } = billingResponse;
     const paymentMethod = customer.paymentMethod ? customer.paymentMethod.type : null;
 
-    this.setState({
-      subscription,
-      customer,
-      card,
-      plan,
-      paymentMethod,
-      invoices,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        subscription,
+        customer,
+        card,
+        plan,
+        paymentMethod,
+        invoices,
+        loading: false
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   render() {

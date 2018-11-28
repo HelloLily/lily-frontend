@@ -19,6 +19,8 @@ class EmailDetail extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = {
       emailMessage: null,
       emailAccount: null,
@@ -28,6 +30,8 @@ class EmailDetail extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
     const { currentLabel } = this.props;
     const emailMessage = await EmailMessage.get(id);
@@ -66,17 +70,21 @@ class EmailDetail extends Component {
 
     this.setupSidebar(emailMessage);
 
-    this.setState({
-      emailMessage,
-      emailAccount,
-      recipients,
-      thread: threadRequest.results
-    });
+    if (this.mounted) {
+      this.setState({
+        emailMessage,
+        emailAccount,
+        recipients,
+        thread: threadRequest.results
+      });
+    }
 
     document.title = 'Email message - Lily';
   }
 
   componentWillUnmount() {
+    this.mounted = false;
+
     if (!this.props.sidebar) {
       // Clear the sidebar if it's been closed by the user
       // and they're navigating away from the email page.

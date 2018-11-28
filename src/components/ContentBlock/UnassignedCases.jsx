@@ -16,6 +16,7 @@ class UnassignedCases extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('unassignedCases');
 
     this.state = {
@@ -28,6 +29,8 @@ class UnassignedCases extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
@@ -42,13 +45,20 @@ class UnassignedCases extends Component {
       return team;
     });
 
-    await this.loadItems();
+    if (this.mounted) {
+      this.setState(
+        {
+          ...settingsResponse.results,
+          caseTypes,
+          teams
+        },
+        this.loadItems
+      );
+    }
+  }
 
-    this.setState({
-      ...settingsResponse.results,
-      caseTypes,
-      teams
-    });
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadItems = async () => {
@@ -60,7 +70,9 @@ class UnassignedCases extends Component {
       .length;
     const items = request.results;
 
-    this.setState({ items, total, criticalCount, loading: false });
+    if (this.mounted) {
+      this.setState({ items, total, criticalCount, loading: false });
+    }
   };
 
   setFilters = async filters => {

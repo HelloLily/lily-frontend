@@ -23,9 +23,12 @@ import Settings from 'models/Settings';
 import Account from 'models/Account';
 
 class AccountList extends Component {
+  mounted = false;
+
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('accountList');
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
@@ -58,6 +61,8 @@ class AccountList extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
     const statusResponse = await Account.statuses();
     const statuses = statusResponse.results.map(status => {
@@ -67,14 +72,20 @@ class AccountList extends Component {
     const existsResponse = await Account.exists();
     const showEmptyState = !existsResponse.exists;
 
-    this.setState(
-      {
-        ...settingsResponse.results,
-        statuses,
-        showEmptyState
-      },
-      this.loadItems
-    );
+    if (this.mounted) {
+      this.setState(
+        {
+          ...settingsResponse.results,
+          statuses,
+          showEmptyState
+        },
+        this.loadItems
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setPage = async page => {
@@ -118,11 +129,13 @@ class AccountList extends Component {
       filters
     });
 
-    this.setState({
-      items: data.results,
-      pagination: data.pagination,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        items: data.results,
+        pagination: data.pagination,
+        loading: false
+      });
+    }
   };
 
   removeItem = ({ id }) => {

@@ -24,6 +24,7 @@ class DealList extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('dealList');
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
@@ -63,6 +64,8 @@ class DealList extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
     const existsResponse = await Deal.exists();
     const showEmptyState = !existsResponse.exists;
@@ -73,15 +76,21 @@ class DealList extends Component {
       return nextStep;
     });
 
-    this.setState(
-      {
-        ...settingsResponse.results,
-        nextSteps,
-        showEmptyState,
-        loading: false
-      },
-      this.loadItems
-    );
+    if (this.mounted) {
+      this.setState(
+        {
+          ...settingsResponse.results,
+          nextSteps,
+          showEmptyState,
+          loading: false
+        },
+        this.loadItems
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setPage = async page => {
@@ -126,11 +135,13 @@ class DealList extends Component {
       filters
     });
 
-    this.setState({
-      items: data.results,
-      pagination: data.pagination,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        items: data.results,
+        pagination: data.pagination,
+        loading: false
+      });
+    }
   };
 
   removeItem = ({ id }) => {

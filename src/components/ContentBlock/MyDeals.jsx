@@ -21,6 +21,7 @@ class MyDeals extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.settings = new Settings('myDeals');
 
     this.state = {
@@ -31,11 +32,17 @@ class MyDeals extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const settingsResponse = await this.settings.get();
 
-    await this.loadItems();
+    if (this.mounted) {
+      this.setState({ ...settingsResponse.results }, this.loadItems);
+    }
+  }
 
-    this.setState({ ...settingsResponse.results });
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadItems = async () => {
@@ -45,7 +52,9 @@ class MyDeals extends Component {
     const total = request.results.length;
     const items = timeCategorize(request.results, 'expires', this.props.currentUser);
 
-    this.setState({ items, total, loading: false });
+    if (this.mounted) {
+      this.setState({ items, total, loading: false });
+    }
   };
 
   setFilters = async filters => {

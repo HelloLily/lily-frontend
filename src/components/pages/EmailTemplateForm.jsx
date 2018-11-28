@@ -19,6 +19,7 @@ class InnerEmailTemplateForm extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.editorRef = React.createRef();
 
     this.state = {
@@ -31,6 +32,8 @@ class InnerEmailTemplateForm extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
 
     if (id) {
@@ -49,10 +52,16 @@ class InnerEmailTemplateForm extends Component {
     const categories = variableResponse.default;
     categories.custom = variableResponse.custom;
 
-    this.setState({
-      folders: folderResponse.results,
-      categories
-    });
+    if (this.mounted) {
+      this.setState({
+        folders: folderResponse.results,
+        categories
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   getOptions = options =>

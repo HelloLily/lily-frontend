@@ -6,17 +6,27 @@ class TenantSettings extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = { tenant: {} };
 
     document.title = 'Settings - Lily';
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const tenantResponse = await Tenant.get();
 
-    this.setState({
-      tenant: tenantResponse[0]
-    });
+    if (this.mounted) {
+      this.setState({
+        tenant: tenantResponse[0]
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   toggleField = field => {

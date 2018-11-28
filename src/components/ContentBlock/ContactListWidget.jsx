@@ -13,13 +13,23 @@ class ContactListWidget extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = { items: [], loading: true };
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const contactRequest = await Contact.query({ account: this.props.object });
 
-    this.setState({ items: contactRequest.results, loading: false });
+    if (this.mounted) {
+      this.setState({ items: contactRequest.results, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setSidebar = () => {

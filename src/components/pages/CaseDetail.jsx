@@ -21,10 +21,14 @@ class CaseDetail extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = { caseObj: null, caseStatuses: [], loading: true };
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
     const caseObj = await Case.get(id);
     const statusResponse = await Case.statuses();
@@ -40,13 +44,19 @@ class CaseDetail extends Component {
 
     caseObj.timeLogs = timeLogResponse.results;
 
-    this.setState({
-      caseObj,
-      caseStatuses: statusResponse.results,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        caseObj,
+        caseStatuses: statusResponse.results,
+        loading: false
+      });
+    }
 
     document.title = `${caseObj.subject} - Lily`;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   toggleArchive = () => {

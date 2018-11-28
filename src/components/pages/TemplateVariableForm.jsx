@@ -19,6 +19,7 @@ class InnerTemplateVariableForm extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.editorRef = React.createRef();
 
     this.state = {
@@ -30,6 +31,8 @@ class InnerTemplateVariableForm extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { id } = this.props.match.params;
 
     if (id) {
@@ -46,7 +49,13 @@ class InnerTemplateVariableForm extends Component {
     const categories = variableResponse.default;
     categories.custom = variableResponse.custom;
 
-    this.setState({ categories });
+    if (this.mounted) {
+      this.setState({ categories });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   getOptions = options =>

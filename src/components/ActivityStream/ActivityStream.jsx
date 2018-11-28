@@ -33,6 +33,8 @@ class ActivityStream extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     const note = {
       gfkObjectId: props.object.id,
       gfkContentType: props.object.contentType.id,
@@ -50,6 +52,8 @@ class ActivityStream extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     const { object, dateStart, dateEnd, parentObject } = this.props;
 
     const { activityStream, options } = await setupActivityStream(
@@ -59,7 +63,13 @@ class ActivityStream extends Component {
       parentObject
     );
 
-    this.setState({ activityStream, options, loading: false });
+    if (this.mounted) {
+      this.setState({ activityStream, options, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setSelection = option => {

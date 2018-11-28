@@ -11,6 +11,7 @@ class UserFilter extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.currentUserValue = `assignedTo.id: ${props.currentUser.id}`;
 
     this.state = {
@@ -19,7 +20,9 @@ class UserFilter extends Component {
     };
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
+    this.mounted = true;
+
     const { currentUser } = this.props;
 
     const teamResponse = await UserTeam.query();
@@ -67,7 +70,13 @@ class UserFilter extends Component {
       collapsed: true
     });
 
-    this.setState({ teams, loading: false });
+    if (this.mounted) {
+      this.setState({ teams, loading: false });
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   getDisplay = () => {

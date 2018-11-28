@@ -16,6 +16,8 @@ class EmailAccountList extends Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     this.state = {
       emailAccounts: [],
       sharedAccounts: [],
@@ -29,7 +31,13 @@ class EmailAccountList extends Component {
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     await this.loadItems();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   loadItems = async () => {
@@ -62,12 +70,14 @@ class EmailAccountList extends Component {
       ...publicAccountsResponse.results
     ].filter(emailAccount => emailAccount.owner.id !== currentUser.id);
 
-    this.setState({
-      emailAccounts,
-      sharedAccounts,
-      selectedAccount: null,
-      loading: false
-    });
+    if (this.mounted) {
+      this.setState({
+        emailAccounts,
+        sharedAccounts,
+        selectedAccount: null,
+        loading: false
+      });
+    }
   };
 
   openSharedWithModal = async emailAccount => {
