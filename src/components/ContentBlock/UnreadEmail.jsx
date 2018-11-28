@@ -57,6 +57,7 @@ class UnreadEmail extends Component {
   loadItems = async () => {
     this.setState({ loading: true });
 
+    // TODO: Implement inbox filter.
     const response = await EmailMessage.query({});
     const total = response.results.length;
     const items = response.results;

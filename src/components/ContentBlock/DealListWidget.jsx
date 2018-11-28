@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import ContentBlock from 'components/ContentBlock';
@@ -23,7 +24,9 @@ class DealListWidget extends Component {
   async componentDidMount() {
     this.mounted = true;
 
-    const dealRequest = await Deal.query({ account: this.props.object });
+    const { object } = this.props;
+
+    const dealRequest = await Deal.query({ [`${object.contentType.model}.id`]: object.id });
 
     if (this.mounted) {
       this.setState({ items: dealRequest.results, loading: false });
@@ -48,7 +51,7 @@ class DealListWidget extends Component {
 
   render() {
     const { items, loading } = this.state;
-    const { submitCallback } = this.props;
+    const { submitCallback, t } = this.props;
 
     const title = (
       <React.Fragment>
@@ -141,6 +144,14 @@ class DealListWidget extends Component {
                   )}
                 </tbody>
               ))}
+
+              {items.length === 0 && (
+                <tbody>
+                  <tr>
+                    <td colSpan="5">{t('cases.listWidget')}</td>
+                  </tr>
+                </tbody>
+              )}
             </table>
           </ContentBlock>
         </BlockUI>
@@ -149,4 +160,4 @@ class DealListWidget extends Component {
   }
 }
 
-export default withContext(DealListWidget);
+export default withNamespaces('emptyStates')(withContext(DealListWidget));

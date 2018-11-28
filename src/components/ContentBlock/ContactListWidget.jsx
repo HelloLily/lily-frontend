@@ -21,7 +21,8 @@ class ContactListWidget extends Component {
   async componentDidMount() {
     this.mounted = true;
 
-    const contactRequest = await Contact.query({ account: this.props.object });
+    // TODO: Implement proper filter.
+    const contactRequest = await Contact.query({});
 
     if (this.mounted) {
       this.setState({ items: contactRequest.results, loading: false });

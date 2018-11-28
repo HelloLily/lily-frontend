@@ -41,6 +41,8 @@ class Lily extends Component {
   constructor(props) {
     super(props);
 
+    this.previousPage = '';
+
     this.state = { loading: true };
   }
 
@@ -72,7 +74,7 @@ class Lily extends Component {
 
     Notifications.init();
 
-    if (!process.env.debug) {
+    if (!process.env.DEBUG) {
       // Load Segment.
       window.analytics.load(process.env.SEGMENT_WRITE_KEY);
     }
@@ -88,8 +90,11 @@ class Lily extends Component {
       // });
       window.analytics.page({
         path: location.pathname,
-        url: window.location.href
+        url: window.location.href,
+        referrer: this.previousPage
       });
+
+      this.previousPage = window.location.href;
 
       const { billing } = currentUser.tenant;
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import ContentBlock from 'components/ContentBlock';
@@ -22,7 +23,9 @@ class CaseListWidget extends Component {
   async componentDidMount() {
     this.mounted = true;
 
-    const caseRequest = await Case.query({ account: this.props.object });
+    const { object } = this.props;
+
+    const caseRequest = await Case.query({ [`${object.contentType.model}.id`]: object.id });
 
     if (this.mounted) {
       this.setState({ items: caseRequest.results, loading: false });
@@ -47,7 +50,7 @@ class CaseListWidget extends Component {
 
   render() {
     const { items, loading } = this.state;
-    const { submitCallback } = this.props;
+    const { submitCallback, t } = this.props;
 
     const title = (
       <React.Fragment>
@@ -136,6 +139,14 @@ class CaseListWidget extends Component {
                   )}
                 </tbody>
               ))}
+
+              {items.length === 0 && (
+                <tbody>
+                  <tr>
+                    <td colSpan="5">{t('cases.listWidget')}</td>
+                  </tr>
+                </tbody>
+              )}
             </table>
           </ContentBlock>
         </BlockUI>
@@ -144,4 +155,4 @@ class CaseListWidget extends Component {
   }
 }
 
-export default withContext(CaseListWidget);
+export default withNamespaces('emptyStates')(withContext(CaseListWidget));
