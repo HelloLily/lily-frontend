@@ -25,6 +25,7 @@ import BlockUI from 'components/Utils/BlockUI';
 import Form from 'components/Form';
 import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
+import { NoAccountsMessage, NoContactsMessage } from 'components/Form/NoOptionsMessages';
 import TagField from 'components/Fields/TagField';
 import LilyDatepicker from 'components/Utils/LilyDatePicker';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
@@ -300,6 +301,7 @@ class InnerDealForm extends Component {
       handleChange,
       handleSubmit,
       setFieldValue,
+      currentUser,
       t
     } = this.props;
 
@@ -334,6 +336,9 @@ class InnerDealForm extends Component {
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
                           placeholder="Select an account"
+                          components={{ NoOptionsMessage: NoAccountsMessage }}
+                          callback={account => setFieldValue('account', account)}
+                          currentUser={currentUser}
                         />
 
                         {errors.account && <div className="error-message">{errors.account}</div>}
@@ -351,6 +356,10 @@ class InnerDealForm extends Component {
                           getOptionLabel={option => option.fullName}
                           getOptionValue={option => option.id}
                           placeholder="Select a contact"
+                          components={{ NoOptionsMessage: NoContactsMessage }}
+                          callback={contact => setFieldValue('contact', contact)}
+                          currentUser={currentUser}
+                          account={values.account}
                         />
 
                         {errors.contact && <div className="error-message">{errors.contact}</div>}

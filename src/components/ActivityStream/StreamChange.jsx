@@ -12,12 +12,15 @@ class StreamChange extends Component {
   }
 
   toggleCollapse = () => {
-    this.setState({ collapsed: !this.state.collapsed });
+    const { collapsed } = this.state;
+
+    this.setState({ collapsed: !collapsed });
   };
 
   render() {
     const { collapsed } = this.state;
     const { item } = this.props;
+
     const keyBase = `${item.contentType.model}-${item.id}`;
 
     return (

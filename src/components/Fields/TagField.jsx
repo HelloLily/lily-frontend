@@ -10,7 +10,7 @@ class TagField extends Component {
     this.props.handleRelated('tags', selected);
   };
 
-  search = async query => {
+  search = async (query = '') => {
     const request = await Tag.query({ search: query, ordering: 'name' });
 
     return request.hits;

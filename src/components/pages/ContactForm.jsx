@@ -9,13 +9,7 @@ import { debounce } from 'debounce';
 
 import withContext from 'src/withContext';
 import setValues from 'utils/setValues';
-import {
-  SELECT_STYLES,
-  TWITTER_EMPTY_ROW,
-  LINKEDIN_EMPTY_ROW,
-  ACCOUNT_RELATION_STATUS,
-  DEBOUNCE_WAIT
-} from 'lib/constants';
+import { SELECT_STYLES, TWITTER_EMPTY_ROW, LINKEDIN_EMPTY_ROW, DEBOUNCE_WAIT } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import cleanRelatedFields from 'utils/cleanRelatedFields';
 import RadioButtons from 'components/RadioButtons';
@@ -23,6 +17,7 @@ import BlockUI from 'components/Utils/BlockUI';
 import Form from 'components/Form';
 import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
+import { NoAccountsMessage } from 'components/Form/NoOptionsMessages';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
@@ -30,9 +25,9 @@ import AddressField from 'components/Fields/AddressField';
 import TagField from 'components/Fields/TagField';
 import Suggestions from 'components/Fields/Suggestions';
 import LilyTooltip from 'components/LilyTooltip';
+import Address from 'components/Utils/Address';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
-import Address from 'src/components/Utils/Address';
 
 class InnerContactForm extends Component {
   constructor(props) {
@@ -153,16 +148,6 @@ class InnerContactForm extends Component {
     return uniqueValues;
   };
 
-  NoOptionsMessage = props => {
-    const value = props.selectProps.inputValue;
-
-    return (
-      <button onClick={() => this.addAccount(props)} type="button" className="no-options-action">
-        <FontAwesomeIcon icon="plus" /> Add <strong>{value}</strong> as a new account
-      </button>
-    );
-  };
-
   searchName = async () => {
     const { contactSuggestions, showSuggestions } = this.state;
     const { firstName, lastName } = this.props.values;
@@ -270,24 +255,8 @@ class InnerContactForm extends Component {
     this.props.setFieldValue('accounts', selected);
   };
 
-  addAccount = async props => {
-    const name = props.selectProps.inputValue;
-
-    const statusRequest = await Account.statuses();
-    const relationStatus = statusRequest.results.find(
-      status => status.name === ACCOUNT_RELATION_STATUS
-    );
-
-    const data = {
-      name,
-      status: relationStatus.id,
-      assignedTo: this.props.currentUser
-    };
-
-    // Create a new account and add it to the 'Works at' field.
-    const response = await Account.post(data);
-
-    props.setValue([...this.props.values.accounts, response]);
+  addAccountCallback = account => {
+    this.props.setFieldValue('accounts', [...this.props.values.accounts, account]);
   };
 
   handleRelated = (type, items) => {
@@ -338,7 +307,7 @@ class InnerContactForm extends Component {
 
   render() {
     const { accountSuggestions, contactSuggestions, showSuggestions, loading } = this.state;
-    const { values, errors, isSubmitting, handleChange, handleSubmit, t } = this.props;
+    const { values, errors, isSubmitting, handleChange, handleSubmit, currentUser, t } = this.props;
 
     const twitterProfile = values.socialMedia.find(profile => profile.name === 'twitter');
     const twitterUsername = twitterProfile ? twitterProfile.username : '';
@@ -448,7 +417,9 @@ class InnerContactForm extends Component {
                           loadOptions={debounce(this.searchAccounts, DEBOUNCE_WAIT)}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.id}
-                          components={{ NoOptionsMessage: this.NoOptionsMessage }}
+                          components={{ NoOptionsMessage: NoAccountsMessage }}
+                          callback={this.addAccountCallback}
+                          currentUser={currentUser}
                         />
                       </div>
 
@@ -480,7 +451,7 @@ class InnerContactForm extends Component {
                                         <React.Fragment>
                                           <i
                                             className="lilicon hl-company-icon"
-                                            data-tip={t('contact.accountInfoTooltip')}
+                                            data-tip={t('forms:contact.accountInfoTooltip')}
                                           />
 
                                           <LilyTooltip />
@@ -534,7 +505,7 @@ class InnerContactForm extends Component {
                                       <React.Fragment>
                                         <i
                                           className="lilicon hl-company-icon"
-                                          data-tip={t('contact.accountInfoTooltip')}
+                                          data-tip={t('forms:contact.accountInfoTooltip')}
                                         />
 
                                         <LilyTooltip />
@@ -590,7 +561,7 @@ class InnerContactForm extends Component {
                                       <React.Fragment>
                                         <i
                                           className="lilicon hl-company-icon"
-                                          data-tip={t('contact.accountInfoTooltip')}
+                                          data-tip={t('forms:contact.accountInfoTooltip')}
                                         />
 
                                         <LilyTooltip />
@@ -700,10 +671,10 @@ const ContactForm = withRouter(
 
       if (values.id) {
         request = Contact.patch(cleanedValues);
-        text = t('modelUpdated', { model: 'contact' });
+        text = t('toasts:modelUpdated', { model: 'contact' });
       } else {
         request = Contact.post(cleanedValues);
-        text = t('modelCreated', { model: 'contact' });
+        text = t('toasts:modelCreated', { model: 'contact' });
       }
 
       request
