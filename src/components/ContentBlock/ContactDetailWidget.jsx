@@ -35,8 +35,9 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
       <div className="content-block-label" />
       <div className="content-block-name">
         <i className="lilicon hl-entity-icon m-r-5" />
-        {clickable &&
-          !contact.isDeleted && <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link>}
+        {clickable && !contact.isDeleted && (
+          <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link>
+        )}
 
         {(!clickable || contact.isDeleted) && <React.Fragment>{contact.fullName}</React.Fragment>}
       </div>
@@ -121,13 +122,17 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
             field="accounts"
             submitCallback={submitCallback}
           >
-            {contact.functions.map(func => (
-              <div key={func.id}>
-                <Link to={`/accounts/${func.account}`}>{func.accountName}</Link>
+            {contact.accounts.map(account => (
+              <div key={account.id}>
+                <Link to={`/accounts/${account.id}`}>{account.name}</Link>
 
-                {!func.isActive && <span> (inactive)</span>}
+                {!account.isActive && <span> (inactive)</span>}
               </div>
             ))}
+
+            {contact.accounts.length === 0 && (
+              <span className="editable-empty">Not linked to any accounts</span>
+            )}
           </Editable>
         </div>
       </div>

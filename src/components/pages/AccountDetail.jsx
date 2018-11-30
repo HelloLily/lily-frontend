@@ -56,10 +56,10 @@ class AccountDetail extends Component {
         // New profile added.
         account.socialMedia.push(profile);
       }
-
-      // Force the editable components to update.
-      this.forceUpdate();
     }
+
+    // Force the editable components to update.
+    this.forceUpdate();
   };
 
   render() {

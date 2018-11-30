@@ -126,7 +126,7 @@ class Editable extends Component {
   };
 
   handleSubmit = (data = null) => {
-    const { value } = this.state;
+    const { value, initialValue } = this.state;
     const { multi, field, type, object } = this.props;
 
     let args = {
@@ -142,11 +142,11 @@ class Editable extends Component {
     }
 
     if (multi) {
-      this.state.initialValue.forEach(initialValue => {
-        const isDeleted = !args[field].some(item => item.id && item.id === initialValue.id);
+      initialValue.forEach(val => {
+        const isDeleted = !args[field].some(item => item.id && item.id === val.id);
 
         if (isDeleted) {
-          args[field].push({ id: initialValue.id, isDeleted });
+          args[field].push({ id: val.id, isDeleted });
         }
       });
     }
@@ -169,7 +169,7 @@ class Editable extends Component {
     let error = null;
 
     promise
-      .then(async () => {
+      .then(() => {
         this.setState({ value: newValue, initialValue: newValue, editing: false });
       })
       .catch(errorResponse => {

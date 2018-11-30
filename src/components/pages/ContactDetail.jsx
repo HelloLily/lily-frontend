@@ -39,7 +39,7 @@ class ContactDetail extends Component {
   submitCallback = async args => {
     const { contact } = this.state;
 
-    await updateModel(contact, args);
+    const response = await updateModel(contact, args);
 
     if (args.hasOwnProperty('socialMedia')) {
       const profile = args.socialMedia[0];
@@ -60,6 +60,12 @@ class ContactDetail extends Component {
       // Force the editable components to update.
       this.forceUpdate();
     }
+
+    if (args.hasOwnProperty('accounts')) {
+      contact.accounts = response.accounts;
+    }
+
+    this.setState({ contact });
   };
 
   render() {

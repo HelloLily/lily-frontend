@@ -10,7 +10,7 @@ export default function formatPhoneNumber(phoneNumber, user, address = null) {
     return false;
   }
 
-  const country = address && address.country ? address.country : user.country;
+  const country = address && address.country ? address.country : user.tenant.country;
   const parsedNumber = phoneUtil.parse(phoneNumber, country);
   const phoneNumberType = phoneUtil.getNumberType(parsedNumber);
 
