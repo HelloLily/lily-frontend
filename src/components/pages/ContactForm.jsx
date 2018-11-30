@@ -315,6 +315,8 @@ class InnerContactForm extends Component {
     const linkedInProfile = values.socialMedia.find(profile => profile.name === 'linkedin');
     const linkedInUsername = linkedInProfile ? linkedInProfile.username : '';
 
+    const hasAccountPhoneNumbers = values.accounts.length > 0 && values.accounts[0].phoneNumbers.length > 0;
+
     return (
       <React.Fragment>
         {!loading ? (
@@ -495,7 +497,7 @@ class InnerContactForm extends Component {
                       <div className="form-field">
                         <label>Phone number</label>
 
-                        {values.accounts.length > 0 && values.accounts[0].phoneNumbers.length > 0 && (
+                        {hasAccountPhoneNumbers && (
                           <table className="form-info-table m-b-10">
                             <tbody>
                               {values.accounts[0].phoneNumbers.map((phoneNumber, index) => (

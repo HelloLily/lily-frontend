@@ -66,13 +66,9 @@ a {
   }
 
   &.round {
-    border-radius: 50%;
-    padding: 0 (ceil($large-button-size / 4) + 1);
-  }
-
-  &.round {
     margin: 0;
     border-radius: 50%;
+    padding: 0 (ceil($large-button-size / 4) + 1);
   }
 
   &.small {
@@ -144,7 +140,7 @@ a {
 .hl-interface-btn {
   @include hl-button($large-button-size);
   color: $text-muted;
-  border: none;
+  border: 0;
   background: none;
 
   &:hover {
@@ -179,7 +175,7 @@ a {
   .dropdown-button {
     @include hl-button($large-button-size);
     padding: 0;
-    border: none;
+    border: 0;
     background: none;
     font-weight: 500;
     width: 100%;

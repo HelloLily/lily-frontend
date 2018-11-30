@@ -97,10 +97,10 @@
   &:not(.has-header) {
     .dropdown-menu-item {
       &:first-of-type {
+        @include menu-arrow();
+
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
-
-        @include menu-arrow();
 
         &:hover {
           &:before {

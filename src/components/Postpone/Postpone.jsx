@@ -116,7 +116,7 @@ class Postpone extends Component {
   };
 
   render() {
-    const { date, menuOpen, datepickerOpen, dateInput, submitting } = this.state;
+    const { date, menuOpen, dateInput, submitting } = this.state;
     const { object, field, t } = this.props;
     const { PostponeButton } = this;
 

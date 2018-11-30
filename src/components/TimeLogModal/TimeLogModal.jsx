@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
 import { withNamespaces } from 'react-i18next';
 import { format } from 'date-fns';
 import Textarea from 'react-textarea-autosize';

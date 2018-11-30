@@ -1,4 +1,4 @@
-@import '~style/fonts/lilicon.scss';
+@import '~style/fonts/lilicon';
 @import '~style/variables/colors';
 @import '~style/variables/measurements';
 
@@ -164,9 +164,7 @@ input {
 
   .editable-buttons {
     align-self: flex-end;
-  }
 
-  .editable-buttons {
     button {
       &:first-of-type {
         border-bottom-left-radius: $base-border-radius;

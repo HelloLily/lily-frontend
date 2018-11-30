@@ -71,6 +71,7 @@
     }
   }
 
+  // scss-lint:disable SelectorFormat
   .DayPicker {
     border-left: 1px $inner-border-color solid;
 
@@ -82,4 +83,5 @@
       padding-bottom: 0;
     }
   }
+  // scss-lint:enable SelectorFormat
 }

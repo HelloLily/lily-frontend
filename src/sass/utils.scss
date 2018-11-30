@@ -5,6 +5,7 @@ $spaceamounts: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 8
 $sides: (top, bottom, left, right);
 
 // We put these classes on the body's ID to ensure precedence over other styling.
+// scss-lint:disable IdSelector
 #app-container {
   @each $space in $spaceamounts {
     @each $side in $sides {
@@ -118,9 +119,5 @@ $sides: (top, bottom, left, right);
 
   .capitalize {
     text-transform: capitalize;
-  }
-
-  .text-center {
-    text-align: center;
   }
 }

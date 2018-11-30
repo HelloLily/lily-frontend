@@ -47,7 +47,7 @@ class InnerWebhookForm extends Component {
   };
 
   render() {
-    const { values, errors, isSubmitting, handleSubmit, t } = this.props;
+    const { values, isSubmitting, handleSubmit, t } = this.props;
 
     return (
       <BlockUI blocking={isSubmitting}>

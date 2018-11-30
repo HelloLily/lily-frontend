@@ -15,7 +15,9 @@ class StreamDeal extends Component {
   }
 
   toggleNotes = () => {
-    this.setState({ showNoteAdd: !this.state.showNoteAdd });
+    const { showNoteAdd } = this.state;
+
+    this.setState({ showNoteAdd: !showNoteAdd });
   };
 
   submitCallback = args => {

@@ -13,16 +13,21 @@ class StreamCall extends Component {
   }
 
   toggleNotes = () => {
-    this.setState({ showNoteAdd: !this.state.showNoteAdd });
+    const { showNoteAdd } = this.state;
+
+    this.setState({ showNoteAdd: !showNoteAdd });
   };
 
   toggleCollapse = () => {
-    this.setState({ collapsed: !this.state.collapsed });
+    const { collapsed } = this.state;
+
+    this.setState({ collapsed: !collapsed });
   };
 
   render() {
     const { showNoteAdd, collapsed } = this.state;
     const { item } = this.props;
+
     const callType = item.direction === 0 ? 'inbound' : 'outbound';
 
     return (

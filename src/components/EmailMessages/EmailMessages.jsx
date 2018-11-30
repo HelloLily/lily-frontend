@@ -443,8 +443,12 @@ class EmailMessages extends Component {
                           {emailMessage.senderName || emailMessage.senderEmail}
                         </Link>
                       </td>
-                      {/* <td>{emailMessage.receivedByName && emailMessage.receivedByName.join(', ')}</td>
-                      <td>{emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}</td> */}
+                      {/* <td>
+                        {emailMessage.receivedByName && emailMessage.receivedByName.join(', ')}
+                      </td>
+                      <td>
+                        {emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}
+                      </td> */}
                       <td className="navigation-cell">
                         <Link to={`/email/${emailMessage.id}`}>
                           {emailMessage.history && emailMessage.history.repliedWith && (

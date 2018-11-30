@@ -50,16 +50,20 @@
   flex: 1;
 
   &:not(:last-of-type) {
+    // scss-lint:disable SelectorFormat
     .user-share__control {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
+    // scss-lint:enable SelectorFormat
   }
 
   &:not(:first-of-type) {
+    // scss-lint:disable SelectorFormat
     .user-share__control {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
+    // scss-lint:enable SelectorFormat
   }
 }

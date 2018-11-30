@@ -195,12 +195,6 @@ class EmailAccounts extends Component {
             </button>
           </div>
 
-          {/* {emailAccount.isSyncing &&
-            <div className="email-account-syncing" tooltip="Fetching your email. This could take a moment">
-              Importing your email
-                </div>
-          } */}
-
           {!isAllCollapsed && (
             <ul>
               {DEFAULT_LABELS.map(label => {

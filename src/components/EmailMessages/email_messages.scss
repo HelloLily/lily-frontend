@@ -60,7 +60,7 @@
     iframe {
       width: 100%;
       min-height: 1000px;
-      border: none;
+      border: 0;
     }
   }
 
@@ -75,7 +75,7 @@
   }
 
   .email-info {
-    padding: 5px 15px 10px 15px;
+    padding: 5px 15px 10px;
   }
 
   .email-info-top {
@@ -98,7 +98,7 @@
   }
 
   .plain-text-button {
-    border: none;
+    border: 0;
     white-space: nowrap;
   }
 }

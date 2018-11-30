@@ -14,7 +14,6 @@ import { MAX_FILE_SIZE } from 'lib/constants';
 dom.watch();
 
 const Uppy = require('@uppy/core');
-const XHRUpload = require('@uppy/xhr-upload');
 
 const uppy = Uppy({
   restrictions: {

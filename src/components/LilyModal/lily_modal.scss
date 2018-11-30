@@ -4,10 +4,10 @@
 .modal-overlay {
   position: fixed;
   z-index: 10;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(39, 36, 76, 0.5);
   display: flex;
   justify-content: center;
@@ -18,7 +18,7 @@
   max-width: 800px;
   min-height: 25%;
   max-height: 60%;
-  margin: 10% auto auto auto;
+  margin: 10% auto auto;
   border: 1px $base-border-color solid;
   background: #fff;
   border-radius: $base-border-radius;

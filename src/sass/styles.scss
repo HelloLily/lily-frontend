@@ -73,6 +73,11 @@ textarea {
   outline: none;
   resize: none;
   padding: 0.375rem 0.75rem;
+
+  &.hl-input,
+  &.editable-input {
+    line-height: initial;
+  }
 }
 
 iframe {
@@ -109,18 +114,13 @@ textarea {
   }
 }
 
+// scss-lint:disable QualifyingElement
 .hl-input,
 input.editable-input,
 textarea {
   border: 1px $inner-border-color solid;
 }
-
-textarea {
-  &.hl-input,
-  &.editable-input {
-    line-height: initial;
-  }
-}
+// scss-lint:enable QualifyingElement
 
 .block-overlay {
   position: relative;
