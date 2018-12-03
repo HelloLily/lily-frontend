@@ -177,7 +177,7 @@ class DealList extends Component {
             <ListFilter
               label="Next steps"
               items={nextSteps}
-              filters={filters}
+              filters={filters.list}
               setFilters={this.setFilters}
             />
 

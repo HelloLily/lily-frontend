@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 
+import withContext from 'src/withContext';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
@@ -23,7 +24,7 @@ class UnassignedCases extends Component {
       items: [],
       caseTypes: [],
       teams: [],
-      filters: { list: [] },
+      filters: { list: [], team: [] },
       loading: true
     };
   }
@@ -31,7 +32,11 @@ class UnassignedCases extends Component {
   async componentDidMount() {
     this.mounted = true;
 
+    const { filters } = this.state;
+    const { currentUser } = this.props;
+
     const settingsResponse = await this.settings.get();
+    const settings = settingsResponse.results || { filters };
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
       caseType.value = `type.id=${caseType.id}`;
@@ -42,13 +47,22 @@ class UnassignedCases extends Component {
     const teams = teamResponse.results.map(team => {
       team.value = `assignedToTeams.id=${team.id}`;
 
+      if (filters.team.length === 0) {
+        const foundTeam = currentUser.teams.find(userTeam => userTeam.id === team.id);
+
+        // Automatically select the user's teams if there's no filters.
+        if (foundTeam) {
+          settings.filters.team.push(team.value);
+        }
+      }
+
       return team;
     });
 
     if (this.mounted) {
       this.setState(
         {
-          ...settingsResponse.results,
+          ...settings,
           caseTypes,
           teams
         },
@@ -75,7 +89,19 @@ class UnassignedCases extends Component {
     }
   };
 
-  setFilters = async filters => {
+  setFilters = async newFilters => {
+    const { filters } = this.state;
+
+    filters.list = newFilters;
+    await this.settings.store({ filters });
+
+    this.setState({ filters }, this.loadItems);
+  };
+
+  setTeamFilters = async newFilters => {
+    const { filters } = this.state;
+
+    filters.team = newFilters;
     await this.settings.store({ filters });
 
     this.setState({ filters }, this.loadItems);
@@ -102,11 +128,18 @@ class UnassignedCases extends Component {
         <ListFilter
           label="Case types"
           items={caseTypes}
-          filters={filters}
+          filters={filters.list}
           setFilters={this.setFilters}
         />
 
-        <ListFilter label="Teams" items={teams} filters={filters} setFilters={this.setFilters} />
+        <div className="m-r-10" />
+
+        <ListFilter
+          label="Teams"
+          items={teams}
+          filters={filters.team}
+          setFilters={this.setTeamFilters}
+        />
       </React.Fragment>
     );
 
@@ -173,4 +206,4 @@ class UnassignedCases extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(UnassignedCases);
+export default withNamespaces('emptyStates')(withContext(UnassignedCases));

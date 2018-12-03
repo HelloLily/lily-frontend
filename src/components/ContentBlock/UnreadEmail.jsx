@@ -92,7 +92,7 @@ class UnreadEmail extends Component {
       <ListFilter
         label="Inboxes"
         items={emailAccounts}
-        filters={filters}
+        filters={filters.list}
         setFilters={this.setFilters}
       />
     );

@@ -176,7 +176,7 @@ class CaseList extends Component {
             <ListFilter
               label="Case types"
               items={caseTypes}
-              filters={filters}
+              filters={filters.list}
               setFilters={this.setFilters}
             />
 

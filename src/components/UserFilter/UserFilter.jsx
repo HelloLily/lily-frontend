@@ -166,7 +166,7 @@ class UserFilter extends Component {
 
     return (
       <Dropdown
-        clearCallback={filters.length > 0 ? this.clearFilters : null}
+        clearCallback={display.length > 0 ? this.clearFilters : null}
         clickable={
           <button className="hl-primary-btn filter-btn" onClick={this.showMenu}>
             <i className="lilicon hl-entities-icon" />

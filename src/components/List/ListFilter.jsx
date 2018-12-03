@@ -6,7 +6,7 @@ import Dropdown from 'components/Dropdown';
 class ListFilter extends Component {
   getDisplay = () => {
     const { items } = this.props;
-    const filters = this.props.filters.list;
+    const { filters } = this.props;
 
     const display = [];
 
@@ -20,18 +20,19 @@ class ListFilter extends Component {
   };
 
   toggleFilter = filter => {
-    const { filters } = this.props;
+    let filters = this.props.filters;
 
-    filters.list = toggleFilter(this.props.filters.list, filter);
+    filters = toggleFilter(this.props.filters, filter);
 
     this.props.setFilters(filters);
   };
 
   toggleAll = () => {
-    const { items, filters } = this.props;
+    const { items } = this.props;
+    let { filters } = this.props;
 
     // Filter items which haven't been selected.
-    const filteredItems = items.filter(item => !filters.list.some(filter => filter === item.value));
+    const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
 
     let newFilters = items;
 
@@ -41,32 +42,30 @@ class ListFilter extends Component {
     }
 
     // Toggle all filters which haven't been selected.
-    newFilters = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters.list);
+    newFilters = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters);
 
-    filters.list = newFilters;
+    filters = newFilters;
 
     this.props.setFilters(filters);
   };
 
   clearFilters = () => {
-    const { filters } = this.props;
-
-    filters.list = [];
+    const filters = [];
 
     this.props.setFilters(filters);
   };
 
   render() {
     const { label, items } = this.props;
+    let { filters } = this.props;
 
-    const filters = this.props.filters.list;
     const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
     const allSelected = filteredItems.length === 0;
     const display = this.getDisplay();
 
     return (
       <Dropdown
-        clearCallback={filters.length > 0 ? this.clearFilters : null}
+        clearCallback={display.length > 0 ? this.clearFilters : null}
         clickable={
           <button className="hl-primary-btn filter-btn">
             <i className="lilicon hl-cog-icon" />

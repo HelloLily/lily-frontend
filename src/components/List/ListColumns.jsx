@@ -27,11 +27,11 @@ class ListColumns extends Component {
   };
 
   render() {
-    const { sortColumn, sortStatus } = this.props;
+    const { sortColumn, sortStatus, columns } = this.props;
 
     return (
       <React.Fragment>
-        {this.props.columns.map(column => (
+        {columns.map(column => (
           <React.Fragment key={column.key}>
             {column.selected ? (
               <th>

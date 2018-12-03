@@ -180,7 +180,7 @@ class AccountList extends Component {
             <ListFilter
               label="Account status"
               items={statuses}
-              filters={filters}
+              filters={filters.list}
               setFilters={this.setFilters}
             />
 
