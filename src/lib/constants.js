@@ -181,11 +181,11 @@ export const TYPED_TEXT_REGEX = /\[\[ template\.typed_text \]\]/;
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // Message types.
-export const NEW_MESSAGE = 0;
-export const DRAFT_MESSAGE = 1;
-export const REPLY_MESSAGE = 2;
-export const REPLY_ALL_MESSAGE = 3;
-export const FORWARD_MESSAGE = 4;
+export const NEW_MESSAGE = 'compose';
+export const REPLY_MESSAGE = 'reply';
+export const REPLY_ALL_MESSAGE = 'reply-all';
+export const FORWARD_MESSAGE = 'forward';
+export const FORWARD_MULTI_MESSAGE = 'forward-multi';
 
 export const ENTER_KEY = 13;
 export const ESCAPE_KEY = 27;

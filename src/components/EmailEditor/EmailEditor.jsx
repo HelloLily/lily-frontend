@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-// import throttle from 'lodash.throttle';
 import Select, { components } from 'react-select';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { debounce } from 'debounce';
+import { withNamespaces } from 'react-i18next';
 import * as JsDiff from 'diff';
 
 import withContext from 'src/withContext';
@@ -16,10 +16,11 @@ import {
   DEBOUNCE_WAIT
 } from 'lib/constants';
 import { get } from 'lib/api';
-import { errorToast } from 'utils/toasts';
+import { errorToast, successToast } from 'utils/toasts';
+import LilyEditor from 'components/LilyEditor';
 import EmailAccount from 'models/EmailAccount';
 import EmailTemplate from 'models/EmailTemplate';
-import LilyEditor from 'components/LilyEditor';
+import EmailMessage from 'models/EmailMessage';
 
 // Styling overrides for selects in the editor component.
 const styles = {
@@ -45,8 +46,11 @@ class EmailEditor extends Component {
 
     this.state = {
       subject: '',
+      recipients: [],
+      recipientsCc: [],
+      recipientsBcc: [],
       modalOpen: false,
-      messageType: NEW_MESSAGE
+      action: NEW_MESSAGE
     };
   }
 
@@ -122,7 +126,7 @@ class EmailEditor extends Component {
       state.template = foundTemplate;
 
       // Only overwrite the subject if a new message is being created.
-      if (this.state.messageType === NEW_MESSAGE) {
+      if (this.state.action === NEW_MESSAGE) {
         state.subject = subject;
       }
 
@@ -325,7 +329,7 @@ class EmailEditor extends Component {
       if (loadTemplate) {
         const { bodyHtml, subject, customVariables } = template.value;
         // TODO: Implement check to see if the message is a reply.
-        // const subject = this.props.messageType === NEW_MESSAGE ? template.value.subject : this.state.message.subject;
+        // const subject = this.props.action === NEW_MESSAGE ? template.value.subject : this.state.message.subject;
 
         this.setState({ subject, template });
         this.loadTemplate(bodyHtml, subject, customVariables, typedText);
@@ -358,12 +362,9 @@ class EmailEditor extends Component {
 
       if (specialElements.hasOwnProperty(key)) {
         const originalHtml = specialElements[key];
-
-        const newHtml = originalHtml.replace(specialVariableRegex, (match, p1) => {
-          const value = this.getValueForVariable(p1) || `{{ ${p1} }}`;
-
-          return value;
-        });
+        const newHtml = originalHtml.replace(specialVariableRegex, (match, p1) => (
+          this.getValueForVariable(p1) || `{{ ${p1} }}`
+        ));
 
         link.outerHTML = newHtml;
 
@@ -454,7 +455,6 @@ class EmailEditor extends Component {
 
     // Replace typed text variable with actual text (or leave empty).
     newHtml = newHtml.replace('[[ template.typed_text ]]', typedText);
-
     // Replace all regular template variables.
     newHtml = newHtml.replace(VARIABLE_REGEX, (match, p1) => {
       // If no value is found we leave the template variable so we can attempt to fill it in later.
@@ -464,13 +464,11 @@ class EmailEditor extends Component {
     });
 
     if (subject) {
-      const newSubject = subject.replace(VARIABLE_REGEX, (match, p1) => {
+      const newSubject = subject.replace(VARIABLE_REGEX, (match, p1) => (
         // If no value is found we leave the template variable
         // so we can attempt to fill it in later.
-        const value = this.getValueForVariable(p1) || match;
-
-        return value;
-      });
+        this.getValueForVariable(p1) || match
+      ));
 
       this.setState({ subject: newSubject });
     }
@@ -495,12 +493,11 @@ class EmailEditor extends Component {
       return false;
     }
 
-    const allRecipients = recipients.concat(recipientsCc).concat(recipientsBcc);
-    const allValid = allRecipients.every(recipient =>
-      EMAIL_REGEX.test(recipient.value.emailAddress)
-    );
+    const allRecipients = [...recipients, ...recipientsCc, ...recipientsBcc];
 
-    return allValid;
+    console.log(allRecipients);
+
+    return allRecipients.every(recipient => EMAIL_REGEX.test(recipient.value.emailAddress));
   };
 
   validateEmailAddress = option => EMAIL_REGEX.test(option);
@@ -508,13 +505,21 @@ class EmailEditor extends Component {
   createRecipient = (option, type) => {
     const recipients = this.state[type];
 
-    recipients.push({ value: option.value, label: option.value });
+    console.log(option);
+
+    recipients.push({
+      value: {
+        emailAddress: option
+      },
+      label: option
+    });
 
     this.setState({ [type]: recipients });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { subject, files } = this.state;
+    const { t } = this.props;
 
     const recipientsValid = this.checkRecipientValidity();
 
@@ -523,6 +528,7 @@ class EmailEditor extends Component {
 
     if (!recipientsValid) {
       // Don't submit and show errors.
+      errorToast(t('error'));
       return;
     }
 
@@ -531,11 +537,9 @@ class EmailEditor extends Component {
       return;
     }
 
-    const recipients = this.state.recipients.map(recipient => ({
-      name: recipient.value.fullName,
-      emailAddress: recipient.value.emailAddress
-    }));
-
+    const recipients = this.state.recipients.map(recipient => recipient.value.emailAddress);
+    const recipientsCc = this.state.recipientsCc.map(recipient => recipient.value.emailAddress);
+    const recipientsBcc = this.state.recipientsBcc.map(recipient => recipient.value.emailAddress);
     // Creates a container div to read the template variables.
     const container = document.createElement('div');
     container.innerHTML = this.editorRef.current.getHtml();
@@ -551,7 +555,7 @@ class EmailEditor extends Component {
       if (hasMatch) {
         unparsedVariables += 1;
       } else {
-        // Clean the variable spans so the email doesn't contain unneeded HTML.
+        // Remove the variable spans so the email doesn't contain unneeded HTML.
         variable.outerHTML = variable.innerHTML;
       }
     });
@@ -568,14 +572,27 @@ class EmailEditor extends Component {
     const bodyHtml = container.innerHTML;
     const args = {
       subject,
-      bodyHtml,
-      account: this.state.emailAccount.value.id,
-      receivedBy: recipients
+      sendFrom: this.state.emailAccount.value.id,
+      to: recipients,
+      cc: recipientsCc,
+      bcc: recipientsBcc,
+      body: bodyHtml,
+      action: this.state.action
     };
 
     console.log(args);
 
-    // TODO: Add actual API call.
+    try {
+      await EmailMessage.post(args);
+
+      successToast(t('emailSent'));
+
+      this.props.history.push('/email');
+    } catch (error) {
+      console.log(error.data);
+    }
+
+    this.props.setSending(false);
   };
 
   RecipientOption = props => {
@@ -615,7 +632,8 @@ class EmailEditor extends Component {
       components: { Option: this.RecipientOption },
       isValidNewOption: this.validateEmailAddress,
       className: 'editor-select-input',
-      placeholder: 'Add recipients'
+      placeholder: 'Add recipients',
+      getOptionLabel: option => option.label
     };
 
     return (
@@ -644,7 +662,7 @@ class EmailEditor extends Component {
               name="recipients"
               value={this.state.recipients}
               onChange={this.handleRecipientChange}
-              onNewOptionClick={option => this.createRecipient(option, 'recipients')}
+              onCreateOption={option => this.createRecipient(option, 'recipients')}
               {...recipientProps}
             />
 
@@ -678,7 +696,7 @@ class EmailEditor extends Component {
                 name="recipientsCc"
                 value={this.state.recipientsCc}
                 onChange={this.handleAdditionalRecipients}
-                onNewOptionClick={option => this.createRecipient(option, 'recipientsCc')}
+                onCreateOption={option => this.createRecipient(option, 'recipientsCc')}
                 {...recipientProps}
               />
 
@@ -702,7 +720,7 @@ class EmailEditor extends Component {
                 name="recipientsBcc"
                 value={this.state.recipientsBcc}
                 onChange={recipients => this.handleAdditionalRecipients(recipients, true)}
-                onNewOptionClick={option => this.createRecipient(option, 'recipientsBcc')}
+                onCreateOption={option => this.createRecipient(option, 'recipientsBcc')}
                 {...recipientProps}
               />
 
@@ -780,4 +798,4 @@ class EmailEditor extends Component {
   }
 }
 
-export default withContext(EmailEditor);
+export default withNamespaces('toasts')(withContext(EmailEditor));

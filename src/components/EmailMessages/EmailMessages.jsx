@@ -133,7 +133,9 @@ class EmailMessages extends Component {
       search: query,
       emailAccount: this.props.currentEmailAccount,
       label: this.props.currentLabel,
-      page: this.state.page
+      page: this.state.page,
+      ordering: '-sentDate',
+      pageSize: 20
     };
     const messageResponse = await EmailMessage.query(params);
     // Fetch contact status for each message.

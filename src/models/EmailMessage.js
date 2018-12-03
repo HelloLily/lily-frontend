@@ -14,15 +14,15 @@ class EmailMessage {
   }
 
   post(data) {
-    return post('/messaging/email/email/', data);
+    return post('/messaging/email/drafts/', data);
   }
 
   patch(data) {
-    return patch(`/messaging/email/email/${data.id}/`, data);
+    return patch(`/messaging/email/drafts/${data.id}/`, data);
   }
 
   del(id) {
-    return del(`/messaging/email/email/${id}/`);
+    return del(`/messaging/email/drafts/${id}/`);
   }
 
   query(params) {

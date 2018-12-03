@@ -52,5 +52,6 @@
   "internalNumberCleared": "The internal number for {{name}} has been cleared",
   "internalNumberUpdated": "The internal number for {{name}} has been updated",
   "primaryAccountUpdated": "Primary email account has been set to {{label}}",
-  "tenantUpdated": "Your settings have been saved"
+  "tenantUpdated": "Your settings have been saved",
+  "emailSent": "Your email has been sent"
 }
