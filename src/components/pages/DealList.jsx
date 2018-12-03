@@ -102,8 +102,12 @@ class DealList extends Component {
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
-  setFilters = async filters => {
+  setFilters = async newFilters => {
+    const { filters } = this.state;
+
+    filters.list = newFilters;
     await this.settings.store({ filters });
+
     this.setState({ filters }, this.loadItems);
   };
 
