@@ -68,8 +68,9 @@ class ContentBlock extends Component {
       newStatus = COLLAPSED;
     }
 
-    await this.settings.store({ status: newStatus });
     this.setState({ status: newStatus });
+
+    await this.settings.store({ status: newStatus });
   };
 
   handleScroll = event => {

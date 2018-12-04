@@ -495,8 +495,6 @@ class EmailEditor extends Component {
 
     const allRecipients = [...recipients, ...recipientsCc, ...recipientsBcc];
 
-    console.log(allRecipients);
-
     return allRecipients.every(recipient => EMAIL_REGEX.test(recipient.value.emailAddress));
   };
 
@@ -504,8 +502,6 @@ class EmailEditor extends Component {
 
   createRecipient = (option, type) => {
     const recipients = this.state[type];
-
-    console.log(option);
 
     recipients.push({
       value: {
@@ -580,8 +576,6 @@ class EmailEditor extends Component {
       action: this.state.action
     };
 
-    console.log(args);
-
     try {
       await EmailMessage.post(args);
 
@@ -589,7 +583,8 @@ class EmailEditor extends Component {
 
       this.props.history.push('/email');
     } catch (error) {
-      console.log(error.data);
+      // TODO: Show a proper error.
+      errorToast(t('error'));
     }
 
     this.props.setSending(false);

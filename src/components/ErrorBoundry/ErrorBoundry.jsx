@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { node } from 'prop-types';
 import ErrorMessage from './ErrorMessage';
 
 class ErrorBoundary extends Component {
@@ -17,9 +16,5 @@ class ErrorBoundary extends Component {
     return this.state.hasError ? <ErrorMessage /> : this.props.children;
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: node.isRequired
-};
 
 export default ErrorBoundary;

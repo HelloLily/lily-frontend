@@ -173,7 +173,7 @@ class DealDetail extends Component {
               <div>
                 <ContentBlock title={title} component="dealDetailWidget" fullHeight>
                   <div className="detail-row">
-                    <div>One-time cost</div>
+                    <div>One-time payment</div>
                     <div>
                       <Editable
                         type="text"
@@ -187,7 +187,7 @@ class DealDetail extends Component {
                   </div>
 
                   <div className="detail-row">
-                    <div>Recurring cost</div>
+                    <div>Monthly payment</div>
                     <div>
                       <Editable
                         type="text"

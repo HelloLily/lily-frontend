@@ -101,9 +101,11 @@ class AccountList extends Component {
     const { filters } = this.state;
 
     filters.list = newFilters;
+
+    await this.setState({ filters });
     await this.settings.store({ filters });
 
-    this.setState({ filters }, this.loadItems);
+    this.loadItems();
   };
 
   toggleColumn = async index => {

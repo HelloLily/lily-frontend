@@ -37,8 +37,8 @@ class DealList extends Component {
       { key: 'nextStepDate', text: 'Next step date', selected: true, sort: 'nextStepDate' },
       { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.firstName' },
       { key: 'assignedTeams', text: 'Assigned team(s)', selected: true },
-      { key: 'amountOnce', text: 'One-time cost', selected: true, sort: 'amountOnce' },
-      { key: 'amountRecurring', text: 'Recurring costs', selected: true, sort: 'amountRecurring' },
+      { key: 'amountOnce', text: 'One-time payment', selected: true, sort: 'amountOnce' },
+      { key: 'amountRecurring', text: 'Monthly payment', selected: true, sort: 'amountRecurring' },
       { key: 'newBusiness', text: 'Business', selected: true, sort: 'newBusiness' },
       { key: 'created', text: 'Created', selected: true, sort: 'created' },
       { key: 'closedDate', text: 'Closed date', selected: false, sort: 'closedDate' },
@@ -106,9 +106,11 @@ class DealList extends Component {
     const { filters } = this.state;
 
     filters.list = newFilters;
+
+    await this.setState({ filters });
     await this.settings.store({ filters });
 
-    this.setState({ filters }, this.loadItems);
+    this.loadItems();
   };
 
   toggleColumn = async index => {

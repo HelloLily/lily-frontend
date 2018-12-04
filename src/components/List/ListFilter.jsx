@@ -5,8 +5,7 @@ import Dropdown from 'components/Dropdown';
 
 class ListFilter extends Component {
   getDisplay = () => {
-    const { items } = this.props;
-    const { filters } = this.props;
+    const { items, filters } = this.props;
 
     const display = [];
 
@@ -20,7 +19,7 @@ class ListFilter extends Component {
   };
 
   toggleFilter = filter => {
-    let filters = this.props.filters;
+    let { filters } = this.props;
 
     filters = toggleFilter(this.props.filters, filter);
 
@@ -56,8 +55,7 @@ class ListFilter extends Component {
   };
 
   render() {
-    const { label, items } = this.props;
-    let { filters } = this.props;
+    const { label, filters, items } = this.props;
 
     const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
     const allSelected = filteredItems.length === 0;

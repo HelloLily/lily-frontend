@@ -11,7 +11,9 @@ import {
   NEEDS_ACCOUNT,
   COMPLETE,
   TRASH_LABEL,
-  DEBOUNCE_WAIT
+  DEBOUNCE_WAIT,
+  SENT_LABEL,
+  DRAFT_LABEL
 } from 'lib/constants';
 import getColorCode from 'utils/getColorCode';
 import BlockUI from 'components/Utils/BlockUI';
@@ -445,12 +447,23 @@ class EmailMessages extends Component {
                           {emailMessage.senderName || emailMessage.senderEmail}
                         </Link>
                       </td>
-                      {/* <td>
-                        {emailMessage.receivedByName && emailMessage.receivedByName.join(', ')}
-                      </td>
-                      <td>
-                        {emailMessage.receivedByEmail && emailMessage.receivedByEmail.join(', ')}
-                      </td> */}
+                      {/* TODO: Implement this code once API is done. */}
+                      {/* {currentLabel.name === SENT_LABEL && (
+                        <td>
+                          {emailMessage.receivedBy.length > 0 && (
+                            emailMessage.receivedBy.map(receiver =>
+                              receiver.name || receiver.emailAddress).join(', ')
+                          )}
+                        </td>
+                      )}
+                      {currentLabel.name === DRAFT_LABEL && (
+                        <td>
+                          {emailMessage.receivedBy.length > 0 && (
+                            emailMessage.receivedBy.map(receiver =>
+                              receiver.emailAddress).join(', ')
+                          )}
+                        </td>
+                      )} */}
                       <td className="navigation-cell">
                         <Link to={`/email/${emailMessage.id}`}>
                           {emailMessage.history && emailMessage.history.repliedWith && (

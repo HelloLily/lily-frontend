@@ -528,13 +528,13 @@ class InnerDealForm extends Component {
 
                       <div className={`form-field${errors.amountOnce ? ' has-error' : ''}`}>
                         <label htmlFor="amountOnce" required>
-                          One-time cost
+                          One-time payment
                         </label>
                         <input
                           id="amountOnce"
                           type="text"
                           className="hl-input"
-                          placeholder="One-time cost"
+                          placeholder="One-time payment"
                           value={values.amountOnce}
                           onChange={handleChange}
                         />
@@ -546,13 +546,13 @@ class InnerDealForm extends Component {
 
                       <div className={`form-field${errors.amountRecurring ? ' has-error' : ''}`}>
                         <label htmlFor="amountRecurring" required>
-                          Recurring costs
+                          Monthly payment
                         </label>
                         <input
                           id="amountRecurring"
                           type="text"
                           className="hl-input"
-                          placeholder="Recurring costs"
+                          placeholder="Monthly payment"
                           value={values.amountRecurring}
                           onChange={handleChange}
                         />
