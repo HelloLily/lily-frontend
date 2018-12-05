@@ -97,10 +97,10 @@ class AccountList extends Component {
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
-  setFilters = async newFilters => {
+  setFilters = async (newFilters, type) => {
     const { filters } = this.state;
 
-    filters.list = newFilters;
+    filters[type] = newFilters;
 
     await this.setState({ filters });
     await this.settings.store({ filters });

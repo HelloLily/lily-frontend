@@ -81,7 +81,7 @@ class UserFilter extends Component {
 
   getDisplay = () => {
     const { teams } = this.state;
-    const filters = this.props.filters.user;
+    const { filters } = this.props;
 
     const display = [];
 
@@ -114,17 +114,17 @@ class UserFilter extends Component {
   };
 
   toggleFilter = filter => {
-    const { filters } = this.props;
+    let { filters } = this.props;
 
-    filters.user = toggleFilter(this.props.filters.user, filter);
+    filters = toggleFilter(filters, filter);
 
-    this.props.setFilters(filters);
+    this.props.setFilters(filters, 'user');
   };
 
   toggleTeam = team => {
-    const { filters } = this.props;
+    let { filters } = this.props;
 
-    const teamSelected = filters.user.includes(team.value);
+    const teamSelected = filters.includes(team.value);
     // Filter items which haven't been selected.
     const filteredItems = team.users.filter(
       item => !filters.user.some(filter => filter === item.value)
@@ -144,23 +144,20 @@ class UserFilter extends Component {
     }
 
     // Toggle all filters which haven't been selected.
-    filters.user = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters.user);
+    filters = newFilters.reduce((acc, item) => toggleFilter(acc, item.value), filters);
 
-    this.props.setFilters(filters);
+    this.props.setFilters(filters, 'user');
   };
 
   clearFilters = () => {
-    const { filters } = this.props;
+    const filters = [];
 
-    filters.user = [];
-
-    this.props.setFilters(filters);
+    this.props.setFilters(filters, 'user');
   };
 
   render() {
     const { teams, loading } = this.state;
-    const { currentUser } = this.props;
-    const filters = this.props.filters.user;
+    const { currentUser, filters } = this.props;
 
     const display = this.getDisplay();
 

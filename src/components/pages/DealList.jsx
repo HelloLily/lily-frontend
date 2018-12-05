@@ -102,10 +102,10 @@ class DealList extends Component {
     this.setState({ sortColumn, sortStatus }, this.loadItems);
   };
 
-  setFilters = async newFilters => {
+  setFilters = async (newFilters, type) => {
     const { filters } = this.state;
 
-    filters.list = newFilters;
+    filters[type] = newFilters;
 
     await this.setState({ filters });
     await this.settings.store({ filters });
@@ -189,7 +189,7 @@ class DealList extends Component {
 
             <div className="flex-grow" />
 
-            <DueDateFilter filters={filters} setFilters={this.setFilters} />
+            <DueDateFilter filters={filters.dueDate} setFilters={this.setFilters} />
 
             <SearchBar query={query} searchCallback={this.handleSearch} />
           </div>

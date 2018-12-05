@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { isBefore, format } from 'date-fns';
-import DayPicker from 'react-day-picker';
 import { withNamespaces } from 'react-i18next';
 
 import { FORM_DATE_FORMAT, API_DATE_FORMAT, ESCAPE_KEY } from 'lib/constants';
 import updateModel from 'utils/updateModel';
+import LilyDatePicker from 'components/Utils/LilyDatePicker';
 import addBusinessDays from 'utils/addBusinessDays';
 import LilyTooltip from 'components/LilyTooltip';
 import LilyDate from 'components/Utils/LilyDate';
@@ -24,7 +24,6 @@ class Postpone extends Component {
       date: new Date(date),
       menuOpen: false,
       datepickerOpen: false,
-      dateInput: date,
       submitting: false
     };
   }
@@ -81,10 +80,6 @@ class Postpone extends Component {
     }
   };
 
-  handleDate = event => {
-    this.setState({ dateInput: event.target.value });
-  };
-
   submitData = async date => {
     const { object, field } = this.props;
 
@@ -116,7 +111,7 @@ class Postpone extends Component {
   };
 
   render() {
-    const { date, menuOpen, dateInput, submitting } = this.state;
+    const { date, menuOpen, submitting } = this.state;
     const { object, field, t } = this.props;
     const { PostponeButton } = this;
 
@@ -150,16 +145,13 @@ class Postpone extends Component {
               </div>
 
               <div>
-                <div className="postpone-header">{t(`${object.contentType.model}Postpone`)}</div>
-                <DayPicker
-                  showOutsideDays
-                  disabledDays={[{ daysOfWeek: [0, 6] }]}
-                  firstDayOfWeek={1}
-                  onDayClick={this.submitData}
-                  className={`${submitting ? 'is-disabled' : ''}`}
-                  formatDate={this.formatDate}
-                  value={dateInput}
-                  selectedDays={new Date(date)}
+                <div className="postpone-header">{t('customPostponeDate')}</div>
+                <LilyDatePicker
+                  inline
+                  date={date}
+                  minDate={date}
+                  onChange={this.submitData}
+                  submitting={submitting}
                 />
               </div>
             </div>

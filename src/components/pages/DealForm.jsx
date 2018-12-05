@@ -27,7 +27,7 @@ import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
 import { NoAccountsMessage, NoContactsMessage } from 'components/Form/NoOptionsMessages';
 import TagField from 'components/Fields/TagField';
-import LilyDatepicker from 'components/Utils/LilyDatePicker';
+import LilyDatePicker from 'components/Utils/LilyDatePicker';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Utils from 'models/Utils';
 import Tenant from 'models/Tenant';
@@ -640,7 +640,7 @@ class InnerDealForm extends Component {
                       <div className={`form-field${errors.nextStepDate ? ' has-error' : ''}`}>
                         <label htmlFor="nextStepDate">Next step date</label>
 
-                        <LilyDatepicker
+                        <LilyDatePicker
                           date={values.nextStepDate}
                           onChange={value => setFieldValue('nextStepDate', value)}
                           placeholder="Next step date"

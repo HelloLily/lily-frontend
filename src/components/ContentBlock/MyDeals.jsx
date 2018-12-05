@@ -57,10 +57,10 @@ class MyDeals extends Component {
     }
   };
 
-  setFilters = async newFilters => {
+  setFilters = async (newFilters, type) => {
     const { filters } = this.state;
 
-    filters.list = newFilters;
+    filters[type] = newFilters;
 
     await this.setState({ filters });
     await this.settings.store({ filters });
@@ -99,9 +99,9 @@ class MyDeals extends Component {
 
     const extra = (
       <React.Fragment>
-        <DueDateFilter filters={filters} setFilters={this.setFilters} />
+        <DueDateFilter filters={filters.dueDate} setFilters={this.setFilters} />
 
-        <UserFilter filters={filters} setFilters={this.setFilters} />
+        <UserFilter filters={filters.user} setFilters={this.setFilters} />
       </React.Fragment>
     );
 

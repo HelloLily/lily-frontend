@@ -1,43 +1,62 @@
 @import '~style/variables/measurements';
 @import '~style/variables/colors';
 @import '~react-tabs/style/react-tabs.scss';
-@import '~react-day-picker/lib/style';
+@import '~react-datepicker/dist/react-datepicker.css';
 @import '~react-toastify/dist/ReactToastify';
 @import '~@uppy/dashboard/dist/style';
 
 @import 'mixins';
 
-// react-daypicker
-.DayPicker {
-  .DayPicker-Day {
-    padding: 1px 8px;
-    line-height: 32px;
-    font-size: 13px;
+// react-datepicker
+.react-datepicker {
+  border-radius: 0;
+  border: 0;
+  border-left: 1px $inner-border-color solid;
+  border-bottom-right-radius: $base-border-radius;
 
-    &:focus {
-      outline: none;
+  .react-datepicker__header {
+    background: #fff;
+    border-radius: 0;
+    border-bottom-color: $inner-border-color;
+  }
+
+  .react-datepicker__month-container {
+    float: none;
+  }
+
+  .react-datepicker__day {
+    border-radius: 50%;
+
+    &:hover {
+      background-color: $lily-white-tone-hover
     }
 
-    &.DayPicker-Day--selected {
+    &.react-datepicker__day--disabled {
+      &:hover {
+        background: transparent;
+      }
+    }
+
+    &.react-datepicker__day--selected {
       background-color: $app-color-darkblue;
     }
   }
 
-  .DayPicker-Footer {
-    text-align: center;
+  .react-datepicker__day-names {
+    .react-datepicker__day-name {
+      font-size: 0.9em;
+      color: $text-muted;
+    }
   }
 
-  &:focus {
-    outline: none;
-  }
+  .react-datepicker__today-button {
+    background: #fff;
+    text-transform: uppercase;
 
-  .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-    background-color: $lily-white-tone-hover !important;
+    &:hover {
+      color: $app-color-aqua;
+    }
   }
-}
-
-.DayPickerInput {
-  flex-grow: 1;
 }
 
 // react-tabs

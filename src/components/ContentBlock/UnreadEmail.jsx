@@ -67,10 +67,10 @@ class UnreadEmail extends Component {
     }
   };
 
-  setFilters = async newFilters => {
+  setFilters = async (newFilters, type) => {
     const { filters } = this.state;
 
-    filters.list = newFilters;
+    filters[type] = newFilters;
 
     await this.setState({ filters });
     await this.settings.store({ filters });

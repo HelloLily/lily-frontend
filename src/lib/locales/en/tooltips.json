@@ -28,5 +28,6 @@
   "deletedIndicator": "{{name}} is deleted",
   "postpone": "Postpone the date",
   "casePostpone": "Change the expiry date",
-  "dealPostpone": "Change the next step date"
+  "dealPostpone": "Change the next step date",
+  "customPostponeDate": "Pick a custom date"
 }

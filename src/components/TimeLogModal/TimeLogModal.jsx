@@ -6,7 +6,7 @@ import Textarea from 'react-textarea-autosize';
 import withContext from 'src/withContext';
 import { FORM_DATE_FORMAT } from 'lib/constants';
 import LilyModal from 'components/LilyModal';
-import LilyDatepicker from 'components/Utils/LilyDatePicker';
+import LilyDatePicker from 'components/Utils/LilyDatePicker';
 
 class TimeLogModal extends Component {
   constructor(props) {
@@ -185,10 +185,9 @@ class TimeLogModal extends Component {
 
             <div className="form-field">
               <label required>Date</label>
-              <LilyDatepicker
-                date={timeLog.date}
-                // onChange={value => setFieldValue('nextStepDate', value)}
-                placeholder="Next step date"
+              <LilyDatePicker
+                withPortal
+                selected={timeLog.date}
               />
             </div>
 

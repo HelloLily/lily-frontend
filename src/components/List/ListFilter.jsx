@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withNamespaces } from 'react-i18next';
 
 import toggleFilter from 'utils/toggleFilter';
+import LilyTooltip from 'components/LilyTooltip';
 import Dropdown from 'components/Dropdown';
 
 class ListFilter extends Component {
@@ -21,9 +24,9 @@ class ListFilter extends Component {
   toggleFilter = filter => {
     let { filters } = this.props;
 
-    filters = toggleFilter(this.props.filters, filter);
+    filters = toggleFilter(filters, filter);
 
-    this.props.setFilters(filters);
+    this.props.setFilters(filters, 'list');
   };
 
   toggleAll = () => {
@@ -45,17 +48,17 @@ class ListFilter extends Component {
 
     filters = newFilters;
 
-    this.props.setFilters(filters);
+    this.props.setFilters(filters, 'list');
   };
 
   clearFilters = () => {
     const filters = [];
 
-    this.props.setFilters(filters);
+    this.props.setFilters(filters, 'list');
   };
 
   render() {
-    const { label, filters, items } = this.props;
+    const { label, filters, items, t } = this.props;
 
     const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
     const allSelected = filteredItems.length === 0;
@@ -94,7 +97,7 @@ class ListFilter extends Component {
               <label htmlFor="selectAll">{allSelected ? 'Deselect all' : 'Select all'}</label>
             </li>
 
-            {items.map(item => {
+            {items.map((item, index) => {
               const isSelected = filters.some(filter => filter === item.value);
 
               return (
@@ -107,6 +110,18 @@ class ListFilter extends Component {
                   />
 
                   <label htmlFor={item.id}>{item.name}</label>
+
+                  {item.isArchived && (
+                    <React.Fragment>
+                      <FontAwesomeIcon
+                        icon="archive"
+                        data-tip={t('filterArchived')}
+                        data-for={`filter-${index}`}
+                      />
+
+                      <LilyTooltip id={`filter-${index}`} />
+                    </React.Fragment>
+                  )}
                 </li>
               );
             })}
@@ -117,4 +132,4 @@ class ListFilter extends Component {
   }
 }
 
-export default ListFilter;
+export default withNamespaces('tooltips')(ListFilter);

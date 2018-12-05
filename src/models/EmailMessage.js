@@ -1,7 +1,7 @@
 import { get, post, put, patch, del } from 'src/lib/api';
 import {
   INBOX_LABEL,
-  SENT_LABEL,
+  // SENT_LABEL,
   TRASH_LABEL,
   SPAM_LABEL,
   DRAFT_LABEL,
@@ -70,7 +70,7 @@ class EmailMessage {
     }
 
     const filterQuery = filter.join(' AND ');
-    const url = `/messaging/email/email/?filterquery=${filterQuery}&size=20&sort=-sent_date&type=email_emailmessage&user_email_related=1&key=superuser1`;
+    const url = `/messaging/email/email/?filterquery=${filterQuery}&size=20`;
 
     return get(url);
   }

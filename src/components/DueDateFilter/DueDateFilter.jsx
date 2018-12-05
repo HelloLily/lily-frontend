@@ -50,11 +50,11 @@ class DueDateFilter extends Component {
   }
 
   toggleFilter = filter => {
-    const { filters } = this.props;
+    let { filters } = this.props;
 
-    filters.dueDate = toggleFilter(this.props.filters.dueDate, filter);
+    filters = toggleFilter(filters, filter);
 
-    this.props.setFilters(filters);
+    this.props.setFilters(filters, 'dueDate');
   };
 
   render() {
@@ -63,7 +63,7 @@ class DueDateFilter extends Component {
     return (
       <div className="filter-group">
         {this.options.map(option => {
-          const isSelected = filters.dueDate.some(filter => filter === option.value);
+          const isSelected = filters.some(filter => filter === option.value);
           const buttonClassName = `hl-primary-btn${isSelected ? ' active' : ''}`;
 
           return (

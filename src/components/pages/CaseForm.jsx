@@ -17,7 +17,7 @@ import Form from 'components/Form';
 import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
 import { NoAccountsMessage, NoContactsMessage } from 'components/Form/NoOptionsMessages';
-import LilyDatepicker from 'components/Utils/LilyDatePicker';
+import LilyDatePicker from 'components/Utils/LilyDatePicker';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import TagField from 'components/Fields/TagField';
 import Account from 'models/Account';
@@ -451,7 +451,7 @@ class InnerCaseForm extends Component {
                         <label htmlFor="expires" required>
                           Expiry date
                         </label>
-                        <LilyDatepicker
+                        <LilyDatePicker
                           date={values.expires}
                           onChange={value => setFieldValue('expires', value)}
                           placeholder="Expiry date"
