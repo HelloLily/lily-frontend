@@ -9,11 +9,6 @@
 
 // react-datepicker
 .react-datepicker {
-  border-radius: 0;
-  border: 0;
-  border-left: 1px $inner-border-color solid;
-  border-bottom-right-radius: $base-border-radius;
-
   .react-datepicker__header {
     background: #fff;
     border-radius: 0;
@@ -57,6 +52,16 @@
       color: $app-color-aqua;
     }
   }
+}
+
+.react-datepicker__portal {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100% !important;
+  height: auto !important;
+  background: rgba(128, 128, 128, 0.7) !important;
 }
 
 // react-tabs

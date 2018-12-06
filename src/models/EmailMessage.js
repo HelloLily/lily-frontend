@@ -72,6 +72,9 @@ class EmailMessage {
     const filterQuery = filter.join(' AND ');
     const url = `/messaging/email/email/?filterquery=${filterQuery}&size=20`;
 
+    // TODO: Temporarily disable because query takes very long.
+    return { results: [] };
+
     return get(url);
   }
 

@@ -187,7 +187,7 @@ class TimeLogModal extends Component {
               <label required>Date</label>
               <LilyDatePicker
                 withPortal
-                selected={timeLog.date}
+                date={timeLog.date}
               />
             </div>
 

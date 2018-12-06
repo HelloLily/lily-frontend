@@ -70,4 +70,11 @@
       border-style: solid;
     }
   }
+
+  .react-datepicker {
+    border-radius: 0;
+    border: 0;
+    border-left: 1px $inner-border-color solid;
+    border-bottom-right-radius: $base-border-radius;
+  }
 }

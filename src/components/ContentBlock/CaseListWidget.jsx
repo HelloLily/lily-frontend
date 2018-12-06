@@ -37,7 +37,10 @@ class CaseListWidget extends Component {
   }
 
   setSidebar = () => {
-    this.props.setSidebar('case', { object: this.props.object });
+    const { object } = this.props;
+    const { model } = object.contentType;
+
+    this.props.setSidebar('case', { [model]: object });
   };
 
   toggleCollapse = index => {

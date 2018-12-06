@@ -38,7 +38,10 @@ class DealListWidget extends Component {
   }
 
   setSidebar = () => {
-    this.props.setSidebar('deal', { object: this.props.object });
+    const { object } = this.props;
+    const { model } = object.contentType;
+
+    this.props.setSidebar('deal', { [model]: object });
   };
 
   toggleCollapse = index => {

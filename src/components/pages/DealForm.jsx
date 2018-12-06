@@ -95,6 +95,15 @@ class InnerDealForm extends Component {
           setFieldValue('account', data.account);
         }
 
+        if (data.contact) {
+          setFieldValue('contact', data.contact);
+
+          if (data.contact.accounts.length === 1) {
+            // Automatically fill in the account the contact works at.
+            setFieldValue('account', data.contact.accounts[0]);
+          }
+        }
+
         Object.keys(data).forEach(key => {
           setFieldValue(key, data[key]);
         });
