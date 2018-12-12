@@ -48,7 +48,8 @@ class CaseList extends Component {
       columns,
       items: [],
       caseTypes: [],
-      filters: { list: [], dueDate: [], user: [] },
+      caseStatuses: [],
+      filters: { list: [], status: [], dueDate: [], user: [] },
       query: '',
       pagination: {},
       page: 1,
@@ -73,12 +74,19 @@ class CaseList extends Component {
 
       return caseType;
     });
+    const caseStatusResponse = await Case.statuses();
+    const caseStatuses = caseStatusResponse.results.map(status => {
+      status.value = `status.id=${status.id}`;
+
+      return status;
+    });
 
     if (this.mounted) {
       this.setState(
         {
           ...settingsResponse.results,
           caseTypes,
+          caseStatuses,
           page: 1,
           showEmptyState
         },
@@ -162,6 +170,7 @@ class CaseList extends Component {
       columns,
       items,
       caseTypes,
+      caseStatuses,
       filters,
       query,
       pagination,
@@ -183,6 +192,14 @@ class CaseList extends Component {
               label="Case types"
               items={caseTypes}
               filters={filters.list}
+              setFilters={this.setFilters}
+            />
+
+            <ListFilter
+              label="Case statuses"
+              items={caseStatuses}
+              filters={filters.status}
+              type="status"
               setFilters={this.setFilters}
             />
 

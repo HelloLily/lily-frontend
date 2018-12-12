@@ -7,6 +7,12 @@ import LilyTooltip from 'components/LilyTooltip';
 import Dropdown from 'components/Dropdown';
 
 class ListFilter extends Component {
+  constructor(props) {
+    super(props);
+
+    this.type = props.type || 'list';
+  }
+
   getDisplay = () => {
     const { items, filters } = this.props;
 
@@ -26,7 +32,7 @@ class ListFilter extends Component {
 
     filters = toggleFilter(filters, filter);
 
-    this.props.setFilters(filters, 'list');
+    this.props.setFilters(filters, this.type);
   };
 
   toggleAll = () => {
@@ -48,13 +54,13 @@ class ListFilter extends Component {
 
     filters = newFilters;
 
-    this.props.setFilters(filters, 'list');
+    this.props.setFilters(filters, this.type);
   };
 
   clearFilters = () => {
     const filters = [];
 
-    this.props.setFilters(filters, 'list');
+    this.props.setFilters(filters, this.type);
   };
 
   render() {

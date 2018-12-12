@@ -9,6 +9,7 @@ import { successToast, errorToast } from 'utils/toasts';
 import toggleFilter from 'utils/toggleFilter';
 import BlockUI from 'components/Utils/BlockUI';
 import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
+import SearchBar from 'components/List/SearchBar';
 import Editable from 'components/Editable';
 import Dropdown from 'components/Dropdown';
 import EmailAccount from 'models/EmailAccount';
@@ -27,6 +28,7 @@ class EmailTemplateList extends Component {
       selectedTemplate: null,
       selectedAccounts: [],
       showMoveTo: false,
+      query: '',
       loading: true
     };
 
@@ -234,6 +236,16 @@ class EmailTemplateList extends Component {
     this.setState({ selectedAccounts: newSelection });
   };
 
+  handleSearch = query => {
+    this.setState({ query });
+  }
+
+  getTemplates = folder => {
+    const { query } = this.state;
+
+    return folder.emailTemplates.filter(emailTemplate => emailTemplate.name.includes(query));
+  }
+
   renderMenu = () => {
     const { emailAccounts, selectedAccounts } = this.state;
 
@@ -274,7 +286,7 @@ class EmailTemplateList extends Component {
   };
 
   render() {
-    const { folders, templateCount, showMoveTo, newFolder, selectedTemplate, loading } = this.state;
+    const { folders, templateCount, showMoveTo, newFolder, selectedTemplate, query, loading } = this.state;
 
     return (
       <BlockUI blocking={loading}>
@@ -311,6 +323,8 @@ class EmailTemplateList extends Component {
             <Link to="/preferences/emailtemplates/create" className="hl-primary-btn">
               <FontAwesomeIcon icon="plus" /> Email template
             </Link>
+
+            <SearchBar query={query} searchCallback={this.handleSearch} />
           </div>
           <table className="hl-table">
             <thead>
@@ -402,7 +416,7 @@ class EmailTemplateList extends Component {
 
                   {!folder.collapsed ? (
                     <React.Fragment>
-                      {folder.emailTemplates.map(emailTemplate => (
+                      {this.getTemplates(folder).map(emailTemplate => (
                         <tr key={emailTemplate.id}>
                           <td className="indented-cell">
                             <input

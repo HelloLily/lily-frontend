@@ -9,6 +9,7 @@ import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
+import UserFilter from 'components/UserFilter';
 import SearchBar from 'components/List/SearchBar';
 import Editable from 'components/Editable';
 import DueDateFilter from 'components/DueDateFilter';
@@ -190,6 +191,8 @@ class DealList extends Component {
             <div className="flex-grow" />
 
             <DueDateFilter filters={filters.dueDate} setFilters={this.setFilters} />
+
+            <UserFilter filters={filters.user} setFilters={this.setFilters} />
 
             <SearchBar query={query} searchCallback={this.handleSearch} />
           </div>
