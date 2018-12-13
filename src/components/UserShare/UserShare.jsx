@@ -62,7 +62,7 @@ class UserShare extends Component {
     updateEmailAccount(emailAccount);
   };
 
-  searchUsers = async query => {
+  searchUsers = async (query = '') => {
     const request = await User.query({ search: query, ordering: 'firstName' });
 
     return request.results;

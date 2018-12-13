@@ -20,7 +20,7 @@ class EditableTags extends Component {
     this.props.handleChange(values);
   };
 
-  search = async query => {
+  search = async (query = '') => {
     const request = await Tag.query({ search: query, ordering: '-modified' });
 
     return request.hits;

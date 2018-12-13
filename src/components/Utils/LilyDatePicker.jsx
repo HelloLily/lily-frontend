@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { format, isDate, isWeekend } from 'date-fns';
+import { parse, format, isDate, isWeekend } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import cx from 'classnames';
 
@@ -7,43 +7,38 @@ class LilyDatePicker extends Component {
   constructor(props) {
     super(props);
 
-    this.datepicker = React.createRef();
+    this.datePicker = React.createRef();
     this.dateFormat = this.props.format || 'dd/MM/yyyy';
   }
 
-  openDatepicker = () => {
-    this.datepicker.current.focus();
+  openDatePicker = () => {
+    this.datePicker.current.setOpen(true);
   };
-
-  formatDate = dateObject => format(dateObject, this.dateFormat);
 
   render() {
     const { inline, date, submitting } = this.props;
 
-    const dateObj = isDate(date) ? date : new Date(date);
+    const dateObj = isDate(date) ? date : parse(date, this.dateFormat, new Date());
     const className = cx({
       'input-addon': !inline,
       'is-disabled': submitting
-    })
+    });
 
     return (
       <div className={className}>
         <DatePicker
           {...this.props}
           filterDate={day => !isWeekend(day)}
-          inputProps={{
-            className: 'hl-input',
-            ref: this.datepicker
-          }}
           onChange={this.props.onChange}
           placeholder={this.props.placeholder || 'Select a date'}
-          formatDate={this.formatDate}
+          dateFormat={this.dateFormat}
           selected={dateObj}
           className="hl-input"
+          ref={this.datePicker}
         />
 
         {!inline && (
-          <button className="hl-primary-btn" onClick={this.openDatepicker} type="button">
+          <button className="hl-primary-btn" onClick={this.openDatePicker} type="button">
             <i className="lilicon hl-calendar-icon" />
           </button>
         )}

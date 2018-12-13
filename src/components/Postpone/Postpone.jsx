@@ -15,7 +15,7 @@ class Postpone extends Component {
 
     this.postponeRef = React.createRef();
     this.postponeContainer = React.createRef();
-    this.datepicker = React.createRef();
+    this.datePicker = React.createRef();
     this.appElement = document.getElementById('app');
 
     const date = props.object[props.field];
@@ -23,7 +23,7 @@ class Postpone extends Component {
     this.state = {
       date: new Date(date),
       menuOpen: false,
-      datepickerOpen: false,
+      datePickerOpen: false,
       submitting: false
     };
   }
@@ -54,9 +54,10 @@ class Postpone extends Component {
     );
   };
 
-  toggleDatepicker = () => {
-    const { datepickerOpen } = this.state;
-    this.setState({ datepickerOpen: !datepickerOpen });
+  toggleDatePicker = () => {
+    const { datePickerOpen } = this.state;
+
+    this.setState({ datePickerOpen: !datePickerOpen });
   };
 
   formatDate = dateObject => format(dateObject, FORM_DATE_FORMAT);
@@ -95,7 +96,7 @@ class Postpone extends Component {
     this.setState({
       date,
       menuOpen: false,
-      datepickerOpen: false,
+      datePickerOpen: false,
       submitting: false
     });
   };

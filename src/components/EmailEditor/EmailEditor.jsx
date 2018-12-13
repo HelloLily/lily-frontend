@@ -21,6 +21,7 @@ import LilyEditor from 'components/LilyEditor';
 import EmailAccount from 'models/EmailAccount';
 import EmailTemplate from 'models/EmailTemplate';
 import EmailMessage from 'models/EmailMessage';
+import Contact from 'models/Contact';
 
 // Styling overrides for selects in the editor component.
 const styles = {
@@ -153,9 +154,8 @@ class EmailEditor extends Component {
     this.setState(state);
   }
 
-  getRecipients = async query => {
-    const searchQuery = query ? `?search=first_name:${query}` : '';
-    const contactResponse = await get(`/contacts/${searchQuery}`);
+  getRecipients = async (query = '') => {
+    const contactResponse = await Contact.query({ firstName: query })
     const contacts = this.createRecipientOptions(contactResponse.results, query);
 
     return contacts;

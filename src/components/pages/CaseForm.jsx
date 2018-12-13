@@ -146,25 +146,25 @@ class InnerCaseForm extends Component {
     }
   };
 
-  searchAccounts = async query => {
+  searchAccounts = async (query = '') => {
     const request = await Account.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
 
-  searchContacts = async query => {
+  searchContacts = async (query = '') => {
     const request = await Contact.query({ search: query, ordering: 'firstName' });
 
     return request.results;
   };
 
-  searchTeams = async query => {
+  searchTeams = async (query = '') => {
     const request = await UserTeam.query({ search: query, ordering: 'name' });
 
     return request.results;
   };
 
-  searchUsers = async query => {
+  searchUsers = async (query = '') => {
     const request = await User.query({ search: query, ordering: 'firstName' });
 
     return request.results;

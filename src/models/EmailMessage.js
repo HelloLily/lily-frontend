@@ -27,64 +27,59 @@ class EmailMessage {
 
   query(params) {
     // TODO: Temporary until there's a proper email message API.
-    const filter = [];
-    const { emailAccount, label } = params;
+    // const filter = [];
+    // const { emailAccount, label } = params;
 
-    if (label) {
-      if (label.labelId === INBOX_LABEL) {
-        filter.push('is_archived:false');
-      }
+    // if (label) {
+    //   if (label.labelId === INBOX_LABEL) {
+    //     filter.push('is_archived:false');
+    //   }
 
-      if (label.labelId !== TRASH_LABEL) {
-        filter.push('is_trashed:false');
-      } else {
-        filter.push('(is_trashed:true OR is_deleted:false)');
-      }
+    //   if (label.labelId !== TRASH_LABEL) {
+    //     filter.push('is_trashed:false');
+    //   } else {
+    //     filter.push('(is_trashed:true OR is_deleted:false)');
+    //   }
 
-      if (label.labelId !== SPAM_LABEL) {
-        filter.push('is_spam:false');
-      } else {
-        filter.push('is_spam:true');
-      }
+    //   if (label.labelId !== SPAM_LABEL) {
+    //     filter.push('is_spam:false');
+    //   } else {
+    //     filter.push('is_spam:true');
+    //   }
 
-      if (label.labelId === DRAFT_LABEL) {
-        filter.push('is_draft:true');
-      }
+    //   if (label.labelId === DRAFT_LABEL) {
+    //     filter.push('is_draft:true');
+    //   }
 
-      const isDefaultLabel = DEFAULT_LABELS.some(
-        defaultLabel => defaultLabel.labelId === label.labelId
-      );
+    //   const isDefaultLabel = DEFAULT_LABELS.some(
+    //     defaultLabel => defaultLabel.labelId === label.labelId
+    //   );
 
-      if (!isDefaultLabel) {
-        filter.push(`label_id:${label.labelId}`);
-      }
-    } else {
-      // Corresponds with the 'All mail' label.
-      filter.push('is_trashed:false');
-      filter.push('is_spam:false');
-      filter.push('is_draft:false');
-    }
+    //   if (!isDefaultLabel) {
+    //     filter.push(`label_id:${label.labelId}`);
+    //   }
+    // } else {
+    //   // Corresponds with the 'All mail' label.
+    //   filter.push('is_trashed:false');
+    //   filter.push('is_spam:false');
+    //   filter.push('is_draft:false');
+    // }
 
-    if (emailAccount) {
-      filter.push(`account.id:${emailAccount.id}`);
-    }
+    // if (emailAccount) {
+    //   filter.push(`account.id:${emailAccount.id}`);
+    // }
 
-    const filterQuery = filter.join(' AND ');
-    const url = `/messaging/email/email/?filterquery=${filterQuery}&size=20`;
-
-    // TODO: Temporarily disable because query takes very long.
+    // TODO: Temporary.
     return { results: [] };
 
-    return get(url);
+    return get('/messaging/email/search/', params);
   }
 
   search(params) {
-    const url = `/search/search/?type=email_emailmessage&size=20&sort=-sent_date&filterquery=${
-      params.query
-    }&account_related=${params.accountRelated || ''}&contact_related=${params.contactRelated ||
-      ''}`;
+    // TODO: Temporary.
+    return { results: [] };
 
-    return get(url);
+    return get('/messaging/email/search/', params);
   }
 
   searchEmailAddress(emailAddress) {

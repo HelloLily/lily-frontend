@@ -245,7 +245,7 @@ class InnerContactForm extends Component {
     }
   };
 
-  searchAccounts = async query => {
+  searchAccounts = async (query = '') => {
     const request = await Account.query({ search: query, ordering: 'name' });
 
     return request.results;

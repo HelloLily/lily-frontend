@@ -58,7 +58,7 @@ class EditableSelect extends Component {
     }
   };
 
-  search = async query => {
+  search = async (query = '') => {
     const { model, ordering } = this.props.selectConfig;
     // Search the given model with the search query and any specific sorting.
     const request = await get(`/${model}/`, { search: query, ordering });

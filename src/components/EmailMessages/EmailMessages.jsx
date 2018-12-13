@@ -31,6 +31,7 @@ class EmailMessages extends Component {
     this.debouncedSearch = debounce(this.loadItems, DEBOUNCE_WAIT);
 
     this.state = {
+      query: '',
       emailMessages: [],
       loading: true,
       selectAll: false,
@@ -127,16 +128,18 @@ class EmailMessages extends Component {
   };
 
   loadItems = async () => {
-    const { query } = this.state;
+    const { query, page } = this.state;
+    const { currentLabel, currentEmailAccount } = this.props;
 
     this.setState({ loading: true });
 
+    // TODO: Might need to change some of the keys so they match other API's?
     const params = {
-      search: query,
-      emailAccount: this.props.currentEmailAccount,
-      label: this.props.currentLabel,
-      page: this.state.page,
-      ordering: '-sentDate',
+      q: query,
+      account: currentEmailAccount.id,
+      label: currentLabel.labelId,
+      page,
+      sort: '-sentDate',
       pageSize: 20
     };
     const messageResponse = await EmailMessage.query(params);

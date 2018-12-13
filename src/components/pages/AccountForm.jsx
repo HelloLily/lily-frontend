@@ -253,7 +253,7 @@ class InnerAccountForm extends Component {
     setValues(data, this.props.setFieldValue);
   };
 
-  search = async query => {
+  search = async (query = '') => {
     const request = await User.query({ search: query, ordering: 'firstName' });
 
     return request.results;

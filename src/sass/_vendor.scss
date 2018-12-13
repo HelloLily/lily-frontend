@@ -9,9 +9,12 @@
 
 // react-datepicker
 .react-datepicker {
+  .react-datepicker__triangle {
+    border-bottom-color: #fff !important;
+  }
+
   .react-datepicker__header {
     background: #fff;
-    border-radius: 0;
     border-bottom-color: $inner-border-color;
   }
 
