@@ -20,6 +20,7 @@ export function createParams(params = {}) {
 
   let filterQuery = '';
 
+  // TODO: Fix this once it's possible to do queries.
   if (filters && Object.keys(filters).length > 0) {
     filterQuery = Object.keys(filters).reduce((acc, key) => {
       filters[key].forEach(filter => {
@@ -27,7 +28,7 @@ export function createParams(params = {}) {
       });
 
       return acc;
-    }, []);
+    }, []).join('&');
   }
 
   delete params.filters;
@@ -55,7 +56,7 @@ export function get(path, params, _options) {
   let url = uri.includes('search/') ? uri.replace('/api', '') : uri;
 
   if (params) {
-    url += `&${createParams(params)}`;
+    url += `?${createParams(params)}`;
   }
 
   // TODO: Implement proper caching. With the following code

@@ -1,7 +1,7 @@
 {
   "base": "http://localhost:8080/api",
   "defaultRequest": {
-    "credentials": "same-origin",
+    "credentials": "include",
     "method": "GET",
     "headers": {
       "Content-Type": "application/json",

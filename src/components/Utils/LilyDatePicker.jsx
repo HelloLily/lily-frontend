@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { parse, format, isDate, isWeekend } from 'date-fns';
+import { parse, isDate, isWeekend } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import cx from 'classnames';
 
