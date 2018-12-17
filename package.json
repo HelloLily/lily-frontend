@@ -25,6 +25,7 @@
     "google-libphonenumber": "^3.2.1",
     "i18next": "^12.1.0",
     "i18next-xhr-backend": "^1.5.1",
+    "js-cookie": "^2.2.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.3",
     "rc-pagination": "^1.17.3",

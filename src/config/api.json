@@ -4,8 +4,7 @@
     "credentials": "include",
     "method": "GET",
     "headers": {
-      "Content-Type": "application/json",
-      "X-csrftoken": "random"
+      "Content-Type": "application/json"
     }
   },
   "cachePostResponseAsGet": ["/session"]

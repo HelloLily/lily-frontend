@@ -21,7 +21,7 @@ export default async function handleResponse(response) {
   if (!successCodes.includes(status)) {
     data.statusCode = status;
 
-    if (status === 403) {
+    if (status === 403 && window.location.pathname !== '/') {
       // Just redirect back to the dashboard if the user isn't allowed to view the page.
       window.location = '/';
     }

@@ -1,12 +1,15 @@
+import jscookie from 'js-cookie';
+
 import { base, defaultRequest } from 'src/config/api.json';
 
-if (window && window.csrf) {
-  defaultRequest.headers['X-csrftoken'] = window.csrf;
-}
+export default function setupRequestOptions(path, options) {
+  if (options && options.hasOwnProperty('method')) {
+    // Set the CSRF token for non GET requests.
+    defaultRequest.headers['X-CSRFToken'] = jscookie.get('csrftoken');
+  }
 
-export default function setupRequestOptions(path, _options) {
   return {
     uri: `${base}${path.replace(base, '')}`,
-    options: Object.assign({}, defaultRequest, _options)
+    options: Object.assign({}, defaultRequest, options)
   };
 }

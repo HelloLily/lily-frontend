@@ -1,5 +1,4 @@
 import * as cache from '../cache';
-import { cachePostResponseAsGet } from '../../config/api.json';
 import { convertKey, convertKeys } from './utils';
 import handleResponse from './handleResponse';
 import setupRequestOptions from './setupRequestOptions';
@@ -62,6 +61,7 @@ export function get(path, params, _options) {
   // TODO: Implement proper caching. With the following code
   // different actions (e.g. GET after POST) results in the same data.
   // This leads to unexpected behaviour.
+  // Good example is accepting a case/deal on the dashboard.
   // if (cache.isCached(url)) {
   //   return cache.get(url);
   // }
@@ -89,10 +89,6 @@ export function post(path, body, hasFiles = false) {
   }
 
   const promise = fetch(uri, options).then(handleResponse);
-
-  if (cachePostResponseAsGet.includes(path)) {
-    cache.add({ uri, promise });
-  }
 
   return promise;
 }
