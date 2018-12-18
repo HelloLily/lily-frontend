@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
 import Select from 'react-select';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { SELECT_STYLES } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
@@ -11,6 +10,7 @@ import ucfirst from 'utils/ucfirst';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyEditor from 'components/LilyEditor';
 import Form from 'components/Form';
+import FormFooter from 'components/Form/FormFooter';
 import TemplateVariable from 'models/TemplateVariable';
 import EmailTemplateFolder from 'models/EmailTemplateFolder';
 import EmailTemplate from 'models/EmailTemplate';
@@ -67,7 +67,7 @@ class InnerEmailTemplateForm extends Component {
   getOptions = options =>
     Object.keys(options).map(option => ({ value: option, label: ucfirst(option) }));
 
-  handleSubmit = event => {
+  handleSubmit = () => {
     const { t } = this.props;
 
     const bodyHtml = this.editorRef.current.getHtml();
@@ -82,7 +82,11 @@ class InnerEmailTemplateForm extends Component {
     // The content of the editor is maintained in the editor itself.
     // So retrieve the value and update the form value.
     this.props.setFieldValue('bodyHtml', bodyHtml);
-    this.props.handleSubmit(event);
+
+    // Hacky workaround since setFieldValue is async.
+    setTimeout(() => {
+      this.props.submitForm();
+    }, 0);
   };
 
   handleCategory = selected => {
@@ -226,13 +230,13 @@ class InnerEmailTemplateForm extends Component {
                   {errors.bodyHtml && <div className="error-message">{errors.bodyHtml}</div>}
                 </div>
 
-                <div className="form-section">
+                {/* <div className="form-section">
                   <div className="form-section-content">
                     <button
                       disabled={isSubmitting}
                       className="hl-primary-btn-blue"
                       onClick={this.handleSubmit}
-                      type="button"
+                      type="submit"
                     >
                       <FontAwesomeIcon icon="check" /> Save
                     </button>
@@ -241,7 +245,9 @@ class InnerEmailTemplateForm extends Component {
                       Cancel
                     </button>
                   </div>
-                </div>
+                </div> */}
+
+                <FormFooter {...this.props} indent={false} handleSubmit={this.handleSubmit} />
               </Form>
             </div>
           </div>

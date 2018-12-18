@@ -61,13 +61,17 @@ class InnerTemplateVariableForm extends Component {
   getOptions = options =>
     Object.keys(options).map(option => ({ value: option, label: ucfirst(option) }));
 
-  handleSubmit = event => {
+  handleSubmit = () => {
     const text = this.editorRef.current.getHtml();
 
     // The content of the editor is maintained in the editor itself.
     // So retrieve the value and update the form value.
     this.props.setFieldValue('text', text);
-    this.props.handleSubmit(event);
+
+    // Hacky workaround since setFieldValue is async.
+    setTimeout(() => {
+      this.props.submitForm();
+    }, 0);
   };
 
   handleCategory = selected => {
