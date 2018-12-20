@@ -1,6 +1,6 @@
 import jscookie from 'js-cookie';
 
-import { base, defaultRequest } from 'src/config/api.json';
+import { defaultRequest } from 'src/config/api.json';
 
 export default function setupRequestOptions(path, options) {
   if (options && options.hasOwnProperty('method')) {
@@ -8,8 +8,10 @@ export default function setupRequestOptions(path, options) {
     defaultRequest.headers['X-CSRFToken'] = jscookie.get('csrftoken');
   }
 
+  const uri = `${process.env.BASE_URL}api${path}`;
+
   return {
-    uri: `${base}${path.replace(base, '')}`,
+    uri,
     options: Object.assign({}, defaultRequest, options)
   };
 }

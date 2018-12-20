@@ -20,7 +20,9 @@ src/**/*.css
 .env.development.local
 .env.test.local
 .env.production.local
+.netlify
 
+# Package managers
 npm-debug.log*
 package-lock.json
 yarn-debug.log*

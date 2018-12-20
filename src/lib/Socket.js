@@ -11,9 +11,9 @@ class Socket {
 
     if (wsEnabled) {
       const wsScheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
-      // this.ws = new ReconnectingWebSocket(`${wsScheme}://${window.location.host}/`);
-      this.ws = new ReconnectingWebSocket(`${wsScheme}://localhost:8080/`);
+      const socketBase = process.env.SOCKET_BASE;
 
+      this.ws = new ReconnectingWebSocket(`${wsScheme}://${socketBase}/`);
       // Dispatch open and close events so these can be bound to.
       this.ws.onopen = () => this.dispatch('open');
       this.ws.onclose = () => this.dispatch('close');

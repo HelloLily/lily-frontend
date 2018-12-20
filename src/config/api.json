@@ -1,5 +1,4 @@
 {
-  "base": "http://localhost:8080/api",
   "defaultRequest": {
     "credentials": "include",
     "method": "GET",
