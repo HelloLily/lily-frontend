@@ -56,6 +56,10 @@ class Case {
   exists() {
     return get('/cases/exists/');
   }
+
+  search(query) {
+    return get(`/cases/?search=${query}`);
+  }
 }
 
 export default new Case();

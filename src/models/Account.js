@@ -34,28 +34,16 @@ class Account {
     return post(uri, data);
   }
 
-  searchByEmailAddress(emailAddress) {
-    return get(`/search/emailaddress/${emailAddress}`);
-  }
-
-  searchByPhoneNumber(phoneNumber) {
-    return get(`/search/number/${phoneNumber}`);
-  }
-
-  searchByWebsite(website) {
-    return get(`/search/website/${website}`);
-  }
-
-  search(query) {
-    return get(`/accounts/?search=${query}`);
-  }
-
   exists() {
     return get('/accounts/exists/');
   }
 
   export(params) {
     return get('/accounts/export', params);
+  }
+
+  search(query) {
+    return get(`/accounts/?search=${query}`);
   }
 }
 

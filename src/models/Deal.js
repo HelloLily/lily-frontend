@@ -56,6 +56,10 @@ class Deal {
   exists() {
     return get('/deals/exists/');
   }
+
+  search(query) {
+    return get(`/deals/?search=${query}`);
+  }
 }
 
 export default new Deal();

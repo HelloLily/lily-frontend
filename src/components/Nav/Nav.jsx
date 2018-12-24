@@ -26,7 +26,7 @@ class Nav extends Component {
       const phoneNumber = call.caller.number;
       // There was a call for the current user
       // so try to find an account or contact with the given number.
-      const { data } = await Account.searchByPhoneNumber(phoneNumber);
+      const { data } = await Account.query({ search: phoneNumber });
 
       if (data) {
         if (data.account) {

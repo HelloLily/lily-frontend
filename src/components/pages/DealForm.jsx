@@ -193,7 +193,7 @@ class InnerDealForm extends Component {
       const response = await Deal.query({ search: subject });
 
       if (response.results.length > 0) {
-        contactSuggestions.name = response.hits;
+        contactSuggestions.name = response.results;
       }
 
       showSuggestions.name = true;

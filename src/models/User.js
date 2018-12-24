@@ -32,6 +32,10 @@ class User {
   deleteToken() {
     return del('/users/token/');
   }
+
+  search(query) {
+    return get(`/users/?search=${query}`);
+  }
 }
 
 export default new User();

@@ -28,6 +28,10 @@ class Contact {
   export(params) {
     return get('/contacts/export', params);
   }
+
+  search(query) {
+    return get(`/contacts/?search=${query}`);
+  }
 }
 
 export default new Contact();

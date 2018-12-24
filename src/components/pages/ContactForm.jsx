@@ -157,8 +157,8 @@ class InnerContactForm extends Component {
 
       const response = await Contact.query({ search: query, ordering: 'firstName' });
 
-      if (response.hits.length > 0) {
-        contactSuggestions.name = response.hits;
+      if (response.results.length > 0) {
+        contactSuggestions.name = response.results;
       }
 
       showSuggestions.name = true;
@@ -173,33 +173,40 @@ class InnerContactForm extends Component {
     if (!this.props.values.id && emailAddress) {
       // There was a call for the current user,
       // so try to find an account with the given email address.
-      const response = await Account.searchByEmailAddress(emailAddress);
-      const { type } = response;
+      const accountResponse = await Account.query({ search: emailAddress });
 
-      if (type === 'account') {
+      console.log(accountResponse);
+
+      if (accountResponse.results.length > 0) {
+        const account = accountResponse.results[0];
         const exists = accountSuggestions.emailAddress.some(
-          suggestion => suggestion.account.id === response.data.id
+          suggestion => suggestion.account.id === account.id
         );
 
         const alreadyAdded = this.props.values.accounts.some(
-          contactAccount => contactAccount.id === response.data.id
+          contactAccount => contactAccount.id === account.id
         );
 
         if (!exists && !alreadyAdded) {
-          accountSuggestions.emailAddress.push({ emailAddress, account: response.data });
+          accountSuggestions.emailAddress.push({ emailAddress, account });
         }
 
         showSuggestions.emailAddress = true;
-      } else if (type === 'contact') {
-        const exists = contactSuggestions.emailAddress.some(
-          suggestion => suggestion.contact.id === response.data.id
-        );
+      } else {
+        const contactResponse = await Contact.query({ search: emailAddress });
 
-        if (!exists) {
-          contactSuggestions.emailAddress.push({ emailAddress, contact: response.data });
+        if (contactResponse.results.length > 0) {
+          const contact = contactResponse.results[0];
+          const exists = contactSuggestions.emailAddress.some(
+            suggestion => suggestion.contact.id === contact.id
+          );
+
+          if (!exists) {
+            contactSuggestions.emailAddress.push({ emailAddress, contact });
+          }
+
+          showSuggestions.emailAddress = true;
         }
-
-        showSuggestions.emailAddress = true;
       }
     }
 
@@ -212,7 +219,7 @@ class InnerContactForm extends Component {
     if (!this.props.values.id && phoneNumber) {
       // There was a call for the current user,
       // so try to find an account or contact with the given number.
-      const response = await Account.searchByPhoneNumber(phoneNumber);
+      const response = await Account.query({ search: phoneNumber });
 
       if (response.data.account) {
         const { account } = response.data;

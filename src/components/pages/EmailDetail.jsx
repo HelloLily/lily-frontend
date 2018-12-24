@@ -99,7 +99,7 @@ class EmailDetail extends Component {
       let website = '';
       let sidebarType = null;
       // Search an account or contact with the given email address.
-      const response = await Account.searchByEmailAddress(emailMessage.sender.emailAddress);
+      const response = await Account.query({ search: emailMessage.sender.emailAddress });
       const { type } = response;
 
       // Don't use the email addresses domain if
@@ -141,7 +141,7 @@ class EmailDetail extends Component {
                 )}) AND email_addresses.email_address:${website}`;
                 // Contact works at multiple accounts, so try to filter accounts based on domain.
                 // TODO: This needs to be a custom API call.
-                const searchResponse = await Account.search({ filterquery: accountQuery });
+                const searchResponse = await Account.query({ search: accountQuery });
 
                 if (searchResponse.objects.length) {
                   // If we get multiple accounts, just pick the first one.
