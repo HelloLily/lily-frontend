@@ -12,7 +12,6 @@ dist/
 src/**/*.css
 
 # Misc
-.npmrc
 .vscode
 .DS_Store
 .env

@@ -175,8 +175,6 @@ class InnerContactForm extends Component {
       // so try to find an account with the given email address.
       const accountResponse = await Account.query({ search: emailAddress });
 
-      console.log(accountResponse);
-
       if (accountResponse.results.length > 0) {
         const account = accountResponse.results[0];
         const exists = accountSuggestions.emailAddress.some(
