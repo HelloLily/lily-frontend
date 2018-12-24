@@ -36,18 +36,9 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpe?g)/i,
+        test: /\.(png|svg|jpg|gif)$/,
         use: [
-          {
-            loader: 'url-loader',
-            options: {
-              name: './img/[name].[ext]',
-              limit: 10000
-            }
-          },
-          {
-            loader: 'img-loader'
-          }
+          'file-loader'
         ]
       },
       {
@@ -86,7 +77,8 @@ module.exports = {
       components: path.resolve(__dirname, 'src/components/'),
       models: path.resolve(__dirname, 'src/models/'),
       utils: path.resolve(__dirname, 'src/utils/'),
-      lib: path.resolve(__dirname, 'src/lib')
+      lib: path.resolve(__dirname, 'src/lib'),
+      images: path.resolve(__dirname, 'src/images')
     }
   },
   devServer: {

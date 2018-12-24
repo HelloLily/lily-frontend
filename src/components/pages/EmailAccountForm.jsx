@@ -14,6 +14,9 @@ import UserShare from 'components/UserShare';
 import RadioButtons from 'components/RadioButtons';
 import EmailAccount from 'models/EmailAccount';
 
+import examplePublic from 'images/example_public.png';
+import exampleMetadata from 'images/example_metadata.png';
+
 class InnerEmailAccountForm extends Component {
   constructor(props) {
     super(props);
@@ -163,11 +166,17 @@ class InnerEmailAccountForm extends Component {
 
                       <div className="privacy-examples">
                         {(values.privacy === EmailAccount.PUBLIC ||
-                          values.privacy === EmailAccount.READONLY) && <div>Example public</div>}
+                          values.privacy === EmailAccount.READONLY) && (
+                          <img src={examplePublic} alt="Example public" />
+                          )}
 
-                        {values.privacy === EmailAccount.METADATA && <div>Example metadata</div>}
+                        {values.privacy === EmailAccount.METADATA && (
+                          <img src={exampleMetadata} alt="Example metadata" />
+                        )}
 
-                        {values.privacy === EmailAccount.PRIVATE && <div>Example private</div>}
+                        {values.privacy === EmailAccount.PRIVATE && (
+                          <div className="privacy-example-private">No known history</div>
+                        )}
                       </div>
                     </TabPanel>
 

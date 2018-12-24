@@ -161,6 +161,14 @@ li {
   border-radius: $base-border-radius;
   padding: 20px;
   background: $app-bg-color;
+
+  .privacy-example-private {
+    text-transform: uppercase;
+    text-align: center;
+    color: $app-color-grey;
+    font-size: 12px;
+    font-weight: 600;
+  }
 }
 
 .privacy-example {

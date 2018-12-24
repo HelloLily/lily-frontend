@@ -9,7 +9,8 @@
       "components/*": ["./src/components/*"],
       "models/*": ["./src/models*"],
       "utils/*": ["./src/utils*"],
-      "lib/*": ["./src/lib*"]
+      "lib/*": ["./src/lib*"],
+      "images/*": ["./src/images*"]
     }
   },
   "exclude": ["node_modules"]
