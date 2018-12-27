@@ -52,8 +52,22 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
-          'file-loader'
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images',
+              publicPath: 'images'
+            }
+          }
         ]
+      },
+      {
+        test: /favicon\.ico$/,
+        loader: 'url',
+        query: {
+          limit: 1,
+          name: '[name].[ext]'
+        }
       },
       {
         test: /\.css$/,
