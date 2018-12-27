@@ -5,10 +5,24 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const dotenv = require('dotenv');
 
 // Set up environment variables.
-const env = dotenv.config().parsed;
-const envKeys = Object.keys(env).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(env[next]);
-  return prev;
+const result = dotenv.config();
+
+// Prevent other keys from leaking into the app by defining allowed keys.
+const allowedKeys = [
+  'INTERCOM_APP_ID',
+  'SENTRY_PUBLIC_DSN',
+  'SEGMENT_WRITE_KEY',
+  'DEBUG',
+  'BASE_URL',
+  'SOCKET_BASE'
+];
+
+const env = result.error ? process.env : result.parsed;
+const envKeys = Object.keys(env).reduce((acc, next) => {
+  if (allowedKeys.includes(next)) {
+    acc[`process.env.${next}`] = JSON.stringify(env[next]);
+  }
+  return acc;
 }, {});
 
 module.exports = {
