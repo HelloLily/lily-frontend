@@ -155,7 +155,7 @@ class EmailEditor extends Component {
   }
 
   getRecipients = async (query = '') => {
-    const contactResponse = await Contact.query({ firstName: query })
+    const contactResponse = await Contact.query({ search: query })
     const contacts = this.createRecipientOptions(contactResponse.results, query);
 
     return contacts;
@@ -577,7 +577,13 @@ class EmailEditor extends Component {
     };
 
     try {
-      await EmailMessage.post(args);
+      const emailDraft = await EmailMessage.post(args);
+
+      await this.setState({ emailDraft })
+
+      this.editorRef.current.uploadFiles();
+
+      await EmailMessage.send(emailDraft.id);
 
       successToast(t('emailSent'));
 
@@ -616,7 +622,7 @@ class EmailEditor extends Component {
   };
 
   render() {
-    const { showCcInput, showBccInput } = this.state;
+    const { showCcInput, showBccInput, emailDraft = null } = this.state;
     const { fixed } = this.props;
     const className = fixed ? 'editor fixed' : 'editor no-border';
     const recipientProps = {
@@ -762,6 +768,8 @@ class EmailEditor extends Component {
             codeViewCallback={html => this.loadTemplate(html)}
             maxHeight={this.props.maxHeight}
             modalOpen={this.state.modalOpen}
+            closeModal={() => this.setState({ modalOpen: false })}
+            emailDraft={emailDraft}
           />
         </React.Fragment>
 

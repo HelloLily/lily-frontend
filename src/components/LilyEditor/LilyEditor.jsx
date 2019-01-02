@@ -9,23 +9,13 @@ import { dom } from '@fortawesome/fontawesome-svg-core';
 import $ from 'jquery';
 
 import { MAX_FILE_SIZE } from 'lib/constants';
+import EmailMessage from 'src/models/EmailMessage';
 
 // Needed for FontAwesome to transform <i> elements (rendered by Froala) to SVG.
 dom.watch();
 
 const Uppy = require('@uppy/core');
-
-const uppy = Uppy({
-  restrictions: {
-    maxFileSize: MAX_FILE_SIZE
-  }
-});
-
-// uppy.use(XHRUpload, {
-//   endpoint: '/messaging/email/upload/'
-// })
-
-uppy.run();
+const AwsS3 = require('@uppy/aws-s3');
 
 class LilyEditor extends Component {
   constructor(props) {
@@ -104,15 +94,42 @@ class LilyEditor extends Component {
       heightMax: props.maxHeight,
       iconsTemplate: 'font_awesome_5',
       enter: $.FroalaEditor.ENTER_BR
-      // saveURL: '/api/messaging/email/email/save_draft/',
-      // saveParams: {
-      //   subject: 'test'
-      // }
     };
 
-    this.state = {
-      files: []
-    };
+    this.state = {};
+
+    const uppy = Uppy({
+      restrictions: {
+        maxFileSize: MAX_FILE_SIZE
+      }
+    });
+
+    uppy.on('file-added', () => {
+      this.forceUpdate();
+    })
+
+    const getPresignedUrl = async file => {
+      const data = { filename: file.name };
+      const response = await EmailMessage.presignedUrl(this.props.emailDraft.id, data);
+
+      return response.presignedUrl;
+    }
+
+    uppy.use(AwsS3, {
+      getUploadParameters(file) {
+        return getPresignedUrl(file).then(response => (
+          {
+            method: 'PUT',
+            url: response,
+            fields: []
+          }
+        ))
+      }
+    });
+
+    uppy.run();
+
+    this.uppy = uppy;
   }
 
   static getDerivedStateFromProps = nextProps => ({ modalOpen: nextProps.modalOpen });
@@ -126,6 +143,10 @@ class LilyEditor extends Component {
   insertHtml = html => this.state.editor.html.insert(html);
 
   isEmpty = () => this.state.editor.core.isEmpty();
+
+  uploadFiles = () => {
+    this.uppy.upload();
+  }
 
   handleCommandAfter = (e, editor, cmd) => {
     const { codeViewCallback } = this.props;
@@ -141,15 +162,17 @@ class LilyEditor extends Component {
 
   removeAttachment = file => {
     // Copy the files array.
-    const { files } = uppy.getState();
+    const { files } = this.uppy.getState();
     // Remove the file.
     delete files[file];
 
-    uppy.setState({ files });
+    this.uppy.setState({ files });
+
+    this.forceUpdate();
   };
 
   handleClose = () => {
-    this.setState({ modalOpen: false });
+    this.props.closeModal();
   };
 
   bytesToSize = bytes => {
@@ -163,15 +186,15 @@ class LilyEditor extends Component {
   };
 
   render() {
-    const { files } = uppy.getState();
+    const { files } = this.uppy.getState();
 
     return (
       <div>
         <DashboardModal
-          uppy={uppy}
           closeModalOnClickOutside
           hideUploadButton
           showProgressDetails
+          uppy={this.uppy}
           open={this.state.modalOpen}
           onRequestClose={this.handleClose}
         />

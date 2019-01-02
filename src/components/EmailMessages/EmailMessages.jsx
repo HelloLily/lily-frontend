@@ -131,12 +131,14 @@ class EmailMessages extends Component {
     const { query, page } = this.state;
     const { currentLabel, currentEmailAccount } = this.props;
 
+    const account = currentEmailAccount ? currentEmailAccount.id : null;
+
     this.setState({ loading: true });
 
     // TODO: Might need to change some of the keys so they match other API's?
     const params = {
       q: query,
-      account: currentEmailAccount.id,
+      account,
       label: currentLabel.labelId,
       page,
       sort: '-sentDate',

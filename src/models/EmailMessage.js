@@ -17,6 +17,10 @@ class EmailMessage {
     return post('/messaging/email/drafts/', data);
   }
 
+  send(id) {
+    return post(`/messaging/email/drafts/${id}/send/`);
+  }
+
   patch(data) {
     return patch(`/messaging/email/drafts/${data.id}/`, data);
   }
@@ -135,6 +139,12 @@ class EmailMessage {
     const url = `/messaging/email/email/${id}/attachments/`;
 
     return get(url);
+  }
+
+  presignedUrl(id, data) {
+    const url = `/messaging/email/drafts/${id}/attachments/`;
+
+    return post(url, data);
   }
 }
 
