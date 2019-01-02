@@ -219,7 +219,7 @@ class LilyEditor extends Component {
                     onClick={() => this.removeAttachment(file.id)}
                     type="button"
                   >
-                    <i className="lilicon hl-close-icon" />
+                    <i className="lilicon hl-close-icon hl-interface-btn" />
                   </button>
                 </div>
               );

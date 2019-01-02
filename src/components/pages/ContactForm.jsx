@@ -5,7 +5,7 @@ import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 
 import withContext from 'src/withContext';
 import setValues from 'utils/setValues';

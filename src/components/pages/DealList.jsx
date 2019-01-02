@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 
 import { DESCENDING_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
 import ColumnDisplay from 'components/List/ColumnDisplay';

@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 
 import withContext from 'src/withContext';
 import { SELECT_STYLES, FORM_DATE_FORMAT, API_DATE_FORMAT, DEBOUNCE_WAIT } from 'lib/constants';

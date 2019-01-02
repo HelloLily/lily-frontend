@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 
 import { SELECT_STYLES, DEBOUNCE_WAIT } from 'lib/constants';
 import Tag from 'models/Tag';

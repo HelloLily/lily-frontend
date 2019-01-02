@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 
 import { SELECT_STYLES, DEBOUNCE_WAIT } from 'lib/constants';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';

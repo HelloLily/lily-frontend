@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 
 import withContext from 'src/withContext';
 import {

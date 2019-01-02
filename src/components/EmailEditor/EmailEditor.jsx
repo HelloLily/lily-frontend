@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Select, { components } from 'react-select';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 import { withNamespaces } from 'react-i18next';
 import * as JsDiff from 'diff';
 
@@ -13,7 +13,8 @@ import {
   TYPED_TEXT_REGEX,
   SELECT_STYLES,
   NEW_MESSAGE,
-  DEBOUNCE_WAIT
+  DEBOUNCE_WAIT,
+  INACTIVE_EMAIL_STATUS
 } from 'lib/constants';
 import { get } from 'lib/api';
 import { errorToast, successToast } from 'utils/toasts';
@@ -155,7 +156,7 @@ class EmailEditor extends Component {
   }
 
   getRecipients = async (query = '') => {
-    const contactResponse = await Contact.query({ search: query })
+    const contactResponse = await Contact.query({ search: query });
     const contacts = this.createRecipientOptions(contactResponse.results, query);
 
     return contacts;
@@ -198,7 +199,7 @@ class EmailEditor extends Component {
         const emailDomain = emailAddress.emailAddress.split('@').slice(-1)[0];
 
         // Filter contact's email addresses if we're searching with whole domain.
-        if ((containsDomain && emailDomain !== query) || !emailAddress.isActive) {
+        if ((containsDomain && emailDomain !== query) || emailAddress.status === INACTIVE_EMAIL_STATUS) {
           return;
         }
 
@@ -514,7 +515,7 @@ class EmailEditor extends Component {
   };
 
   handleSubmit = async () => {
-    const { subject, files } = this.state;
+    const { subject } = this.state;
     const { t } = this.props;
 
     const recipientsValid = this.checkRecipientValidity();
@@ -579,7 +580,7 @@ class EmailEditor extends Component {
     try {
       const emailDraft = await EmailMessage.post(args);
 
-      await this.setState({ emailDraft })
+      await this.setState({ emailDraft });
 
       this.editorRef.current.uploadFiles();
 
@@ -633,8 +634,7 @@ class EmailEditor extends Component {
       components: { Option: this.RecipientOption },
       isValidNewOption: this.validateEmailAddress,
       className: 'editor-select-input',
-      placeholder: 'Add recipients',
-      getOptionLabel: option => option.label
+      placeholder: 'Add recipients'
     };
 
     return (

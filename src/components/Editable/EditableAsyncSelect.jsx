@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { debounce } from 'debounce';
+import debounce from 'debounce-promise';
 
 import { get } from 'src/lib/api';
 import { ENTER_KEY, ESCAPE_KEY, DEBOUNCE_WAIT } from 'lib/constants';
