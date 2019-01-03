@@ -10,6 +10,7 @@ import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import TimeLoggingWidget from 'components/ContentBlock/TimeLoggingWidget';
 import ActivityStream from 'components/ActivityStream';
+import EmailEditor from 'components/EmailEditor';
 import BlockUI from 'components/Utils/BlockUI';
 import TimeLog from 'models/TimeLog';
 import Account from 'models/Account';
@@ -22,8 +23,9 @@ class CaseDetail extends Component {
     super(props);
 
     this.mounted = false;
+    this.recipients = [];
 
-    this.state = { caseObj: null, caseStatuses: [], loading: true };
+    this.state = { caseObj: null, caseStatuses: [], showEditor: false, loading: true };
   }
 
   async componentDidMount() {
@@ -40,6 +42,10 @@ class CaseDetail extends Component {
 
     if (caseObj.contact) {
       caseObj.contact = await Contact.get(caseObj.contact.id, { filterDeleted: false });
+
+      if (caseObj.contact.emailAddresses.length > 0) {
+        this.recipients = this.getRecipients(caseObj);
+      }
     }
 
     caseObj.timeLogs = timeLogResponse.results;
@@ -57,6 +63,41 @@ class CaseDetail extends Component {
 
   componentWillUnmount() {
     this.mounted = false;
+  }
+
+  getRecipients = ({ account, contact }) => {
+    let emailAddress = null;
+
+    if (account && contact) {
+      if (contact.emailAddresses.length === 0) {
+        // No personal email addresses, but account has email addresses.
+        if (account.emailAddresses.length > 1) {
+          // Get the email address set as primary or otherwise just the first one.
+          emailAddress = account.emailAddresses.find(email => email.isPrimary) || account.emailAddresses[0];
+        }
+      } else {
+        // Check if any of the contact's email addresses match any of the account's domains.
+        account.websites.forEach(website => {
+          emailAddress = contact.emailAddresses.find(email => email.emailAddress.includes(website.secondLevel));
+        });
+      }
+    }
+
+    if (!emailAddress) {
+      // Try to find an email address which has been set as 'Primary'.
+      // Otherwise just get the first email address.
+      if (contact) {
+        emailAddress = contact.emailAddresses.find(email => email.isPrimary) || contact.emailAddresses[0];
+      } else if (account) {
+        emailAddress = account.emailAddresses.find(email => email.isPrimary) || account.emailAddresses[0];
+      }
+    }
+
+    if (emailAddress) {
+      return [{ ...contact, emailAddress: emailAddress.emailAddress }];
+    }
+
+    return [];
   }
 
   toggleArchive = () => {
@@ -98,8 +139,16 @@ class CaseDetail extends Component {
     this.setState({ loading: false });
   };
 
+  openEditor = () => {
+    this.setState({ showEditor: true });
+  }
+
+  closeEditor = () => {
+    this.setState({ showEditor: false });
+  }
+
   render() {
-    const { caseObj, caseStatuses, loading } = this.state;
+    const { caseObj, caseStatuses, showEditor, loading } = this.state;
     const { id } = this.props.match.params;
 
     const title = (
@@ -283,6 +332,10 @@ class CaseDetail extends Component {
                 </BlockUI>
 
                 <ActivityStream object={caseObj} />
+
+                {showEditor && (
+                  <EmailEditor fixed setSending={this.setSending} recipients={this.recipients} />
+                )}
 
                 {caseObj.account && (
                   <React.Fragment>

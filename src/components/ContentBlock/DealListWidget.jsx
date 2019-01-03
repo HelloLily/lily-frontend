@@ -151,7 +151,7 @@ class DealListWidget extends Component {
               {items.length === 0 && (
                 <tbody>
                   <tr>
-                    <td colSpan="5">{t('cases.listWidget')}</td>
+                    <td colSpan="5">{t('deals.listWidget')}</td>
                   </tr>
                 </tbody>
               )}

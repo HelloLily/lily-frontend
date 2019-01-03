@@ -101,7 +101,7 @@ class ContactDetail extends Component {
                 <div>
                   {contact.accounts.map(account => (
                     <div className="m-b-25" key={account.id}>
-                      <ContactListWidget object={account} />
+                      <ContactListWidget object={contact} account={account} />
                     </div>
                   ))}
                 </div>

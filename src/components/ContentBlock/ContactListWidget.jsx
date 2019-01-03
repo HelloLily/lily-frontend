@@ -19,13 +19,20 @@ class ContactListWidget extends Component {
   }
 
   async componentDidMount() {
+    const { account } = this.props;
+
     this.mounted = true;
 
-    // TODO: Implement proper filter.
-    const contactRequest = await Contact.query({});
+    let items = [];
+
+    if (account) {
+      const contactRequest = await Contact.query({ 'accounts.id': account.id });
+
+      items = contactRequest.results;
+    }
 
     if (this.mounted) {
-      this.setState({ items: contactRequest.results, loading: false });
+      this.setState({ items, loading: false });
     }
   }
 
@@ -39,16 +46,16 @@ class ContactListWidget extends Component {
 
   render() {
     const { items, loading } = this.state;
-    const { object, t } = this.props;
+    const { object, account, t } = this.props;
 
     const title = (
       <React.Fragment>
         <div className="content-block-label" />
         <div className="content-block-name">
           <i className="lilicon hl-entities-icon m-r-5" />
-          {!object.contentType || object.contentType.model === 'account' ? (
+          {account ? (
             <div>
-              Colleagues at <Link to={`/accounts/${object.id}`}>{object.name}</Link>
+              Colleagues at <Link to={`/accounts/${account.id}`}>{account.name}</Link>
             </div>
           ) : (
             <React.Fragment>
@@ -129,6 +136,14 @@ class ContactListWidget extends Component {
                   </tr>
                 </tbody>
               ))}
+
+              {items.length === 0 && (
+                <tbody>
+                  <tr>
+                    <td colSpan="2">No colleagues</td>
+                  </tr>
+                </tbody>
+              )}
             </table>
           </ContentBlock>
         </BlockUI>
