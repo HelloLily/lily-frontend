@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import Socket from 'lib/Socket';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
@@ -68,10 +69,14 @@ class UnassignedCases extends Component {
         },
         this.loadItems
       );
+
+      Socket.bind('case-unassigned', this.loadItems);
     }
   }
 
   componentWillUnmount() {
+    Socket.unbind('case-unassigned', this.loadItems);
+
     this.mounted = false;
   }
 

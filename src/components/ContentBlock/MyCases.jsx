@@ -6,6 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
 import updateModel from 'utils/updateModel';
+import Socket from 'lib/Socket';
 import Postpone from 'components/Postpone';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
@@ -39,9 +40,13 @@ class MyCases extends Component {
     if (this.mounted) {
       this.setState({ ...settingsResponse.results }, this.loadItems);
     }
+
+    Socket.bind('case-assigned', this.loadItems);
   }
 
   componentWillUnmount() {
+    Socket.unbind('case-assigned', this.loadItems);
+
     this.mounted = false;
   }
 

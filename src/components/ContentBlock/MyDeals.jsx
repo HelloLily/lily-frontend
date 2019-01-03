@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
+import Socket from 'lib/Socket';
 import timeCategorize from 'utils/timeCategorize';
 import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
@@ -38,10 +39,14 @@ class MyDeals extends Component {
 
     if (this.mounted) {
       this.setState({ ...settingsResponse.results }, this.loadItems);
+
+      Socket.bind('deal-assigned', this.loadItems);
     }
   }
 
   componentWillUnmount() {
+    Socket.unbind('deal-assigned', this.loadItems);
+
     this.mounted = false;
   }
 
