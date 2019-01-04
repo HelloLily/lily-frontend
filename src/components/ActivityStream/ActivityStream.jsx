@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import Textarea from 'react-textarea-autosize';
 import cx from 'classnames';
 
+import { ENTER_KEY } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import updateModel from 'utils/updateModel';
 import LilyDate from 'components/Utils/LilyDate';
@@ -167,6 +168,12 @@ class ActivityStream extends Component {
     this.setState({ collapsed });
   };
 
+  handleKeyDown = event => {
+    if (event.metaKey && event.keyCode === ENTER_KEY) {
+      this.submitNote();
+    }
+  }
+
   submitCallback = async (item, args) => {
     await updateModel(item, args);
   };
@@ -280,6 +287,7 @@ class ActivityStream extends Component {
                 <Textarea
                   value={note.content}
                   onChange={this.handleContent}
+                  onKeyDown={this.handleKeyDown}
                   className="hl-input"
                   placeholder="Write your note here"
                   minRows={3}

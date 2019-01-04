@@ -264,7 +264,7 @@ class InnerAccountForm extends Component {
     const { accountSuggestions, showSuggestions } = this.state;
     const { name } = this.props.values;
 
-    if (!this.props.values.id) {
+    if (!this.props.values.id && name) {
       const response = await Account.query({ search: name });
 
       if (response.results.length > 0) {

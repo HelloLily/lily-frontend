@@ -3,7 +3,7 @@
 
 .list {
   position: relative;
-  border-style: solid;
+  border: 1px $base-border-color solid;
   background: #fff;
 
   .list-header,

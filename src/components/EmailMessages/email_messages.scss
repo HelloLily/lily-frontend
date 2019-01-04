@@ -48,7 +48,7 @@
 
 .email-detail {
   background: #fff;
-  border-style: solid;
+  border: 1px $base-border-color solid;
 
   .email-subject,
   .email-actions,

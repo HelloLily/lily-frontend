@@ -24,8 +24,6 @@
   margin: 0;
   padding: 0;
   font-size: 100%;
-  border-color: $base-border-color;
-  border-width: 1px;
   box-sizing: border-box;
 }
 
@@ -81,7 +79,7 @@ textarea {
 }
 
 iframe {
-  border-style: solid;
+  border: 1px $base-border-color solid;
 }
 
 code {

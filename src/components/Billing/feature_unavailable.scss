@@ -2,9 +2,9 @@
 
 .unavailable-marker {
   font-size: 0.9em;
-  border-style: solid;
-  padding: 2px 6px;
+  border: 1px $base-border-color solid;
   border-radius: 2px;
+  padding: 2px 6px;
   color: #fff;
   background: $app-color-darkblue;
 

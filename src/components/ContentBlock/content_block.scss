@@ -21,7 +21,7 @@ $max-height: 400px;
 }
 
 .content-block {
-  border-style: solid;
+  border: 1px $base-border-color solid;
   background: #fff;
   position: relative;
 

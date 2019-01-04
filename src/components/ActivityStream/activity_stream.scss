@@ -3,7 +3,7 @@
 
 .activity-stream {
   background: #fff;
-  border-style: solid;
+  border: 1px $base-border-color solid;
   grid-column-start: 2 span;
 
   .activity-stream-filter {
@@ -198,6 +198,14 @@
           align-items: center;
           justify-content: space-between;
           height: 45px;
+
+          strong {
+            margin-right: 5px;
+          }
+
+          span {
+            display: inline-block;
+          }
         }
 
         .stream-item-body {
