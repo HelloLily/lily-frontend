@@ -40,6 +40,12 @@ class Dropdown extends Component {
     }
   };
 
+  handleClick = () => {
+    if (this.props.closeOnClick) {
+      this.setState({ menuOpen: false });
+    }
+  }
+
   render() {
     const { menuOpen } = this.state;
     const { clickable, menu, clearCallback, className } = this.props;
@@ -61,6 +67,9 @@ class Dropdown extends Component {
         {menuOpen ? (
           <div
             className="dropdown-menu-container"
+            role="button"
+            tabIndex={0}
+            onClick={this.handleClick}
             ref={element => {
               this.dropdownMenu = element;
             }}

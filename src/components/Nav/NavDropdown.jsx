@@ -9,6 +9,7 @@ import Dropdown from 'components/Dropdown';
 const NavDropdown = ({ currentUser }) => (
   <div>
     <Dropdown
+      closeOnClick
       className="display-flex"
       clickable={
         <div className="header-avatar m-r-20">
