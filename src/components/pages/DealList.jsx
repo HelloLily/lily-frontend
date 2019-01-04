@@ -33,7 +33,7 @@ class DealList extends Component {
       { key: 'name', text: 'Subject', selected: true },
       { key: 'client', text: 'Client', selected: true },
       { key: 'status', text: 'Status', selected: true, sort: 'status.name' },
-      { key: 'lostReason', text: 'Lost reason', selected: false, sort: 'whyLost' },
+      { key: 'lostReason', text: 'Lost reason', selected: false, sort: 'whyLost.name' },
       { key: 'nextStep', text: 'Next step', selected: false, sort: 'nextStep.name' },
       { key: 'nextStepDate', text: 'Next step date', selected: true, sort: 'nextStepDate' },
       { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.firstName' },

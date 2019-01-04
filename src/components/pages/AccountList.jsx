@@ -39,7 +39,7 @@ class AccountList extends Component {
       { key: 'assignedTo', text: 'Assigned to', selected: true, sort: 'assignedTo.firstName' },
       { key: 'created', text: 'Created', selected: true, sort: 'created' },
       { key: 'modified', text: 'Modified', selected: true, sort: 'modified' },
-      { key: 'status', text: 'Status', selected: true, sort: 'status' },
+      { key: 'status', text: 'Status', selected: true, sort: 'status.name' },
       { key: 'tags', text: 'Tags', selected: true }
     ];
 

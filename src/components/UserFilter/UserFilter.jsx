@@ -127,7 +127,7 @@ class UserFilter extends Component {
     const teamSelected = filters.includes(team.value);
     // Filter items which haven't been selected.
     const filteredItems = team.users.filter(
-      item => !filters.user.some(filter => filter === item.value)
+      item => !filters.some(filter => filter === item.value)
     );
 
     if (!teamSelected) {
