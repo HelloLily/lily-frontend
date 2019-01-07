@@ -46,7 +46,8 @@ class ContactListWidget extends Component {
 
   render() {
     const { items, loading } = this.state;
-    const { object, account, t } = this.props;
+    const { object, t } = this.props;
+    const account = object.contentType.model === 'account' ? object : this.props.account;
 
     const title = (
       <React.Fragment>

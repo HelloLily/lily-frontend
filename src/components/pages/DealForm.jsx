@@ -203,13 +203,33 @@ class InnerDealForm extends Component {
   };
 
   searchAccounts = async (query = '') => {
-    const request = await Account.query({ search: query, ordering: 'name' });
+    const { values } = this.props;
+    const args = {
+      search: query,
+      ordering: 'modified'
+    };
+
+    if (values.contact) {
+      args.contacts = values.contact.id;
+    };
+
+    const request = await Account.query(args);
 
     return request.results;
   };
 
   searchContacts = async (query = '') => {
-    const request = await Contact.query({ search: query, ordering: 'firstName' });
+    const { values } = this.props;
+    const args = {
+      search: query,
+      ordering: 'modifed'
+    };
+
+    if (values.account) {
+      args.accounts = values.account.id;
+    };
+
+    const request = await Contact.query(args);
 
     return request.results;
   };
@@ -263,19 +283,21 @@ class InnerDealForm extends Component {
   handleAccount = async value => {
     this.props.setFieldValue('account', value);
 
-    const args = {
-      account: value.id
-    };
+    if (value) {
+      const args = {
+        account: value.id
+      };
 
-    if (value.contacts.length === 1) {
-      this.props.setFieldValue('contact', value.contacts[0]);
+      if (value.contacts.length === 1) {
+        this.props.setFieldValue('contact', value.contacts[0]);
 
-      args.contact = value.contacts[0].id;
+        args.contact = value.contacts[0].id;
+      }
+
+      const dealResponse = await Deal.openDeals(args);
+
+      this.setState({ dealSuggestions: dealResponse.results, showSuggestions: true });
     }
-
-    const dealResponse = await Deal.openDeals(args);
-
-    this.setState({ dealSuggestions: dealResponse.results, showSuggestions: true });
   };
 
   handleContact = value => {
@@ -337,6 +359,8 @@ class InnerDealForm extends Component {
                         <label htmlFor="account">Account</label>
                         <AsyncSelect
                           defaultOptions
+                          isClearable
+                          key={JSON.stringify(values.account)}
                           name="account"
                           value={values.account}
                           styles={SELECT_STYLES}
@@ -357,6 +381,8 @@ class InnerDealForm extends Component {
                         <label htmlFor="contact">Contact</label>
                         <AsyncSelect
                           defaultOptions
+                          isClearable
+                          key={JSON.stringify(values.contact)}
                           name="contact"
                           value={values.contact}
                           styles={SELECT_STYLES}
