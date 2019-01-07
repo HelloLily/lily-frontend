@@ -171,9 +171,28 @@ a {
   }
 }
 
+.hl-dropdown-btn {
+  @include hl-button($large-button-size);
+
+  width: 100%;
+  padding: 5px 12px;
+  text-transform: initial;
+  font-weight: initial;
+  font-size: 13px;
+  border: 0;
+  border-bottom: 1px $inner-border-color solid;
+  border-radius: 0;
+  text-align: left;
+
+  &:hover {
+    background: $lily-white-tone-hover;
+  }
+}
+
 .dropdown-menu {
   .dropdown-button {
     @include hl-button($large-button-size);
+
     padding: 0;
     border: 0;
     background: none;

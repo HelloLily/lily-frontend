@@ -120,4 +120,8 @@ $sides: (top, bottom, left, right);
   .capitalize {
     text-transform: capitalize;
   }
+
+  .border-radius-0 {
+    border-radius: 0;
+  }
 }

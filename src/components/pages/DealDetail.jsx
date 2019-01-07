@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
+import cx from 'classnames';
 
+import { DEAL_LOST_STATUS } from 'lib/constants';
 import withContext from 'src/withContext';
 import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
+import Dropdown from 'components/Dropdown';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import Postpone from 'components/Postpone';
@@ -40,6 +43,7 @@ class DealDetail extends Component {
     this.state = {
       deal: null,
       dealStatuses: [],
+      whyLost: [],
       documents: [],
       loading: true
     };
@@ -50,6 +54,7 @@ class DealDetail extends Component {
     const deal = await Deal.get(id);
     const contact = deal.contact ? await Contact.get(deal.contact.id) : null;
     const statusResponse = await Deal.statuses();
+    const whyLostResponse = await Deal.whyLost();
     const documentResponse = await Deal.documents(id);
 
     if (deal.account) {
@@ -64,6 +69,7 @@ class DealDetail extends Component {
       deal,
       contact,
       dealStatuses: statusResponse.results,
+      whyLost: whyLostResponse.results,
       documents: documentResponse.results,
       loading: false
     });
@@ -91,6 +97,13 @@ class DealDetail extends Component {
   };
 
   changeStatus = async status => {
+    if (status.name === DEAL_LOST_STATUS) {
+      // Extra action needed when set to 'Lost'.
+      this.setState({ whyLostSelected: true });
+
+      return;
+    }
+
     const { deal } = this.state;
 
     const args = {
@@ -118,8 +131,49 @@ class DealDetail extends Component {
     this.setState({ deal, loading: false });
   };
 
+  submitWhyLost = async (status, reason) => {
+    const { deal } = this.state;
+
+    this.setState({ submitting: true });
+
+    const args = {
+      id: deal.id,
+      status: status.id,
+      whyLost: reason.id
+    }
+
+    await updateModel(deal, args);
+    deal.status = status;
+    deal.whyLost = reason;
+
+    this.setState({ deal, whyLostSelected: false, submitting: false });
+  }
+
+  renderMenu = status => {
+    const { whyLost, submitting = false } = this.state;
+
+    return (
+      <div className="dropdown-menu has-header">
+        <div className="dropdown-header">Why lost?</div>
+
+        <ul className={submitting ? 'is-disabled' : ''}>
+          {whyLost.map(reason => (
+            <li key={`reason-${reason.id}`}>
+              <button
+                className="hl-dropdown-btn"
+                onClick={() => this.submitWhyLost(status, reason)}
+              >
+                {reason.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   render() {
-    const { deal, contact, dealStatuses, documents, loading } = this.state;
+    const { deal, contact, dealStatuses, documents, whyLostSelected = false, loading } = this.state;
     const { t } = this.props;
     const { id } = this.props.match.params;
 
@@ -200,7 +254,7 @@ class DealDetail extends Component {
                     </div>
                   </div>
 
-                  {deal.whyLost && (
+                  {(deal.whyLost && deal.status.name === DEAL_LOST_STATUS) && (
                     <div className="detail-row">
                       <div>Why lost</div>
                       <div className="has-editable">
@@ -478,17 +532,31 @@ class DealDetail extends Component {
                     <div className="content-block">
                       <div className="content-block-header space-between">
                         <div className={`hl-btn-group${deal.isArchived ? ' is-disabled' : ''}`}>
-                          {dealStatuses.map(status => (
-                            <button
-                              key={status.id}
-                              className={`hl-primary-btn${
-                                status.id === deal.status.id ? ' selected' : ''
-                              }`}
-                              onClick={() => this.changeStatus(status)}
-                            >
-                              {status.name}
-                            </button>
-                          ))}
+                          {dealStatuses.map((status, index) => {
+                            const isLast = index === dealStatuses.length - 1;
+                            const isLost = status.name === DEAL_LOST_STATUS
+                            const className = cx('hl-primary-btn', {
+                              'selected': status.id === deal.status.id,
+                              'border-radius-0': isLost && !isLast
+                            });
+                            const button = (
+                              <button
+                                key={`deal-status-${status.id}`}
+                                className={className}
+                                onClick={() => this.changeStatus(status)}
+                              >
+                                {status.name}
+                              </button>
+                            );
+
+                            return isLost ? (
+                              <Dropdown
+                                key={`dropdown-${status.id}`}
+                                clickable={button}
+                                menu={whyLostSelected ? this.renderMenu(status) : null}
+                              />
+                            ) : button;
+                          })}
                         </div>
 
                         <button className="hl-primary-btn" onClick={this.toggleArchive}>

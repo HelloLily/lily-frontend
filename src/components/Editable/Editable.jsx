@@ -328,7 +328,12 @@ class Editable extends Component {
 
     return (
       <BlockUI blocking={submitting}>
-        <span role="presentation" onKeyDown={this.handleKeyPress} ref={this.editableRef}>
+        <span
+          role="presentation"
+          className="display-inline-block"
+          onKeyDown={this.handleKeyPress}
+          ref={this.editableRef}
+        >
           {editing ? (
             <span className={`editable-wrap${hasError ? ' has-error' : ''}`}>
               <React.Suspense fallback={<span>{display || emptyText}</span>}>

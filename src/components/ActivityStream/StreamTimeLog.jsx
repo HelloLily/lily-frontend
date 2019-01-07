@@ -61,7 +61,7 @@ class StreamTimeLog extends Component {
           <div className="stream-item-content is-timelog">
             <div className="stream-item-extra-info">
               <div>
-                <strong>Logged time: </strong>
+                <strong className="m-l-5">Logged time:</strong>
 
                 <TimeLogDisplay timeLogs={item} />
               </div>

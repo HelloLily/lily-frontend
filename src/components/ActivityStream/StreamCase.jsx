@@ -60,7 +60,7 @@ class StreamCase extends Component {
           <div className="stream-item-content is-case">
             <div className="stream-item-extra-info">
               <div>
-                <strong>Status: </strong>
+                <strong className="m-l-5">Status:</strong>
                 <Editable
                   type="select"
                   field="status"

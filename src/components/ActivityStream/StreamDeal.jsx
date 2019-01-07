@@ -51,7 +51,7 @@ class StreamDeal extends Component {
           <div className="stream-item-content is-deal">
             <div className="stream-item-extra-info">
               <div>
-                <strong>Status:</strong>
+                <strong className="m-l-5">Status:</strong>
                 <Editable
                   type="select"
                   field="status"

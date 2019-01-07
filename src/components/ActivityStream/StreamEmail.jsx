@@ -22,7 +22,7 @@ const StreamEmail = props => {
         <div className="stream-item-content is-email">
           <div className="stream-item-extra-info">
             <div>
-              <strong>From: </strong>
+              <strong className="m-l-5">From:</strong>
 
               <Link to={`/email/compose/${item.senderEmail}`}>
                 {item.senderName || item.senderEmail}
