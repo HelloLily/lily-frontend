@@ -1,25 +1,21 @@
 import React from 'react';
 
-const Address = props => {
-  const { address } = props;
+const Address = ({ address }) => (
+  <div>
+    {address.address}
 
-  return (
-    <div>
-      {address.address}
+    {(address.postalCode || address.city) && (
+      <div>
+        {address.postalCode}
 
-      {(address.postalCode || address.city) && (
-        <div>
-          {address.postalCode}
+        {address.postalCode && address.city && <span>, </span>}
 
-          {address.postalCode && address.city && <span>, </span>}
+        {address.city}
+      </div>
+    )}
 
-          {address.city}
-        </div>
-      )}
-
-      <div>{address.countryDisplay}</div>
-    </div>
-  );
-};
+    <div>{address.countryDisplay}</div>
+  </div>
+);
 
 export default Address;

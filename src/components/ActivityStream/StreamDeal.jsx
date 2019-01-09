@@ -53,6 +53,7 @@ class StreamDeal extends Component {
               <div>
                 <strong className="m-l-5">Status:</strong>
                 <Editable
+                  inlineBlock
                   type="select"
                   field="status"
                   object={item}

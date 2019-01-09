@@ -134,6 +134,15 @@ export const ACCOUNT_RELATION_STATUS = 'Relation';
 export const TWITTER_EMPTY_ROW = { name: 'twitter', username: '' };
 export const LINKEDIN_EMPTY_ROW = { name: 'linkedin', username: '' };
 
+export const SOCIAL_MEDIA_OPTIONS = [
+  { value: 'twitter', label: 'Twitter' },
+  { value: 'linkedin', label: 'LinkedIn' },
+  { value: 'facebook', label: 'Facebook' },
+  { value: 'other', label: 'Other' }
+];
+
+export const SOCIAL_MEDIA_EMPTY_ROW = { name: 'other', username: '' };
+
 export const FORM_DATE_FORMAT = 'dd/MM/yyyy';
 export const API_DATE_FORMAT = 'yyyy-MM-dd';
 

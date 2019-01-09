@@ -35,6 +35,7 @@ import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
 import AddressField from 'components/Fields/AddressField';
 import WebsiteField from 'components/Fields/WebsiteField';
+import SocialMediaField from 'components/Fields/SocialMediaField';
 import TagField from 'components/Fields/TagField';
 import Suggestions from 'components/Fields/Suggestions';
 import User from 'models/User';
@@ -387,6 +388,12 @@ class InnerAccountForm extends Component {
     this.props.setFieldValue('socialMedia', socialMedia);
   };
 
+  assignToMe = () => {
+    const { currentUser, setFieldValue } = this.props;
+
+    setFieldValue('assignedTo', currentUser);
+  }
+
   merge = async accountId => {
     const { accountSuggestions } = this.state;
     const existingValues = this.props.values;
@@ -413,9 +420,6 @@ class InnerAccountForm extends Component {
       loading
     } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit } = this.props;
-
-    const twitterProfile = values.socialMedia.find(profile => profile.name === 'twitter');
-    const twitterUsername = twitterProfile ? twitterProfile.username : '';
 
     return (
       <React.Fragment>
@@ -543,6 +547,14 @@ class InnerAccountForm extends Component {
                         {errors.assignedTo && (
                           <div className="error-message">{errors.assignedTo}</div>
                         )}
+
+                        <button
+                          type="button"
+                          className="hl-interface-btn float-right"
+                          onClick={this.assignToMe}
+                        >
+                          Assign to me
+                        </button>
                       </div>
                     </FormSection>
 
@@ -619,32 +631,21 @@ class InnerAccountForm extends Component {
                           errors={errors}
                         />
                       </div>
+
+                      <div className="form-field">
+                        <label>Social</label>
+                        <SocialMediaField
+                          items={values.socialMedia}
+                          handleRelated={this.handleRelated}
+                          errors={errors}
+                        />
+                      </div>
                     </FormSection>
 
                     <FormSection header="Tags">
                       <div className="form-field">
                         <label>Tags</label>
                         <TagField items={values.tags} handleRelated={this.handleRelated} />
-                      </div>
-                    </FormSection>
-
-                    <FormSection header="Social">
-                      <div className="form-field">
-                        <label htmlFor="twitter">Twitter</label>
-
-                        <div className="input-addon">
-                          <div className="input-addon-icon">
-                            <FontAwesomeIcon icon={['fab', 'twitter']} />
-                          </div>
-                          <input
-                            id="twitter"
-                            type="text"
-                            className="hl-input"
-                            placeholder="Twitter"
-                            value={twitterUsername}
-                            onChange={this.handleSocialMedia}
-                          />
-                        </div>
                       </div>
                     </FormSection>
 

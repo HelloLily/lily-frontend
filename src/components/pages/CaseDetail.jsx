@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
+import withContext from 'src/withContext';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
@@ -73,12 +74,16 @@ class CaseDetail extends Component {
         // No personal email addresses, but account has email addresses.
         if (account.emailAddresses.length > 1) {
           // Get the email address set as primary or otherwise just the first one.
-          emailAddress = account.emailAddresses.find(email => email.isPrimary) || account.emailAddresses[0];
+          emailAddress = account.emailAddresses.find(
+            email => email.isPrimary
+          ) || account.emailAddresses[0];
         }
       } else {
         // Check if any of the contact's email addresses match any of the account's domains.
         account.websites.forEach(website => {
-          emailAddress = contact.emailAddresses.find(email => email.emailAddress.includes(website.secondLevel));
+          emailAddress = contact.emailAddresses.find(
+            email => email.emailAddress.includes(website.secondLevel)
+          );
         });
       }
     }
@@ -87,9 +92,13 @@ class CaseDetail extends Component {
       // Try to find an email address which has been set as 'Primary'.
       // Otherwise just get the first email address.
       if (contact) {
-        emailAddress = contact.emailAddresses.find(email => email.isPrimary) || contact.emailAddresses[0];
+        emailAddress = contact.emailAddresses.find(
+          email => email.isPrimary
+        ) || contact.emailAddresses[0];
       } else if (account) {
-        emailAddress = account.emailAddresses.find(email => email.isPrimary) || account.emailAddresses[0];
+        emailAddress = account.emailAddresses.find(
+          email => email.isPrimary
+        ) || account.emailAddresses[0];
       }
     }
 
@@ -100,7 +109,7 @@ class CaseDetail extends Component {
     return [];
   }
 
-  toggleArchive = () => {
+  toggleArchive = async () => {
     const { caseObj } = this.state;
     const isArchived = !caseObj.isArchived;
 
@@ -109,14 +118,14 @@ class CaseDetail extends Component {
       isArchived
     };
 
-    this.submitCallback(args).then(() => {
-      caseObj.isArchived = isArchived;
+    await this.submitCallback(args)
 
-      this.setState({ caseObj });
-    });
+    caseObj.isArchived = isArchived;
+
+    this.setState({ caseObj });
   };
 
-  changeStatus = status => {
+  changeStatus = async status => {
     const { caseObj } = this.state;
 
     const args = {
@@ -124,12 +133,29 @@ class CaseDetail extends Component {
       status: status.id
     };
 
-    this.submitCallback(args).then(() => {
-      caseObj.status = status;
+    await this.submitCallback(args)
 
-      this.setState({ caseObj });
-    });
+    caseObj.status = status;
+
+    this.setState({ caseObj });
   };
+
+  assignToMe = async () => {
+    const { caseObj } = this.state;
+    const { currentUser } = this.props;
+
+    const args = {
+      id: caseObj.id,
+      assignedTo: currentUser.id
+    };
+
+    await this.submitCallback(args);
+
+    caseObj.assignedTo = currentUser;
+
+    await this.setState({ caseObj });
+    this.forceUpdate();
+  }
 
   submitCallback = async args => {
     this.setState({ loading: true });
@@ -149,6 +175,7 @@ class CaseDetail extends Component {
 
   render() {
     const { caseObj, caseStatuses, showEditor, loading } = this.state;
+    const { currentUser } = this.props;
     const { id } = this.props.match.params;
 
     const title = (
@@ -179,98 +206,110 @@ class CaseDetail extends Component {
 
             <div className="detail-page">
               <div>
-                <ContentBlock
-                  title={title}
-                  component="caseDetailWidget"
-                  className="m-b-25"
-                  fullHeight
-                >
-                  <div className="detail-row">
-                    <div>Priority</div>
-                    <div className="has-editable">
-                      <Editable
-                        icon
-                        type="select"
-                        field="priority"
-                        object={caseObj}
-                        submitCallback={this.submitCallback}
-                      />
+                <BlockUI blocking={loading}>
+                  <ContentBlock
+                    title={title}
+                    component="caseDetailWidget"
+                    className="m-b-25"
+                    fullHeight
+                  >
+                    <div className="detail-row">
+                      <div>Priority</div>
+                      <div className="has-editable">
+                        <Editable
+                          icon
+                          type="select"
+                          field="priority"
+                          object={caseObj}
+                          submitCallback={this.submitCallback}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="detail-row">
-                    <div>Type</div>
-                    <div className="has-editable">
-                      <Editable
-                        type="select"
-                        field="type"
-                        object={caseObj}
-                        submitCallback={this.submitCallback}
-                      />
+                    <div className="detail-row">
+                      <div>Type</div>
+                      <div className="has-editable">
+                        <Editable
+                          type="select"
+                          field="type"
+                          object={caseObj}
+                          submitCallback={this.submitCallback}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="detail-row">
-                    <div>Expires on</div>
-                    <div>
-                      <Postpone object={caseObj} field="expires" />
+                    <div className="detail-row">
+                      <div>Expires on</div>
+                      <div>
+                        <Postpone object={caseObj} field="expires" />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="detail-row">
-                    <div>Created by</div>
-                    <div>
-                      {caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}
+                    <div className="detail-row">
+                      <div>Created by</div>
+                      <div>
+                        {caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}
 
-                      <span>
-                        {' on '} <LilyDate date={caseObj.created} />
-                      </span>
+                        <span>
+                          {' on '} <LilyDate date={caseObj.created} />
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="detail-row">
-                    <div>Assigned to</div>
-                    <div className="has-editable">
-                      <Editable
-                        async
-                        type="select"
-                        field="assignedTo"
-                        object={caseObj}
-                        submitCallback={this.submitCallback}
-                      />
-                    </div>
-                  </div>
+                    <div className="detail-row">
+                      <div>Assigned to</div>
+                      <div className="has-editable">
+                        <Editable
+                          async
+                          type="select"
+                          field="assignedTo"
+                          object={caseObj}
+                          submitCallback={this.submitCallback}
+                        />
 
-                  <div className="detail-row">
-                    <div>Assigned to teams</div>
-                    <div className="has-editable">
-                      <Editable
-                        multi
-                        type="select"
-                        field="assignedToTeams"
-                        object={caseObj}
-                        submitCallback={this.submitCallback}
-                      />
+                        {(!caseObj.assignedTo || caseObj.assignedTo.id !== currentUser.id) && (
+                          <button
+                            type="button"
+                            className="hl-interface-btn"
+                            onClick={this.assignToMe}
+                          >
+                            Assign to me
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="detail-row">
-                    <div>Tags</div>
-                    <div className="has-editable">
-                      <Editable
-                        multi
-                        type="tags"
-                        field="tags"
-                        object={caseObj}
-                        submitCallback={this.submitCallback}
-                      />
+                    <div className="detail-row">
+                      <div>Assigned to teams</div>
+                      <div className="has-editable">
+                        <Editable
+                          multi
+                          type="select"
+                          field="assignedToTeams"
+                          object={caseObj}
+                          submitCallback={this.submitCallback}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </ContentBlock>
+
+                    <div className="detail-row">
+                      <div>Tags</div>
+                      <div className="has-editable">
+                        <Editable
+                          multi
+                          type="tags"
+                          field="tags"
+                          object={caseObj}
+                          submitCallback={this.submitCallback}
+                        />
+                      </div>
+                    </div>
+                  </ContentBlock>
+                </BlockUI>
 
                 {caseObj.account && (
                   <React.Fragment>
-                    <AccountDetailWidget clickable account={caseObj.account} />
+                    <AccountDetailWidget clickable account={caseObj.account} updateAccount={this.updateAccount} />
 
                     <div className="m-b-25" />
                   </React.Fragment>
@@ -355,4 +394,4 @@ class CaseDetail extends Component {
   }
 }
 
-export default CaseDetail;
+export default withContext(CaseDetail);

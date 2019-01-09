@@ -59,12 +59,17 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
         <div>
           <Editable
             type="select"
-            object={contact}
             field="salutation"
+            object={contact}
             submitCallback={submitCallback}
           />
           /
-          <Editable type="select" object={contact} field="gender" submitCallback={submitCallback} />
+          <Editable
+            type="select"
+            field="gender"
+            object={contact}
+            submitCallback={submitCallback}
+          />
         </div>
       </div>
 
@@ -139,45 +144,15 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
 
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon={['fab', 'twitter']} /> Twitter
+          <FontAwesomeIcon icon="comment" /> Social
         </div>
         <div>
           <Editable
-            type="text"
-            field="username"
-            object={contact.twitter}
-            submitCallback={twitterCallback}
-          >
-            {contact.twitter.username ? (
-              <a href={contact.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
-                {contact.twitter.username}
-              </a>
-            ) : (
-              <span className="editable-empty">No Twitter profile</span>
-            )}
-          </Editable>
-        </div>
-      </div>
-
-      <div className="detail-row">
-        <div>
-          <FontAwesomeIcon icon={['fab', 'linkedin']} /> LinkedIn
-        </div>
-        <div>
-          <Editable
-            type="text"
-            field="username"
-            object={contact.linkedIn}
-            submitCallback={linkedInCallback}
-          >
-            {contact.linkedIn.username ? (
-              <a href={contact.linkedIn.profileUrl} target="_blank" rel="noopener noreferrer">
-                {contact.linkedIn.username}
-              </a>
-            ) : (
-              <span className="editable-empty">No LinkedIn profile</span>
-            )}
-          </Editable>
+            type="related"
+            field="socialMedia"
+            object={contact}
+            submitCallback={submitCallback}
+          />
         </div>
       </div>
 

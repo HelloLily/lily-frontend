@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import updateModel from 'utils/updateModel';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
@@ -36,31 +35,9 @@ class AccountDetail extends Component {
     this.mounted = false;
   }
 
-  submitCallback = async args => {
-    const { account } = this.state;
-
-    await updateModel(account, args);
-
-    if (args.hasOwnProperty('socialMedia')) {
-      const profile = args.socialMedia[0];
-      const index = account.socialMedia.findIndex(item => item.name === profile.name);
-
-      if (index > -1) {
-        if (!profile.isDeleted) {
-          account.socialMedia[index].username = profile.username;
-        } else {
-          // Profile was deleted, so just remove it.
-          account.socialMedia.splice(index, 1);
-        }
-      } else {
-        // New profile added.
-        account.socialMedia.push(profile);
-      }
-    }
-
-    // Force the editable components to update.
-    this.forceUpdate();
-  };
+  updateAccount = async account => {
+    this.setState({ account });
+  }
 
   render() {
     const { account } = this.state;
@@ -83,11 +60,11 @@ class AccountDetail extends Component {
             </div>
 
             <div className="detail-page">
-              <AccountDetailWidget account={account} submitCallback={this.submitCallback} />
+              <AccountDetailWidget account={account} />
 
-              <DealListWidget object={account} submitCallback={this.submitCallback} />
+              <DealListWidget object={account} />
 
-              <CaseListWidget object={account} submitCallback={this.submitCallback} />
+              <CaseListWidget object={account} />
 
               <ActivityStream object={account} />
 

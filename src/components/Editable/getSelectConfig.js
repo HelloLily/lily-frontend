@@ -12,7 +12,7 @@ const selectConfig = {
   assignedTo: {
     model: 'users',
     display: 'fullName',
-    ordering: 'fullName',
+    ordering: 'firstName',
     empty: 'Nobody'
   },
   assignedToTeams: {

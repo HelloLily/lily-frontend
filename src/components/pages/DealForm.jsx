@@ -312,6 +312,18 @@ class InnerDealForm extends Component {
     this.props.setFieldValue('assignedToTeams', assignedTeams);
   };
 
+  assignToMyTeams = () => {
+    const { currentUser, setFieldValue } = this.props;
+
+    setFieldValue('assignedToTeams', currentUser.teams);
+  }
+
+  assignToMe = () => {
+    const { currentUser, setFieldValue } = this.props;
+
+    setFieldValue('assignedTo', currentUser);
+  }
+
   render() {
     const {
       nextSteps,
@@ -705,6 +717,14 @@ class InnerDealForm extends Component {
                         {errors.assignedToTeams && (
                           <div className="error-message">{errors.assignedToTeams}</div>
                         )}
+
+                        <button
+                          type="button"
+                          className="hl-interface-btn float-right"
+                          onClick={this.assignToMyTeams}
+                        >
+                          Assign to my teams
+                        </button>
                       </div>
 
                       <div className={`form-field${errors.assignedTo ? ' has-error' : ''}`}>
@@ -724,6 +744,14 @@ class InnerDealForm extends Component {
                         {errors.assignedTo && (
                           <div className="error-message">{errors.assignedTo}</div>
                         )}
+
+                        <button
+                          type="button"
+                          className="hl-interface-btn float-right"
+                          onClick={this.assignToMe}
+                        >
+                          Assign to me
+                        </button>
                       </div>
                     </FormSection>
 

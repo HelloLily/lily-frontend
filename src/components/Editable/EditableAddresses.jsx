@@ -3,16 +3,8 @@ import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
-import { ADDRESS_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
+import { ADDRESS_TYPES, ADDRESS_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
 import Utils from 'models/Utils';
-
-const addressTypes = [
-  { value: 'visiting', label: 'Visiting address' },
-  { value: 'billing', label: 'Billing address' },
-  { value: 'shipping', label: 'Shipping address' },
-  { value: 'home', label: 'Home address' },
-  { value: 'other', label: 'Other' }
-];
 
 class EditableAddresses extends Component {
   constructor(props) {
@@ -74,7 +66,7 @@ class EditableAddresses extends Component {
     return (
       <span className="editable-input-wrap editable-stretched">
         {value.map((item, index) => {
-          const addressType = addressTypes.find(type => type.value === item.type);
+          const addressType = ADDRESS_TYPES.find(type => type.value === item.type);
           const hasError = error && error[index] && error[index].address;
           const rowClassName = cx('editable-related-row', {
             'is-deleted': item.isDeleted,
@@ -129,7 +121,7 @@ class EditableAddresses extends Component {
                       <Select
                         name="type"
                         styles={selectStyles}
-                        options={addressTypes}
+                        options={ADDRESS_TYPES}
                         value={{ value: item.type, label: addressType.label }}
                         onChange={selected => this.handleChange(selected.value, index, 'type')}
                         onInputKeyDown={this.onInputKeyDown}

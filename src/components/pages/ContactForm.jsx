@@ -22,6 +22,7 @@ import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import EmailAddressField from 'components/Fields/EmailAddressField';
 import PhoneNumberField from 'components/Fields/PhoneNumberField';
 import AddressField from 'components/Fields/AddressField';
+import SocialMediaField from 'components/Fields/SocialMediaField';
 import TagField from 'components/Fields/TagField';
 import Suggestions from 'components/Fields/Suggestions';
 import LilyTooltip from 'components/LilyTooltip';
@@ -314,12 +315,6 @@ class InnerContactForm extends Component {
     const { accountSuggestions, contactSuggestions, showSuggestions, loading } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit, currentUser, t } = this.props;
 
-    const twitterProfile = values.socialMedia.find(profile => profile.name === 'twitter');
-    const twitterUsername = twitterProfile ? twitterProfile.username : '';
-
-    const linkedInProfile = values.socialMedia.find(profile => profile.name === 'linkedin');
-    const linkedInUsername = linkedInProfile ? linkedInProfile.username : '';
-
     const hasAccountPhoneNumbers = values.accounts.length > 0 && values.accounts[0].phoneNumbers.length > 0;
 
     return (
@@ -590,49 +585,21 @@ class InnerContactForm extends Component {
                           errors={errors}
                         />
                       </div>
+
+                      <div className="form-field">
+                        <label>Social</label>
+                        <SocialMediaField
+                          items={values.socialMedia}
+                          handleRelated={this.handleRelated}
+                          errors={errors}
+                        />
+                      </div>
                     </FormSection>
 
                     <FormSection header="Tags">
                       <div className="form-field">
                         <label>Tags</label>
                         <TagField items={values.tags} handleRelated={this.handleRelated} />
-                      </div>
-                    </FormSection>
-
-                    <FormSection header="Social">
-                      <div className="form-field">
-                        <label htmlFor="twitter">Twitter</label>
-                        <div className="input-addon">
-                          <div className="input-addon-icon">
-                            <FontAwesomeIcon icon={['fab', 'twitter']} />
-                          </div>
-                          <input
-                            id="twitter"
-                            type="text"
-                            className="hl-input"
-                            placeholder="Twitter"
-                            value={twitterUsername}
-                            onChange={this.handleSocialMedia}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-field">
-                        <label htmlFor="linkedin">LinkedIn</label>
-
-                        <div className="input-addon">
-                          <div className="input-addon-icon">
-                            <FontAwesomeIcon icon={['fab', 'linkedin-in']} />
-                          </div>
-                          <input
-                            id="linkedin"
-                            type="text"
-                            className="hl-input"
-                            placeholder="LinkedIn"
-                            value={linkedInUsername}
-                            onChange={this.handleSocialMedia}
-                          />
-                        </div>
                       </div>
                     </FormSection>
 

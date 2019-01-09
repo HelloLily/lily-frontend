@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { SELECT_STYLES, ESCAPE_KEY } from 'lib/constants';
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
+import SocialMediaIcon from 'components/Utils/SocialMediaIcon';
 import LilyTooltip from 'components/LilyTooltip';
 import camelToHuman from 'utils/camelToHuman';
 import updateModel from 'utils/updateModel';
@@ -19,6 +20,7 @@ const EditableEmailAddresses = React.lazy(() => import('./EditableEmailAddresses
 const EditablePhoneNumbers = React.lazy(() => import('./EditablePhoneNumbers'));
 const EditableAddresses = React.lazy(() => import('./EditableAddresses'));
 const EditableWebsites = React.lazy(() => import('./EditableWebsites'));
+const EditableSocialMedia = React.lazy(() => import('./EditableSocialMedia'));
 const EditableTags = React.lazy(() => import('./EditableTags'));
 
 const components = {
@@ -29,6 +31,7 @@ const components = {
   phoneNumbers: EditablePhoneNumbers,
   addresses: EditableAddresses,
   websites: EditableWebsites,
+  socialMedia: EditableSocialMedia,
   tags: EditableTags
 };
 
@@ -38,6 +41,7 @@ class Editable extends Component {
 
     const { field } = props;
 
+    this.mounted = false;
     this.editableRef = React.createRef();
 
     let initialValue;
@@ -60,15 +64,14 @@ class Editable extends Component {
     };
   }
 
-  componentDidMount() {
-    if (!this.props.multi) {
-      document.addEventListener('mousedown', this.handleClickOutside);
-    }
+  async componentDidMount() {
+    this.mounted = true;
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
+    this.mounted = false;
   }
+
 
   getEmptyText = () => {
     const { field } = this.props;
@@ -127,7 +130,7 @@ class Editable extends Component {
 
   handleSubmit = (data = null) => {
     const { value, initialValue } = this.state;
-    const { multi, field, type, object } = this.props;
+    const { multi, field, type, object, submitCallback } = this.props;
 
     let args = {
       id: object.id
@@ -160,8 +163,8 @@ class Editable extends Component {
       newValue = args[field].filter(item => !item.isDeleted);
     }
 
-    const promise = this.props.hasOwnProperty('submitCallback')
-      ? this.props.submitCallback(args)
+    const promise = submitCallback
+      ? submitCallback(args)
       : updateModel(object, args);
 
     this.setState({ submitting: true });
@@ -169,16 +172,24 @@ class Editable extends Component {
     let error = null;
 
     promise
-      .then(() => {
-        this.setState({ value: newValue, initialValue: newValue, editing: false });
+      .then(response => {
+        if (response) {
+          newValue = response[field];
+        }
+
+        if (this.mounted) {
+          this.setState({ value: newValue, initialValue: newValue, editing: false });
+        }
       })
       .catch(errorResponse => {
         // Get the actual error message.
         error = errorResponse.data[field];
       })
       .finally(() => {
-        // Always set the error. If there is none the current error will just get cleared.
-        this.setState({ submitting: false, error });
+        if (this.mounted) {
+          // Always set the error. If there is none the current error will just get cleared.
+          this.setState({ submitting: false, error });
+        }
       });
   };
 
@@ -285,6 +296,22 @@ class Editable extends Component {
               case 'addresses':
                 row = <Address address={item} />;
                 break;
+              case 'socialMedia':
+                row = (
+                  <div>
+                    <SocialMediaIcon item={item} />
+
+                    <a
+                      href={item.profileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="m-l-5"
+                    >
+                      {item.username}
+                    </a>
+                  </div>
+                );
+                break;
               case 'websites':
                 row = <a href={`${item.website}`}>{item.website.replace(/http(s)?:\/\//, '')}</a>;
                 break;
@@ -330,7 +357,7 @@ class Editable extends Component {
       <BlockUI blocking={submitting}>
         <span
           role="presentation"
-          className="display-inline-block"
+          className={this.props.inlineBlock ? 'display-inline-block' : ''}
           onKeyDown={this.handleKeyPress}
           ref={this.editableRef}
         >

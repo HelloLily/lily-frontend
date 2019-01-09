@@ -3,7 +3,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import debounce from 'debounce-promise';
 
-import { get } from 'src/lib/api';
+import { get } from 'lib/api';
 import { ENTER_KEY, ESCAPE_KEY, DEBOUNCE_WAIT } from 'lib/constants';
 
 class EditableSelect extends Component {
@@ -72,7 +72,6 @@ class EditableSelect extends Component {
     return (
       <span className={`editable-input-wrap${multi ? ' editable-multi' : ''}`}>
         <AsyncSelect
-          autoFocus
           defaultOptions
           isClearable
           name="options"

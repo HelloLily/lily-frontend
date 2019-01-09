@@ -3,29 +3,21 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
-import { TWITTER_EMPTY_ROW } from 'lib/constants';
+import updateModel from 'utils/updateModel';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const AccountDetailWidget = ({ account, clickable, currentUser, submitCallback }) => {
-  const socialMediaCallback = async args => {
-    const isDeleted = args.username === '';
-    const profile = {
-      ...args,
-      isDeleted
-    };
+const AccountDetailWidget = ({ account, clickable, currentUser }) => {
+  const submitCallback = args => updateModel(account, args);
 
-    const newArgs = {
+  const assignToMe = async () => {
+    const args = {
       id: account.id,
-      socialMedia: [profile]
-    };
+      assignedTo: currentUser.id
+    }
 
-    await submitCallback(newArgs);
-  };
-
-  const twitterCallback = async args => {
-    await socialMediaCallback({ ...args, name: 'twitter' });
-  };
+    await submitCallback(args);
+  }
 
   const title = (
     <React.Fragment>
@@ -55,10 +47,6 @@ const AccountDetailWidget = ({ account, clickable, currentUser, submitCallback }
         {externalAppLink.name}
       </a>
     ) : null;
-
-  const twitterProfile = account.socialMedia.find(profile => profile.name === 'twitter');
-
-  account.twitter = twitterProfile || TWITTER_EMPTY_ROW;
 
   return (
     <ContentBlock title={title} extra={extra} component="accountDetailWidget">
@@ -119,11 +107,22 @@ const AccountDetailWidget = ({ account, clickable, currentUser, submitCallback }
         </div>
         <div>
           <Editable
+            key={JSON.stringify(account.assignedTo)}
             type="select"
             field="assignedTo"
             object={account}
             submitCallback={submitCallback}
           />
+
+          {(!account.assignedTo || account.assignedTo.id !== currentUser.id) && (
+            <button
+              type="button"
+              className="hl-interface-btn"
+              onClick={assignToMe}
+            >
+              Assign to me
+            </button>
+          )}
         </div>
       </div>
 
@@ -143,23 +142,15 @@ const AccountDetailWidget = ({ account, clickable, currentUser, submitCallback }
 
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon={['fab', 'twitter']} /> Twitter
+          <FontAwesomeIcon icon="comment" /> Social
         </div>
         <div>
           <Editable
-            type="text"
-            field="username"
-            object={account.twitter}
-            submitCallback={twitterCallback}
-          >
-            {account.twitter.username ? (
-              <a href={account.twitter.profileUrl} target="_blank" rel="noopener noreferrer">
-                {account.twitter.username}
-              </a>
-            ) : (
-              <span className="editable-empty">No Twitter profile</span>
-            )}
-          </Editable>
+            type="related"
+            field="socialMedia"
+            object={account}
+            submitCallback={submitCallback}
+          />
         </div>
       </div>
 

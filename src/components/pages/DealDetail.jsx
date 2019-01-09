@@ -117,6 +117,23 @@ class DealDetail extends Component {
     this.setState({ deal });
   };
 
+  assignToMe = async () => {
+    const { deal } = this.state;
+    const { currentUser } = this.props;
+
+    const args = {
+      id: deal.id,
+      assignedTo: currentUser.id
+    };
+
+    await this.submitCallback(args);
+
+    deal.assignedTo = currentUser;
+
+    await this.setState({ deal });
+    this.forceUpdate();
+  }
+
   submitCallback = async args => {
     const { deal } = this.state;
     this.setState({ loading: true });

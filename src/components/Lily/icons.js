@@ -51,7 +51,8 @@ import {
   faHourglassStart,
   faSearch,
   faFileImport,
-  faUpload
+  faUpload,
+  faShareAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -115,6 +116,7 @@ library.add(
   faSearch,
   faFileImport,
   faUpload,
+  faShareAlt,
   faExpandAlt,
   faSpinnerThird,
   faArrowAltRight,
