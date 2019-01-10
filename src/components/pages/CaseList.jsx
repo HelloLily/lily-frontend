@@ -4,6 +4,8 @@ import { withNamespaces } from 'react-i18next';
 import debounce from 'debounce-promise';
 
 import { DESCENDING_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
+import withContext from 'src/withContext';
+import timeCategorize from 'utils/timeCategorize';
 import Editable from 'components/Editable';
 import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
@@ -56,6 +58,7 @@ class CaseList extends Component {
       sortColumn: 'expires',
       sortStatus: DESCENDING_STATUS,
       showEmptyState: false,
+      splitView: false,
       loading: true
     };
 
@@ -134,7 +137,8 @@ class CaseList extends Component {
   };
 
   loadItems = async () => {
-    const { query, page, sortColumn, sortStatus, filters } = this.state;
+    const { query, page, sortColumn, sortStatus, splitView, filters } = this.state;
+    const { currentUser } = this.props;
 
     this.setState({ loading: true });
 
@@ -148,8 +152,11 @@ class CaseList extends Component {
     });
 
     if (this.mounted) {
+      const { results } = data;
+      const items = splitView ? timeCategorize(results, 'expires', currentUser) : results;
+
       this.setState({
-        items: data.results,
+        items,
         pagination: data.pagination,
         loading: false
       });
@@ -165,10 +172,129 @@ class CaseList extends Component {
     this.setState({ items });
   };
 
+  createTableRow = (items, newlyAssigned = false) => {
+    const { columns } = this.state;
+
+    const row = (
+      <React.Fragment>
+        {items.map(item => (
+          <tr key={item.id} className={newlyAssigned ? 'newly-assigned' : ''}>
+            {columns[0].selected && <td>{item.id}</td>}
+            {columns[1].selected && (
+              <td>
+                <Link to={`/cases/${item.id}`}>{item.subject}</Link>
+              </td>
+            )}
+            {columns[2].selected && (
+              <td>
+                <ClientDisplay contact={item.contact} account={item.account} />
+              </td>
+            )}
+            {columns[3].selected && (
+              <td>
+                <Editable type="select" field="type" object={item} />
+              </td>
+            )}
+            {columns[4].selected && (
+              <td>
+                <Editable type="select" field="status" object={item} />
+              </td>
+            )}
+            {columns[5].selected && (
+              <td>
+                <Editable icon hideValue type="select" object={item} field="priority" />
+              </td>
+            )}
+            {columns[6].selected && (
+              <td>
+                <LilyDate date={item.created} />
+              </td>
+            )}
+            {columns[7].selected && (
+              <td>
+                <Postpone object={item} field="expires" />
+              </td>
+            )}
+            {columns[8].selected && (
+              <td>
+                <LilyDate date={item.modified} />
+              </td>
+            )}
+            {columns[9].selected && (
+              <td>
+                <Editable async type="select" field="assignedTo" object={item} />
+              </td>
+            )}
+            {columns[10].selected && (
+              <td>
+                {item.assignedToTeams.map(team => (
+                  <div key={team.id}>{team.name}</div>
+                ))}
+              </td>
+            )}
+            {columns[11].selected && (
+              <td>{item.createdBy ? item.createdBy.fullName : 'Unknown'}</td>
+            )}
+            {columns[12].selected && (
+              <td>
+                {item.tags.map(tag => (
+                  <div key={tag.id}>{tag.name}</div>
+                ))}
+              </td>
+            )}
+            <td>
+              <ListActions item={item} deleteCallback={this.removeItem} {...this.props} />
+            </td>
+          </tr>
+        ))}
+      </React.Fragment>
+    );
+
+    return row;
+  }
+
+  createTableContent = () => {
+    const { items, splitView } = this.state;
+
+    if (splitView) {
+      const categories = [];
+
+      Object.keys(items).forEach(key => {
+        const newlyAssigned = key === 'newlyAssigned';
+
+        const tbody = (
+          <tbody key={key}>
+            {items[key].length > 0 && (
+              <tr className="table-category">
+                {newlyAssigned ? (
+                  <td colSpan="13">Newly assigned to you</td>
+                ) : (
+                  <td colSpan="13" className="text-capitalize">
+                    {key}
+                  </td>
+                )}
+              </tr>
+            )}
+            {this.createTableRow(items[key], newlyAssigned)}
+          </tbody>
+        );
+
+        categories.push(tbody);
+      });
+
+      return categories;
+    }
+
+    return (
+      <tbody>
+        {this.createTableRow(items)}
+      </tbody>
+    );
+  }
+
   render() {
     const {
       columns,
-      items,
       caseTypes,
       caseStatuses,
       filters,
@@ -223,78 +349,8 @@ class CaseList extends Component {
                 <th className="table-actions">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {items.map(caseObj => (
-                <tr key={caseObj.id}>
-                  {columns[0].selected && <td>{caseObj.id}</td>}
-                  {columns[1].selected && (
-                    <td>
-                      <Link to={`/cases/${caseObj.id}`}>{caseObj.subject}</Link>
-                    </td>
-                  )}
-                  {columns[2].selected && (
-                    <td>
-                      <ClientDisplay contact={caseObj.contact} account={caseObj.account} />
-                    </td>
-                  )}
-                  {columns[3].selected && (
-                    <td>
-                      <Editable type="select" field="type" object={caseObj} />
-                    </td>
-                  )}
-                  {columns[4].selected && (
-                    <td>
-                      <Editable type="select" field="status" object={caseObj} />
-                    </td>
-                  )}
-                  {columns[5].selected && (
-                    <td>
-                      <Editable icon hideValue type="select" object={caseObj} field="priority" />
-                    </td>
-                  )}
-                  {columns[6].selected && (
-                    <td>
-                      <LilyDate date={caseObj.created} />
-                    </td>
-                  )}
-                  {columns[7].selected && (
-                    <td>
-                      <Postpone object={caseObj} field="expires" />
-                    </td>
-                  )}
-                  {columns[8].selected && (
-                    <td>
-                      <LilyDate date={caseObj.modified} />
-                    </td>
-                  )}
-                  {columns[9].selected && (
-                    <td>
-                      <Editable async type="select" field="assignedTo" object={caseObj} />
-                    </td>
-                  )}
-                  {columns[10].selected && (
-                    <td>
-                      {caseObj.assignedToTeams.map(team => (
-                        <div key={team.id}>{team.name}</div>
-                      ))}
-                    </td>
-                  )}
-                  {columns[11].selected && (
-                    <td>{caseObj.createdBy ? caseObj.createdBy.fullName : 'Unknown'}</td>
-                  )}
-                  {columns[12].selected && (
-                    <td>
-                      {caseObj.tags.map(tag => (
-                        <div key={tag.id}>{tag.name}</div>
-                      ))}
-                    </td>
-                  )}
-                  <td>
-                    <ListActions item={caseObj} deleteCallback={this.removeItem} {...this.props} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+
+            {this.createTableContent()}
           </table>
 
           {showEmptyState && (
@@ -315,4 +371,4 @@ class CaseList extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(CaseList);
+export default withNamespaces('emptyStates')(withContext(CaseList));
