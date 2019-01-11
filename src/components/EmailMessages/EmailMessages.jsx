@@ -33,11 +33,12 @@ class EmailMessages extends Component {
     this.state = {
       query: '',
       emailMessages: [],
-      loading: true,
+      page: 1,
       selectAll: false,
       lastSelected: null,
       showReplyActions: false,
-      showMoveTo: false
+      showActions: false,
+      loading: true
     };
   }
 
@@ -299,13 +300,13 @@ class EmailMessages extends Component {
     const checkedMessages = emailMessages.filter(message => message.checked);
     // It's not possible to reply to multiple messages at the same time.
     const showReplyActions = checkedMessages.length === 1;
-    const showMoveTo = this.props.currentEmailAccount && checkedMessages.length > 0;
+    const showActions = this.props.currentEmailAccount && checkedMessages.length > 0;
 
-    this.setState({ emailMessages, showReplyActions, showMoveTo });
+    this.setState({ emailMessages, showReplyActions, showActions });
   };
 
   render() {
-    const { emailMessages, showReplyActions, showMoveTo, loading, selectAll, query } = this.state;
+    const { emailMessages, showReplyActions, showActions, loading, selectAll, query } = this.state;
     const { currentEmailAccount, currentLabel, currentUser, t } = this.props;
 
     let filteredLabels = [];
@@ -337,50 +338,48 @@ class EmailMessages extends Component {
                 className="m-r-10"
               />
 
-              <div className="hl-btn-group m-r-10">
-                <button className="hl-primary-btn" onClick={this.archive}>
-                  <FontAwesomeIcon icon="archive" /> Archive
-                </button>
+              {showActions && (
+                <React.Fragment>
+                  <div className="hl-btn-group m-r-10">
+                    <button className="hl-primary-btn" onClick={this.archive}>
+                      <FontAwesomeIcon icon="archive" /> Archive
+                    </button>
 
-                <button className="hl-primary-btn" onClick={this.delete}>
-                  <i className="lilicon hl-trashcan-icon" /> Delete
-                </button>
-              </div>
+                    <button className="hl-primary-btn" onClick={this.delete}>
+                      <i className="lilicon hl-trashcan-icon" /> Delete
+                    </button>
+                  </div>
 
-              {showMoveTo && (
-                <Dropdown
-                  clickable={
-                    <div className="hl-primary-btn m-r-10">
-                      <FontAwesomeIcon icon="folder" /> Move to
-                      <i className="lilicon hl-toggle-down-icon m-l-5" />
-                    </div>
-                  }
-                  menu={
-                    <ul className="dropdown-menu">
-                      {filteredLabels.map(label => (
-                        <li className="dropdown-menu-item" key={label.id}>
-                          <button className="dropdown-button" onClick={() => this.move(label)}>
-                            {label.name}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  }
-                />
+                  <Dropdown
+                    clickable={
+                      <div className="hl-primary-btn m-r-10">
+                        <FontAwesomeIcon icon="folder" /> Move to
+                        <i className="lilicon hl-toggle-down-icon m-l-5" />
+                      </div>
+                    }
+                    menu={
+                      <ul className="dropdown-menu">
+                        {filteredLabels.map(label => (
+                          <li className="dropdown-menu-item" key={label.id}>
+                            <button className="dropdown-button" onClick={() => this.move(label)}>
+                              {label.name}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    }
+                  />
+
+                  <div className="hl-btn-group m-r-10">
+                    <button className="hl-primary-btn" onClick={this.markAsRead}>
+                      <FontAwesomeIcon icon="eye" /> Mark as read
+                    </button>
+                    <button className="hl-primary-btn" onClick={this.markAsUnread}>
+                      <FontAwesomeIcon icon="eye-slash" /> Mark as unread
+                    </button>
+                  </div>
+                </React.Fragment>
               )}
-
-              <div className="hl-btn-group m-r-10">
-                <button className="hl-primary-btn" onClick={this.markAsRead}>
-                  <FontAwesomeIcon icon="eye" /> Mark as read
-                </button>
-                <button className="hl-primary-btn" onClick={this.markAsUnread}>
-                  <FontAwesomeIcon icon="eye-slash" /> Mark as unread
-                </button>
-              </div>
-
-              <button className="hl-primary-btn m-r-10" onClick={this.refresh}>
-                <FontAwesomeIcon icon="sync-alt" /> Refresh
-              </button>
 
               {showReplyActions && (
                 <div className="hl-btn-group m-r-10">
@@ -397,6 +396,10 @@ class EmailMessages extends Component {
                   </Link>
                 </div>
               )}
+
+              <button className="hl-primary-btn m-r-10" onClick={this.loadItems}>
+                <FontAwesomeIcon icon="sync-alt" /> Refresh
+              </button>
 
               <div className="flex-grow" />
 

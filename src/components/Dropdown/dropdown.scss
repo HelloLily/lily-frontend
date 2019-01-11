@@ -29,6 +29,10 @@
 
 .dropdown-menu-container {
   position: relative;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .dropdown-menu {
@@ -42,6 +46,10 @@
   min-width: 250px;
   max-width: 500px;
   top: 10px;
+
+  &:focus {
+    outline: none;
+  }
 
   .dropdown-header {
     padding: 2px 12px;

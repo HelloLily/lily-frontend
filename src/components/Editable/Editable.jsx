@@ -173,7 +173,7 @@ class Editable extends Component {
 
     promise
       .then(response => {
-        if (response) {
+        if (response && submitCallback) {
           newValue = response[field];
         }
 

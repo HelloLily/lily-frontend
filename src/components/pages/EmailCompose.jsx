@@ -30,7 +30,7 @@ class EmailCompose extends Component {
             </div>
 
             <div className="content-block-content no-padding">
-              <EmailEditor setSending={this.setSending} />
+              <EmailEditor setSending={this.setSending} {...this.props.location.state} />
             </div>
           </div>
         </div>

@@ -52,7 +52,7 @@ class EmailEditor extends Component {
       recipientsCc: [],
       recipientsBcc: [],
       modalOpen: false,
-      action: NEW_MESSAGE
+      action: props.messageType || NEW_MESSAGE
     };
   }
 
@@ -289,6 +289,7 @@ class EmailEditor extends Component {
   };
 
   handleTemplateChange = template => {
+    const { currentTemplate, action, emailMessage } = this.state;
     let loadTemplate = true;
 
     // Check if a template has been loaded already.
@@ -296,10 +297,10 @@ class EmailEditor extends Component {
     if (template) {
       let typedText = '';
 
-      if (this.state.currentTemplate) {
+      if (currentTemplate) {
         // Create a HTMLDocument from the given HTML string.
         const parser = new DOMParser();
-        const currentDocument = parser.parseFromString(this.state.currentTemplate, 'text/html');
+        const currentDocument = parser.parseFromString(currentTemplate, 'text/html');
         const document = parser.parseFromString(this.editorRef.current.getHtml(), 'text/html');
         // Get the root element of the document.
         const templateContent = currentDocument.body.innerHTML;
@@ -328,9 +329,8 @@ class EmailEditor extends Component {
       }
 
       if (loadTemplate) {
-        const { bodyHtml, subject, customVariables } = template.value;
-        // TODO: Implement check to see if the message is a reply.
-        // const subject = this.props.action === NEW_MESSAGE ? template.value.subject : this.state.message.subject;
+        const { bodyHtml, customVariables } = template.value;
+        const subject = action === NEW_MESSAGE ? template.value.subject : emailMessage.subject;
 
         this.setState({ subject, template });
         this.loadTemplate(bodyHtml, subject, customVariables, typedText);
