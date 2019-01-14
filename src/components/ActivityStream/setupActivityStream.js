@@ -1,7 +1,6 @@
-import { compareDesc } from 'date-fns';
+import { compareDesc, parseISO } from 'date-fns';
 
 import { get } from 'lib/api';
-import User from 'models/User';
 import Note from 'models/Note';
 import Case from 'models/Case';
 import Deal from 'models/Deal';
@@ -17,11 +16,11 @@ export default async function setupActivityStream(
   const { model } = object.contentType;
   const activityStream = [];
 
-  let dateQuery = '';
+  // let dateQuery = '';
   let emailDateQuery = '';
 
   if (dateStart && dateEnd) {
-    dateQuery = ` AND modified:[${dateStart} TO ${dateEnd}]`;
+    // dateQuery = ` AND modified:[${dateStart} TO ${dateEnd}]`;
     emailDateQuery = `sent_date:[${dateStart} TO ${dateEnd}]`;
   }
 
@@ -264,7 +263,7 @@ export default async function setupActivityStream(
   });
 
   const sortedActivityStream = activityStream.sort((item, item2) =>
-    compareDesc(item.activitySortDate, item2.activitySortDate)
+    compareDesc(parseISO(item.activitySortDate), parseISO(item2.activitySortDate))
   );
 
   return { activityStream: sortedActivityStream, options };
