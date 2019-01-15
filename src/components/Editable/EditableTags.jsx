@@ -23,7 +23,7 @@ class EditableTags extends Component {
   search = async (query = '') => {
     const request = await Tag.query({ search: query, ordering: '-modified' });
 
-    return request.hits;
+    return request.results;
   };
 
   render() {

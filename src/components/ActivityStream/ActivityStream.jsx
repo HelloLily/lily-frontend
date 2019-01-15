@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getYear, getMonth } from 'date-fns';
 import { withNamespaces } from 'react-i18next';
-import Textarea from 'react-textarea-autosize';
 import cx from 'classnames';
 
 import { ENTER_KEY } from 'lib/constants';
@@ -19,6 +18,7 @@ import StreamNote from './StreamNote';
 import StreamCall from './StreamCall';
 import StreamChange from './StreamChange';
 import StreamTimeLog from './StreamTimeLog';
+import StreamNoteAdd from './StreamNoteAdd';
 
 const components = {
   case: StreamCase,
@@ -36,19 +36,12 @@ class ActivityStream extends Component {
 
     this.mounted = false;
 
-    const note = {
-      gfkObjectId: props.object.id,
-      gfkContentType: props.object.contentType.id,
-      content: ''
-    };
-
     this.state = {
-      note,
       activityStream: [],
       options: [],
       collapsed: [],
-      loading: true,
-      filter: null
+      filter: null,
+      loading: true
     };
   }
 
@@ -77,19 +70,27 @@ class ActivityStream extends Component {
     this.setState({ filter: option.id });
   };
 
-  submitNote = async () => {
-    const { activityStream, note } = this.state;
-    const { t } = this.props;
+  submitNote = async (note, item = null) => {
+    const { activityStream } = this.state;
+    const { object, t } = this.props;
+
+    if (!note.content) {
+      return;
+    }
 
     try {
       const response = await Note.post(note);
       response.activitySortDate = response.created;
-      activityStream.unshift(response);
+
+      if (item.id !== object.id) {
+        const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
+        activityStream[index].notes.unshift(response);
+      } else {
+        activityStream.unshift(response);
+      }
 
       const text = t('modelCreated', { model: 'note' });
       successToast(text);
-
-      note.content = '';
 
       this.setState({ activityStream, note });
     } catch (e) {
@@ -223,7 +224,7 @@ class ActivityStream extends Component {
   };
 
   render() {
-    const { note, options, collapsed, filter, loading, activityStream } = this.state;
+    const { options, collapsed, filter, loading, activityStream } = this.state;
     const { object, parentObject } = this.props;
 
     const orderedActivityStream = this.orderActivityStream(activityStream);
@@ -231,7 +232,7 @@ class ActivityStream extends Component {
       object,
       submitCallback: this.submitCallback,
       deleteCallback: this.deleteCallback,
-      submitItemNote: this.submitItemNote,
+      submitNote: this.submitNote,
       deleteItemNote: this.deleteItemNote,
       togglePinned: this.togglePinned
     };
@@ -279,27 +280,7 @@ class ActivityStream extends Component {
             </div>
 
             <div className="activity-stream-list">
-              <div className="activity-stream-image">
-                <i className="lilicon hl-note-icon" />
-              </div>
-
-              <div>
-                <Textarea
-                  value={note.content}
-                  onChange={this.handleContent}
-                  onKeyDown={this.handleKeyDown}
-                  className="hl-input"
-                  placeholder="Write your note here"
-                  minRows={3}
-                  maxRows={15}
-                />
-
-                <div className="float-right">
-                  <button className="hl-primary-btn-blue" onClick={this.submitNote}>
-                    Add note
-                  </button>
-                </div>
-              </div>
+              <StreamNoteAdd item={object} submitCallback={this.submitNote} />
 
               {orderedActivityStream.pinned.length > 0 && (
                 <React.Fragment>

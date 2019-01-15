@@ -619,6 +619,15 @@ class InnerContactForm extends Component {
 
 const ContactForm = withRouter(
   withFormik({
+    validate: values => {
+      const errors = {};
+
+      if (!values.firstName && !values.lastName) {
+        errors.required = true;
+      }
+
+      return errors;
+    },
     mapPropsToValues: () => ({
       salutation: 0,
       gender: 0,

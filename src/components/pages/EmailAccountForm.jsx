@@ -191,7 +191,7 @@ class InnerEmailAccountForm extends Component {
                   </Tabs>
                 </div>
 
-                <FormFooter {...this.props} />
+                <FormFooter {...this.props} indent={false} />
               </Form>
             </div>
           </div>
@@ -203,6 +203,15 @@ class InnerEmailAccountForm extends Component {
 
 const EmailAccountForm = withRouter(
   withFormik({
+    validate: values => {
+      const errors = {};
+
+      if (!values.fromName && !values.label) {
+        errors.required = true;
+      }
+
+      return errors;
+    },
     mapPropsToValues: () => ({
       fromName: '',
       label: '',

@@ -230,23 +230,6 @@ class InnerEmailTemplateForm extends Component {
                   {errors.bodyHtml && <div className="error-message">{errors.bodyHtml}</div>}
                 </div>
 
-                {/* <div className="form-section">
-                  <div className="form-section-content">
-                    <button
-                      disabled={isSubmitting}
-                      className="hl-primary-btn-blue"
-                      onClick={this.handleSubmit}
-                      type="submit"
-                    >
-                      <FontAwesomeIcon icon="check" /> Save
-                    </button>
-
-                    <button type="button" className="hl-primary-btn m-l-10" disabled={isSubmitting}>
-                      Cancel
-                    </button>
-                  </div>
-                </div> */}
-
                 <FormFooter {...this.props} indent={false} handleSubmit={this.handleSubmit} />
               </Form>
             </div>

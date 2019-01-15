@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
@@ -130,19 +130,17 @@ class InnerCaseForm extends Component {
   };
 
   searchName = async () => {
-    const { contactSuggestions, showSuggestions } = this.state;
+    const { contactSuggestions } = this.state;
     const { subject } = this.props.values;
 
     if (!this.props.values.id && subject) {
       const response = await Case.query({ search: subject });
 
-      if (response.hits.length > 0) {
-        contactSuggestions.name = response.hits;
+      if (response.results.length > 0) {
+        contactSuggestions.name = response.results;
       }
 
-      showSuggestions.name = true;
-
-      this.setState({ contactSuggestions, showSuggestions });
+      this.setState({ contactSuggestions, showSuggestions: true });
     }
   };
 
@@ -587,6 +585,21 @@ class InnerCaseForm extends Component {
 
 const CaseForm = withRouter(
   withFormik({
+    validate: values => {
+      const errors = {};
+      const requiredFields = [
+        'subject',
+        'type',
+        'status',
+        'expires'
+      ];
+
+      if (!requiredFields.every(field => values[field])) {
+        errors.required = true;
+      }
+
+      return errors;
+    },
     mapPropsToValues: () => ({
       account: null,
       contact: null,
@@ -611,7 +624,8 @@ const CaseForm = withRouter(
         cleanedValues.assignedToTeams = cleanedValues.assignedToTeams.map(team => team.id);
       }
 
-      cleanedValues.expires = format(cleanedValues.expires, API_DATE_FORMAT);
+      const parsedDate = parse(cleanedValues.expires, 'dd/MM/yyyy', new Date());
+      cleanedValues.expires = format(parsedDate, API_DATE_FORMAT);
 
       let request;
       let text;

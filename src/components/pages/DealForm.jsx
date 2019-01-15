@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
@@ -186,7 +186,7 @@ class InnerDealForm extends Component {
   );
 
   searchName = async () => {
-    const { contactSuggestions, showSuggestions } = this.state;
+    const { contactSuggestions } = this.state;
     const { subject } = this.props.values;
 
     if (!this.props.values.id && subject) {
@@ -196,9 +196,7 @@ class InnerDealForm extends Component {
         contactSuggestions.name = response.results;
       }
 
-      showSuggestions.name = true;
-
-      this.setState({ contactSuggestions, showSuggestions });
+      this.setState({ contactSuggestions, showSuggestions: true });
     }
   };
 
@@ -778,6 +776,23 @@ class InnerDealForm extends Component {
 
 const DealForm = withRouter(
   withFormik({
+    validate: values => {
+      const errors = {};
+      const requiredFields = [
+        'foundThrough',
+        'contactedBy',
+        'whyCustomer',
+        'name',
+        'status',
+        'nextStep'
+      ];
+
+      if (!requiredFields.every(field => values[field])) {
+        errors.required = true;
+      }
+
+      return errors;
+    },
     mapPropsToValues: () => ({
       account: null,
       contact: null,
@@ -823,7 +838,8 @@ const DealForm = withRouter(
       if (cleanedValues.nextStepDate === '') {
         cleanedValues.nextStepDate = null;
       } else {
-        cleanedValues.nextStepDate = format(cleanedValues.nextStepDate, API_DATE_FORMAT);
+        const parsedDate = parse(cleanedValues.nextStepDate, 'dd/MM/yyyy', new Date());
+        cleanedValues.nextStepDate = format(parsedDate, API_DATE_FORMAT);
       }
 
       let request;

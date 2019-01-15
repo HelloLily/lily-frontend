@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { withNamespaces } from 'react-i18next';
 import Textarea from 'react-textarea-autosize';
 
-import { errorToast, successToast } from 'utils/toasts';
+import { errorToast } from 'utils/toasts';
 
-class StreamItemNoteAdd extends Component {
+class StreamNoteAdd extends Component {
   constructor(props) {
     super(props);
 
@@ -19,12 +19,10 @@ class StreamItemNoteAdd extends Component {
 
   submitNote = async () => {
     const { note } = this.state;
-    const { t } = this.props;
+    const { item, t } = this.props;
 
     try {
-      await this.props.submitCallback(this.props.item, note);
-
-      successToast(t('modelCreated', { model: 'note' }));
+      await this.props.submitCallback(note, item);
 
       note.content = '';
 
@@ -62,7 +60,10 @@ class StreamItemNoteAdd extends Component {
           />
 
           <div className="float-right">
-            <button className="hl-primary-btn-blue" onClick={this.submitNote}>
+            <button
+              className={`hl-primary-btn-blue${!note.content ? ' dimmed' : ''}`}
+              onClick={this.submitNote}
+            >
               Add note
             </button>
           </div>
@@ -72,4 +73,4 @@ class StreamItemNoteAdd extends Component {
   }
 }
 
-export default withNamespaces('toasts')(StreamItemNoteAdd);
+export default withNamespaces('toasts')(StreamNoteAdd);

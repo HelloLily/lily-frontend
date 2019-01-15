@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { RINGING_CALL_STATUS, IN_PROGRESS_CALL_STATUS, ENDED_CALL_STATUS } from 'lib/constants';
 import LilyDate from 'components/Utils/LilyDate';
 import StreamItemNote from './StreamItemNote';
-import StreamItemNoteAdd from './StreamItemNoteAdd';
+import StreamNoteAdd from './StreamNoteAdd';
 
 class StreamCall extends Component {
   constructor(props) {
@@ -157,7 +157,7 @@ class StreamCall extends Component {
 
                 <div className="stream-sub-items">
                   {showNoteAdd && (
-                    <StreamItemNoteAdd item={item} submitCallback={this.props.submitItemNote} />
+                    <StreamNoteAdd item={item} submitCallback={this.props.submitNote} />
                   )}
 
                   {item.notes.map(note => (

@@ -29,5 +29,6 @@
   "postpone": "Postpone the date",
   "casePostpone": "Change the expiry date",
   "dealPostpone": "Change the next step date",
-  "customPostponeDate": "Pick a custom date"
+  "customPostponeDate": "Pick a custom date",
+  "requiredFields": "Please fill in all required fields"
 }

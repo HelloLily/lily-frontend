@@ -5,7 +5,7 @@ import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
 import StreamAvatar from './StreamAvatar';
 import StreamItemNote from './StreamItemNote';
-import StreamItemNoteAdd from './StreamItemNoteAdd';
+import StreamNoteAdd from './StreamNoteAdd';
 
 class StreamDeal extends Component {
   constructor(props) {
@@ -72,7 +72,7 @@ class StreamDeal extends Component {
 
               <div className="stream-sub-items">
                 {showNoteAdd && (
-                  <StreamItemNoteAdd item={item} submitCallback={this.props.submitItemNote} />
+                  <StreamNoteAdd item={item} submitCallback={this.props.submitNote} />
                 )}
 
                 {item.notes.map(note => (

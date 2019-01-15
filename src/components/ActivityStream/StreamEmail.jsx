@@ -92,7 +92,9 @@ const StreamEmail = ({ item }) => {
                 </div>
               )}
 
-              <button className="hl-interface-btn" onClick={toggleRecipients}>Show</button>
+              <button className="hl-interface-btn" onClick={toggleRecipients}>
+                {showRecipients ? 'Hide' : 'Show'}
+              </button>
             </div>
 
             {item.attachments.length > 0 && (

@@ -665,6 +665,15 @@ class InnerAccountForm extends Component {
 
 const AccountForm = withRouter(
   withFormik({
+    validate: values => {
+      const errors = {};
+
+      if (!values.name) {
+        errors.required = true;
+      }
+
+      return errors;
+    },
     mapPropsToValues: () => ({
       primaryWebsite: '',
       name: '',

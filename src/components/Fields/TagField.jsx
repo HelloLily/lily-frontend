@@ -13,7 +13,7 @@ class TagField extends Component {
   search = async (query = '') => {
     const request = await Tag.query({ search: query, ordering: 'name' });
 
-    return request.hits;
+    return request.results;
   };
 
   render() {
