@@ -173,9 +173,9 @@
         }
 
         .hl-interface-btn {
-          font-size: initial;
-
           &.note-toggle {
+            font-size: initial;
+
             &:hover {
               color: $app-color-yellow;
             }

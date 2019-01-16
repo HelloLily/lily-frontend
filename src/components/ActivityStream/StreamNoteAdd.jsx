@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withNamespaces } from 'react-i18next';
 import Textarea from 'react-textarea-autosize';
 
+import { ENTER_KEY } from 'lib/constants';
 import { errorToast } from 'utils/toasts';
 
 class StreamNoteAdd extends Component {
@@ -14,12 +15,17 @@ class StreamNoteAdd extends Component {
       content: ''
     };
 
-    this.state = { note };
+    this.state = {
+      note,
+      loading: false
+    };
   }
 
   submitNote = async () => {
     const { note } = this.state;
     const { item, t } = this.props;
+
+    this.setState({ loading: true });
 
     try {
       await this.props.submitCallback(note, item);
@@ -30,6 +36,8 @@ class StreamNoteAdd extends Component {
     } catch (error) {
       errorToast(t('error'));
     }
+
+    this.setState({ loading: false });
   };
 
   handleContent = event => {
@@ -40,8 +48,14 @@ class StreamNoteAdd extends Component {
     this.setState({ note });
   };
 
+  handleKeyDown = event => {
+    if (event.metaKey && event.keyCode === ENTER_KEY) {
+      this.submitNote();
+    }
+  };
+
   render() {
-    const { note } = this.state;
+    const { note, loading } = this.state;
 
     return (
       <React.Fragment>
@@ -57,11 +71,13 @@ class StreamNoteAdd extends Component {
             maxRows={15}
             value={note.content}
             onChange={this.handleContent}
+            onKeyDown={this.handleKeyDown}
           />
 
           <div className="float-right">
             <button
-              className={`hl-primary-btn-blue${!note.content ? ' dimmed' : ''}`}
+              disabled={loading}
+              className={`hl-primary-btn-blue${(!note.content || loading) ? ' dimmed' : ''}`}
               onClick={this.submitNote}
             >
               Add note

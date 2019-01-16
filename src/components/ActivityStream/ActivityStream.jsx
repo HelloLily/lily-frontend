@@ -4,7 +4,6 @@ import { getYear, getMonth } from 'date-fns';
 import { withNamespaces } from 'react-i18next';
 import cx from 'classnames';
 
-import { ENTER_KEY } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import updateModel from 'utils/updateModel';
 import LilyDate from 'components/Utils/LilyDate';
@@ -82,8 +81,11 @@ class ActivityStream extends Component {
       const response = await Note.post(note);
       response.activitySortDate = response.created;
 
-      if (item.id !== object.id) {
-        const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
+      if (item.contentType.id !== object.contentType.id) {
+        // Dealing with an activity stream item, so it's an item note.
+        const index = activityStream.findIndex(streamItem =>
+          streamItem.contentType.id === item.contentType.id && streamItem.id === item.id
+        );
         activityStream[index].notes.unshift(response);
       } else {
         activityStream.unshift(response);
@@ -96,16 +98,6 @@ class ActivityStream extends Component {
     } catch (e) {
       errorToast(t('error'));
     }
-  };
-
-  submitItemNote = async (item, note) => {
-    const { activityStream } = this.state;
-
-    const response = await Note.post(note);
-    const index = activityStream.findIndex(streamItem => streamItem.id === item.id);
-    activityStream[index].notes.unshift(response);
-
-    this.setState({ activityStream });
   };
 
   deleteItemNote = async (item, note) => {
@@ -168,12 +160,6 @@ class ActivityStream extends Component {
 
     this.setState({ collapsed });
   };
-
-  handleKeyDown = event => {
-    if (event.metaKey && event.keyCode === ENTER_KEY) {
-      this.submitNote();
-    }
-  }
 
   submitCallback = async (item, args) => {
     await updateModel(item, args);

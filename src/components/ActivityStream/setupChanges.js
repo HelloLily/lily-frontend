@@ -10,6 +10,7 @@ const CHANGE_LOG_MAPPING = {
   websites: 'website',
   assignedToTeams: 'name',
   tags: 'name',
+  socialMedia: 'username',
   linkedin: 'username',
   twitter: 'username',
   accounts: 'name'

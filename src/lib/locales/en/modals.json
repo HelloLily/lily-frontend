@@ -99,7 +99,8 @@
         "confirmButtonText": "Yes, remove it",
         "error": {
           "title": "Error",
-          "html": "There was an error processing your request.<br />Please try again."
+          "text": "There was an error processing your request.",
+          "text2": "Please try again."
         }
       },
       "endSession": {
@@ -108,7 +109,8 @@
         "confirmButtonText": "Yes, end this session",
         "error": {
           "title": "Error",
-          "html": "There was an error processing your request.<br />Please try again."
+          "text": "There was an error processing your request.",
+          "text2": "Please try again."
         }
       },
       "backup": {

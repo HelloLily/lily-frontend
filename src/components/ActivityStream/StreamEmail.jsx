@@ -20,6 +20,13 @@ const StreamEmail = ({ item }) => {
       <div className="stream-item">
         <div className="stream-item-header">
           <LilyDate date={item.sentDate} includeTime />
+        </div>
+        <div className="stream-item-title">
+          {item.subject ? (
+            <Link to={`/email/${item.id}`}>{item.subject}</Link>
+          ) : (
+            <span className="text-muted">No subject</span>
+          )}
 
           <div>
             <Link
@@ -48,13 +55,6 @@ const StreamEmail = ({ item }) => {
               <FontAwesomeIcon icon="reply" flip="horizontal" /> Forward
             </Link>
           </div>
-        </div>
-        <div className="stream-item-title">
-          {item.subject ? (
-            <Link to={`/email/${item.id}`}>{item.subject}</Link>
-          ) : (
-            <span className="text-muted">No subject</span>
-          )}
         </div>
 
         <div className="stream-item-content is-email">

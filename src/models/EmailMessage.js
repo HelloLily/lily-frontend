@@ -74,14 +74,14 @@ class EmailMessage {
     // }
 
     // TODO: Temporary.
-    // return { results: [] };
+    return { results: [] };
 
     return get('/messaging/email/email/', params);
   }
 
   search(params) {
     // TODO: Temporary.
-    // return { results: [] };
+    return { results: [] };
 
     return get('/messaging/email/email/', params);
   }
