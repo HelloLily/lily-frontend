@@ -175,15 +175,6 @@ export default async function setupActivityStream(
     const emailMessages = await getEmailMessages();
 
     emailMessages.forEach(emailMessage => {
-      // TODO: Temporary code since these are still Elasticsearch results.
-      emailMessage.contentType = {
-        id: emailMessage.contentType,
-        model: 'emailmessage',
-        appLabel: 'email'
-      };
-
-      emailMessage.attachments = [];
-
       activityStream.push(emailMessage);
     });
 

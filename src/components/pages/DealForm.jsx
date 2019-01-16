@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
-import { format, parse } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
@@ -137,23 +137,27 @@ class InnerDealForm extends Component {
   loadDeal = async id => {
     const { currencies } = this.state;
 
-    const dealResponse = await Deal.get(id);
+    const deal = await Deal.get(id);
 
-    if (!dealResponse.nextStepDate) {
-      dealResponse.nextStepDate = '';
+    if (!deal.nextStepDate) {
+      deal.nextStepDate = '';
     }
 
-    if (dealResponse.account && dealResponse.account.isDeleted) {
-      dealResponse.account = null;
+    if (deal.account && deal.account.isDeleted) {
+      deal.account = null;
     }
 
-    if (dealResponse.contact && dealResponse.contact.isDeleted) {
-      dealResponse.contact = null;
+    if (deal.contact && deal.contact.isDeleted) {
+      deal.contact = null;
     }
 
-    dealResponse.currency = currencies.find(currency => currency.code === dealResponse.currency);
+    if (deal.nextStepDate) {
+      deal.nextStepDate = format(parseISO(deal.nextStepDate), FORM_DATE_FORMAT);
+    }
 
-    this.props.setValues(dealResponse);
+    deal.currency = currencies.find(currency => currency.code === deal.currency);
+
+    this.props.setValues(deal);
   };
 
   editDeal = async id => {
@@ -184,21 +188,6 @@ class InnerDealForm extends Component {
       )}
     </components.Option>
   );
-
-  searchName = async () => {
-    const { contactSuggestions } = this.state;
-    const { subject } = this.props.values;
-
-    if (!this.props.values.id && subject) {
-      const response = await Deal.query({ search: subject });
-
-      if (response.results.length > 0) {
-        contactSuggestions.name = response.results;
-      }
-
-      this.setState({ contactSuggestions, showSuggestions: true });
-    }
-  };
 
   searchAccounts = async (query = '') => {
     const { values } = this.props;
@@ -271,15 +260,14 @@ class InnerDealForm extends Component {
     this.props.setFieldValue(type, items);
   };
 
-  handleClose = field => {
-    const { showSuggestions } = this.state;
-    showSuggestions[field] = false;
-
-    this.setState({ showSuggestions });
+  handleClose = () => {
+    this.setState({ showSuggestions: false });
   };
 
   handleAccount = async value => {
-    this.props.setFieldValue('account', value);
+    const { values, setFieldValue } = this.props;
+
+    setFieldValue('account', value);
 
     if (value) {
       const args = {
@@ -287,19 +275,39 @@ class InnerDealForm extends Component {
       };
 
       if (value.contacts.length === 1) {
-        this.props.setFieldValue('contact', value.contacts[0]);
+        setFieldValue('contact', value.contacts[0]);
 
         args.contact = value.contacts[0].id;
       }
 
-      const dealResponse = await Deal.openDeals(args);
+      const params = { account: value.id };
 
-      this.setState({ dealSuggestions: dealResponse.results, showSuggestions: true });
+      if (values.contact ) {
+        params.contact = values.contact.id;
+      }
+
+      const deal = await Deal.openDeals(params);
+
+      this.setState({ dealSuggestions: deal.results, showSuggestions: true });
     }
   };
 
-  handleContact = value => {
-    this.props.setFieldValue('contact', value);
+  handleContact = async value => {
+    const { values, setFieldValue } = this.props;
+
+    setFieldValue('contact', value);
+
+    if (value) {
+      const params = { contact: value.id };
+
+      if (values.account ) {
+        params.account = values.account.id;
+      }
+
+      const deal = await Deal.openDeals(params);
+
+      this.setState({ dealSuggestions: deal.results, showSuggestions: true });
+    }
   };
 
   handleAssignedTo = value => {
@@ -535,7 +543,6 @@ class InnerDealForm extends Component {
                           placeholder="Name"
                           value={values.name}
                           onChange={handleChange}
-                          onBlur={this.searchName}
                         />
 
                         {errors.name && <div className="error-message">{errors.name}</div>}

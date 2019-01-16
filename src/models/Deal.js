@@ -45,8 +45,8 @@ class Deal {
     return get('/deals/why-lost/');
   }
 
-  openDeals(data) {
-    return get('/deals/open', data);
+  openDeals(params) {
+    return get('/deals/open', params);
   }
 
   documents(id) {

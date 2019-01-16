@@ -49,8 +49,8 @@ class Case {
     return get('/cases/priorities/');
   }
 
-  openCases(data) {
-    return get('/cases/open', data);
+  openCases(params) {
+    return get('/cases/open', params);
   }
 
   exists() {

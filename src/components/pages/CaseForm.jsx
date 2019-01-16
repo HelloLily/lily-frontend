@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
-import { format, parse } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
@@ -107,17 +107,21 @@ class InnerCaseForm extends Component {
   }
 
   loadCase = async id => {
-    const caseResponse = await Case.get(id);
+    const caseObj = await Case.get(id);
 
-    if (caseResponse.account && caseResponse.account.isDeleted) {
-      caseResponse.account = null;
+    if (caseObj.account && caseObj.account.isDeleted) {
+      caseObj.account = null;
     }
 
-    if (caseResponse.contact && caseResponse.contact.isDeleted) {
-      caseResponse.contact = null;
+    if (caseObj.contact && caseObj.contact.isDeleted) {
+      caseObj.contact = null;
     }
 
-    this.props.setValues(caseResponse);
+    if (caseObj.expires) {
+      caseObj.expires = format(parseISO(caseObj.expires), FORM_DATE_FORMAT);
+    }
+
+    this.props.setValues(caseObj);
   };
 
   editCase = async id => {
@@ -127,21 +131,6 @@ class InnerCaseForm extends Component {
 
     // Clear the suggestions.
     this.setState({ caseSuggestions: [] });
-  };
-
-  searchName = async () => {
-    const { contactSuggestions } = this.state;
-    const { subject } = this.props.values;
-
-    if (!this.props.values.id && subject) {
-      const response = await Case.query({ search: subject });
-
-      if (response.results.length > 0) {
-        contactSuggestions.name = response.results;
-      }
-
-      this.setState({ contactSuggestions, showSuggestions: true });
-    }
   };
 
   searchAccounts = async (query = '') => {
@@ -200,15 +189,14 @@ class InnerCaseForm extends Component {
     this.props.setFieldValue(type, items);
   };
 
-  handleClose = field => {
-    const { showSuggestions } = this.state;
-    showSuggestions[field] = false;
-
-    this.setState({ showSuggestions });
+  handleClose = () => {
+    this.setState({ showSuggestions: false });
   };
 
   handleAccount = async value => {
-    this.props.setFieldValue('account', value);
+    const { values, setFieldValue } = this.props;
+
+    setFieldValue('account', value);
 
     if (value) {
       const args = {
@@ -216,19 +204,39 @@ class InnerCaseForm extends Component {
       };
 
       if (value.contacts.length === 1) {
-        this.props.setFieldValue('contact', value.contacts[0]);
+        setFieldValue('contact', value.contacts[0]);
 
         args.contact = value.contacts[0].id;
+      };
+
+      const params = { account: value.id };
+
+      if (values.contact ) {
+        params.contact = values.contact.id;
       }
 
-      const caseResponse = await Case.openCases(args);
+      const caseObj = await Case.openCases(params);
 
-      this.setState({ caseSuggestions: caseResponse.results, showSuggestions: true });
+      this.setState({ caseSuggestions: caseObj.results, showSuggestions: true });
     }
   };
 
-  handleContact = value => {
-    this.props.setFieldValue('contact', value);
+  handleContact = async value => {
+    const { values, setFieldValue } = this.props;
+
+    setFieldValue('contact', value);
+
+    if (value) {
+      const params = { account: value.id };
+
+      if (values.account ) {
+        params.account = values.account.id;
+      }
+
+      const caseObj = await Case.openCases(params);
+
+      this.setState({ caseSuggestions: caseObj.results, showSuggestions: true });
+    }
   };
 
   assignToMyTeams = () => {
@@ -384,7 +392,6 @@ class InnerCaseForm extends Component {
                           placeholder="Subject"
                           value={values.subject}
                           onChange={handleChange}
-                          onBlur={this.searchName}
                         />
 
                         {errors.subject && <div className="error-message">{errors.subject}</div>}

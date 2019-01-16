@@ -54,6 +54,11 @@ export function get(path, params, _options) {
   // TODO: Temporary work around because email messages don't have a proper API yet.
   let url = uri.includes('search/') ? uri.replace('/api', '') : uri;
 
+  if (params && !params.hasOwnProperty('pageSize')) {
+    // Default page size to reduce amount of data fetched.
+    params.pageSize = 20;
+  }
+
   if (params) {
     url += `?${createParams(params)}`;
   }
