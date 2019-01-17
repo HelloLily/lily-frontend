@@ -71,6 +71,22 @@
     }
   }
 
+  &.offset {
+    right: 15px;
+
+    .postpone-buttons {
+      &:before {
+        left: unset;
+        right: 15px;
+      }
+
+      &:after {
+        left: unset;
+        right: 15px;
+      }
+    }
+  }
+
   // scss-lint:disable SelectorFormat
   .react-datepicker {
     border-radius: 0;

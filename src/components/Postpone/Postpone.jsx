@@ -111,12 +111,24 @@ class Postpone extends Component {
     return addBusinessDays(amount, baseDate);
   };
 
+  inViewport = () => {
+    if (this.postponeRef.current) {
+      const el = this.postponeRef.current;
+      const rect = el.getBoundingClientRect();
+
+      return rect.right + 500 <= (window.innerWidth || document.documentElement.clientWidth);
+    }
+
+    return false;
+  }
+
   render() {
     const { date, menuOpen, submitting } = this.state;
     const { object, field, t } = this.props;
     const { PostponeButton } = this;
 
     const tooltipId = `item-${object.id}-${field}`;
+    const inViewport = this.inViewport();
 
     return (
       <React.Fragment>
@@ -135,7 +147,10 @@ class Postpone extends Component {
           <LilyTooltip id={tooltipId} />
 
           {menuOpen ? (
-            <div className="postpone-container" ref={this.postponeContainer}>
+            <div
+              className={`postpone-container${!inViewport ? ' offset' : ''}`}
+              ref={this.postponeContainer}
+            >
               <div className="postpone-buttons">
                 <div className="postpone-header">{t(`${object.contentType.model}Postpone`)}</div>
 

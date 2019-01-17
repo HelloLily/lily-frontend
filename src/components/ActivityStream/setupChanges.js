@@ -1,4 +1,4 @@
-import { isWithinInterval, addHours, isValid } from 'date-fns';
+import { isWithinInterval, addHours, isValid, format } from 'date-fns';
 
 import { HOURS_BETWEEN_CHANGES } from 'lib/constants';
 import convertFromCamelCase from 'utils/convertFromCamelCase';
@@ -18,7 +18,8 @@ const CHANGE_LOG_MAPPING = {
 
 const DISPLAY_NAME_MAPPING = {
   assignedToTeams: 'Teams',
-  accounts: 'Works at'
+  accounts: 'Works at',
+  expires: 'Expiry date'
 };
 
 const DATE_FORMAT = 'dd MMM. yyyy';
@@ -121,7 +122,7 @@ export default function setupChanges(items, mergeChanges = true) {
 
           if (found) {
             // Old item exists, but new item is deleted.
-            if (newItem.hasOwnProperty('is_deleted')) {
+            if (newItem.hasOwnProperty('isDeleted')) {
               changeItem = {
                 old: oldItem[field] || oldItem,
                 new: null
@@ -168,21 +169,23 @@ export default function setupChanges(items, mergeChanges = true) {
           data.changeType = 'add';
         }
 
-        // if (!oldDataEmpty) {
-        //   const oldDate = new Date(data.old.toString());
+        if (!oldDataEmpty) {
+          const oldDate = new Date(data.old.toString());
 
-        //   if (isValid(oldDate)) {
-        //     data.old = oldDate.format(DATE_FORMAT);
-        //   }
-        // }
+          if (isValid(oldDate)) {
+            // Dealing with a date here, so convert to a more readable format.
+            data.old = format(oldDate, DATE_FORMAT);
+          }
+        }
 
-        // if (!newDataEmpty) {
-        //   const newDate = new Date(data.new.toString());
+        if (!newDataEmpty) {
+          const newDate = new Date(data.new.toString());
 
-        //   if (isValid(newDate)) {
-        //     data.new = newDate.format(DATE_FORMAT);
-        //   }
-        // }
+          if (isValid(newDate)) {
+            // Dealing with a date here, so convert to a more readable format.
+            data.new = format(newDate, DATE_FORMAT);
+          }
+        }
 
         const displayName = getChangeDisplayName(key);
 
