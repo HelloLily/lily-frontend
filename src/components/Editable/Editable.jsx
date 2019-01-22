@@ -156,7 +156,7 @@ class Editable extends Component {
 
     let newValue = value;
 
-    if (type === 'related') {
+    if (type === 'related' || type === 'tags') {
       args[field] = value.filter(item => item.id || (!item.id && !item.isDeleted));
 
       // Filter out any deleted values so we clean our new values.

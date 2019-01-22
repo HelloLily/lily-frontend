@@ -203,15 +203,6 @@ class InnerEmailAccountForm extends Component {
 
 const EmailAccountForm = withRouter(
   withFormik({
-    validate: values => {
-      const errors = {};
-
-      if (!values.fromName && !values.label) {
-        errors.required = true;
-      }
-
-      return errors;
-    },
     mapPropsToValues: () => ({
       fromName: '',
       label: '',
@@ -232,6 +223,7 @@ const EmailAccountForm = withRouter(
         label: values.label,
         color: values.color,
         privacy: values.privacy,
+        onlyNew: values.onlyNew,
         sharedEmailConfigs
       };
       const request = EmailAccount.patch(cleanedValues);

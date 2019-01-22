@@ -77,7 +77,7 @@ class StreamNoteAdd extends Component {
           <div className="float-right">
             <button
               disabled={loading}
-              className={`hl-primary-btn-blue${(!note.content || loading) ? ' dimmed' : ''}`}
+              className={`hl-primary-btn-blue${(loading) ? ' is-disabled' : ''}`}
               onClick={this.submitNote}
             >
               Add note

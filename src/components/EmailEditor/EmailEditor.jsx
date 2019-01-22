@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Select, { components } from 'react-select';
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
+import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import debounce from 'debounce-promise';
 import { withNamespaces } from 'react-i18next';
 import * as JsDiff from 'diff';
 
@@ -12,9 +10,7 @@ import {
   VARIABLE_REGEX,
   TYPED_TEXT_REGEX,
   SELECT_STYLES,
-  NEW_MESSAGE,
-  DEBOUNCE_WAIT,
-  INACTIVE_EMAIL_STATUS
+  NEW_MESSAGE
 } from 'lib/constants';
 import { get } from 'lib/api';
 import { errorToast, successToast } from 'utils/toasts';
@@ -22,7 +18,7 @@ import LilyEditor from 'components/LilyEditor';
 import EmailAccount from 'models/EmailAccount';
 import EmailTemplate from 'models/EmailTemplate';
 import EmailMessage from 'models/EmailMessage';
-import Contact from 'models/Contact';
+import RecipientField from './RecipientField';
 
 // Styling overrides for selects in the editor component.
 const styles = {
@@ -155,13 +151,6 @@ class EmailEditor extends Component {
     this.setState(state);
   }
 
-  getRecipients = async (query = '') => {
-    const contactResponse = await Contact.query({ search: query });
-    const contacts = this.createRecipientOptions(contactResponse.results, query);
-
-    return contacts;
-  };
-
   async getDocument(documentId, recipient = '') {
     return get(`/integrations/documents/${documentId}/send/?recipient=${recipient}`);
   }
@@ -183,81 +172,16 @@ class EmailEditor extends Component {
     return value;
   };
 
-  createRecipientLabel = (emailAddress, name = null) =>
-    name ? `${name} <${emailAddress}>` : emailAddress;
-
-  createRecipientOptions = (contacts, query = '') => {
-    const options = [];
-
-    contacts.forEach(contact => {
-      const containsDomain = contact.emailAddresses.some(emailAddress => {
-        const emailDomain = emailAddress.emailAddress.split('@').slice(-1)[0];
-        return emailDomain === query;
-      });
-
-      contact.emailAddresses.forEach(emailAddress => {
-        const emailDomain = emailAddress.emailAddress.split('@').slice(-1)[0];
-
-        // Filter contact's email addresses if we're searching with whole domain.
-        if ((containsDomain && emailDomain !== query) || emailAddress.status === INACTIVE_EMAIL_STATUS) {
-          return;
-        }
-
-        const label = this.createRecipientLabel(emailAddress.emailAddress, contact.fullName);
-        const contactCopy = Object.assign({}, contact);
-
-        let functions = [];
-
-        if (contact.functions.length > 0) {
-          functions = contact.functions.filter(account => {
-            // TODO: This check shouldn't be needed in the live version.
-            if (account.domains) {
-              // Check if any of the domains contain the email's domain.
-              return account.domains.some(domain => domain.includes(emailDomain));
-            }
-
-            return [];
-          });
-
-          if (functions.length === 0) {
-            // Parentheses needed to fix the Eslint rule 'prefer-destructuring'.
-            ({ functions } = contact);
-          }
-
-          functions = functions.filter(func => func.isActive);
-
-          if (functions.length === 0) {
-            // If isn't active at the filtered account(s),
-            // don't show the email address at all.
-            return;
-          }
-        }
-
-        contactCopy.functions = functions;
-        contactCopy.emailAddress = emailAddress.emailAddress;
-
-        const contactData = {
-          label,
-          value: contactCopy
-        };
-
-        options.push(contactData);
-      });
-    });
-
-    return options;
-  };
-
   handleEmailAccountChange = emailAccount => {
-    const { user } = this.props;
+    const { currentUser } = this.props;
 
-    user.currentEmailAddress = emailAccount ? emailAccount.value.emailAddress : null;
+    currentUser.currentEmailAddress = emailAccount ? emailAccount.value.emailAddress : null;
 
-    this.setState({ emailAccount, user });
+    this.setState({ emailAccount, currentUser });
   };
 
   handleRecipientChange = recipients => {
-    const newState = { recipients };
+    const newState = { recipients, menuOpen: false };
 
     if (recipients.length === 1) {
       const contact = recipients[0];
@@ -290,9 +214,16 @@ class EmailEditor extends Component {
 
   handleTemplateChange = template => {
     const { currentTemplate, action, emailMessage } = this.state;
+    const { t } = this.props;
+
     let loadTemplate = true;
 
     // Check if a template has been loaded already.
+
+    if (currentTemplate) {
+      // TODO: Temporary.
+      loadTemplate = confirm(t('modals:email.overwriteTemplateConfirm'))
+    }
 
     if (template) {
       let typedText = '';
@@ -499,9 +430,8 @@ class EmailEditor extends Component {
     return allRecipients.every(recipient => EMAIL_REGEX.test(recipient.value.emailAddress));
   };
 
-  validateEmailAddress = option => EMAIL_REGEX.test(option);
-
   createRecipient = (option, type) => {
+    // eslint-disable-next-line
     const recipients = this.state[type];
 
     recipients.push({
@@ -511,7 +441,7 @@ class EmailEditor extends Component {
       label: option
     });
 
-    this.setState({ [type]: recipients });
+    this.setState({ recipients });
   };
 
   handleSubmit = async () => {
@@ -525,7 +455,7 @@ class EmailEditor extends Component {
 
     if (!recipientsValid) {
       // Don't submit and show errors.
-      errorToast(t('error'));
+      errorToast(t('toasts:error'));
       return;
     }
 
@@ -586,56 +516,21 @@ class EmailEditor extends Component {
 
       await EmailMessage.send(emailDraft.id);
 
-      successToast(t('emailSent'));
+      successToast(t('toasts:emailSent'));
 
       this.props.history.push('/email');
     } catch (error) {
       // TODO: Show a proper error.
-      errorToast(t('error'));
+      errorToast(t('toasts:error'));
     }
 
     this.props.setSending(false);
-  };
-
-  RecipientOption = props => {
-    if (props.value.hasOwnProperty('emailAddress')) {
-      const contact = props.value;
-      let accounts = '';
-
-      if (contact.functions && contact.functions.length) {
-        accounts = ` (${contact.functions.map(account => account.accountName).join(', ')})`;
-      }
-
-      return (
-        <components.Option {...props}>
-          <div>
-            <div>
-              {contact.fullName} {accounts}
-            </div>
-            <div className="text-muted">{contact.emailAddress}</div>
-          </div>
-        </components.Option>
-      );
-    }
-
-    // Render differently for option creation.
-    return <components.Option {...props}>{props.label}</components.Option>;
   };
 
   render() {
     const { showCcInput, showBccInput, emailDraft = null } = this.state;
     const { fixed } = this.props;
     const className = fixed ? 'editor fixed' : 'editor no-border';
-    const recipientProps = {
-      styles,
-      isMulti: true,
-      defaultOptions: true,
-      loadOptions: debounce(this.getRecipients, DEBOUNCE_WAIT),
-      components: { Option: this.RecipientOption },
-      isValidNewOption: this.validateEmailAddress,
-      className: 'editor-select-input',
-      placeholder: 'Add recipients'
-    };
 
     return (
       <div className={className}>
@@ -659,12 +554,13 @@ class EmailEditor extends Component {
           <div className="editor-input-group">
             <label>To</label>
 
-            <AsyncCreatableSelect
+            <RecipientField
               name="recipients"
-              value={this.state.recipients}
+              inputId="recipients"
+              recipients={this.state.recipients}
               onChange={this.handleRecipientChange}
               onCreateOption={option => this.createRecipient(option, 'recipients')}
-              {...recipientProps}
+              styles={styles}
             />
 
             {!showCcInput && (
@@ -693,12 +589,13 @@ class EmailEditor extends Component {
             <div className="editor-input-group">
               <label>Cc</label>
 
-              <AsyncCreatableSelect
+              <RecipientField
                 name="recipientsCc"
-                value={this.state.recipientsCc}
+                inputId="recipientsCc"
+                recipients={this.state.recipientsCc}
                 onChange={this.handleAdditionalRecipients}
                 onCreateOption={option => this.createRecipient(option, 'recipientsCc')}
-                {...recipientProps}
+                styles={styles}
               />
 
               {showCcInput && (
@@ -717,12 +614,13 @@ class EmailEditor extends Component {
             <div className="editor-input-group">
               <label>Bcc</label>
 
-              <AsyncCreatableSelect
+              <RecipientField
                 name="recipientsBcc"
-                value={this.state.recipientsBcc}
+                inputId="recipientsBcc"
+                recipients={this.state.recipientsBcc}
                 onChange={recipients => this.handleAdditionalRecipients(recipients, true)}
                 onCreateOption={option => this.createRecipient(option, 'recipientsBcc')}
-                {...recipientProps}
+                styles={styles}
               />
 
               {showBccInput && (
@@ -801,4 +699,4 @@ class EmailEditor extends Component {
   }
 }
 
-export default withNamespaces('toasts')(withContext(EmailEditor));
+export default withNamespaces(['modals', 'toasts'])(withContext(EmailEditor));

@@ -592,21 +592,6 @@ class InnerCaseForm extends Component {
 
 const CaseForm = withRouter(
   withFormik({
-    validate: values => {
-      const errors = {};
-      const requiredFields = [
-        'subject',
-        'type',
-        'status',
-        'expires'
-      ];
-
-      if (!requiredFields.every(field => values[field])) {
-        errors.required = true;
-      }
-
-      return errors;
-    },
     mapPropsToValues: () => ({
       account: null,
       contact: null,

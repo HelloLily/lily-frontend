@@ -473,7 +473,7 @@ class InnerContactForm extends Component {
                           items={values.emailAddresses}
                           handleRelated={this.handleRelated}
                           onInputBlur={this.searchEmailAddress}
-                          errors={errors}
+                          errors={errors.emailAddresses}
                         />
                       </div>
 
@@ -529,7 +529,7 @@ class InnerContactForm extends Component {
                           handleRelated={this.handleRelated}
                           addresses={values.addresses}
                           onInputBlur={this.searchPhoneNumber}
-                          errors={errors}
+                          errors={errors.phoneNumbers}
                         />
                       </div>
 
@@ -582,7 +582,7 @@ class InnerContactForm extends Component {
                         <AddressField
                           items={values.addresses}
                           handleRelated={this.handleRelated}
-                          errors={errors}
+                          errors={errors.addresses}
                         />
                       </div>
 
@@ -591,7 +591,7 @@ class InnerContactForm extends Component {
                         <SocialMediaField
                           items={values.socialMedia}
                           handleRelated={this.handleRelated}
-                          errors={errors}
+                          errors={errors.socialMedia}
                         />
                       </div>
                     </FormSection>
@@ -619,15 +619,6 @@ class InnerContactForm extends Component {
 
 const ContactForm = withRouter(
   withFormik({
-    validate: values => {
-      const errors = {};
-
-      if (!values.firstName && !values.lastName) {
-        errors.required = true;
-      }
-
-      return errors;
-    },
     mapPropsToValues: () => ({
       salutation: 0,
       gender: 0,

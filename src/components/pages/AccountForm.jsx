@@ -565,7 +565,7 @@ class InnerAccountForm extends Component {
                           items={values.emailAddresses}
                           handleRelated={this.handleRelated}
                           onInputBlur={this.searchEmailAddress}
-                          errors={errors}
+                          errors={errors.emailAddresses}
                         />
                       </div>
 
@@ -593,7 +593,7 @@ class InnerAccountForm extends Component {
                           handleRelated={this.handleRelated}
                           addresses={values.addresses}
                           onInputBlur={this.searchPhoneNumber}
-                          errors={errors}
+                          errors={errors.phoneNumbers}
                         />
                       </div>
 
@@ -619,7 +619,7 @@ class InnerAccountForm extends Component {
                         <AddressField
                           items={values.addresses}
                           handleRelated={this.handleRelated}
-                          errors={errors}
+                          errors={errors.addresses}
                         />
                       </div>
 
@@ -628,7 +628,7 @@ class InnerAccountForm extends Component {
                         <WebsiteField
                           items={values.websites}
                           handleRelated={this.handleRelated}
-                          errors={errors}
+                          errors={errors.websites}
                         />
                       </div>
 
@@ -637,7 +637,7 @@ class InnerAccountForm extends Component {
                         <SocialMediaField
                           items={values.socialMedia}
                           handleRelated={this.handleRelated}
-                          errors={errors}
+                          errors={errors.socialMedia}
                         />
                       </div>
                     </FormSection>
@@ -665,15 +665,6 @@ class InnerAccountForm extends Component {
 
 const AccountForm = withRouter(
   withFormik({
-    validate: values => {
-      const errors = {};
-
-      if (!values.name) {
-        errors.required = true;
-      }
-
-      return errors;
-    },
     mapPropsToValues: () => ({
       primaryWebsite: '',
       name: '',

@@ -783,23 +783,6 @@ class InnerDealForm extends Component {
 
 const DealForm = withRouter(
   withFormik({
-    validate: values => {
-      const errors = {};
-      const requiredFields = [
-        'foundThrough',
-        'contactedBy',
-        'whyCustomer',
-        'name',
-        'status',
-        'nextStep'
-      ];
-
-      if (!requiredFields.every(field => values[field])) {
-        errors.required = true;
-      }
-
-      return errors;
-    },
     mapPropsToValues: () => ({
       account: null,
       contact: null,

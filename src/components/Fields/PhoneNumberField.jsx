@@ -68,15 +68,15 @@ class PhoneNumberField extends Component {
   };
 
   render() {
-    const { items, inline } = this.props;
+    const { items, errors } = this.props;
 
     return (
       <React.Fragment>
         {items.map((item, index) => {
-          // const hasError = error && error[index] && error[index].emailAddress;
+          const hasError = errors && errors[index] && errors[index].number;
           const rowClassName = cx('editable-related-row', {
-            'is-deleted': item.isDeleted
-            // 'has-error': hasError
+            'is-deleted': item.isDeleted,
+            'has-error': hasError
           });
 
           return (
@@ -113,18 +113,14 @@ class PhoneNumberField extends Component {
                   )}
                 </button>
 
-                {!inline &&
-                  index === items.length - 1 && (
-                    <button className="hl-primary-btn" onClick={this.addRow} type="button">
-                      <FontAwesomeIcon icon="plus" />
-                    </button>
-                  )}
+                {index === items.length - 1 && (
+                  <button className="hl-primary-btn" onClick={this.addRow} type="button">
+                    <FontAwesomeIcon icon="plus" />
+                  </button>
+                )}
               </div>
 
-              {/* {error &&
-                error[index].emailAddress && (
-                  <div className="error-message">{error[index].emailAddress}</div>
-                )} */}
+              {hasError && <div className="error-message">{errors[index].number}</div>}
             </div>
           );
         })}
