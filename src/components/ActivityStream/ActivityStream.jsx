@@ -83,8 +83,9 @@ class ActivityStream extends Component {
 
       if (item.contentType.id !== object.contentType.id) {
         // Dealing with an activity stream item, so it's an item note.
-        const index = activityStream.findIndex(streamItem =>
-          streamItem.contentType.id === item.contentType.id && streamItem.id === item.id
+        const index = activityStream.findIndex(
+          streamItem =>
+            streamItem.contentType.id === item.contentType.id && streamItem.id === item.id
         );
         activityStream[index].notes.unshift(response);
       } else {

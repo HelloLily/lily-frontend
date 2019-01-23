@@ -21,13 +21,15 @@ export function createParams(params = {}) {
 
   // TODO: Fix this once it's possible to do queries.
   if (filters && Object.keys(filters).length > 0) {
-    filterQuery = Object.keys(filters).reduce((acc, key) => {
-      filters[key].forEach(filter => {
-        acc.push(convertKey(filter, true));
-      });
+    filterQuery = Object.keys(filters)
+      .reduce((acc, key) => {
+        filters[key].forEach(filter => {
+          acc.push(convertKey(filter, true));
+        });
 
-      return acc;
-    }, []).join('&');
+        return acc;
+      }, [])
+      .join('&');
   }
 
   delete params.filters;

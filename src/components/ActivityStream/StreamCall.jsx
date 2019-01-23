@@ -58,25 +58,24 @@ class StreamCall extends Component {
                     <React.Fragment>
                       <span>{item.destination.name || item.destination.number}</span>
 
-                      {item.transfers.length > 0 &&
-                        item.transfers[0].destination && (
-                          <React.Fragment>
-                            <span> and </span>
-                            {item.transfers.length > 1 && (
-                              <span>
-                                {item.transfers.length}
-                                others
-                              </span>
-                            )}
+                      {item.transfers.length > 0 && item.transfers[0].destination && (
+                        <React.Fragment>
+                          <span> and </span>
+                          {item.transfers.length > 1 && (
+                            <span>
+                              {item.transfers.length}
+                              others
+                            </span>
+                          )}
 
-                            {item.transfers.length === 1 && (
-                              <span>
-                                {item.transfers[0].destination.name ||
-                                  item.transfers[0].destination.number}
-                              </span>
-                            )}
-                          </React.Fragment>
-                        )}
+                          {item.transfers.length === 1 && (
+                            <span>
+                              {item.transfers[0].destination.name ||
+                                item.transfers[0].destination.number}
+                            </span>
+                          )}
+                        </React.Fragment>
+                      )}
                     </React.Fragment>
                   )}
                 </React.Fragment>
@@ -109,19 +108,18 @@ class StreamCall extends Component {
               </div>
 
               <div className="stream-item-body">
-                {item.status !== RINGING_CALL_STATUS &&
-                  item.destination && (
-                    <React.Fragment>
-                      <div className="float-right">
-                        <LilyDate date={item.start} includeTime includeSeconds />
-                      </div>
+                {item.status !== RINGING_CALL_STATUS && item.destination && (
+                  <React.Fragment>
+                    <div className="float-right">
+                      <LilyDate date={item.start} includeTime includeSeconds />
+                    </div>
 
-                      <span>
-                        {item.destination.name || item.destination.number}
-                        <span> picked up the phone</span>
-                      </span>
-                    </React.Fragment>
-                  )}
+                    <span>
+                      {item.destination.name || item.destination.number}
+                      <span> picked up the phone</span>
+                    </span>
+                  </React.Fragment>
+                )}
 
                 {item.transfers.length > 0 && (
                   <div>

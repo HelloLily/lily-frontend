@@ -74,15 +74,14 @@ class CaseDetail extends Component {
         // No personal email addresses, but account has email addresses.
         if (account.emailAddresses.length > 1) {
           // Get the email address set as primary or otherwise just the first one.
-          emailAddress = account.emailAddresses.find(
-            email => email.isPrimary
-          ) || account.emailAddresses[0];
+          emailAddress =
+            account.emailAddresses.find(email => email.isPrimary) || account.emailAddresses[0];
         }
       } else {
         // Check if any of the contact's email addresses match any of the account's domains.
         account.websites.forEach(website => {
-          emailAddress = contact.emailAddresses.find(
-            email => email.emailAddress.includes(website.secondLevel)
+          emailAddress = contact.emailAddresses.find(email =>
+            email.emailAddress.includes(website.secondLevel)
           );
         });
       }
@@ -92,13 +91,11 @@ class CaseDetail extends Component {
       // Try to find an email address which has been set as 'Primary'.
       // Otherwise just get the first email address.
       if (contact) {
-        emailAddress = contact.emailAddresses.find(
-          email => email.isPrimary
-        ) || contact.emailAddresses[0];
+        emailAddress =
+          contact.emailAddresses.find(email => email.isPrimary) || contact.emailAddresses[0];
       } else if (account) {
-        emailAddress = account.emailAddresses.find(
-          email => email.isPrimary
-        ) || account.emailAddresses[0];
+        emailAddress =
+          account.emailAddresses.find(email => email.isPrimary) || account.emailAddresses[0];
       }
     }
 
@@ -107,7 +104,7 @@ class CaseDetail extends Component {
     }
 
     return [];
-  }
+  };
 
   toggleArchive = async () => {
     const { caseObj } = this.state;
@@ -118,7 +115,7 @@ class CaseDetail extends Component {
       isArchived
     };
 
-    await this.submitCallback(args)
+    await this.submitCallback(args);
 
     caseObj.isArchived = isArchived;
 
@@ -133,7 +130,7 @@ class CaseDetail extends Component {
       status: status.id
     };
 
-    await this.submitCallback(args)
+    await this.submitCallback(args);
 
     caseObj.status = status;
 
@@ -155,7 +152,7 @@ class CaseDetail extends Component {
 
     await this.setState({ caseObj });
     this.forceUpdate();
-  }
+  };
 
   submitCallback = async args => {
     this.setState({ loading: true });
@@ -167,11 +164,11 @@ class CaseDetail extends Component {
 
   openEditor = () => {
     this.setState({ showEditor: true });
-  }
+  };
 
   closeEditor = () => {
     this.setState({ showEditor: false });
-  }
+  };
 
   render() {
     const { caseObj, caseStatuses, showEditor, loading } = this.state;
@@ -309,7 +306,11 @@ class CaseDetail extends Component {
 
                 {caseObj.account && (
                   <React.Fragment>
-                    <AccountDetailWidget clickable account={caseObj.account} updateAccount={this.updateAccount} />
+                    <AccountDetailWidget
+                      clickable
+                      account={caseObj.account}
+                      updateAccount={this.updateAccount}
+                    />
 
                     <div className="m-b-25" />
                   </React.Fragment>

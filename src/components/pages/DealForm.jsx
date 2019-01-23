@@ -198,7 +198,7 @@ class InnerDealForm extends Component {
 
     if (values.contact) {
       args.contacts = values.contact.id;
-    };
+    }
 
     const request = await Account.query(args);
 
@@ -214,7 +214,7 @@ class InnerDealForm extends Component {
 
     if (values.account) {
       args.accounts = values.account.id;
-    };
+    }
 
     const request = await Contact.query(args);
 
@@ -282,7 +282,7 @@ class InnerDealForm extends Component {
 
       const params = { account: value.id };
 
-      if (values.contact ) {
+      if (values.contact) {
         params.contact = values.contact.id;
       }
 
@@ -300,7 +300,7 @@ class InnerDealForm extends Component {
     if (value) {
       const params = { contact: value.id };
 
-      if (values.account ) {
+      if (values.account) {
         params.account = values.account.id;
       }
 
@@ -322,13 +322,13 @@ class InnerDealForm extends Component {
     const { currentUser, setFieldValue } = this.props;
 
     setFieldValue('assignedToTeams', currentUser.teams);
-  }
+  };
 
   assignToMe = () => {
     const { currentUser, setFieldValue } = this.props;
 
     setFieldValue('assignedTo', currentUser);
-  }
+  };
 
   render() {
     const {

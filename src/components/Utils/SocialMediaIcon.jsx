@@ -9,7 +9,7 @@ const SocialMediaIcon = ({ item }) => {
     other: 'share-alt'
   };
 
-  return <FontAwesomeIcon icon={iconMap[item.name]} fixedWidth />
+  return <FontAwesomeIcon icon={iconMap[item.name]} fixedWidth />;
 };
 
 export default React.memo(SocialMediaIcon);

@@ -24,6 +24,7 @@
     "no-prototype-builtins": 0,
     "no-bitwise": 0,
     "prefer-destructuring": ["error", {"object": true, "array": false}],
+    "no-console": "error",
 
     "react/prop-types": 0,
     "react/no-did-mount-set-state": 0,
@@ -31,6 +32,7 @@
     "react/button-has-type": 0,
     "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
     "react/destructuring-assignment": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
 
     "import/no-unresolved": 0,
     "import/extensions": 0,

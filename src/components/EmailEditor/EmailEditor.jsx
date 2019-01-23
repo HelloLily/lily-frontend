@@ -222,7 +222,7 @@ class EmailEditor extends Component {
 
     if (currentTemplate) {
       // TODO: Temporary.
-      loadTemplate = confirm(t('modals:email.overwriteTemplateConfirm'))
+      loadTemplate = confirm(t('modals:email.overwriteTemplateConfirm'));
     }
 
     if (template) {
@@ -294,9 +294,10 @@ class EmailEditor extends Component {
 
       if (specialElements.hasOwnProperty(key)) {
         const originalHtml = specialElements[key];
-        const newHtml = originalHtml.replace(specialVariableRegex, (match, p1) => (
-          this.getValueForVariable(p1) || `{{ ${p1} }}`
-        ));
+        const newHtml = originalHtml.replace(
+          specialVariableRegex,
+          (match, p1) => this.getValueForVariable(p1) || `{{ ${p1} }}`
+        );
 
         link.outerHTML = newHtml;
 
@@ -396,11 +397,13 @@ class EmailEditor extends Component {
     });
 
     if (subject) {
-      const newSubject = subject.replace(VARIABLE_REGEX, (match, p1) => (
-        // If no value is found we leave the template variable
-        // so we can attempt to fill it in later.
-        this.getValueForVariable(p1) || match
-      ));
+      const newSubject = subject.replace(
+        VARIABLE_REGEX,
+        (match, p1) =>
+          // If no value is found we leave the template variable
+          // so we can attempt to fill it in later.
+          this.getValueForVariable(p1) || match
+      );
 
       this.setState({ subject: newSubject });
     }

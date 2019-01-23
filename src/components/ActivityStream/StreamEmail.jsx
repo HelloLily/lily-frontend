@@ -11,7 +11,7 @@ const StreamEmail = ({ item }) => {
 
   const toggleRecipients = () => {
     setShowRecipients(!showRecipients);
-  }
+  };
 
   return (
     <React.Fragment>
@@ -83,9 +83,7 @@ const StreamEmail = ({ item }) => {
                           {`${recipient.name} <${recipient.emailAddress}>`}
                         </React.Fragment>
                       ) : (
-                        <React.Fragment>
-                          {recipient.emailAddress}
-                        </React.Fragment>
+                        <React.Fragment>{recipient.emailAddress}</React.Fragment>
                       )}
                     </React.Fragment>
                   ))}
@@ -114,13 +112,9 @@ const StreamEmail = ({ item }) => {
 
           <div className="stream-item-body">
             {item.bodyText ? (
-              <React.Fragment>
-                {item.bodyText}
-              </React.Fragment>
+              <React.Fragment>{item.bodyText}</React.Fragment>
             ) : (
-              <span className="text-muted">
-                No body
-              </span>
+              <span className="text-muted">No body</span>
             )}
           </div>
         </div>

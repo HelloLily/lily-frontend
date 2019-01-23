@@ -185,10 +185,7 @@ class TimeLogModal extends Component {
 
             <div className="form-field">
               <label required>Date</label>
-              <LilyDatePicker
-                withPortal
-                date={timeLog.date}
-              />
+              <LilyDatePicker withPortal date={timeLog.date} />
             </div>
 
             <div className="form-field">

@@ -64,12 +64,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
             submitCallback={submitCallback}
           />
           /
-          <Editable
-            type="select"
-            field="gender"
-            object={contact}
-            submitCallback={submitCallback}
-          />
+          <Editable type="select" field="gender" object={contact} submitCallback={submitCallback} />
         </div>
       </div>
 

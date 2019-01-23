@@ -23,7 +23,7 @@ class TagField extends Component {
     items.push({ name: option });
 
     this.props.handleRelated('tags', items);
-  }
+  };
 
   search = async (query = '') => {
     const request = await Tag.query({ search: query, ordering: '-modified' });

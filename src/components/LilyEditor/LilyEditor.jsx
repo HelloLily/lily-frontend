@@ -106,24 +106,22 @@ class LilyEditor extends Component {
 
     uppy.on('file-added', () => {
       this.forceUpdate();
-    })
+    });
 
     const getPresignedUrl = async file => {
       const data = { filename: file.name };
       const response = await EmailMessage.presignedUrl(this.props.emailDraft.id, data);
 
       return response.presignedUrl;
-    }
+    };
 
     uppy.use(AwsS3, {
       getUploadParameters(file) {
-        return getPresignedUrl(file).then(response => (
-          {
-            method: 'PUT',
-            url: response,
-            fields: []
-          }
-        ))
+        return getPresignedUrl(file).then(response => ({
+          method: 'PUT',
+          url: response,
+          fields: []
+        }));
       }
     });
 
@@ -146,7 +144,7 @@ class LilyEditor extends Component {
 
   uploadFiles = () => {
     this.uppy.upload();
-  }
+  };
 
   handleCommandAfter = (e, editor, cmd) => {
     const { codeViewCallback } = this.props;

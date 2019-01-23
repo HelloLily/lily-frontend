@@ -39,7 +39,7 @@ class EditableSocialMedia extends Component {
   handleBlur = index => {
     const items = this.props.value;
     // Regex to test for some common social media sites.
-    const regex = /(twitter|linkedin|facebook)/
+    const regex = /(twitter|linkedin|facebook)/;
     const match = items[index].username.match(regex);
 
     if (match) {
@@ -47,7 +47,7 @@ class EditableSocialMedia extends Component {
     }
 
     this.props.handleChange(items);
-  }
+  };
 
   handleSubmit = () => {
     const data = this.props.value.filter(item => item.username);

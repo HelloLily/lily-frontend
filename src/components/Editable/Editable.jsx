@@ -72,7 +72,6 @@ class Editable extends Component {
     this.mounted = false;
   }
 
-
   getEmptyText = () => {
     const { field } = this.props;
     const config = this.selectConfig;
@@ -163,9 +162,7 @@ class Editable extends Component {
       newValue = args[field].filter(item => !item.isDeleted);
     }
 
-    const promise = submitCallback
-      ? submitCallback(args)
-      : updateModel(object, args);
+    const promise = submitCallback ? submitCallback(args) : updateModel(object, args);
 
     this.setState({ submitting: true });
 

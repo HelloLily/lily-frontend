@@ -37,7 +37,7 @@ class SocialMediaField extends Component {
   handleBlur = index => {
     const { items } = this.props;
     // Regex to test for some common social media sites.
-    const regex = /(twitter|linkedin|facebook)/
+    const regex = /(twitter|linkedin|facebook)/;
     const match = items[index].username.match(regex);
 
     if (match) {
@@ -45,7 +45,7 @@ class SocialMediaField extends Component {
     }
 
     this.handleRelated(items);
-  }
+  };
 
   render() {
     const { items, errors } = this.props;

@@ -238,13 +238,13 @@ class EmailTemplateList extends Component {
 
   handleSearch = query => {
     this.setState({ query });
-  }
+  };
 
   getTemplates = folder => {
     const { query } = this.state;
 
     return folder.emailTemplates.filter(emailTemplate => emailTemplate.name.includes(query));
-  }
+  };
 
   renderMenu = () => {
     const { emailAccounts, selectedAccounts } = this.state;
@@ -279,14 +279,24 @@ class EmailTemplateList extends Component {
             Save
           </button>
 
-          <button className="hl-primary-btn m-l-10">Cancel</button>
+          <button className="hl-primary-btn m-l-10" onClick={this.closeMenu}>
+            Cancel
+          </button>
         </div>
       </div>
     );
   };
 
   render() {
-    const { folders, templateCount, showMoveTo, newFolder, selectedTemplate, query, loading } = this.state;
+    const {
+      folders,
+      templateCount,
+      showMoveTo,
+      newFolder,
+      selectedTemplate,
+      query,
+      loading
+    } = this.state;
 
     return (
       <BlockUI blocking={loading}>

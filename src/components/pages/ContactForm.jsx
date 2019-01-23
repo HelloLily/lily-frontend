@@ -315,7 +315,8 @@ class InnerContactForm extends Component {
     const { accountSuggestions, contactSuggestions, showSuggestions, loading } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit, currentUser, t } = this.props;
 
-    const hasAccountPhoneNumbers = values.accounts.length > 0 && values.accounts[0].phoneNumbers.length > 0;
+    const hasAccountPhoneNumbers =
+      values.accounts.length > 0 && values.accounts[0].phoneNumbers.length > 0;
 
     return (
       <React.Fragment>

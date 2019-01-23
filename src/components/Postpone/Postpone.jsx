@@ -120,7 +120,7 @@ class Postpone extends Component {
     }
 
     return false;
-  }
+  };
 
   render() {
     const { date, menuOpen, submitting } = this.state;

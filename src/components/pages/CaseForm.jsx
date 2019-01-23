@@ -142,7 +142,7 @@ class InnerCaseForm extends Component {
 
     if (values.contact) {
       args.contacts = values.contact.id;
-    };
+    }
 
     const request = await Account.query(args);
 
@@ -158,7 +158,7 @@ class InnerCaseForm extends Component {
 
     if (values.account) {
       args.accounts = values.account.id;
-    };
+    }
 
     const request = await Contact.query(args);
 
@@ -207,11 +207,11 @@ class InnerCaseForm extends Component {
         setFieldValue('contact', value.contacts[0]);
 
         args.contact = value.contacts[0].id;
-      };
+      }
 
       const params = { account: value.id };
 
-      if (values.contact ) {
+      if (values.contact) {
         params.contact = values.contact.id;
       }
 
@@ -229,7 +229,7 @@ class InnerCaseForm extends Component {
     if (value) {
       const params = { account: value.id };
 
-      if (values.account ) {
+      if (values.account) {
         params.account = values.account.id;
       }
 
@@ -243,13 +243,13 @@ class InnerCaseForm extends Component {
     const { currentUser, setFieldValue } = this.props;
 
     setFieldValue('assignedToTeams', currentUser.teams);
-  }
+  };
 
   assignToMe = () => {
     const { currentUser, setFieldValue } = this.props;
 
     setFieldValue('assignedTo', currentUser);
-  }
+  };
 
   render() {
     const {

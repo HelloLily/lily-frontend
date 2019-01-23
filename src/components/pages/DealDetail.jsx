@@ -132,7 +132,7 @@ class DealDetail extends Component {
 
     await this.setState({ deal });
     this.forceUpdate();
-  }
+  };
 
   submitCallback = async args => {
     const { deal } = this.state;
@@ -157,14 +157,14 @@ class DealDetail extends Component {
       id: deal.id,
       status: status.id,
       whyLost: reason.id
-    }
+    };
 
     await updateModel(deal, args);
     deal.status = status;
     deal.whyLost = reason;
 
     this.setState({ deal, whyLostSelected: false, submitting: false });
-  }
+  };
 
   renderMenu = status => {
     const { whyLost, submitting = false } = this.state;
@@ -271,7 +271,7 @@ class DealDetail extends Component {
                     </div>
                   </div>
 
-                  {(deal.whyLost && deal.status.name === DEAL_LOST_STATUS) && (
+                  {deal.whyLost && deal.status.name === DEAL_LOST_STATUS && (
                     <div className="detail-row">
                       <div>Why lost</div>
                       <div className="has-editable">
@@ -551,9 +551,9 @@ class DealDetail extends Component {
                         <div className={`hl-btn-group${deal.isArchived ? ' is-disabled' : ''}`}>
                           {dealStatuses.map((status, index) => {
                             const isLast = index === dealStatuses.length - 1;
-                            const isLost = status.name === DEAL_LOST_STATUS
+                            const isLost = status.name === DEAL_LOST_STATUS;
                             const className = cx('hl-primary-btn', {
-                              'selected': status.id === deal.status.id,
+                              selected: status.id === deal.status.id,
                               'border-radius-0': isLost && !isLast
                             });
                             const button = (
@@ -572,7 +572,9 @@ class DealDetail extends Component {
                                 clickable={button}
                                 menu={whyLostSelected ? this.renderMenu(status) : null}
                               />
-                            ) : button;
+                            ) : (
+                              button
+                            );
                           })}
                         </div>
 

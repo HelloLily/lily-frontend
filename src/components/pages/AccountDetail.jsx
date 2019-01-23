@@ -37,7 +37,7 @@ class AccountDetail extends Component {
 
   updateAccount = async account => {
     this.setState({ account });
-  }
+  };
 
   render() {
     const { account } = this.state;

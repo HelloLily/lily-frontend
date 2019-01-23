@@ -251,7 +251,7 @@ class CaseList extends Component {
     );
 
     return row;
-  }
+  };
 
   createTableContent = () => {
     const { items, splitView } = this.state;
@@ -285,12 +285,8 @@ class CaseList extends Component {
       return categories;
     }
 
-    return (
-      <tbody>
-        {this.createTableRow(items)}
-      </tbody>
-    );
-  }
+    return <tbody>{this.createTableRow(items)}</tbody>;
+  };
 
   render() {
     const {

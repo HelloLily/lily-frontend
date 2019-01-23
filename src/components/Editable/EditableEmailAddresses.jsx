@@ -104,10 +104,9 @@ class EditableEmailAddresses extends Component {
                 )}
               </button>
 
-              {error &&
-                error[index].emailAddress && (
-                  <div className="error-message">{error[index].emailAddress}</div>
-                )}
+              {error && error[index].emailAddress && (
+                <div className="error-message">{error[index].emailAddress}</div>
+              )}
             </div>
           );
         })}

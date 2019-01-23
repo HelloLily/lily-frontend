@@ -168,7 +168,7 @@ class InnerEmailAccountForm extends Component {
                         {(values.privacy === EmailAccount.PUBLIC ||
                           values.privacy === EmailAccount.READONLY) && (
                           <img src={examplePublic} alt="Example public" />
-                          )}
+                        )}
 
                         {values.privacy === EmailAccount.METADATA && (
                           <img src={exampleMetadata} alt="Example metadata" />

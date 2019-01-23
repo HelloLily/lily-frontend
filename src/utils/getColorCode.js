@@ -7,8 +7,8 @@ export default function getColorCode(value) {
   }
 
   for (let i = 0; i < 3; i++) {
-    const hashValue = (hash >> (i * 8)) & 0xFF;
-    color += (`00${hashValue.toString(16)}`).substr(-2);
+    const hashValue = (hash >> (i * 8)) & 0xff;
+    color += `00${hashValue.toString(16)}`.substr(-2);
   }
 
   return color;

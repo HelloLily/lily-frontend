@@ -30,17 +30,17 @@ class AccountDetailWidget extends Component {
     });
 
     this.forceUpdate();
-  }
+  };
 
   assignToMe = async () => {
     const { account, currentUser } = this.props;
     const args = {
       id: account.id,
       assignedTo: currentUser.id
-    }
+    };
 
     await this.submitCallback(args);
-  }
+  };
 
   render() {
     const { account, clickable, currentUser } = this.props;
@@ -50,15 +50,19 @@ class AccountDetailWidget extends Component {
         <div className="content-block-label" />
         <div className="content-block-name">
           <i className="lilicon hl-company-icon m-r-5" />
-          {clickable &&
-            !account.isDeleted && <Link to={`/accounts/${account.id}`}>{account.name}</Link>}
+          {clickable && !account.isDeleted && (
+            <Link to={`/accounts/${account.id}`}>{account.name}</Link>
+          )}
 
           {(!clickable || account.isDeleted) && <React.Fragment>{account.name}</React.Fragment>}
         </div>
       </React.Fragment>
     );
 
-    const externalAppLink = currentUser.tenant.externalAppLinks.length > 0 ? currentUser.tenant.externalAppLinks[0] : null;
+    const externalAppLink =
+      currentUser.tenant.externalAppLinks.length > 0
+        ? currentUser.tenant.externalAppLinks[0]
+        : null;
 
     const extra =
       account.customerId && externalAppLink ? (
@@ -148,11 +152,7 @@ class AccountDetailWidget extends Component {
             />
 
             {(!account.assignedTo || account.assignedTo.id !== currentUser.id) && (
-              <button
-                type="button"
-                className="hl-interface-btn"
-                onClick={this.assignToMe}
-              >
+              <button type="button" className="hl-interface-btn" onClick={this.assignToMe}>
                 Assign to me
               </button>
             )}

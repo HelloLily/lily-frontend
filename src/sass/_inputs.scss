@@ -46,7 +46,6 @@ input:checked + .slider:before {
     width: 18px;
     left: 1px;
     bottom: 1px;
-    background-color: #fff;
     -webkit-transition: 0.25s;
     transition: 0.25s;
     background: $app-bg-color;

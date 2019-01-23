@@ -392,7 +392,7 @@ class InnerAccountForm extends Component {
     const { currentUser, setFieldValue } = this.props;
 
     setFieldValue('assignedTo', currentUser);
-  }
+  };
 
   merge = async accountId => {
     const { accountSuggestions } = this.state;

@@ -44,7 +44,7 @@ class Dropdown extends Component {
     if (this.props.closeOnClick) {
       this.setState({ menuOpen: false });
     }
-  }
+  };
 
   render() {
     const { menuOpen } = this.state;

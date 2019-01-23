@@ -3,11 +3,7 @@ import { components } from 'react-select';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
 import debounce from 'debounce-promise';
 
-import {
-  INACTIVE_EMAIL_STATUS,
-  EMAIL_REGEX,
-  DEBOUNCE_WAIT
-} from 'lib/constants';
+import { INACTIVE_EMAIL_STATUS, EMAIL_REGEX, DEBOUNCE_WAIT } from 'lib/constants';
 import Contact from 'models/Contact';
 
 class RecipientField extends Component {
@@ -17,7 +13,7 @@ class RecipientField extends Component {
     this.state = {
       inputValue: '',
       menuIsOpen: false
-    }
+    };
 
     this.selectProps = {
       isMulti: true,
@@ -87,7 +83,7 @@ class RecipientField extends Component {
         this.setState({ inputValue: '', menuIsOpen: false });
       }
     }
-  }
+  };
 
   createRecipient = (option, type) => {
     this.props.onCreateOption(option, type);
@@ -162,16 +158,14 @@ class RecipientField extends Component {
 
   validateEmailAddress = (inputValue, selectValue, selectOptions = []) => {
     const isValid = EMAIL_REGEX.test(inputValue);
-    const valueExists = selectValue.findIndex(option =>
-      option.value.emailAddress === inputValue
-    ) > -1;
-    const optionsExists = selectOptions.findIndex(option =>
-      option.value.emailAddress === inputValue
-    ) > -1;
+    const valueExists =
+      selectValue.findIndex(option => option.value.emailAddress === inputValue) > -1;
+    const optionsExists =
+      selectOptions.findIndex(option => option.value.emailAddress === inputValue) > -1;
 
     // Only valid if it's an actual email address and hasn't already been added.
     return isValid && !valueExists && !optionsExists;
-  }
+  };
 
   getRecipients = async (query = '') => {
     let contacts = [];
