@@ -77,6 +77,7 @@ class EditableTags extends Component {
           getOptionValue={option => option.name}
           isValidNewOption={this.checkValidity}
           getNewOptionData={this.getNewOptionData}
+          menuPortalTarget={document.body}
         />
 
         <div className="editable-multi-actions m-t-5">

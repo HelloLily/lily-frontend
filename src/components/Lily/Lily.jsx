@@ -6,30 +6,30 @@ import ErrorBoundry from 'components/ErrorBoundry';
 import withContext from 'src/withContext';
 import Notifications from 'lib/Notifications';
 import Nav from 'components/Nav';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Sidebar from 'components/Sidebar';
-import Dashboard from 'pages/Dashboard';
-import Login from 'pages/Login';
-import Inbox from 'pages/Inbox';
-import Preferences from 'pages/Preferences';
-import AccountForm from 'pages/AccountForm';
-import AccountDetail from 'pages/AccountDetail';
-import AccountList from 'pages/AccountList';
-import ContactForm from 'pages/ContactForm';
-import ContactDetail from 'pages/ContactDetail';
-import ContactList from 'pages/ContactList';
-import DealForm from 'pages/DealForm';
-import DealDetail from 'pages/DealDetail';
-import DealList from 'pages/DealList';
-import PandaDocCreate from 'pages/PandaDocCreate';
-import CaseForm from 'pages/CaseForm';
-import CaseDetail from 'pages/CaseDetail';
-import CaseList from 'pages/CaseList';
 import NotFound from 'pages/NotFound';
+import Login from 'pages/Login';
 import Tenant from 'models/Tenant';
 import User from 'models/User';
 import './icons';
-// import history from '../../utils/history';
-// import { get } from '../../lib/api/';
+
+const Dashboard = React.lazy(() => import('pages/Dashboard'));
+const Inbox = React.lazy(() => import('pages/Inbox'));
+const Preferences = React.lazy(() => import('pages/Preferences'));
+const AccountForm = React.lazy(() => import('pages/AccountForm'));
+const AccountDetail = React.lazy(() => import('pages/AccountDetail'));
+const AccountList = React.lazy(() => import('pages/AccountList'));
+const ContactForm = React.lazy(() => import('pages/ContactForm'));
+const ContactDetail = React.lazy(() => import('pages/ContactDetail'));
+const ContactList = React.lazy(() => import('pages/ContactList'));
+const DealForm = React.lazy(() => import('pages/DealForm'));
+const DealDetail = React.lazy(() => import('pages/DealDetail'));
+const DealList = React.lazy(() => import('pages/DealList'));
+const CaseForm = React.lazy(() => import('pages/CaseForm'));
+const CaseDetail = React.lazy(() => import('pages/CaseDetail'));
+const CaseList = React.lazy(() => import('pages/CaseList'));
+const PandaDocCreate = React.lazy(() => import('pages/PandaDocCreate'));
 
 const Fade = cssTransition({
   enter: 'fade-in',
@@ -98,7 +98,7 @@ class Lily extends Component {
 
       const { billing } = currentUser.tenant;
 
-      // Identify a user in Segment when the nagivate to a different page.
+      // Identify a user in Segment when they nagivate to a different page.
       window.analytics.identify(currentUser.id, {
         name: currentUser.fullName,
         email: currentUser.email,
@@ -146,38 +146,41 @@ class Lily extends Component {
               <div className="main">
                 <main className="content" id="content">
                   <ErrorBoundry>
-                    <Switch>
-                      <Route path="/email" component={Inbox} />
+                    <React.Suspense fallback={<LoadingIndicator />}>
+                      <Switch>
+                        <Route path="/email" component={Inbox} />
 
-                      <Route path="/preferences/*" component={Preferences} />
+                        <Route path="/preferences/*" component={Preferences} />
 
-                      <Route path="/accounts/create" component={AccountForm} />
-                      <Route path="/accounts/:id/edit" component={AccountForm} />
-                      <Route path="/accounts/:id" component={AccountDetail} />
-                      <Route path="/accounts" component={AccountList} />
+                        <Route path="/accounts/create" component={AccountForm} />
+                        <Route path="/accounts/:id/edit" component={AccountForm} />
+                        <Route path="/accounts/:id" component={AccountDetail} />
+                        <Route path="/accounts" component={AccountList} />
 
-                      <Route path="/contacts/create" component={ContactForm} />
-                      <Route path="/contacts/:id/edit" component={ContactForm} />
-                      <Route path="/contacts/:id" component={ContactDetail} />
-                      <Route path="/contacts" component={ContactList} />
+                        <Route path="/contacts/create" component={ContactForm} />
+                        <Route path="/contacts/:id/edit" component={ContactForm} />
+                        <Route path="/contacts/:id" component={ContactDetail} />
+                        <Route path="/contacts" component={ContactList} />
 
-                      <Route path="/deals/create" component={DealForm} />
-                      <Route path="/deals/:id/edit" component={DealForm} />
-                      <Route path="/deals/:id" component={DealDetail} />
-                      <Route path="/deals" component={DealList} />
-                      <Route path="/quotes/create/:id" component={PandaDocCreate} />
+                        <Route path="/deals/create" component={DealForm} />
+                        <Route path="/deals/:id/edit" component={DealForm} />
+                        <Route path="/deals/:id" component={DealDetail} />
+                        <Route path="/deals" component={DealList} />
+                        <Route path="/quotes/create/:id" component={PandaDocCreate} />
 
-                      <Route path="/cases/create" component={CaseForm} />
-                      <Route path="/cases/:id/edit" component={CaseForm} />
-                      <Route path="/cases/:id" component={CaseDetail} />
-                      <Route path="/cases" component={CaseList} />
+                        <Route path="/cases/create" component={CaseForm} />
+                        <Route path="/cases/:id/edit" component={CaseForm} />
+                        <Route path="/cases/:id" component={CaseDetail} />
+                        <Route path="/cases" component={CaseList} />
 
-                      <Route path="/" component={Dashboard} />
-                      <Redirect from="/" to="/" exact />
-                      <Route path="*" component={NotFound} />
-                    </Switch>
+                        <Route path="/" component={Dashboard} />
+                        <Redirect from="/" to="/" exact />
+                        <Route path="*" component={NotFound} />
+                      </Switch>
+                    </React.Suspense>
                   </ErrorBoundry>
                 </main>
+
                 <Sidebar />
 
                 <ToastContainer hideProgressBar transition={Fade} />

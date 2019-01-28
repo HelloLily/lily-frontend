@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import withContext from 'src/withContext';
 
 const AccountForm = React.lazy(() => import('pages/AccountForm'));
@@ -21,7 +22,7 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      expanded: false
+      expanded: window.innerWidth < 1200
     };
   }
 
@@ -48,16 +49,16 @@ class Sidebar extends Component {
     const FormComponent = sidebar ? Forms[sidebar] : null;
     const className = cx('sidebar', {
       slide: sidebar,
-      expanded
+      expanded: expanded && sidebar
     });
 
     return (
       <div className={className}>
         {sidebar && (
-          <React.Suspense fallback={<div />}>
+          <React.Suspense fallback={<LoadingIndicator />}>
             <div className="sidebar-header">
               <button onClick={this.closeSidebar} className="close-btn">
-                <i className="lilicon hl-close-icon" />
+                <FontAwesomeIcon icon="times" />
               </button>
 
               <button onClick={this.expandSidebar} className="hl-interface-btn">

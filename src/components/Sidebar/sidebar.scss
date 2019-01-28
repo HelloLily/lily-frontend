@@ -1,15 +1,28 @@
 @import '~style/variables/colors';
+@import '~style/variables/measurements';
 
 .sidebar {
   position: absolute;
   right: -21%;
-  top: 0;
+  top: $content-top;
   width: 20%;
   z-index: 10;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   transition: all 0.25s ease-out;
   height: 100%;
+
+  .sidebar-header {
+    .close-btn {
+      padding: 10px;
+      background: none;
+      font-size: 1.5em;
+    }
+
+    .hl-interface-btn {
+      font-size: 1.20em;
+    }
+  }
 
   .sidebar-content {
     .content-block {
@@ -34,10 +47,5 @@
         border-style: solid;
       }
     }
-  }
-
-  .close-btn {
-    padding: 10px;
-    background: none;
   }
 }

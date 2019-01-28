@@ -127,23 +127,17 @@ class DealDetail extends Component {
     };
 
     await this.submitCallback(args);
-
-    deal.assignedTo = currentUser;
-
-    await this.setState({ deal });
-    this.forceUpdate();
   };
 
   submitCallback = async args => {
     const { deal } = this.state;
     this.setState({ loading: true });
 
-    await updateModel(deal, args);
+    const response = await updateModel(deal, args);
 
-    if (args.hasOwnProperty('quoteId')) {
-      // Quote ID doesn't seem to be updated automatically, so update it manually.
-      deal.quoteId = args.quoteId;
-    }
+    Object.keys(args).forEach(key => {
+      deal[key] = response[key];
+    });
 
     this.setState({ deal, loading: false });
   };
@@ -191,8 +185,10 @@ class DealDetail extends Component {
 
   render() {
     const { deal, contact, dealStatuses, documents, whyLostSelected = false, loading } = this.state;
-    const { t } = this.props;
+    const { currentUser, t } = this.props;
     const { id } = this.props.match.params;
+
+    const assignedKey = deal && deal.assignedTo ? deal.assignedTo.id : null;
 
     const title = (
       <React.Fragment>
@@ -478,11 +474,22 @@ class DealDetail extends Component {
                         <div className="has-editable">
                           <Editable
                             async
+                            key={JSON.stringify(assignedKey)}
                             type="select"
                             field="assignedTo"
                             object={deal}
                             submitCallback={this.submitCallback}
                           />
+
+                          {(!deal.assignedTo || deal.assignedTo.id !== currentUser.id) && (
+                            <button
+                              type="button"
+                              className="hl-interface-btn"
+                              onClick={this.assignToMe}
+                            >
+                              Assign to me
+                            </button>
+                          )}
                         </div>
                       </div>
 

@@ -27,7 +27,13 @@ const envKeys = Object.keys(env).reduce((acc, next) => {
 
 module.exports = {
   output: {
-    publicPath: '/'
+    publicPath: '/',
+    chunkFilename: '[chunkhash].js'
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   module: {
     rules: [
@@ -55,8 +61,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'images',
-              publicPath: 'images'
+              name: 'images/[hash].[ext]'
             }
           }
         ]
@@ -79,7 +84,15 @@ module.exports = {
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+        use: [
+          {
+            loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+            options: {
+              outputPath: 'fonts',
+              publicPath: 'fonts'
+            }
+          }
+        ]
       },
       {
         test: /\.(ttf|otf|eot|svg)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
@@ -105,8 +118,8 @@ module.exports = {
       components: path.resolve(__dirname, 'src/components/'),
       models: path.resolve(__dirname, 'src/models/'),
       utils: path.resolve(__dirname, 'src/utils/'),
-      lib: path.resolve(__dirname, 'src/lib'),
-      images: path.resolve(__dirname, 'src/images')
+      lib: path.resolve(__dirname, 'src/lib/'),
+      images: path.resolve(__dirname, 'src/images/')
     }
   },
   devServer: {
@@ -119,7 +132,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
-      chunkFilename: '[id].css'
+      chunkFilename: '[chunkhash].css'
     }),
     new webpack.DefinePlugin(envKeys),
     // TODO: Can be removed once Froala releases jQuery-less version.

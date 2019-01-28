@@ -68,11 +68,11 @@ class ContactListWidget extends Component {
       </React.Fragment>
     );
 
-    const extra = (
+    const extra = account ? (
       <button className="hl-primary-btn" onClick={this.setSidebar}>
         <FontAwesomeIcon icon="plus" /> Contact
       </button>
-    );
+    ) : null;
 
     return (
       <div>

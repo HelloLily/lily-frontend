@@ -3,25 +3,27 @@ import { Switch, Route, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
+import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import FeatureUnavailableMarker from 'components/Billing/FeatureUnavailableMarker';
-import UserProfile from './UserProfile';
-import UserAccount from './UserAccount';
-import UserSecurity from './UserSecurity';
-import TokenForm from './TokenForm';
-import WebhookForm from './WebhookForm';
-import EmailAccountList from './EmailAccountList';
-import EmailAccountForm from './EmailAccountForm';
-import EmailTemplateForm from './EmailTemplateForm';
-import EmailTemplateList from './EmailTemplateList';
-import TemplateVariableForm from './TemplateVariableForm';
-import TemplateVariableList from './TemplateVariableList';
-import UserList from './UserList';
-import Integrations from './Integrations';
-import BillingOverview from './BillingOverview';
-import BillingChangePlan from './BillingChangePlan';
-import InviteForm from './InviteForm';
-import Import from './Import';
-import TenantSettings from './TenantSettings';
+
+const UserProfile = React.lazy(() => import('./UserProfile'));
+const UserAccount = React.lazy(() => import('./UserAccount'));
+const UserSecurity = React.lazy(() => import('./UserSecurity'));
+const TokenForm = React.lazy(() => import('./TokenForm'));
+const WebhookForm = React.lazy(() => import('./WebhookForm'));
+const EmailAccountList = React.lazy(() => import('./EmailAccountList'));
+const EmailAccountForm = React.lazy(() => import('./EmailAccountForm'));
+const EmailTemplateForm = React.lazy(() => import('./EmailTemplateForm'));
+const EmailTemplateList = React.lazy(() => import('./EmailTemplateList'));
+const TemplateVariableForm = React.lazy(() => import('./TemplateVariableForm'));
+const TemplateVariableList = React.lazy(() => import('./TemplateVariableList'));
+const UserList = React.lazy(() => import('./UserList'));
+const Integrations = React.lazy(() => import('./Integrations'));
+const BillingOverview = React.lazy(() => import('./BillingOverview'));
+const BillingChangePlan = React.lazy(() => import('./BillingChangePlan'));
+const InviteForm = React.lazy(() => import('./InviteForm'));
+const Import = React.lazy(() => import('./Import'));
+const TenantSettings = React.lazy(() => import('./TenantSettings'));
 
 const Preferences = ({ currentUser }) => (
   <div className="preferences">
@@ -131,28 +133,33 @@ const Preferences = ({ currentUser }) => (
       </div>
 
       <div className="w-100">
-        <Switch>
-          <Route path="/preferences/profile" component={UserProfile} />
-          <Route path="/preferences/account" component={UserAccount} />
-          <Route path="/preferences/security" component={UserSecurity} />
-          <Route path="/preferences/token" component={TokenForm} />
-          <Route path="/preferences/webhooks" component={WebhookForm} />
-          <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
-          <Route path="/preferences/emailaccounts" component={EmailAccountList} />
-          <Route path="/preferences/emailtemplates/:id/edit" component={EmailTemplateForm} />
-          <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
-          <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
-          <Route path="/preferences/templatevariables/:id/edit" component={TemplateVariableForm} />
-          <Route path="/preferences/templatevariables/create" component={TemplateVariableForm} />
-          <Route path="/preferences/templatevariables" component={TemplateVariableList} />
-          <Route path="/preferences/users" component={UserList} />
-          <Route path="/preferences/integrations" component={Integrations} />
-          <Route path="/preferences/billing/change" component={BillingChangePlan} />
-          <Route path="/preferences/billing" component={BillingOverview} />
-          <Route path="/preferences/invite" component={InviteForm} />
-          <Route path="/preferences/import" component={Import} />
-          <Route path="/preferences/settings" component={TenantSettings} />
-        </Switch>
+        <React.Suspense fallback={<LoadingIndicator />}>
+          <Switch>
+            <Route path="/preferences/profile" component={UserProfile} />
+            <Route path="/preferences/account" component={UserAccount} />
+            <Route path="/preferences/security" component={UserSecurity} />
+            <Route path="/preferences/token" component={TokenForm} />
+            <Route path="/preferences/webhooks" component={WebhookForm} />
+            <Route path="/preferences/emailaccounts/:id/edit" component={EmailAccountForm} />
+            <Route path="/preferences/emailaccounts" component={EmailAccountList} />
+            <Route path="/preferences/emailtemplates/:id/edit" component={EmailTemplateForm} />
+            <Route path="/preferences/emailtemplates/create" component={EmailTemplateForm} />
+            <Route path="/preferences/emailtemplates" component={EmailTemplateList} />
+            <Route
+              path="/preferences/templatevariables/:id/edit"
+              component={TemplateVariableForm}
+            />
+            <Route path="/preferences/templatevariables/create" component={TemplateVariableForm} />
+            <Route path="/preferences/templatevariables" component={TemplateVariableList} />
+            <Route path="/preferences/users" component={UserList} />
+            <Route path="/preferences/integrations" component={Integrations} />
+            <Route path="/preferences/billing/change" component={BillingChangePlan} />
+            <Route path="/preferences/billing" component={BillingOverview} />
+            <Route path="/preferences/invite" component={InviteForm} />
+            <Route path="/preferences/import" component={Import} />
+            <Route path="/preferences/settings" component={TenantSettings} />
+          </Switch>
+        </React.Suspense>
       </div>
     </React.Fragment>
   </div>

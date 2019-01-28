@@ -9,7 +9,7 @@ button {
 }
 
 $small-button-size: 21px;
-$large-button-size: 31px;
+$large-button-size: 32px;
 
 @mixin hl-button($button-size) {
   box-sizing: border-box;
@@ -149,7 +149,7 @@ a {
 
   &:hover {
     text-decoration: none;
-    color: $app-color-darkblue;
+    color: $app-color-aqua;
   }
 
   &.larger {

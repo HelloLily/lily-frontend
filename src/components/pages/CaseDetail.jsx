@@ -147,19 +147,19 @@ class CaseDetail extends Component {
     };
 
     await this.submitCallback(args);
-
-    caseObj.assignedTo = currentUser;
-
-    await this.setState({ caseObj });
-    this.forceUpdate();
   };
 
   submitCallback = async args => {
+    const { caseObj } = this.state;
     this.setState({ loading: true });
 
-    await updateModel(this.state.caseObj, args);
+    const response = await updateModel(caseObj, args);
 
-    this.setState({ loading: false });
+    Object.keys(args).forEach(key => {
+      caseObj[key] = response[key];
+    });
+
+    this.setState({ caseObj, loading: false });
   };
 
   openEditor = () => {
@@ -174,6 +174,8 @@ class CaseDetail extends Component {
     const { caseObj, caseStatuses, showEditor, loading } = this.state;
     const { currentUser } = this.props;
     const { id } = this.props.match.params;
+
+    const assignedKey = caseObj && caseObj.assignedTo ? caseObj.assignedTo.id : null;
 
     const title = (
       <React.Fragment>
@@ -258,6 +260,7 @@ class CaseDetail extends Component {
                       <div className="has-editable">
                         <Editable
                           async
+                          key={JSON.stringify(assignedKey)}
                           type="select"
                           field="assignedTo"
                           object={caseObj}

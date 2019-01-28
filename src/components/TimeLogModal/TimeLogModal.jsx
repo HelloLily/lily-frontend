@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withNamespaces } from 'react-i18next';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import Textarea from 'react-textarea-autosize';
 
 import withContext from 'src/withContext';
@@ -26,7 +26,7 @@ class TimeLogModal extends Component {
     let timeLog;
 
     if (props.timeLog) {
-      ({ timeLog } = props);
+      timeLog = Object.assign({}, props.timeLog);
 
       const { hoursLogged } = timeLog;
 
@@ -39,7 +39,7 @@ class TimeLogModal extends Component {
       minutes = minutes ? `${minutes}m` : '';
 
       timeLog.time = `${hours}${minutes}`;
-      timeLog.date = format(timeLog.date, FORM_DATE_FORMAT);
+      timeLog.date = format(parseISO(timeLog.date), FORM_DATE_FORMAT);
     } else {
       timeLog = Object.assign({}, timeLogDefaults);
     }

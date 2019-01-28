@@ -6,6 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import withContext from 'src/withContext';
 import { infoToast } from 'utils/toasts';
 import ObjectLimit from 'components/Billing/ObjectLimit';
+import Dropdown from 'components/Dropdown';
 import Account from 'models/Account';
 import Call from 'models/Call';
 import NavDropdown from './NavDropdown';
@@ -53,6 +54,30 @@ class Nav extends Component {
       infoToast(t('noCalls'));
     }
   };
+
+  renderLinks = () => (
+    <React.Fragment>
+      <ObjectLimit model="accounts">
+        <button className="hl-primary-btn" onClick={() => this.props.setSidebar('account')}>
+          <FontAwesomeIcon icon="plus" /> Account
+        </button>
+      </ObjectLimit>
+
+      <ObjectLimit model="contacts">
+        <button className="hl-primary-btn" onClick={() => this.props.setSidebar('contact')}>
+          <FontAwesomeIcon icon="plus" /> Contact
+        </button>
+      </ObjectLimit>
+
+      <button className="hl-primary-btn" onClick={() => this.props.setSidebar('deal')}>
+        <FontAwesomeIcon icon="plus" /> Deal
+      </button>
+
+      <button className="hl-primary-btn" onClick={() => this.props.setSidebar('case')}>
+        <FontAwesomeIcon icon="plus" /> Case
+      </button>
+    </React.Fragment>
+  );
 
   render() {
     return (
@@ -115,26 +140,27 @@ class Nav extends Component {
               <FontAwesomeIcon icon="phone" flip="horizontal" /> Caller info
             </button>
 
-            <ObjectLimit model="accounts">
-              <button className="hl-primary-btn" onClick={() => this.props.setSidebar('account')}>
-                <FontAwesomeIcon icon="plus" /> Account
-              </button>
-            </ObjectLimit>
-
-            <ObjectLimit model="contacts">
-              <button className="hl-primary-btn" onClick={() => this.props.setSidebar('contact')}>
-                <FontAwesomeIcon icon="plus" /> Contact
-              </button>
-            </ObjectLimit>
-
-            <button className="hl-primary-btn" onClick={() => this.props.setSidebar('deal')}>
-              <FontAwesomeIcon icon="plus" /> Deal
-            </button>
-
-            <button className="hl-primary-btn" onClick={() => this.props.setSidebar('case')}>
-              <FontAwesomeIcon icon="plus" /> Case
-            </button>
+            {this.renderLinks()}
           </div>
+
+          <Dropdown
+            clickable={
+              <div className="nav-add-buttons-compact">
+                <button className="hl-primary-btn">
+                  <FontAwesomeIcon icon="plus" />
+                </button>
+              </div>
+            }
+            menu={
+              <div className="dropdown-menu">
+                <button className="hl-primary-btn m-r-5" onClick={this.getLatestCall}>
+                  <FontAwesomeIcon icon="phone" flip="horizontal" /> Caller info
+                </button>
+
+                {this.renderLinks()}
+              </div>
+            }
+          />
 
           <NavDropdown />
         </div>
