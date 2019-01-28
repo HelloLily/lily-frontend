@@ -14,7 +14,8 @@ const allowedKeys = [
   'SEGMENT_WRITE_KEY',
   'DEBUG',
   'BASE_URL',
-  'SOCKET_BASE'
+  'SOCKET_BASE',
+  'SENTRY_DSN'
 ];
 
 const env = result.error ? process.env : result.parsed;
