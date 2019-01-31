@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 
 import updateModel from 'utils/updateModel';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import Dropdown from 'components/Dropdown';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
 import CaseListWidget from 'components/ContentBlock/CaseListWidget';
@@ -15,6 +17,7 @@ class ContactDetail extends Component {
     super(props);
 
     this.mounted = false;
+    this.dropdownRef = React.createRef();
 
     this.state = { contact: null };
   }
@@ -68,8 +71,39 @@ class ContactDetail extends Component {
     this.setState({ contact });
   };
 
-  render() {
+  submitActive = async () => {
     const { contact } = this.state;
+
+    this.setState({ submitting: true });
+
+    const args = {
+      id: contact.id,
+      functions: contact.functions
+    };
+
+    await updateModel(contact, args);
+
+    this.closeMenu();
+
+    this.setState({ submitting: false });
+  };
+
+  toggleActive = account => {
+    const { contact } = this.state;
+
+    const index = contact.functions.findIndex(func => func.id === account.id);
+
+    contact.functions[index].isActive = !account.isActive;
+
+    this.setState({ contact });
+  };
+
+  closeMenu = () => {
+    this.dropdownRef.current.closeMenu();
+  };
+
+  render() {
+    const { contact, submitting } = this.state;
     const { id } = this.props.match.params;
 
     return (
@@ -81,6 +115,49 @@ class ContactDetail extends Component {
                 <Link to={`/contacts/${id}/edit`} className="hl-interface-btn">
                   <i className="lilicon hl-edit-icon" />
                 </Link>
+
+                {contact.functions.length > 0 && (
+                  <Dropdown
+                    ref={this.dropdownRef}
+                    clickable={
+                      <button className="hl-interface-btn">
+                        <i className="lilicon hl-company-icon" />
+                      </button>
+                    }
+                    menu={
+                      <React.Fragment>
+                        <div className="dropdown-menu has-header">
+                          <div className="dropdown-header">Toggle active status</div>
+
+                          <ul className={submitting ? ' is-disabled' : ''}>
+                            {contact.functions.map(account => (
+                              <li className="dropdown-menu-item" key={account.id}>
+                                <input
+                                  id={account.id}
+                                  type="checkbox"
+                                  checked={account.isActive}
+                                  onChange={() => this.toggleActive(account)}
+                                />
+
+                                <label htmlFor={account.id}>{account.accountName}</label>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div className={`dropdown-footer${submitting ? ' is-disabled' : ''}`}>
+                            <button className="hl-primary-btn-blue" onClick={this.submitActive}>
+                              Save
+                            </button>
+
+                            <button className="hl-primary-btn m-l-10" onClick={this.closeMenu}>
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    }
+                  />
+                )}
 
                 <button className="hl-interface-btn">
                   <i className="lilicon hl-trashcan-icon" />
@@ -118,4 +195,4 @@ class ContactDetail extends Component {
   }
 }
 
-export default ContactDetail;
+export default withNamespaces('toasts')(ContactDetail);

@@ -1,9 +1,9 @@
 {
-  "featureUnavailableIsAdmin": "This feature is unavailable for your current plan. Click here to go to the billing page.",
+  "featureUnavailableIsAdmin": "This feature isn't included in your current plan. Click here to go to the billing page to change plans.",
   "emailLimitReachedIsAdmin": "You've reached the email account limit of your Personal plan. Please <a href=\"/preferences/billing\">upgrade</a> it to enable more email accounts.",
   "sharingUnavailableIsAdmin": "Email accounts can't be shared while on the Personal plan. Please <a href=\"/preferences/billing\">upgrade</a> it to enable inbox sharing.",
 
-  "featureUnavailable": "This feature is unavailable for your current plan. Ask ${currentUser.tenant.accountAdmin} to upgrade your plan.",
+  "featureUnavailable": "This feature is unavailable with your current plan. Ask {{name}} to upgrade your team's plan.",
   "emailLimitReached": "You've reached the email account limit of your Personal plan. Ask {{name}} to upgrade your plan.",
   "sharingUnavailable": "Email accounts can't be shared while on the Personal plan. Ask {{name}} to upgrade your plan.",
   "featureUnavailableInline": "This feature is unavailable for your current plan. <br />Please <a href=\"/preferences/billing\">upgrade</a> to use this feature.",
@@ -12,17 +12,17 @@
   },
   "newlyAssignedCase": "Add it to 'My cases'",
   "newlyAssignedDeal": "Add it to 'My deals'",
-  "emailAccountConnectionWarning": "To solve email issues, please click to add this email account again",
+  "emailAccountConnectionWarning": "To solve this issue, please click to verify your email account again.",
   "emailAccountPublicTooltip": "All colleagues in {{company}}",
   "limitReached": "You've reached the limit of your Personal plan. Please upgrade it to add more {{model}}.",
-  "filterArchived": "This item has been archived, but can still be filtered on",
-  "contactListInfoTooltip": "This is the data of the account(s) the contact works for",
+  "filterArchived": "This case type has been archived, but can still be used as a filter.",
+  "contactListInfoTooltip": "This is the data for the account(s) the contact is associated with.",
   "contactIcon": {
     "loading": "Loading status, hang on!",
-    "needsEverything": "New account, unknown contact. Do the add thing!",
-    "needsContact": "Hey, a new contact for the account! Add it for optimal Lily magic.",
-    "needsAccount": "Hey, a contact without an account! Add it for optimal Lily magic.",
-    "complete": "All done. Do a happy dance."
+    "needsEverything": "This is a new contact with no linked account. Fill in the information to get started.",
+    "needsContact": "Add the missing contact information to connect this person to the account.",
+    "needsAccount": "Link this contact to a new or existing account so that communication appears in the activity stream.",
+    "complete": "You did it! All communication is now connected to the account and contact."
   },
   "documentContactMissing": "Please add a contact first",
   "deletedIndicator": "{{name}} is deleted",

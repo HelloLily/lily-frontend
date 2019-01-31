@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import { INVITE_EMPTY_ROW } from 'lib/constants';
-import { successToast } from 'utils/toasts';
+import { successToast, errorToast } from 'utils/toasts';
 import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
 import Form from 'components/Form';
@@ -124,16 +124,16 @@ const InviteForm = withRouter(
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const { t } = props;
       const request = UserInvite.post(values);
-      const text = t('invitationSent');
 
       request
         .then(() => {
-          successToast(text);
+          successToast(t('users.invitationSent'));
 
           props.history.push('/preferences/users');
         })
         .catch(errors => {
           setErrors(errors.data.invites);
+          errorToast(t('users.invitationError'));
           setSubmitting(false);
         });
     },

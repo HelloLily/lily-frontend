@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
@@ -28,7 +29,7 @@ class StreamDeal extends Component {
 
   render() {
     const { showNoteAdd } = this.state;
-    const { item } = this.props;
+    const { item, t } = this.props;
 
     return (
       <React.Fragment>
@@ -87,7 +88,7 @@ class StreamDeal extends Component {
                   </div>
                   <div className="stream-item-title">
                     <div>
-                      {item.createdBy ? item.createdBy.fullName : 'An unknown entity'} created the
+                      {item.createdBy ? item.createdBy.fullName : t('unknownUser')} created the
                       <i className="lilicon hl-deals-icon green m-l-5 font-size-16" /> deal
                       <Link to={`/deals/${item.id}`}> {item.name}</Link>
                     </div>
@@ -102,4 +103,4 @@ class StreamDeal extends Component {
   }
 }
 
-export default StreamDeal;
+export default withNamespaces('emptyStates')(StreamDeal);

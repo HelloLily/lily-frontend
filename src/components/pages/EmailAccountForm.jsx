@@ -129,6 +129,7 @@ class InnerEmailAccountForm extends Component {
                       <Tab>Advanced</Tab>
 
                       <a
+                        // eslint-disable-next-line
                         href="https://intercom.help/lily/your-first-steps-with-lily/email-how-to-share"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -178,6 +179,12 @@ class InnerEmailAccountForm extends Component {
                           <div className="privacy-example-private">No known history</div>
                         )}
                       </div>
+
+                      {values.privacy === EmailAccount.PRIVATE && (
+                        <div className="m-t-10 text-muted">
+                          {t('forms:emailAccount.publicInboxInfo')}
+                        </div>
+                      )}
                     </TabPanel>
 
                     <TabPanel>

@@ -2,34 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { TWITTER_EMPTY_ROW, LINKEDIN_EMPTY_ROW } from 'lib/constants';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
 const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
-  const socialMediaCallback = async args => {
-    const isDeleted = args.username === '';
-    const profile = {
-      ...args,
-      isDeleted
-    };
-
-    const newArgs = {
-      id: contact.id,
-      socialMedia: [profile]
-    };
-
-    await submitCallback(newArgs);
-  };
-
-  const twitterCallback = async args => {
-    await socialMediaCallback({ ...args, name: 'twitter' });
-  };
-
-  const linkedInCallback = async args => {
-    await socialMediaCallback({ ...args, name: 'linkedin' });
-  };
-
   const title = (
     <React.Fragment>
       <div className="content-block-label" />
@@ -43,12 +19,6 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
       </div>
     </React.Fragment>
   );
-
-  const twitterProfile = contact.socialMedia.find(profile => profile.name === 'twitter');
-  const linkedInProfile = contact.socialMedia.find(profile => profile.name === 'linkedin');
-
-  contact.twitter = twitterProfile || TWITTER_EMPTY_ROW;
-  contact.linkedIn = linkedInProfile || LINKEDIN_EMPTY_ROW;
 
   return (
     <ContentBlock title={title} component="contactDetailWidget">
@@ -122,9 +92,9 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
             field="accounts"
             submitCallback={submitCallback}
           >
-            {contact.accounts.map(account => (
+            {contact.functions.map(account => (
               <div key={account.id}>
-                <Link to={`/accounts/${account.id}`}>{account.name}</Link>
+                <Link to={`/accounts/${account.id}`}>{account.accountName}</Link>
 
                 {!account.isActive && <span> (inactive)</span>}
               </div>

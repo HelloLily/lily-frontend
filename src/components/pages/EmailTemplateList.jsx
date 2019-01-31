@@ -29,7 +29,8 @@ class EmailTemplateList extends Component {
       selectedAccounts: [],
       showMoveTo: false,
       query: '',
-      loading: true
+      loading: true,
+      submitting: false
     };
 
     document.title = 'Email templates';
@@ -133,6 +134,8 @@ class EmailTemplateList extends Component {
     EmailTemplateFolder.post(newFolder).then(response => {
       folders.unshift(response);
 
+      successToast('preferences.folderSaved');
+
       this.setState({ folders, newFolder: null, loading: false });
     });
   };
@@ -163,7 +166,7 @@ class EmailTemplateList extends Component {
         await EmailTemplate.move({ templates, folder: moveTo });
         await this.loadItems();
 
-        successToast(t('templatesMoved'));
+        successToast(t('preferences.templatesMoved', { folder: folder.name }));
       } catch (error) {
         errorToast(t('error'));
       }
@@ -185,7 +188,7 @@ class EmailTemplateList extends Component {
       await del(`/messaging/email/templates/${item.id}/`);
       await this.loadItems();
 
-      const text = t('toasts:modelDeleted', { model: 'email template' });
+      const text = t('preferences.modelDeleted', { model: 'email template' });
       successToast(text);
     } catch (error) {
       errorToast(t('error'));
@@ -210,6 +213,8 @@ class EmailTemplateList extends Component {
     const { selectedTemplate, selectedAccounts } = this.state;
     const { t } = this.props;
 
+    this.setState({ submitting: true });
+
     const args = {
       ...selectedTemplate,
       defaultFor: selectedAccounts
@@ -217,15 +222,16 @@ class EmailTemplateList extends Component {
 
     try {
       await EmailTemplate.put(args);
+      this.closeMenu();
       await this.loadItems();
 
-      const text = t('toasts:modelUpdated', { model: 'email template' });
+      const text = t('preferences.modelUpdated', { model: 'email template' });
       successToast(text);
-
-      this.closeMenu();
     } catch (error) {
-      errorToast(t('error'));
+      errorToast(t('preferences.templatesError'));
     }
+
+    this.setState({ submitting: false });
   };
 
   toggleAccount = value => {
@@ -247,13 +253,13 @@ class EmailTemplateList extends Component {
   };
 
   renderMenu = () => {
-    const { emailAccounts, selectedAccounts } = this.state;
+    const { emailAccounts, selectedAccounts, submitting } = this.state;
 
     return (
       <div className="dropdown-menu has-header">
         <div className="dropdown-header">Set as default for</div>
 
-        <ul>
+        <ul className={submitting ? ' is-disabled' : ''}>
           {emailAccounts.map(emailAccount => {
             const isSelected = selectedAccounts.includes(emailAccount.id);
 
@@ -274,7 +280,7 @@ class EmailTemplateList extends Component {
           })}
         </ul>
 
-        <div className="dropdown-footer">
+        <div className={`dropdown-footer${submitting ? ' is-disabled' : ''}`}>
           <button className="hl-primary-btn-blue" onClick={this.submitDefaultFor}>
             Save
           </button>

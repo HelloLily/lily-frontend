@@ -1,32 +1,32 @@
 {
   "email": {
-    "title": "This is where the magic happens.",
-    "line1": "From today on, you won’t need another email client.",
-    "line2": "Lily handles your email seamlessly and links them automagically with your Contacts, Deals and Cases. ",
+    "title": "This is where your customer communication comes to life.",
+    "line1": "From today on, you and your team can communcate with your customers together.",
+    "line2": "Lily collects incoming email from you and your team and links them, automagically with your Contacts, Deals and Cases.",
     "line3": "You will have all communication just a click away.",
-    "line4": "To see Lily’s magic, add your"
+    "line4": "To see Lily's magic, add your"
   },
   "accounts": {
-    "emptyStateTitle": "Progressional overview of what’s going on",
-    "line1": "Accounts are a collection of contacts within the same organization, company or group.",
-    "line2": "You can easily see who you’ve been talking to and when.",
-    "line3": "See the full communication history and gain insights about them, if you add them as an"
+    "emptyStateTitle": "Account overview",
+    "line1": "Accounts are a collection of contacts belonging to the same organization, company, or group.",
+    "line2": "They are grouped together so you can easily see who you’ve been talking to and when.",
+    "line3": "View an account's activity stream to get the full picture."
   },
   "contacts": {
-    "emptyStateTitle": "Everyone that matters to you",
-    "line1": "Contacts are the lifeline for your communication history.",
-    "line2": "All emails, logged phone calls and notes added by you or your colleagues will be linked to them.",
+    "emptyStateTitle": "The foundation of your customer communication",
+    "line1": "Contacts are the core of your communication history.",
+    "line2": "All emails, logged phone calls, and notes added by you or your colleagues are linked to a contact.",
     "line3": "Never lose track of anyone or anything, and add them as a "
   },
   "deals": {
-    "emptyStateTitle": "Close that deal",
-    "line1": "Track the status of your deals with this extensive overview.",
+    "emptyStateTitle": "An overview of what's happening",
+    "line1": "Here you can keep track of your tasks and see what needs to be done.",
     "line2": "You can see what’s expired and what needs to be done in the nearby future.",
-    "line3": "Add your first real deal, to find out",
+    "line3": "Add your first deal to find out how it works.",
     "listWidget": "No deals"
   },
   "cases": {
-    "emptyStateTitle": "Progressional overview of what’s going on",
+    "emptyStateTitle": "An overview of what's happening",
     "line1": "Here you’ll find what needs to be done. Keep track of your tasks.",
     "line2": "Start right now and add a",
     "listWidget": "No cases"
@@ -43,7 +43,8 @@
   "preferences": {
     "emailAccounts": "No email accounts setup yet",
     "sharedEmailAccounts": "No email accounts shared with you",
-    "noVariables": "No template variables yet. You should create one!",
-    "noPublicVariables": "No public template variables yet."
-  }
+    "noVariables": "You don't have any template variables right now. Create one to make your email more personal.",
+    "noPublicVariables": "Your team doesn't have any public template variables yet."
+  },
+  "unknownUser": "A colleague"
 }

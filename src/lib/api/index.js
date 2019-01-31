@@ -50,18 +50,18 @@ export function createParams(params = {}) {
   return urlParams;
 }
 
-export function get(path, params, _options) {
+export function get(path, params = {}, _options) {
   const { uri, options } = setupRequestOptions(path, _options);
 
   // TODO: Temporary work around because email messages don't have a proper API yet.
   let url = uri.includes('search/') ? uri.replace('/api', '') : uri;
 
-  if (params && !params.hasOwnProperty('pageSize')) {
+  if (!params.hasOwnProperty('pageSize')) {
     // Default page size to reduce amount of data fetched.
     params.pageSize = 20;
   }
 
-  if (params) {
+  if (Object.keys(params).length > 0) {
     url += `?${createParams(params)}`;
   }
 

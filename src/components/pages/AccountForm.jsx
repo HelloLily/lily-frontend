@@ -176,12 +176,15 @@ class InnerAccountForm extends Component {
   };
 
   loadDataproviderInfo = async () => {
-    const { values, currentUser } = this.props;
+    const { values, currentUser, t } = this.props;
     const data = await Account.dataproviderInfo('url', values.primaryWebsite);
 
     if (data.error) {
       return;
     }
+
+    const name = values.name || values.primaryWebsite;
+    successToast(t('dataprovider.success', { name }));
 
     // Filter out empty items (default form values).
     const emailAddresses = values.emailAddresses.filter(emailAddress => emailAddress.emailAddress);
@@ -716,7 +719,7 @@ const AccountForm = withRouter(
           }
         })
         .catch(errors => {
-          errorToast(t('error'));
+          errorToast(t('formError'));
           setErrors(errors.data);
           setSubmitting(false);
         });

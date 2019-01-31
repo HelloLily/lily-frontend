@@ -16,7 +16,7 @@
   },
   "assignTo": {
     "title": "Assign this {{type}}",
-    "questionText": "Assign this {{type}} to yourself?"
+    "questionText": "Do you want to assign this {{type}} to yourself?"
   },
   "deactivateUser": {
     "confirmText": "Are you sure you want to deactivate <strong>{{name}}</strong>",
@@ -51,52 +51,47 @@
     "title": "Widget settings"
   },
   "cases": {
-    "noSelectionTitle": "No account or contact",
-    "noSelectionText": "Please select an account or contact the case belongs to",
-    "confirmButtonText": "Let me fix that for you",
-    "noAssigneeTitle": "No assignee set",
-    "noAssigneeText": "Please select a colleague or team to assign the case to"
+    "noSelectionText": "Please select an account or contact the deal belongs to.",
+    "noAssigneeText": "Please select a colleague or team to assign the case to."
   },
   "deals": {
     "title": "Why lost?",
     "noSelectionTitle": "No account or contact",
     "noSelectionText": "Please select an account or contact the deal belongs to",
     "confirmButtonText": "Let me fix that for you",
-    "whyLostReason": "Please select a reason why this deal has been lost."
+    "whyLostReason": "Please select the reason that best describes the situation."
   },
   "email": {
-    "sendCheckerTitle": "No recipient",
-    "sendCheckerText": "I couldn't find a recipient, could you please fill in where I need to send this mail.",
     "overwriteTemplateConfirm": "Selecting a different template will reload the template. This will put your typed text at the bottom of the email. Do you want to load the template anyway?",
-    "reloadTemplateConfirm": "Do you want to reload the template? This will load the template variables, but will put your text at the bottom of the email."
+    "reloadTemplateConfirm": "Do you want to reload the template? This will load the template variables, but will put your already typed text at the bottom of the email."
   },
   "notificationPermission": {
     "title": "Heads up!",
-    "text": "For our call integration, we need your browsers permission to send you notifications. Please allow these notifications to make complete use of our call integration."
+    "text": "Browser permission is needed to send notifications for the call integration. Please allow these notifications to make complete use of the call integration."
   },
   "preferences": {
     "userAssignTitle": "Assign {{user}} to teams",
     "shareAccountTitle": "Share your email",
     "subscription": {
       "cancelTitle": "Are you sure?",
-      "cancelText": "You are about to cancel your subscription. This will revert your account back to the free plan after the next billing date. Are you sure you want to continue?",
+      "cancelText": "You are about to cancel your plan. This will downgrade your Lily environment back to the Personal Plan after the next billing date. Any colleagues also using this environment will also be downgraded. This means that you will no longer have access to paid features. Are you sure you want to continue?",
       "trialStartTitle": "Start trial?",
-      "trialStartText": "Are you sure you want to start your 30 day trial of the professional plan?",
+      "trialStartText": "Are you sure you want to start your professional plan 30 day trial period?",
       "trialConfirm": "Start trial"
     },
     "confirmButtonText": "Yes, cancel!",
     "twoFactorAuth": {
       "disable": {
         "confirmTitle": "Are you sure?",
-        "confirmText": "You are about to disable two-factor authentication. This compromises your account security, are you sure?",
+        "confirmText": "You are about to disable two factor authentication. This lowers your account security. Are you sure you want to continue?",
         "confirmButtonText": "Yes, disable",
         "successTitle": "Disabled!",
         "successText": "Two factor auth was successfully disabled."
       },
       "removeBackupPhoneNumber": {
         "title": "Are you sure?",
-        "html": "This means you will no longer be able to login using this phone number.",
-        "confirmButtonText": "Yes, remove it",
+        "html": "This means you will no longer be able to log in using this phone number.",
+        "confirmButtonText": "Yes, remove this phone number.",
         "error": {
           "title": "Error",
           "text": "There was an error processing your request.",
@@ -118,7 +113,7 @@
       }
     }
   },
-  "widgetSettings": "Check/uncheck a widget to toggle the visibility of the widget.",
+  "widgetSettings": "Check or uncheck a box to change which widgets are visible in the dashboard.",
   "timeLogZeroError": "Please enter a value greater than 0",
   "timeLogInvalid": "Please enter a valid value"
 }

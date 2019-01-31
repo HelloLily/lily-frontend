@@ -856,7 +856,7 @@ const DealForm = withRouter(
           }
         })
         .catch(errors => {
-          errorToast(t('toasts:error'));
+          errorToast(t('toasts:formError'));
           setErrors(errors.data);
           setSubmitting(false);
         });

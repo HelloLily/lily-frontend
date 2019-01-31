@@ -36,10 +36,10 @@ class Import extends Component {
     try {
       await Utils.import(formData);
 
-      successToast(t('toasts:accountImportSuccess'));
+      successToast(t('toasts:preferences.accountImportSuccess'));
     } catch (error) {
       this.setState({ accountError: error.data.importFile });
-      errorToast(t('toasts:error'));
+      errorToast(t('toasts:preferences.accountImportError'));
     }
   };
 
@@ -57,10 +57,10 @@ class Import extends Component {
     try {
       await Utils.import(formData);
 
-      successToast(t('toasts:contactImportSuccess'));
+      successToast(t('toasts:preferences.contactImportSuccess'));
     } catch (error) {
       this.setState({ contactError: error.data.importFile });
-      errorToast(t('toasts:error'));
+      errorToast(t('toasts:preferences.accountImportError'));
     }
   };
 

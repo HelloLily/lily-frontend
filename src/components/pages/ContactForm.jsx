@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import { withNamespaces } from 'react-i18next';
@@ -665,7 +664,7 @@ const ContactForm = withRouter(
           }
         })
         .catch(errors => {
-          errorToast(t('toasts:error'));
+          errorToast(t('toasts:formError'));
           setErrors(errors.data);
           setSubmitting(false);
         });

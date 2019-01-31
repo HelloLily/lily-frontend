@@ -47,6 +47,7 @@ class EmailEditor extends Component {
       recipients: [],
       recipientsCc: [],
       recipientsBcc: [],
+      errors: {},
       modalOpen: false,
       action: props.messageType || NEW_MESSAGE
     };
@@ -418,19 +419,28 @@ class EmailEditor extends Component {
 
   checkRecipientValidity = () => {
     const { recipients, recipientsCc, recipientsBcc } = this.state;
+    const { t } = this.props;
 
     // Check if any recipient has been filled in.
     const hasAnyRecipient =
       recipients.length > 0 || recipientsCc.length > 0 || recipientsBcc.length > 0;
 
     if (!hasAnyRecipient) {
-      // TODO: This should just show an error.
+      errorToast(t('toasts:email.emptyRecipients'));
       return false;
     }
 
     const allRecipients = [...recipients, ...recipientsCc, ...recipientsBcc];
 
-    return allRecipients.every(recipient => EMAIL_REGEX.test(recipient.value.emailAddress));
+    const validRecipients = allRecipients.every(recipient =>
+      EMAIL_REGEX.test(recipient.value.emailAddress)
+    );
+
+    if (!validRecipients) {
+      errorToast(t('toasts:email.invalidRecipients'));
+    }
+
+    return validRecipients;
   };
 
   createRecipient = (option, type) => {
@@ -458,7 +468,6 @@ class EmailEditor extends Component {
 
     if (!recipientsValid) {
       // Don't submit and show errors.
-      errorToast(t('toasts:error'));
       return;
     }
 
@@ -519,7 +528,7 @@ class EmailEditor extends Component {
 
       await EmailMessage.send(emailDraft.id);
 
-      successToast(t('toasts:emailSent'));
+      successToast(t('toasts:email.emailSent'));
 
       this.props.history.push('/email');
     } catch (error) {

@@ -13,30 +13,34 @@ class Dropdown extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.closeMenu);
+    document.addEventListener('keydown', this.handleEvent);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.closeMenu);
+    document.removeEventListener('keydown', this.handleEvent);
   }
 
   showMenu = event => {
     event.preventDefault();
 
     this.setState({ menuOpen: true }, () => {
-      document.addEventListener('click', this.closeMenu);
+      document.addEventListener('click', this.handleEvent);
     });
   };
 
-  closeMenu = event => {
+  closeMenu = () => {
+    this.setState({ menuOpen: false }, () => {
+      document.removeEventListener('click', this.handleEvent);
+    });
+  };
+
+  handleEvent = event => {
     const closeMenu =
       event.keyCode === ESCAPE_KEY ||
-      (this.dropdownMenu && !this.dropdownMenu.contains(event.target));
+      (this.dropdownMenu && !event.keyCode && !this.dropdownMenu.contains(event.target));
 
     if (closeMenu) {
-      this.setState({ menuOpen: false }, () => {
-        document.removeEventListener('click', this.closeMenu);
-      });
+      this.closeMenu();
     }
   };
 

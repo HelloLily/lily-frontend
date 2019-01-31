@@ -74,6 +74,7 @@ class ActivityStream extends Component {
     const { object, t } = this.props;
 
     if (!note.content) {
+      errorToast(t('emptyNoteError'));
       return;
     }
 
@@ -92,12 +93,11 @@ class ActivityStream extends Component {
         activityStream.unshift(response);
       }
 
-      const text = t('modelCreated', { model: 'note' });
-      successToast(text);
+      successToast(t('noteCreated'));
 
       this.setState({ activityStream, note });
     } catch (e) {
-      errorToast(t('error'));
+      errorToast(t('noteError'));
     }
   };
 

@@ -11,11 +11,10 @@ import {
   NEEDS_ACCOUNT,
   COMPLETE,
   TRASH_LABEL,
-  DEBOUNCE_WAIT,
-  SENT_LABEL,
-  DRAFT_LABEL
+  DEBOUNCE_WAIT
+  // SENT_LABEL,
+  // DRAFT_LABEL
 } from 'lib/constants';
-import getColorCode from 'utils/getColorCode';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyDate from 'components/Utils/LilyDate';
 import SearchBar from 'components/List/SearchBar';
@@ -132,6 +131,7 @@ class EmailMessages extends Component {
     const { query, page } = this.state;
     const { currentLabel, currentEmailAccount } = this.props;
 
+    const label = currentLabel ? currentLabel.labelId : null;
     const account = currentEmailAccount ? currentEmailAccount.id : null;
 
     this.setState({ loading: true });
@@ -139,8 +139,8 @@ class EmailMessages extends Component {
     // TODO: Might need to change some of the keys so they match other API's?
     const params = {
       q: query,
+      label,
       account,
-      label: currentLabel.labelId,
       page,
       sort: '-sentDate',
       pageSize: 20
@@ -306,7 +306,7 @@ class EmailMessages extends Component {
   };
 
   render() {
-    const { emailMessages, showReplyActions, showActions, loading, selectAll, query } = this.state;
+    const { emailMessages, showReplyActions, showActions, selectAll, query, loading } = this.state;
     const { currentEmailAccount, currentLabel, currentUser, t } = this.props;
 
     let filteredLabels = [];

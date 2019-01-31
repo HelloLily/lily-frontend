@@ -1,43 +1,42 @@
 {
   "user": {
-    "passwordMismatch": "Your passwords don't match.",
     "webhookIntro": "You can enter a URL here to call whenever a create (POST) or update (PUT/PATCH) event is executed (e.g. an account being created or updated).",
-    "notificationsDisabledTitle": "Browser notifications have been blocked",
+    "notificationsDisabledTitle": "Browser notifications have been blocked.",
     "notificationsDisabled": "You will not receive call notifications, but your calls will still be visible in activity streams.",
     "apiToken": {
-      "noToken": "No token generated for you",
-      "noTokenInfo": "You need to generate a token before you can use it in your API calls",
-      "usageInfo": "You can use your token with an authorization header",
-      "usageInfoAlt": "Or you can use your token with an url parameter"
+      "noToken": "No token has been generated for you.",
+      "noTokenInfo": "You need to generate a token in order to use it in your API calls.",
+      "usageInfo": "You can use your token with an authorization header.",
+      "usageInfoAlt": "Or you can use your token with an url parameter."
     }
   },
   "import": {
-    "accountIntro": "List accounts all at once by importing a .csv file containing account information.",
-    "contactIntro": "List contacts all at once by importing a .csv file containing account information.",
-    "instructionsOne": "Only .CSV files are eligible",
+    "accountIntro": "Import accounts all at once by importing a .csv file containing account information.",
+    "contactIntro": "Import contacts all at once by importing a .csv file containing account information.",
+    "instructionsOne": "Only .csv files are eligible, for example, a Microsoft Excel or Google Sheets file.",
     "instructionsTwo": "The file should at least contain a column with the header",
-    "instructionsThree": "Optional headers are",
-    "instructionsFourAccount": "Information in any additional columns will be added to the description of an account",
-    "instructionsFourContact": "Information in any additional columns will be added to the description of a contact",
-    "instructionsFive": "Please note that headers are case sensitive"
+    "instructionsThree": "Optional headers that can be incuded are",
+    "instructionsFourAccount": "Information in any additional columns will be added to the description of an account.",
+    "instructionsFourContact": "Information in any additional columns will be added to the description of a contact.",
+    "instructionsFive": "Please note that headers are case sensitive."
   },
   "settings": {
     "header": "Additional features",
-    "timeLogging": "Enable this feature so users can log hours on cases and deals.",
-    "billingDefault": "Sets the default for the 'Billable' value for logged hours."
+    "timeLogging": "Enable this feature so colleagues can log hours on cases and deals.",
+    "billingDefault": "This causes all logged hours to be marked 'billable' by default."
   },
   "security": {
     "backupTokenIntro": "These are your current backup tokens, they will be regenerated after you've used them all.",
     "noTwoFactorEnabled": "You have not enabled two factor authentication yet.",
     "backupPhonesInfo": "If your primary method is not available, we are able to send backup tokens to your phone number(s).",
     "backupPhonesInfoTooltip": "Let me see my phone numbers!",
-    "noBackupPhones": "You currently have no backup phone number(s) available. It is highly recommended that you add one!",
+    "noBackupPhones": "You currently have no backup phone number(s) available. It is highly recommended that you add one.",
     "noBackupPhonesTooltip": "Add a new backup phone number",
     "backupTokenInfo": "If you don't have any device with you, you can access your account using backup tokens.",
     "backupTokenInfoTooltip": "Let me see my tokens!"
   },
   "other": {
-    "inviteUsersIntro": "Adding users adds extra costs to your team's subscription. Ask <0>{{name}}</0> if you’re not sure about this."
+    "inviteUsersIntro": "Adding users affects your team's plan. Ask <0>{{name}}</0> if you have questions about it."
   },
   "billing": {
     "trialInfoLine1": "Your free trial period will end in <0>{{amount}}</0> {{unit}}.",

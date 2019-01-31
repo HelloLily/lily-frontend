@@ -13,12 +13,14 @@ const CHANGE_LOG_MAPPING = {
   socialMedia: 'username',
   linkedin: 'username',
   twitter: 'username',
-  accounts: 'name'
+  accounts: 'name',
+  functions: 'accountName'
 };
 
 const DISPLAY_NAME_MAPPING = {
   assignedToTeams: 'Teams',
   accounts: 'Works at',
+  functions: 'Works at',
   expires: 'Expiry date'
 };
 

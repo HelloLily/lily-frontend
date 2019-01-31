@@ -94,14 +94,20 @@ class UserList extends Component {
     this.setState({ newTeam: { name: '' } });
   };
 
-  saveNewTeam = () => {
+  saveNewTeam = async () => {
     const { newTeam } = this.state;
+    const { t } = this.props;
 
     this.setState({ loading: true });
 
-    UserTeam.post(newTeam).then(() => {
+    try {
+      await UserTeam.post(newTeam);
       this.setState({ newTeam: null, loading: false });
-    });
+
+      successToast(t('modelCreated', { model: 'team' }));
+    } catch (error) {
+      errorToast(t('users.teamExists'));
+    }
   };
 
   cancelNewTeam = () => {
@@ -174,7 +180,7 @@ class UserList extends Component {
 
       this.setState({ loading: false }, this.loadItems);
     } catch (error) {
-      errorToast(t('error'));
+      errorToast(t('users.teamError'));
     }
   };
 
@@ -193,16 +199,16 @@ class UserList extends Component {
       await User.patch(args);
 
       if (foundUser) {
-        successToast(t('internalNumberCleared', { name: foundUser.fullName }));
+        successToast(t('users.internalNumberCleared', { name: foundUser.fullName }));
       }
 
       const updatedUser = users.find(user => user.id === args.id);
 
-      successToast(t('internalNumberCleared', { name: updatedUser.fullName }));
+      successToast(t('users.internalNumberCleared', { name: updatedUser.fullName }));
 
       this.setState({ loading: false }, this.loadItems);
     } catch (error) {
-      errorToast(t('error'));
+      errorToast(t('users.internalNumberExists'));
     }
   };
 
@@ -222,12 +228,12 @@ class UserList extends Component {
       const index = users.findIndex(user => user.id === item.id);
       users[index].isActive = isActive;
 
-      const text = isActive ? t('userActivated') : t('userDeactivated');
+      const text = isActive ? t('users.userActivated') : t('users.userDeactivated');
       successToast(text);
 
       this.setState({ users });
     } catch (error) {
-      errorToast(t('error'));
+      errorToast(t('users.activationError'));
     }
   };
 

@@ -1,12 +1,4 @@
-import { get, post, put, patch, del } from 'src/lib/api';
-import {
-  INBOX_LABEL,
-  // SENT_LABEL,
-  TRASH_LABEL,
-  SPAM_LABEL,
-  DRAFT_LABEL,
-  DEFAULT_LABELS
-} from 'lib/constants';
+import { get, post, put, patch, del } from 'lib/api';
 
 class EmailMessage {
   get(id) {
@@ -35,6 +27,7 @@ class EmailMessage {
     // const { emailAccount, label } = params;
 
     // if (label) {
+    //  TODO: Send label to back end
     //   if (label.labelId === INBOX_LABEL) {
     //     filter.push('is_archived:false');
     //   }
@@ -76,6 +69,7 @@ class EmailMessage {
     // TODO: Temporary.
     return { results: [] };
 
+    // eslint-disable-next-line
     return get('/messaging/email/email/', params);
   }
 
@@ -83,6 +77,7 @@ class EmailMessage {
     // TODO: Temporary.
     return { results: [] };
 
+    // eslint-disable-next-line
     return get('/messaging/email/email/', params);
   }
 
