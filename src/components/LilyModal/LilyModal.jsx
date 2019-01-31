@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const LilyModal = ({ modalOpen, closeModal, alignCenter, children }) => (
   <Modal
@@ -11,7 +12,7 @@ const LilyModal = ({ modalOpen, closeModal, alignCenter, children }) => (
     ariaHideApp={false}
   >
     <button onClick={closeModal} className="close-btn">
-      <i className="lilicon hl-close-icon" />
+      <FontAwesomeIcon icon={['far', 'times']} />
     </button>
 
     {children}

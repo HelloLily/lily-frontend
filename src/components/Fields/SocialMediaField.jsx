@@ -95,15 +95,15 @@ class SocialMediaField extends Component {
                   type="button"
                 >
                   {item.isDeleted ? (
-                    <FontAwesomeIcon icon="undo" />
+                    <FontAwesomeIcon icon={['far', 'undo']} />
                   ) : (
-                    <i className="lilicon hl-trashcan-icon" />
+                    <FontAwesomeIcon icon={['far', 'trash-alt']} />
                   )}
                 </button>
 
                 {index === items.length - 1 && (
                   <button className="hl-primary-btn" onClick={this.addRow} type="button">
-                    <FontAwesomeIcon icon="plus" />
+                    <FontAwesomeIcon icon={['far', 'plus']} />
                   </button>
                 )}
               </div>

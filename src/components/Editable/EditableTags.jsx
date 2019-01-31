@@ -83,11 +83,11 @@ class EditableTags extends Component {
         <div className="editable-multi-actions m-t-5">
           <div>
             <button type="submit" className="hl-primary-btn borderless" onClick={this.handleSubmit}>
-              <FontAwesomeIcon icon="check" />
+              <FontAwesomeIcon icon={['far', 'check']} />
             </button>
 
             <button type="button" className="hl-primary-btn borderless" onClick={this.props.cancel}>
-              <FontAwesomeIcon icon="times" />
+              <FontAwesomeIcon icon={['far', 'times']} />
             </button>
           </div>
         </div>

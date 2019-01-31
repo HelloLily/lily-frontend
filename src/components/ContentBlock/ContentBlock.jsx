@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Settings from 'models/Settings';
 
-const statusIcons = ['', 'hl-toggle-up-icon', 'hl-toggle-down-icon', 'hl-toggle-left-icon'];
+const statusIcons = [
+  '',
+  <FontAwesomeIcon icon={['far', 'angle-up']} />,
+  <FontAwesomeIcon icon={['far', 'angle-down']} />,
+  <FontAwesomeIcon icon={['far', 'angle-left']} />
+];
 
 const HIDDEN = 0;
 const VISIBLE = 1;
@@ -101,13 +107,13 @@ class ContentBlock extends Component {
               <div className="content-block-title">{this.props.title}</div>
               <div className="content-block-extra">{this.props.extra}</div>
               <div className="content-block-tools">
-                <button className="hl-interface-btn m-r-5" onClick={this.toggleCollapse}>
-                  <i className={`lilicon ${statusIcons[status]}`} />
+                <button className="hl-interface-btn" onClick={this.toggleCollapse}>
+                  {statusIcons[status]}
                 </button>
 
                 {this.props.closeable && (
-                  <button className="close-btn" onClick={this.removeWidget}>
-                    <i className="lilicon hl-close-icon" />
+                  <button className="close-btn m-l-5" onClick={this.removeWidget}>
+                    <FontAwesomeIcon icon={['far', 'times']} />
                   </button>
                 )}
               </div>
@@ -123,7 +129,7 @@ class ContentBlock extends Component {
                     className="content-block-scroll-fade hl-interface-btn"
                     onClick={this.heightToggle}
                   >
-                    <i className={`lilicon hl-toggle-${expandHeight ? 'up' : 'down'}-icon`} />
+                    <FontAwesomeIcon icon={['far', expandHeight ? 'angle-up' : 'angle-down']} />
                   </button>
                 )}
               </React.Fragment>

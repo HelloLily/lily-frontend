@@ -5,6 +5,7 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 import FroalaEditor from 'react-froala-wysiwyg';
 import { DashboardModal } from '@uppy/react';
 import { dom } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // TODO: Can be removed once Froala releases jQuery-less version.
 import $ from 'jquery';
 
@@ -217,7 +218,7 @@ class LilyEditor extends Component {
                     onClick={() => this.removeAttachment(file.id)}
                     type="button"
                   >
-                    <i className="lilicon hl-close-icon hl-interface-btn" />
+                    <FontAwesomeIcon icon={['far', 'times']} className="hl-interface-btn" />
                   </button>
                 </div>
               );

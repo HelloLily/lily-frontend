@@ -60,7 +60,7 @@ class DealListWidget extends Component {
       <React.Fragment>
         <div className="content-block-label deals" />
         <div className="content-block-name">
-          <i className="lilicon hl-deals-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'handshake']} className="m-r-5" />
           Deals
         </div>
       </React.Fragment>
@@ -68,7 +68,7 @@ class DealListWidget extends Component {
 
     const extra = (
       <button className="hl-primary-btn" onClick={this.setSidebar}>
-        <FontAwesomeIcon icon="plus" /> Deal
+        <FontAwesomeIcon icon={['far', 'plus']} /> Deal
       </button>
     );
 
@@ -111,7 +111,9 @@ class DealListWidget extends Component {
                         className="hl-interface-btn"
                         onClick={() => this.toggleCollapse(index)}
                       >
-                        <i className={`lilicon hl-toggle-${item.expanded ? 'up' : 'down'}-icon`} />
+                        <FontAwesomeIcon
+                          icon={['far', item.expanded ? 'angle-up' : 'angle-down']}
+                        />
                       </button>
                     </td>
                   </tr>

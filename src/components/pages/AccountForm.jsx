@@ -460,7 +460,7 @@ class InnerAccountForm extends Component {
                             onClick={this.loadDataproviderInfo}
                             type="button"
                           >
-                            <FontAwesomeIcon icon="magic" />
+                            <FontAwesomeIcon icon={['far', 'magic']} />
                           </button>
                         </div>
                       </div>

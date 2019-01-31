@@ -11,7 +11,7 @@ const FormFooter = ({ isSubmitting, handleSubmit, confirmText, indent = true }) 
         onClick={handleSubmit}
         type="button"
       >
-        <FontAwesomeIcon icon="check" /> {confirmText || 'Save'}
+        <FontAwesomeIcon icon={['far', 'check']} /> {confirmText || 'Save'}
       </button>
     </div>
   </div>

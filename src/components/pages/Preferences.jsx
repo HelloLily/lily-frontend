@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
@@ -30,36 +30,32 @@ const Preferences = ({ currentUser }) => (
     <React.Fragment>
       <div className="preferences-navigation">
         <ul>
-          <img
-            className="preferences-profile-picture"
-            src={currentUser.profilePicture}
-            alt="User avatar"
-          />
+          <img className="preferences-profile-picture" src={currentUser.profilePicture} />
 
           <div className="preferences-username m-b-10">{currentUser.fullName}</div>
 
           <li>
             <NavLink to="/preferences/profile" exact>
-              <i className="lilicon hl-entity-icon" /> My profile
+              <FontAwesomeIcon icon={['far', 'user-tag']} /> My profile
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/preferences/account" exact>
-              <i className="lilicon hl-cog-icon" /> My account
+              <FontAwesomeIcon icon={['far', 'user-cog']} /> My account
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/preferences/security" exact>
-              <FontAwesomeIcon icon="lock" /> Security
+              <FontAwesomeIcon icon={['far', 'user-lock']} /> My security
             </NavLink>
           </li>
 
           <li>
             <FeatureUnavailableMarker tier="2">
               <NavLink to="/preferences/token" exact>
-                <FontAwesomeIcon icon="key" /> My API token
+                <FontAwesomeIcon icon={['far', 'key']} /> My API key
               </NavLink>
             </FeatureUnavailableMarker>
           </li>
@@ -67,7 +63,7 @@ const Preferences = ({ currentUser }) => (
           <li>
             <FeatureUnavailableMarker tier="2">
               <NavLink to="/preferences/webhooks" exact>
-                <FontAwesomeIcon icon="rocket" /> My webhook
+                <FontAwesomeIcon icon={['far', 'rocket']} /> My webhook
               </NavLink>
             </FeatureUnavailableMarker>
           </li>
@@ -76,19 +72,19 @@ const Preferences = ({ currentUser }) => (
         <ul>
           <li>
             <NavLink to="/preferences/emailaccounts">
-              <i className="lilicon hl-email-icon" /> Email accounts
+              <FontAwesomeIcon icon={['far', 'mail-bulk']} /> Email accounts
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/preferences/emailtemplates">
-              <FontAwesomeIcon icon="envelope-open-text" /> Email templates
+              <FontAwesomeIcon icon={['far', 'envelope-open-text']} /> Email templates
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/preferences/templatevariables">
-              <FontAwesomeIcon icon="code" /> Template variables
+              <FontAwesomeIcon icon={['far', 'code']} /> Template variables
             </NavLink>
           </li>
         </ul>
@@ -96,7 +92,7 @@ const Preferences = ({ currentUser }) => (
         <ul>
           <li>
             <NavLink to="/preferences/users" exact>
-              <i className="lilicon hl-entities-icon" /> Colleagues
+              <FontAwesomeIcon icon={['far', 'users']} /> Colleagues
             </NavLink>
           </li>
 
@@ -105,30 +101,50 @@ const Preferences = ({ currentUser }) => (
               <li>
                 <FeatureUnavailableMarker tier="2">
                   <NavLink to="/preferences/integrations" exact>
-                    <FontAwesomeIcon icon="plug" /> Integrations
+                    <FontAwesomeIcon icon={['far', 'puzzle-piece']} /> Integrations
                   </NavLink>
                 </FeatureUnavailableMarker>
               </li>
 
               <li>
                 <NavLink to="/preferences/billing" exact>
-                  <FontAwesomeIcon icon="credit-card" /> Billing
+                  <FontAwesomeIcon icon={['far', 'credit-card']} /> Subscription
                 </NavLink>
               </li>
 
               <li>
                 <NavLink to="/preferences/import" exact>
-                  <FontAwesomeIcon icon="file-import" /> Import
+                  <FontAwesomeIcon icon={['far', 'file-import']} /> Import accounts / contacts
                 </NavLink>
               </li>
 
               <li>
                 <NavLink to="/preferences/settings" exact>
-                  <i className="lilicon hl-cog-icon" /> Settings
+                  <FontAwesomeIcon icon={['far', 'cog']} /> Settings
                 </NavLink>
               </li>
             </React.Fragment>
           )}
+        </ul>
+
+        <ul>
+          <li>
+            <a
+              href="https://hellolily.com/blog/whats-new-lately/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={['far', 'trophy']} /> {"What's new"}
+            </a>
+          </li>
+        </ul>
+
+        <ul>
+          <li>
+            <Link to="/logout">
+              <FontAwesomeIcon icon={['far', 'sign-out-alt']} /> Log out
+            </Link>
+          </li>
         </ul>
       </div>
 

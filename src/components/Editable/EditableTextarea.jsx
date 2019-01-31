@@ -27,10 +27,10 @@ class EditableTextarea extends Component {
 
         <span className="editable-buttons">
           <button onClick={this.handleSubmit} type="submit">
-            <FontAwesomeIcon icon="check" />
+            <FontAwesomeIcon icon={['far', 'check']} />
           </button>
           <button onClick={this.props.cancel} type="button">
-            <FontAwesomeIcon icon="times" />
+            <FontAwesomeIcon icon={['far', 'times']} />
           </button>
         </span>
       </span>

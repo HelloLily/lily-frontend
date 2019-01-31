@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
@@ -14,37 +14,37 @@ const NavDropdown = ({ currentUser }) => (
       clickable={
         <div className="header-avatar m-r-20">
           {currentUser.profilePicture ? (
-            <img src={currentUser.profilePicture} alt="User avatar" />
+            <img src={currentUser.profilePicture} />
           ) : (
             <div className="avatar-placeholder" />
           )}
-          <i className="lilicon hl-arrow-down-smll-icon m-l-5" />
+          <FontAwesomeIcon icon={['fas', 'caret-down']} className="m-l-5" />
         </div>
       }
       menu={
         <ul className="nav-dropdown-menu">
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/profile" exact>
-              <i className="lilicon hl-entity-icon" /> My profile
+              <FontAwesomeIcon icon={['far', 'user-tag']} /> My profile
             </NavLink>
           </li>
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/account" exact>
-              <i className="lilicon hl-cog-icon" /> My account
+              <FontAwesomeIcon icon={['far', 'user-cog']} /> My account
             </NavLink>
           </li>
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/security" exact>
-              <FontAwesomeIcon icon="lock" /> Security
+              <FontAwesomeIcon icon={['far', 'user-lock']} /> My security
             </NavLink>
           </li>
 
           <li className="dropdown-menu-item">
             <FeatureUnavailableMarker tier="2">
               <NavLink to="/preferences/token" exact>
-                <FontAwesomeIcon icon="key" /> My API token
+                <FontAwesomeIcon icon={['far', 'key']} /> My API key
               </NavLink>
             </FeatureUnavailableMarker>
           </li>
@@ -52,7 +52,7 @@ const NavDropdown = ({ currentUser }) => (
           <li className="dropdown-menu-item">
             <FeatureUnavailableMarker tier="2">
               <NavLink to="/preferences/webhooks" exact>
-                <FontAwesomeIcon icon="rocket" /> My webhook
+                <FontAwesomeIcon icon={['far', 'rocket']} /> My webhook
               </NavLink>
             </FeatureUnavailableMarker>
           </li>
@@ -61,19 +61,19 @@ const NavDropdown = ({ currentUser }) => (
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/emailaccounts" exact>
-              <i className="lilicon hl-email-icon" /> Email accounts
+              <FontAwesomeIcon icon={['far', 'mail-bulk']} /> Email accounts
             </NavLink>
           </li>
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/emailtemplates" exact>
-              <FontAwesomeIcon icon="envelope-open-text" /> Email templates
+              <FontAwesomeIcon icon={['far', 'envelope-open-text']} /> Email templates
             </NavLink>
           </li>
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/templatevariables" exact>
-              <FontAwesomeIcon icon="code" /> Template variables
+              <FontAwesomeIcon icon={['far', 'code']} /> Template variables
             </NavLink>
           </li>
 
@@ -81,7 +81,7 @@ const NavDropdown = ({ currentUser }) => (
 
           <li className="dropdown-menu-item">
             <NavLink to="/preferences/users" exact>
-              <i className="lilicon hl-entities-icon" /> Colleagues
+              <FontAwesomeIcon icon={['far', 'users']} /> Colleagues
             </NavLink>
           </li>
 
@@ -90,26 +90,26 @@ const NavDropdown = ({ currentUser }) => (
               <li className="dropdown-menu-item">
                 <FeatureUnavailableMarker tier="2">
                   <NavLink to="/preferences/integrations" exact>
-                    <FontAwesomeIcon icon="plug" /> Integrations
+                    <FontAwesomeIcon icon={['far', 'puzzle-piece']} /> Integrations
                   </NavLink>
                 </FeatureUnavailableMarker>
               </li>
 
               <li className="dropdown-menu-item">
                 <NavLink to="/preferences/billing" exact>
-                  <FontAwesomeIcon icon="credit-card" /> Billing
+                  <FontAwesomeIcon icon={['far', 'credit-card']} /> Subscription
                 </NavLink>
               </li>
 
               <li className="dropdown-menu-item">
                 <NavLink to="/preferences/import" exact>
-                  <FontAwesomeIcon icon="file-import" /> Import
+                  <FontAwesomeIcon icon={['far', 'file-import']} /> Import accounts / contacts
                 </NavLink>
               </li>
 
               <li className="dropdown-menu-item">
                 <NavLink to="/preferences/settings" exact>
-                  <i className="lilicon hl-cog-icon" /> Settings
+                  <FontAwesomeIcon icon={['far', 'cog']} /> Settings
                 </NavLink>
               </li>
             </React.Fragment>
@@ -123,16 +123,16 @@ const NavDropdown = ({ currentUser }) => (
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon="trophy" /> {"What's new"}
+              <FontAwesomeIcon icon={['far', 'trophy']} /> {"What's new"}
             </a>
           </li>
 
           <div className="divider" />
 
           <li className="dropdown-menu-item">
-            <NavLink to="/logout" exact>
-              <FontAwesomeIcon icon="sign-out-alt" /> Log out
-            </NavLink>
+            <Link to="/logout">
+              <FontAwesomeIcon icon={['far', 'sign-out-alt']} /> Log out
+            </Link>
           </li>
         </ul>
       }

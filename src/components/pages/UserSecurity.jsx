@@ -18,7 +18,7 @@ class UserSecurity extends Component {
       loading: true
     };
 
-    document.title = 'Security - Lily';
+    document.title = 'My security - Lily';
   }
 
   async componentDidMount() {

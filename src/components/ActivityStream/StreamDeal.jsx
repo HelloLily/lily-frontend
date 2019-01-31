@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
@@ -45,7 +46,7 @@ class StreamDeal extends Component {
             </div>
 
             <button className="hl-interface-btn note-toggle" onClick={this.toggleNotes}>
-              <i className="lilicon hl-note-icon" />
+              <FontAwesomeIcon icon={['far', 'sticky-note']} />
             </button>
           </div>
 
@@ -89,7 +90,11 @@ class StreamDeal extends Component {
                   <div className="stream-item-title">
                     <div>
                       {item.createdBy ? item.createdBy.fullName : t('unknownUser')} created the
-                      <i className="lilicon hl-deals-icon green m-l-5 font-size-16" /> deal
+                      <FontAwesomeIcon
+                        icon={['far', 'handshake']}
+                        className="green m-l-5 m-r-5 font-size-16"
+                      />
+                      deal
                       <Link to={`/deals/${item.id}`}> {item.name}</Link>
                     </div>
                   </div>

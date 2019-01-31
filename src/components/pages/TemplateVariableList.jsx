@@ -80,7 +80,7 @@ class TemplateVariableList extends Component {
             <div className="list-title flex-grow">Your template variables</div>
 
             <Link className="hl-primary-btn" to="/preferences/templatevariables/create">
-              <FontAwesomeIcon icon="plus" /> Template variable
+              <FontAwesomeIcon icon={['far', 'plus']} /> Template variable
             </Link>
           </div>
           <table className="hl-table">
@@ -101,14 +101,14 @@ class TemplateVariableList extends Component {
                       onClick={() => this.preview(variable)}
                       type="button"
                     >
-                      <FontAwesomeIcon icon="eye" /> Preview
+                      <FontAwesomeIcon icon={['far', 'eye']} /> Preview
                     </button>
 
                     <Link
                       to={`/preferences/templatevariables/${variable.id}/edit`}
                       className="hl-primary-btn borderless"
                     >
-                      <i className="lilicon hl-edit-icon" />
+                      <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                     </Link>
 
                     <DeleteConfirmation item={variable} deleteCallback={this.removeItem} />
@@ -151,7 +151,7 @@ class TemplateVariableList extends Component {
                       onClick={() => this.preview(variable)}
                       type="button"
                     >
-                      <FontAwesomeIcon icon="eye" /> Preview
+                      <FontAwesomeIcon icon={['far', 'eye']} /> Preview
                     </button>
                   </td>
                 </tr>

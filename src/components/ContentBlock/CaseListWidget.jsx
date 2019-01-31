@@ -59,7 +59,7 @@ class CaseListWidget extends Component {
       <React.Fragment>
         <div className="content-block-label cases" />
         <div className="content-block-name">
-          <i className="lilicon hl-case-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'briefcase']} className="m-r-5" />
           Cases
         </div>
       </React.Fragment>
@@ -67,7 +67,7 @@ class CaseListWidget extends Component {
 
     const extra = (
       <button className="hl-primary-btn" onClick={this.setSidebar}>
-        <FontAwesomeIcon icon="plus" /> Case
+        <FontAwesomeIcon icon={['far', 'plus']} /> Case
       </button>
     );
 
@@ -110,7 +110,9 @@ class CaseListWidget extends Component {
                         className="hl-interface-btn"
                         onClick={() => this.toggleCollapse(index)}
                       >
-                        <i className={`lilicon hl-toggle-${item.expanded ? 'up' : 'down'}-icon`} />
+                        <FontAwesomeIcon
+                          icon={['far', item.expanded ? 'angle-up' : 'angle-down']}
+                        />
                       </button>
                     </td>
                   </tr>

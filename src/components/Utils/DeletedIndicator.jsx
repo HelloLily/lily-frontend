@@ -1,5 +1,6 @@
 import React from 'react';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LilyTooltip from 'components/LilyTooltip';
 
@@ -8,10 +9,11 @@ const DeletedIndicator = props => {
 
   return object.isDeleted ? (
     <span className="text-muted">
-      <i
-        className="lilicon hl-trashcan-icon m-r-5"
+      <FontAwesomeIcon
+        icon={['far', 'trash-alt']}
         data-tip={t('deletedIndicator', { name: object[field] })}
         data-for={`item-${object.id}`}
+        className="m-r-5"
       />
 
       <span>{object[field]}</span>

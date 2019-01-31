@@ -616,7 +616,7 @@ class EmailEditor extends Component {
                   onClick={() => this.setState({ showCcInput: false })}
                   type="button"
                 >
-                  <FontAwesomeIcon icon="times" />
+                  <FontAwesomeIcon icon={['far', 'times']} />
                 </button>
               )}
             </div>
@@ -641,7 +641,7 @@ class EmailEditor extends Component {
                   onClick={() => this.setState({ showBccInput: false })}
                   type="button"
                 >
-                  <FontAwesomeIcon icon="times" />
+                  <FontAwesomeIcon icon={['far', 'times']} />
                 </button>
               )}
             </div>
@@ -689,7 +689,7 @@ class EmailEditor extends Component {
             onClick={this.handleSubmit}
             type="submit"
           >
-            <FontAwesomeIcon icon="check" /> Send
+            <FontAwesomeIcon icon={['far', 'check']} /> Send
           </button>
 
           <div className="separator" />
@@ -699,11 +699,11 @@ class EmailEditor extends Component {
             onClick={() => this.setState({ modalOpen: true })}
             type="button"
           >
-            <i className="lilicon hl-paperclip-icon" /> Add attachment
+            <FontAwesomeIcon icon={['far', 'paperclip']} /> Add attachment
           </button>
 
           <button className="hl-primary-btn discard-button" type="button">
-            <i className="lilicon hl-trashcan-icon" /> Discard
+            <FontAwesomeIcon icon={['far', 'trash-alt']} /> Discard
           </button>
         </div>
       </div>

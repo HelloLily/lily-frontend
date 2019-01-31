@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { DEFAULT_LABELS, INBOX_LABEL } from 'lib/constants';
 import getColorCode from 'utils/getColorCode';
@@ -125,7 +126,6 @@ class EmailAccounts extends Component {
     }`;
     // Construct the label's class with a padding of 15 per depth level.
     const labelClassName = `email-label p-l-${15 + label.level * 15}`;
-    const iconClassName = `lilicon hl-toggle-${isCollapsed ? 'down' : 'up'}-icon`;
 
     return (
       <React.Fragment>
@@ -139,7 +139,10 @@ class EmailAccounts extends Component {
 
           {label.children.length > 0 && (
             <button onClick={() => this.toggleLabel(label.id)} className="hl-interface-btn m-r-5">
-              <i className={iconClassName} />
+              <FontAwesomeIcon
+                icon={['far', isCollapsed ? 'angle-down' : 'angle-up']}
+                className="m-l-5"
+              />
             </button>
           )}
         </div>
@@ -191,7 +194,7 @@ class EmailAccounts extends Component {
             </button>
 
             <button className="hl-interface-btn" onClick={() => this.toggleCollapse('all')}>
-              <i className={`lilicon hl-toggle-${isAllCollapsed ? 'down' : 'up'}-icon`} />
+              <FontAwesomeIcon icon={['far', isAllCollapsed ? 'angle-down' : 'angle-up']} />
             </button>
           </div>
 
@@ -238,7 +241,7 @@ class EmailAccounts extends Component {
                   className="hl-interface-btn"
                   onClick={() => this.toggleCollapse(emailAccount.id)}
                 >
-                  <i className={`lilicon hl-toggle-${isCollapsed ? 'down' : 'up'}-icon`} />
+                  <FontAwesomeIcon icon={['far', isCollapsed ? 'angle-down' : 'angle-up']} />
                 </button>
               </div>
 

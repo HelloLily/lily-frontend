@@ -181,7 +181,7 @@ class CaseDetail extends Component {
       <React.Fragment>
         <div className="content-block-label cases" />
         <div className="content-block-name">
-          <i className="lilicon hl-case-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'briefcase']} className="m-r-5" />
           Case details
         </div>
       </React.Fragment>
@@ -194,11 +194,11 @@ class CaseDetail extends Component {
             <div className="detail-page-header">
               <div>
                 <Link to={`/cases/${id}/edit`} className="hl-interface-btn">
-                  <i className="lilicon hl-edit-icon" />
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                 </Link>
 
                 <button className="hl-interface-btn">
-                  <i className="lilicon hl-trashcan-icon" />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
                 </button>
               </div>
             </div>
@@ -342,7 +342,7 @@ class CaseDetail extends Component {
                         </div>
 
                         <button className="hl-primary-btn" onClick={this.toggleArchive}>
-                          <FontAwesomeIcon icon="archive" />{' '}
+                          <FontAwesomeIcon icon={['far', 'archive']} />{' '}
                           {caseObj.isArchived ? 'Unarchive' : 'Archive'}
                         </button>
                       </div>

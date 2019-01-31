@@ -63,7 +63,7 @@ class Dropdown extends Component {
 
           {clearCallback && (
             <button className="hl-primary-btn-red" onClick={clearCallback}>
-              <FontAwesomeIcon icon="times" />
+              <FontAwesomeIcon icon={['far', 'times']} />
             </button>
           )}
         </div>

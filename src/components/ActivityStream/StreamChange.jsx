@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LilyDate from 'components/Utils/LilyDate';
 import Address from 'components/Utils/Address';
@@ -42,7 +43,11 @@ class StreamChange extends Component {
               {item.changedKeys.length > 3 && <span>{item.changedKeys.length} fields</span>}
             </div>
 
-            <i className={`lilicon hl-toggle-${collapsed ? 'down' : 'up'}-icon`} />
+            <FontAwesomeIcon
+              fixedWidth
+              icon={['far', collapsed ? 'angle-down' : 'angle-up']}
+              className="hl-interface-btn m-r-5"
+            />
           </button>
 
           {!collapsed && (

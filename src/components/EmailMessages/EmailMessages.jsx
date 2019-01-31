@@ -342,19 +342,19 @@ class EmailMessages extends Component {
                 <React.Fragment>
                   <div className="hl-btn-group m-r-10">
                     <button className="hl-primary-btn" onClick={this.archive}>
-                      <FontAwesomeIcon icon="archive" /> Archive
+                      <FontAwesomeIcon icon={['far', 'archive']} /> Archive
                     </button>
 
                     <button className="hl-primary-btn" onClick={this.delete}>
-                      <i className="lilicon hl-trashcan-icon" /> Delete
+                      <FontAwesomeIcon icon={['far', 'trash-alt']} /> Delete
                     </button>
                   </div>
 
                   <Dropdown
                     clickable={
                       <div className="hl-primary-btn m-r-10">
-                        <FontAwesomeIcon icon="folder" /> Move to
-                        <i className="lilicon hl-toggle-down-icon m-l-5" />
+                        <FontAwesomeIcon icon={['far', 'folder']} /> Move to
+                        <FontAwesomeIcon icon={['far', 'angle-down']} className="m-l-5" />
                       </div>
                     }
                     menu={
@@ -372,10 +372,10 @@ class EmailMessages extends Component {
 
                   <div className="hl-btn-group m-r-10">
                     <button className="hl-primary-btn" onClick={this.markAsRead}>
-                      <FontAwesomeIcon icon="eye" /> Mark as read
+                      <FontAwesomeIcon icon={['far', 'eye']} /> Mark as read
                     </button>
                     <button className="hl-primary-btn" onClick={this.markAsUnread}>
-                      <FontAwesomeIcon icon="eye-slash" /> Mark as unread
+                      <FontAwesomeIcon icon={['far', 'eye-slash']} /> Mark as unread
                     </button>
                   </div>
                 </React.Fragment>
@@ -384,21 +384,21 @@ class EmailMessages extends Component {
               {showReplyActions && (
                 <div className="hl-btn-group m-r-10">
                   <Link to="/email" className="hl-primary-btn">
-                    <FontAwesomeIcon icon="reply" /> Reply
+                    <FontAwesomeIcon icon={['far', 'reply']} /> Reply
                   </Link>
 
                   <Link to="/email" className="hl-primary-btn">
-                    <FontAwesomeIcon icon="reply-all" /> Reply all
+                    <FontAwesomeIcon icon={['far', 'reply-all']} /> Reply all
                   </Link>
 
                   <Link to="/email" className="hl-primary-btn">
-                    <FontAwesomeIcon icon="reply" flip="horizontal" /> Forward
+                    <FontAwesomeIcon icon={['far', 'reply']} flip="horizontal" /> Forward
                   </Link>
                 </div>
               )}
 
               <button className="hl-primary-btn m-r-10" onClick={this.loadItems}>
-                <FontAwesomeIcon icon="sync-alt" /> Refresh
+                <FontAwesomeIcon icon={['far', 'sync-alt']} /> Refresh
               </button>
 
               <div className="flex-grow" />
@@ -436,7 +436,7 @@ class EmailMessages extends Component {
                           onClick={() => this.toggleStarred(emailMessage)}
                         >
                           {emailMessage.isStarred ? (
-                            <FontAwesomeIcon icon="star" className="yellow" />
+                            <FontAwesomeIcon icon={['far', 'star']} className="yellow" />
                           ) : (
                             <FontAwesomeIcon icon={['far', 'star']} />
                           )}
@@ -475,14 +475,14 @@ class EmailMessages extends Component {
                       <td className="navigation-cell">
                         <Link to={`/email/${emailMessage.id}`}>
                           {emailMessage.history && emailMessage.history.repliedWith && (
-                            <FontAwesomeIcon icon="reply" />
+                            <FontAwesomeIcon icon={['far', 'reply']} />
                           )}
                         </Link>
                       </td>
                       <td className="navigation-cell">
                         <Link to={`/email/${emailMessage.id}`}>
                           {emailMessage.hasAttachment && (
-                            <i className="lilicon hl-paperclip-icon" />
+                            <FontAwesomeIcon icon={['far', 'paperclip']} />
                           )}
                         </Link>
                       </td>
@@ -510,7 +510,7 @@ class EmailMessages extends Component {
                   <p>
                     {t('email.line4')}
                     <Link to="/preferences/emailaccounts/create" className="hl-primary-btn m-l-5">
-                      <FontAwesomeIcon icon="plus" /> Email account
+                      <FontAwesomeIcon icon={['far', 'plus']} /> Email account
                     </Link>
                   </p>
                 </div>

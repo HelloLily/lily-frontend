@@ -163,9 +163,7 @@ class InnerProfileForm extends Component {
                   <div className={`form-field${errors.picture ? ' has-error' : ''}`}>
                     <label htmlFor="picture">Picture</label>
 
-                    {picturePreview && (
-                      <img src={picturePreview} alt="User avatar" className="profile-image" />
-                    )}
+                    {picturePreview && <img src={picturePreview} className="profile-image" />}
 
                     <div>
                       <button className="hl-primary-btn" onClick={this.openModal} type="button">

@@ -11,7 +11,7 @@ const LoadingIndicator = ({ children, small }) => (
       )}
 
       <div className="text-center m-t-10">
-        <FontAwesomeIcon icon="spinner-third" spin />
+        <FontAwesomeIcon icon={['far', 'spinner-third']} spin />
       </div>
     </div>
   </div>

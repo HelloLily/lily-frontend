@@ -103,9 +103,9 @@ class InnerWebhookForm extends Component {
                                 type="button"
                               >
                                 {webhook.isDeleted ? (
-                                  <FontAwesomeIcon icon="undo" />
+                                  <FontAwesomeIcon icon={['far', 'undo']} />
                                 ) : (
-                                  <i className="lilicon hl-trashcan-icon" />
+                                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
                                 )}
                               </button>
                             </div>

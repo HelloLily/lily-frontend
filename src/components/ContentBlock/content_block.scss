@@ -31,10 +31,13 @@
   width: 100%;
   bottom: 0;
 
-  i {
-    font-size: 10px;
-    position: absolute;
-    top: 50%;
+  &.hl-interface-btn {
+    font-size: 1.25em;
+
+    .fa-angle-down {
+      position: absolute;
+      top: -2px;
+    }
   }
 }
 

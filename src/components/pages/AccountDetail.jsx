@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
@@ -50,11 +51,11 @@ class AccountDetail extends Component {
             <div className="detail-page-header">
               <div>
                 <Link to={`/accounts/${id}/edit`} className="hl-interface-btn">
-                  <i className="lilicon hl-edit-icon" />
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                 </Link>
 
                 <button className="hl-interface-btn">
-                  <i className="lilicon hl-trashcan-icon" />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
                 </button>
               </div>
             </div>

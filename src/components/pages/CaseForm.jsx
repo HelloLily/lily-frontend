@@ -7,6 +7,7 @@ import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
 import debounce from 'debounce-promise';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import { SELECT_STYLES, FORM_DATE_FORMAT, API_DATE_FORMAT, DEBOUNCE_WAIT } from 'lib/constants';
@@ -346,7 +347,7 @@ class InnerCaseForm extends Component {
                                 onClick={this.handleClose}
                                 type="button"
                               >
-                                <i className="lilicon hl-close-icon" />
+                                <FontAwesomeIcon icon={['far', 'times']} />
                               </button>
                             </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 
@@ -9,7 +10,7 @@ const ListActions = props => {
   return (
     <div>
       <Link to={url} className="hl-primary-btn borderless">
-        <i className="lilicon hl-edit-icon" />
+        <FontAwesomeIcon icon={['far', 'pencil-alt']} />
       </Link>
 
       <DeleteConfirmation {...props} />

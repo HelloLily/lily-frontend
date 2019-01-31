@@ -314,8 +314,8 @@ class EmailTemplateList extends Component {
               <Dropdown
                 clickable={
                   <button className="hl-primary-btn m-r-10">
-                    <FontAwesomeIcon icon="folder" /> Move to
-                    <i className="lilicon hl-toggle-down-icon m-l-5" />
+                    <FontAwesomeIcon icon={['far', 'folder']} /> Move to
+                    <FontAwesomeIcon icon={['far', 'angle-down']} className="m-l-5" />
                   </button>
                 }
                 menu={
@@ -333,11 +333,11 @@ class EmailTemplateList extends Component {
             )}
 
             <button className="hl-primary-btn m-r-10" onClick={this.addFolder}>
-              <FontAwesomeIcon icon="plus" /> Template folder
+              <FontAwesomeIcon icon={['far', 'plus']} /> Template folder
             </button>
 
             <Link to="/preferences/emailtemplates/create" className="hl-primary-btn">
-              <FontAwesomeIcon icon="plus" /> Email template
+              <FontAwesomeIcon icon={['far', 'plus']} /> Email template
             </Link>
 
             <SearchBar query={query} searchCallback={this.handleSearch} />
@@ -361,10 +361,10 @@ class EmailTemplateList extends Component {
                       />
                       <span className="editable-buttons">
                         <button onClick={this.saveNewFolder}>
-                          <FontAwesomeIcon icon="check" />
+                          <FontAwesomeIcon icon={['far', 'check']} />
                         </button>
                         <button onClick={this.cancelNewFolder}>
-                          <FontAwesomeIcon icon="times" />
+                          <FontAwesomeIcon icon={['far', 'times']} />
                         </button>
                       </span>
                     </div>
@@ -384,14 +384,14 @@ class EmailTemplateList extends Component {
 
                             <div className="float-right">
                               <button className="hl-interface-btn">
-                                <i className="lilicon hl-edit-icon" />
+                                <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                               </button>
 
                               <button
                                 className="hl-interface-btn"
                                 onClick={() => this.deleteFolder(folder)}
                               >
-                                <i className="lilicon hl-trashcan-icon" />
+                                <FontAwesomeIcon icon={['far', 'trash-alt']} />
                               </button>
 
                               {folder.emailTemplates.length > 0 && (
@@ -399,10 +399,8 @@ class EmailTemplateList extends Component {
                                   className="hl-interface-btn"
                                   onClick={() => this.toggleCollapse(index)}
                                 >
-                                  <i
-                                    className={`lilicon hl-toggle-${
-                                      folder.collapsed ? 'down' : 'up'
-                                    }-icon`}
+                                  <FontAwesomeIcon
+                                    icon={['far', folder.collapsed ? 'angle-down' : 'angle-up']}
                                   />
                                 </button>
                               )}
@@ -417,10 +415,8 @@ class EmailTemplateList extends Component {
                                 className="hl-interface-btn"
                                 onClick={() => this.toggleCollapse(index)}
                               >
-                                <i
-                                  className={`lilicon hl-toggle-${
-                                    folder.collapsed ? 'down' : 'up'
-                                  }-icon`}
+                                <FontAwesomeIcon
+                                  icon={['far', folder.collapsed ? 'angle-down' : 'angle-up']}
                                 />
                               </button>
                             </div>
@@ -456,7 +452,8 @@ class EmailTemplateList extends Component {
                                   className="hl-primary-btn borderless"
                                   onClick={() => this.openMenu(emailTemplate)}
                                 >
-                                  <FontAwesomeIcon icon="star" className="yellow" /> Manage defaults
+                                  <FontAwesomeIcon icon={['far', 'star']} className="yellow" />{' '}
+                                  Manage defaults
                                 </button>
                               }
                               menu={
@@ -470,7 +467,7 @@ class EmailTemplateList extends Component {
                               to={`/preferences/emailtemplates/${emailTemplate.id}/edit`}
                               className="hl-primary-btn borderless"
                             >
-                              <i className="lilicon hl-edit-icon" />
+                              <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                             </Link>
 
                             <DeleteConfirmation

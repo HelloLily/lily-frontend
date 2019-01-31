@@ -10,7 +10,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
     <React.Fragment>
       <div className="content-block-label" />
       <div className="content-block-name">
-        <i className="lilicon hl-entity-icon m-r-5" />
+        <FontAwesomeIcon icon={['far', 'user']} className="m-r-5" />
         {clickable && !contact.isDeleted && (
           <Link to={`/contacts/${contact.id}`}>{contact.fullName}</Link>
         )}
@@ -24,7 +24,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
     <ContentBlock title={title} component="contactDetailWidget">
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon="comment" /> Salutation
+          <FontAwesomeIcon icon={['far', 'comment']} /> Salutation
         </div>
         <div>
           <Editable
@@ -40,7 +40,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
 
       <div className="detail-row">
         <div>
-          <i className="lilicon hl-email-icon" /> Email
+          <FontAwesomeIcon icon={['far', 'envelope']} /> Email
         </div>
         <div>
           <Editable
@@ -54,7 +54,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
 
       <div className="detail-row">
         <div>
-          <i className="lilicon hl-phone-icon" /> Phone
+          <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" /> Phone
         </div>
         <div>
           <Editable
@@ -68,7 +68,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
 
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon="map-marker-alt" /> Address
+          <FontAwesomeIcon icon={['far', 'map-marker-alt']} /> Address
         </div>
         <div>
           <Editable
@@ -82,7 +82,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
 
       <div className="detail-row">
         <div>
-          <i className="lilicon hl-company-icon" /> Works at
+          <FontAwesomeIcon icon={['far', 'building']} /> Works at
         </div>
         <div>
           <Editable
@@ -109,7 +109,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
 
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon="comment" /> Social
+          <FontAwesomeIcon icon={['far', 'comment']} /> Social
         </div>
         <div>
           <Editable
@@ -123,7 +123,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
 
       <div className="detail-row">
         <div>
-          <FontAwesomeIcon icon="tags" /> Tags
+          <FontAwesomeIcon icon={['far', 'tags']} /> Tags
         </div>
         <div>
           <Editable

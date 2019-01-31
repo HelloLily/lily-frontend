@@ -7,6 +7,7 @@ import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
 import debounce from 'debounce-promise';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import {
@@ -429,7 +430,7 @@ class InnerDealForm extends Component {
                                 onClick={this.handleClose}
                                 type="button"
                               >
-                                <i className="lilicon hl-close-icon" />
+                                <FontAwesomeIcon icon={['far', 'times']} />
                               </button>
                             </div>
 

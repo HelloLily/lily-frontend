@@ -134,9 +134,9 @@ class EditableAddresses extends Component {
 
               <button className="hl-primary-btn" onClick={() => this.toggleDelete(item, index)}>
                 {item.isDeleted ? (
-                  <FontAwesomeIcon icon="undo" />
+                  <FontAwesomeIcon icon={['far', 'undo']} />
                 ) : (
-                  <i className="lilicon hl-trashcan-icon" />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
                 )}
               </button>
 
@@ -149,13 +149,13 @@ class EditableAddresses extends Component {
 
         <span className="editable-buttons">
           <button onClick={this.addRow}>
-            <FontAwesomeIcon icon="plus" />
+            <FontAwesomeIcon icon={['far', 'plus']} />
           </button>
           <button onClick={this.handleSubmit}>
-            <FontAwesomeIcon icon="check" />
+            <FontAwesomeIcon icon={['far', 'check']} />
           </button>
           <button onClick={this.props.cancel}>
-            <FontAwesomeIcon icon="times" />
+            <FontAwesomeIcon icon={['far', 'times']} />
           </button>
         </span>
       </span>

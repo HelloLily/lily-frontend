@@ -262,12 +262,12 @@ class UserList extends Component {
             <div className="list-title flex-grow">Colleagues</div>
 
             <Link to="/preferences/invite" className="hl-primary-btn m-r-10">
-              <FontAwesomeIcon icon="plus" /> User
+              <FontAwesomeIcon icon={['far', 'plus']} /> User
             </Link>
 
             {currentUser.isAdmin && (
               <button className="hl-primary-btn" onClick={this.addTeam}>
-                <FontAwesomeIcon icon="plus" /> Team
+                <FontAwesomeIcon icon={['far', 'plus']} /> Team
               </button>
             )}
           </div>
@@ -320,10 +320,10 @@ class UserList extends Component {
                       />
                       <span className="editable-buttons">
                         <button onClick={this.saveNewTeam}>
-                          <FontAwesomeIcon icon="check" />
+                          <FontAwesomeIcon icon={['far', 'check']} />
                         </button>
                         <button onClick={this.cancelNewTeam}>
-                          <FontAwesomeIcon icon="times" />
+                          <FontAwesomeIcon icon={['far', 'times']} />
                         </button>
                       </span>
                     </div>
@@ -347,11 +347,11 @@ class UserList extends Component {
                       <td />
                       <td>
                         <button className="hl-primary-btn borderless" type="button">
-                          <FontAwesomeIcon icon="undo" />
+                          <FontAwesomeIcon icon={['far', 'undo']} />
                         </button>
 
                         <button className="hl-primary-btn borderless" type="button">
-                          <i className="lilicon hl-trashcan-icon" />
+                          <FontAwesomeIcon icon={['far', 'trash-alt']} />
                         </button>
                       </td>
                     </tr>
@@ -399,7 +399,7 @@ class UserList extends Component {
                   {columns[6].selected && (
                     <React.Fragment>
                       {currentUser.isAdmin ? (
-                        <td>{user.hasTwoFactor && <FontAwesomeIcon icon="lock" />}</td>
+                        <td>{user.hasTwoFactor && <FontAwesomeIcon icon={['far', 'lock']} />}</td>
                       ) : (
                         <td />
                       )}
@@ -413,9 +413,23 @@ class UserList extends Component {
                       data-for={`user-${user.id}`}
                     >
                       {user.isActive ? (
-                        <i className="lilicon hl-entity-status-inactive-icon" />
+                        <span className="fa-layers fa-fw">
+                          <FontAwesomeIcon
+                            icon={['far', 'ban']}
+                            className="red"
+                            transform="shrink-4 up-5 right-10"
+                          />
+                          <FontAwesomeIcon icon={['far', 'user']} />
+                        </span>
                       ) : (
-                        <i className="lilicon hl-entity-status-active-icon" />
+                        <span className="fa-layers fa-fw">
+                          <FontAwesomeIcon
+                            icon={['far', 'check']}
+                            className="green"
+                            transform="shrink-4 up-5 right-10"
+                          />
+                          <FontAwesomeIcon icon={['far', 'user']} />
+                        </span>
                       )}
                     </button>
 

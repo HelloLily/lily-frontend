@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import Socket from 'lib/Socket';
@@ -122,7 +123,7 @@ class UnassignedCases extends Component {
       <React.Fragment>
         <div className="content-block-label cases" />
         <div className="content-block-name">
-          <i className="lilicon hl-case-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'briefcase']} className="m-r-5" />
           Unassigned cases
           <span className="label-amount">{total || '-'}</span>
           <span className="label-amount high-prio">{criticalCount || '-'}</span>

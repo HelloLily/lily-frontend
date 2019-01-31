@@ -23,11 +23,11 @@ const SearchBar = ({ query = '', searchCallback }) => {
 
       {query ? (
         <button className="hl-primary-btn-red" onClick={clearSearch}>
-          <FontAwesomeIcon icon="times" />
+          <FontAwesomeIcon icon={['far', 'times']} />
         </button>
       ) : (
         <button className="hl-primary-btn-blue">
-          <FontAwesomeIcon icon="search" />
+          <FontAwesomeIcon icon={['far', 'search']} />
         </button>
       )}
     </div>

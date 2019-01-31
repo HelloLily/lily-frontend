@@ -28,10 +28,10 @@ class EditableText extends Component {
 
         <span className="editable-buttons">
           <button onClick={this.handleSubmit}>
-            <FontAwesomeIcon icon="check" />
+            <FontAwesomeIcon icon={['far', 'check']} />
           </button>
           <button onClick={cancel}>
-            <FontAwesomeIcon icon="times" />
+            <FontAwesomeIcon icon={['far', 'times']} />
           </button>
         </span>
       </span>

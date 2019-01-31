@@ -95,7 +95,7 @@ class MyDeals extends Component {
       <React.Fragment>
         <div className="content-block-label deals" />
         <div className="content-block-name">
-          <i className="lilicon hl-deals-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'handshake']} className="m-r-5" />
           My deals
           <span className="label-amount">{total || '-'}</span>
         </div>
@@ -165,7 +165,7 @@ class MyDeals extends Component {
                       data-tip={acceptTooltip}
                       data-for={`deal-${item.id}-accept`}
                     >
-                      <FontAwesomeIcon icon="check" />
+                      <FontAwesomeIcon icon={['far', 'check']} />
                     </button>
 
                     <LilyTooltip id={`deal-${item.id}-accept`} />

@@ -124,11 +124,7 @@ class UserShare extends Component {
                   key={config.user.id || config.user}
                 >
                   <div className="user-info">
-                    <img
-                      className="user-avatar m-r-15"
-                      src={foundUser.profilePicture}
-                      alt="User avatar"
-                    />
+                    <img className="user-avatar m-r-15" src={foundUser.profilePicture} />
                     <div>{foundUser.fullName}</div>
                   </div>
 
@@ -149,9 +145,9 @@ class UserShare extends Component {
                     onClick={() => this.toggleDelete(config)}
                   >
                     {config.isDeleted ? (
-                      <FontAwesomeIcon icon="undo" />
+                      <FontAwesomeIcon icon={['far', 'undo']} />
                     ) : (
-                      <i className="lilicon hl-trashcan-icon" />
+                      <FontAwesomeIcon icon={['far', 'trash-alt']} />
                     )}
                   </button>
                 </div>

@@ -105,7 +105,7 @@ class Import extends Component {
                 </div>
 
                 <button className="hl-primary-btn-blue m-t-10" onClick={this.importAccounts}>
-                  <FontAwesomeIcon icon="upload" /> Import
+                  <FontAwesomeIcon icon={['far', 'upload']} /> Import
                 </button>
 
                 <div className="m-t-10">
@@ -142,7 +142,7 @@ class Import extends Component {
                 </div>
 
                 <button className="hl-primary-btn-blue m-t-10" onClick={this.importContacts}>
-                  <FontAwesomeIcon icon="upload" /> Import
+                  <FontAwesomeIcon icon={['far', 'upload']} /> Import
                 </button>
 
                 <div className="m-t-10">

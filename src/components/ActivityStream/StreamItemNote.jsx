@@ -1,10 +1,10 @@
 import React from 'react';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { successToast, errorToast } from 'utils/toasts';
 import Editable from 'components/Editable';
 import LilyDate from 'components/Utils/LilyDate';
-import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import Note from 'models/Note';
 import StreamAvatar from './StreamAvatar';
 
@@ -38,13 +38,15 @@ const StreamItemNote = props => {
         <div className="stream-item-title">
           <div>
             {note.author.fullName} created a{note.isPinned && <span> pinned</span>}
-            <span className="m-l-5">
-              <i className={`lilicon hl-note-icon ${note.isPinned ? 'red' : 'yellow'}`} /> note
-            </span>
+            <FontAwesomeIcon
+              icon={['far', 'sticky-note']}
+              className={`m-l-5 ${note.isPinned ? 'red' : 'yellow'}`}
+            />{' '}
+            note
           </div>
 
           <button className="hl-primary-btn borderless" onClick={deleteCallback}>
-            <i className="lilicon hl-trashcan-icon" /> Delete
+            <FontAwesomeIcon icon={['far', 'trash-alt']} /> Delete
           </button>
         </div>
 

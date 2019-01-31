@@ -97,7 +97,7 @@ class MyCases extends Component {
       <React.Fragment>
         <div className="content-block-label cases" />
         <div className="content-block-name">
-          <i className="lilicon hl-case-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'briefcase']} className="m-r-5" />
           My cases
           <span className="label-amount">{total || '-'}</span>
           <span className="label-amount high-prio">{criticalCount || '-'}</span>
@@ -165,7 +165,7 @@ class MyCases extends Component {
                       data-tip={acceptTooltip}
                       data-for={`case-${item.id}-accept`}
                     >
-                      <FontAwesomeIcon icon="check" />
+                      <FontAwesomeIcon icon={['far', 'check']} />
                     </button>
 
                     <LilyTooltip id={`case-${item.id}-accept`} />

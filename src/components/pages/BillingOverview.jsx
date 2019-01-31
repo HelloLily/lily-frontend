@@ -27,7 +27,7 @@ class BillingOverview extends Component {
       loading: true
     };
 
-    document.title = 'Billing - Lily';
+    document.title = 'Subscription - Lily';
   }
 
   async componentDidMount() {
@@ -134,7 +134,7 @@ class BillingOverview extends Component {
                     {plan.name}
 
                     <Link to="/preferences/billing/change" className="hl-interface-btn">
-                      <i className="lilicon hl-edit-icon" />
+                      <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                     </Link>
                   </div>
                 </div>

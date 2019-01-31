@@ -87,7 +87,8 @@ class ListFilter extends Component {
                 <React.Fragment>{display.join(' + ')}</React.Fragment>
               )}
             </span>
-            <i className="lilicon hl-toggle-down-icon small" />
+
+            <FontAwesomeIcon icon={['far', 'angle-down']} className="small" />
           </button>
         }
         menu={
@@ -120,7 +121,7 @@ class ListFilter extends Component {
                   {item.isArchived && (
                     <React.Fragment>
                       <FontAwesomeIcon
-                        icon="archive"
+                        icon={['far', 'archive']}
                         data-tip={t('filterArchived')}
                         data-for={`filter-${index}`}
                       />

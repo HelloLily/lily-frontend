@@ -97,8 +97,8 @@ class ContactList extends Component {
           <React.Fragment key={account.id}>
             {!contact.primaryEmail && account.primaryEmail && (
               <div>
-                <i
-                  className="lilicon hl-company-icon"
+                <FontAwesomeIcon
+                  icon={['far', 'building']}
                   data-tip={tooltip}
                   data-for={`account-${account.id}-email`}
                 />
@@ -116,9 +116,9 @@ class ContactList extends Component {
                   <div>
                     <span data-tip={tooltip} data-for={`account-${account.id}-phone`}>
                       {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
-                        <FontAwesomeIcon icon="mobile" />
+                        <FontAwesomeIcon icon={['far', 'mobile']} />
                       ) : (
-                        <i className="lilicon hl-phone-filled-icon" />
+                        <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
                       )}
                     </span>
 
@@ -230,7 +230,8 @@ class ContactList extends Component {
                         <div key={emailAddress.id}>
                           {emailAddress.status !== INACTIVE_EMAIL_STATUS ? (
                             <Link to={`/email/compose/${emailAddress.emailAddress}`}>
-                              <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
+                              <FontAwesomeIcon icon={['far', 'envelope']} />{' '}
+                              {emailAddress.emailAddress}
                             </Link>
                           ) : null}
                         </div>
@@ -240,9 +241,9 @@ class ContactList extends Component {
                           {phone.type === MOBILE_PHONE_TYPE || phone.type === WORK_PHONE_TYPE ? (
                             <a href={`tel:${phone.number}`}>
                               {phone.type === MOBILE_PHONE_TYPE ? (
-                                <FontAwesomeIcon icon="mobile" />
+                                <FontAwesomeIcon icon={['far', 'mobile']} />
                               ) : (
-                                <i className="lilicon hl-phone-filled-icon" />
+                                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
                               )}
 
                               <span className="m-l-5">{phone.number}</span>

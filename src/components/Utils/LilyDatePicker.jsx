@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { parse, isDate, isWeekend } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import cx from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class LilyDatePicker extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class LilyDatePicker extends Component {
 
         {!inline && (
           <button className="hl-primary-btn" onClick={this.openDatePicker} type="button">
-            <i className="lilicon hl-calendar-icon" />
+            <FontAwesomeIcon icon={['far', 'calendar-alt']} />
           </button>
         )}
       </div>

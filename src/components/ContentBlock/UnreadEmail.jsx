@@ -86,7 +86,7 @@ class UnreadEmail extends Component {
       <React.Fragment>
         <div className="content-block-label email" />
         <div className="content-block-name">
-          <i className="lilicon hl-email-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'envelope']} className="m-r-5-" />
           Unread email
           <span className="label-amount">{total || '-'}</span>
         </div>
@@ -128,7 +128,7 @@ class UnreadEmail extends Component {
                 </td>
                 <td>
                   <Link to={`/email/compose/${item.id}`} className="hl-primary-btn borderless">
-                    <FontAwesomeIcon icon="reply" />
+                    <FontAwesomeIcon icon={['far', 'reply']} />
                   </Link>
                 </td>
               </tr>

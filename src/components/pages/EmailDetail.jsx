@@ -74,8 +74,8 @@ class EmailDetail extends Component {
       this.setState({
         emailMessage,
         emailAccount,
-        recipients,
-        thread: threadRequest.results
+        recipients
+        // thread: threadRequest.results
       });
     }
 
@@ -275,7 +275,7 @@ class EmailDetail extends Component {
   };
 
   render() {
-    const { emailMessage, emailAccount, recipients, thread, plainText } = this.state;
+    const { emailMessage, emailAccount, recipients, plainText } = this.state;
     const { data } = this.props;
 
     const recipientElements = recipients.map(recipient => {
@@ -314,13 +314,13 @@ class EmailDetail extends Component {
               <div className="email-actions">
                 <div className="hl-btn-group m-r-10">
                   <Link to={`/email/compose/${emailMessage.id}`} className="hl-primary-btn">
-                    <FontAwesomeIcon icon="reply" /> Reply
+                    <FontAwesomeIcon icon={['far', 'reply']} /> Reply
                   </Link>
 
                   <Dropdown
                     clickable={
                       <button className="hl-primary-btn" type="button">
-                        <FontAwesomeIcon icon="angle-down" />
+                        <FontAwesomeIcon icon={['far', 'angle-down']} />
                       </button>
                     }
                     menu={
@@ -330,13 +330,13 @@ class EmailDetail extends Component {
                             to={`/email/compose/${emailMessage.id}`}
                             className="dropdown-button"
                           >
-                            <FontAwesomeIcon icon="reply-all" /> Reply all
+                            <FontAwesomeIcon icon={['far', 'reply-all']} /> Reply all
                           </Link>
                         </li>
 
                         <li className="dropdown-menu-item">
                           <Link to="/email" className="dropdown-button">
-                            <FontAwesomeIcon icon="arrow-alt-right" /> Forward
+                            <FontAwesomeIcon icon={['far', 'arrow-alt-right']} /> Forward
                           </Link>
                         </li>
                       </ul>
@@ -346,18 +346,18 @@ class EmailDetail extends Component {
 
                 <div className="hl-btn-group m-r-10">
                   <button className="hl-primary-btn" onClick={this.archive}>
-                    <FontAwesomeIcon icon="archive" /> Archive
+                    <FontAwesomeIcon icon={['far', 'archive']} /> Archive
                   </button>
                   <button className="hl-primary-btn" onClick={this.delete}>
-                    <i className="lilicon hl-trashcan-icon" /> Delete
+                    <FontAwesomeIcon icon={['far', 'trash-alt']} /> Delete
                   </button>
                 </div>
 
                 <Dropdown
                   clickable={
                     <button className="hl-primary-btn" type="button">
-                      <FontAwesomeIcon icon="folder" /> Move to
-                      <i className="lilicon hl-toggle-down-icon m-l-5" />
+                      <FontAwesomeIcon icon={['far', 'folder']} /> Move to
+                      <FontAwesomeIcon icon={['far', 'angle-down']} className="m-l-5" />
                     </button>
                   }
                   menu={
@@ -390,7 +390,7 @@ class EmailDetail extends Component {
                     onClick={this.toggleStarred}
                   >
                     {emailMessage.isStarred ? (
-                      <FontAwesomeIcon icon="star" className="yellow" />
+                      <FontAwesomeIcon icon={['far', 'star']} className="yellow" />
                     ) : (
                       <FontAwesomeIcon icon={['far', 'star']} />
                     )}

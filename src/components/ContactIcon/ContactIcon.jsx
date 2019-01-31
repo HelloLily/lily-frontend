@@ -17,19 +17,19 @@ const ContactIcon = props => {
 
   switch (status) {
     case NEEDS_ALL:
-      icon = <i className="lilicon hl-company-icon grey" />;
+      icon = <FontAwesomeIcon icon={['far', 'building']} className="grey" />;
       tooltip = t('contactIcon.needsEverything');
       break;
     case NEEDS_CONTACT:
-      icon = <i className="lilicon hl-entity-icon aqua" />;
+      icon = <FontAwesomeIcon icon={['far', 'user']} className="aqua" />;
       tooltip = t('contactIcon.needsContact');
       break;
     case NEEDS_ACCOUNT:
-      icon = <FontAwesomeIcon icon="check" className="yellow" />;
+      icon = <FontAwesomeIcon icon={['far', 'check']} className="yellow" />;
       tooltip = t('contactIcon.needsAccount');
       break;
     default:
-      icon = <FontAwesomeIcon icon="check" className="green" />;
+      icon = <FontAwesomeIcon icon={['far', 'check']} className="green" />;
       tooltip = t('contactIcon.complete');
       break;
   }

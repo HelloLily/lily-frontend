@@ -230,7 +230,7 @@ class EmailAccountList extends Component {
             <div className="list-title flex-grow">Your email accounts</div>
 
             <button className="hl-primary-btn" onClick={this.setupEmailAccount}>
-              <FontAwesomeIcon icon="plus" /> Email account
+              <FontAwesomeIcon icon={['far', 'plus']} /> Email account
             </button>
           </div>
           <table className="hl-table">
@@ -277,7 +277,7 @@ class EmailAccountList extends Component {
                         onClick={() => this.openSharedWithModal(emailAccount)}
                       >
                         {emailAccount.sharedEmailConfigs.length}
-                        <i className="lilicon hl-entity-icon m-l-5" />
+                        <FontAwesomeIcon icon={['far', 'user']} className="m-l-5" />
                       </button>
                     ) : (
                       <span>All</span>
@@ -349,7 +349,7 @@ class EmailAccountList extends Component {
                             onClick={() => this.openSharedWithModal(emailAccount)}
                           >
                             {emailAccount.sharedEmailConfigs.length}
-                            <i className="lilicon hl-entity-icon m-l-5" />
+                            <FontAwesomeIcon icon={['far', 'user']} className="m-l-5" />
                           </button>
                         ) : (
                           <span>All</span>
@@ -411,11 +411,7 @@ class EmailAccountList extends Component {
                     return (
                       <div className="user-row" key={config.id}>
                         <div className="user-info">
-                          <img
-                            className="user-avatar m-r-15"
-                            src={foundUser.profilePicture}
-                            alt="User avatar"
-                          />
+                          <img className="user-avatar m-r-15" src={foundUser.profilePicture} />
                           <div>{foundUser.fullName}</div>
                         </div>
                       </div>

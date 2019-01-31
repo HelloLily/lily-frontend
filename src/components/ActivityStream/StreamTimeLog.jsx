@@ -49,11 +49,11 @@ class StreamTimeLog extends Component {
 
             <div>
               <button className="hl-primary-btn borderless" onClick={this.openModal}>
-                <i className="lilicon hl-edit-icon" /> Edit
+                <FontAwesomeIcon icon={['far', 'pencil-alt']} /> Edit
               </button>
 
               <button className="hl-primary-btn borderless" onClick={() => deleteCallback(item)}>
-                <i className="lilicon hl-trashcan-icon" /> Delete
+                <FontAwesomeIcon icon={['far', 'trash-alt']} /> Delete
               </button>
             </div>
           </div>
@@ -71,11 +71,11 @@ class StreamTimeLog extends Component {
 
                 {item.billable ? (
                   <React.Fragment>
-                    <FontAwesomeIcon icon="check" className="green" /> Yes
+                    <FontAwesomeIcon icon={['far', 'check']} className="green" /> Yes
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <FontAwesomeIcon icon="times" className="red" /> No
+                    <FontAwesomeIcon icon={['far', 'times']} className="red" /> No
                   </React.Fragment>
                 )}
               </div>

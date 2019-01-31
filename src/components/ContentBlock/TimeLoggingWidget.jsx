@@ -61,7 +61,7 @@ class TimeLoggingWidget extends Component {
 
             <div className="content-block-extra">
               <button className="hl-primary-btn" onClick={this.openModal}>
-                <FontAwesomeIcon icon="plus" /> Log time
+                <FontAwesomeIcon icon={['far', 'plus']} /> Log time
               </button>
             </div>
           </div>

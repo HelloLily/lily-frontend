@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import Socket from 'lib/Socket';
@@ -121,7 +122,7 @@ class UnassignedDeals extends Component {
       <React.Fragment>
         <div className="content-block-label deals" />
         <div className="content-block-name">
-          <i className="lilicon hl-deals-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'handshake']} className="m-r-5" />
           Unassigned deals
           <span className="label-amount">{total || '-'}</span>
         </div>

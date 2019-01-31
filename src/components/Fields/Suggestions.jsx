@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import convertFromCamelCase from 'utils/convertFromCamelCase';
 
@@ -30,7 +31,7 @@ class Suggestions extends Component {
               <div>{`${label} found in existing ${type}`}</div>
 
               <button className="hl-interface-btn" onClick={this.close} type="button">
-                <i className="lilicon hl-close-icon" />
+                <FontAwesomeIcon icon={['far', 'times']} />
               </button>
             </div>
 

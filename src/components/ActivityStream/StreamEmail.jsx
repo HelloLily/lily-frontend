@@ -39,7 +39,7 @@ const StreamEmail = ({ item }) => {
               }}
               className="hl-interface-btn"
             >
-              <FontAwesomeIcon icon="reply" /> Reply
+              <FontAwesomeIcon icon={['far', 'reply']} /> Reply
             </Link>
 
             <Link
@@ -52,7 +52,7 @@ const StreamEmail = ({ item }) => {
               }}
               className="hl-interface-btn"
             >
-              <FontAwesomeIcon icon="reply" flip="horizontal" /> Forward
+              <FontAwesomeIcon icon={['far', 'reply']} flip="horizontal" /> Forward
             </Link>
           </div>
         </div>

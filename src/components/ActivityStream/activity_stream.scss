@@ -114,6 +114,14 @@
       &.is-call {
         box-shadow: inset 0 0 0 2px $app-color-yellow;
         background: #fff;
+
+        .fa-layers {
+          height: 1.5em;
+        }
+
+        .fa-fw {
+          width: 2em;
+        }
       }
 
       .lilicon,
@@ -174,8 +182,6 @@
 
         .hl-interface-btn {
           &.note-toggle {
-            font-size: initial;
-
             &:hover {
               color: $app-color-yellow;
             }

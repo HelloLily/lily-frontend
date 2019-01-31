@@ -221,7 +221,8 @@ class AccountList extends Component {
                         <div key={emailAddress.id}>
                           {emailAddress.status !== 0 ? (
                             <Link to={`/email/compose/${emailAddress.emailAddress}`}>
-                              <i className="lilicon hl-email-icon" /> {emailAddress.emailAddress}
+                              <FontAwesomeIcon icon={['far', 'envelope']} />{' '}
+                              {emailAddress.emailAddress}
                             </Link>
                           ) : null}
                         </div>
@@ -231,9 +232,9 @@ class AccountList extends Component {
                           {phone.type === MOBILE_PHONE_TYPE || phone.type === WORK_PHONE_TYPE ? (
                             <a href={`tel:${phone.number}`}>
                               {phone.type === MOBILE_PHONE_TYPE ? (
-                                <FontAwesomeIcon icon="mobile" />
+                                <FontAwesomeIcon icon={['far', 'mobile']} />
                               ) : (
-                                <i className="lilicon hl-phone-filled-icon" />
+                                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
                               )}
 
                               <span className="m-l-5">{phone.number}</span>

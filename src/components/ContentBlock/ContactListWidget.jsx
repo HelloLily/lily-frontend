@@ -53,7 +53,8 @@ class ContactListWidget extends Component {
       <React.Fragment>
         <div className="content-block-label" />
         <div className="content-block-name">
-          <i className="lilicon hl-entities-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'user-friends']} className="m-r-5" />
+
           {account ? (
             <div>
               Colleagues at <Link to={`/accounts/${account.id}`}>{account.name}</Link>
@@ -70,7 +71,7 @@ class ContactListWidget extends Component {
 
     const extra = account ? (
       <button className="hl-primary-btn" onClick={this.setSidebar}>
-        <FontAwesomeIcon icon="plus" /> Contact
+        <FontAwesomeIcon icon={['far', 'plus']} /> Contact
       </button>
     ) : null;
 
@@ -98,7 +99,8 @@ class ContactListWidget extends Component {
                     <td>
                       {item.primaryEmail && object.primaryEmail && (
                         <div>
-                          <i className="lilicon hl-company-icon m-r-5" />
+                          <FontAwesomeIcon icon={['far', 'building']} className="m-r-5" />
+
                           <Link to={`/email/compose/${object.primaryEmail.emailAddress}`}>
                             {object.primaryEmail.emailAddress}
                           </Link>
@@ -115,10 +117,11 @@ class ContactListWidget extends Component {
 
                       {!item.phoneNumber && object.phoneNumber && (
                         <div>
-                          <i
-                            className="lilicon hl-company-icon m-r-5"
+                          <FontAwesomeIcon
+                            icon={['far', 'building']}
                             data-tip={t('contactListInfoTooltip')}
                             data-for={`contact-${item.id}`}
+                            className="m-r-5"
                           />
                           <a href={`tel:${object.phoneNumber.number}`}>
                             {object.phoneNumber.number}

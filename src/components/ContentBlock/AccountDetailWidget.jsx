@@ -49,7 +49,8 @@ class AccountDetailWidget extends Component {
       <React.Fragment>
         <div className="content-block-label" />
         <div className="content-block-name">
-          <i className="lilicon hl-company-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'building']} className="m-r-5" />
+
           {clickable && !account.isDeleted && (
             <Link to={`/accounts/${account.id}`}>{account.name}</Link>
           )}
@@ -72,7 +73,7 @@ class AccountDetailWidget extends Component {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FontAwesomeIcon icon="external-link" className="m-r-5" />
+          <FontAwesomeIcon icon={['far', 'external-link']} className="m-r-5" />
           {externalAppLink.name}
         </a>
       ) : null;
@@ -98,7 +99,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <i className="lilicon hl-email-icon" /> Email
+            <FontAwesomeIcon icon={['far', 'envelope']} /> Email
           </div>
           <div>
             <Editable
@@ -112,7 +113,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <i className="lilicon hl-phone-icon" /> Phone
+            <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" /> Phone
           </div>
           <div>
             <Editable
@@ -126,7 +127,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <FontAwesomeIcon icon="globe" /> Website
+            <FontAwesomeIcon icon={['far', 'globe']} /> Website
           </div>
           <div>
             <Editable
@@ -140,7 +141,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <i className="lilicon hl-entity-icon" /> Assigned to
+            <FontAwesomeIcon icon={['far', 'user']} /> Assigned to
           </div>
           <div>
             <Editable
@@ -161,7 +162,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <FontAwesomeIcon icon="map-marker-alt" /> Address
+            <FontAwesomeIcon icon={['far', 'map-marker-alt']} /> Address
           </div>
           <div>
             <Editable
@@ -175,7 +176,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <FontAwesomeIcon icon="comment" /> Social
+            <FontAwesomeIcon icon={['far', 'comment']} /> Social
           </div>
           <div>
             <Editable
@@ -189,7 +190,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <i className="lilicon hl-entity-icon" /> Customer ID
+            <FontAwesomeIcon icon={['far', 'user']} /> Customer ID
           </div>
           <div>
             <Editable
@@ -203,7 +204,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <FontAwesomeIcon icon="tags" /> Tags
+            <FontAwesomeIcon icon={['far', 'tags']} /> Tags
           </div>
           <div>
             <Editable

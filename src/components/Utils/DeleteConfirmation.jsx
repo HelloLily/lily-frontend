@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withNamespaces, Trans } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
@@ -52,7 +53,7 @@ class DeleteConfirmation extends Component {
     return (
       <React.Fragment>
         <button className="hl-primary-btn borderless m-l-5" onClick={this.openModal}>
-          <i className="lilicon hl-trashcan-icon" />
+          <FontAwesomeIcon icon={['far', 'trash-alt']} />
           {showText && <span> Delete</span>}
         </button>
 

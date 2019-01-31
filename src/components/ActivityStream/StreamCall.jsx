@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { RINGING_CALL_STATUS, IN_PROGRESS_CALL_STATUS, ENDED_CALL_STATUS } from 'lib/constants';
 import LilyDate from 'components/Utils/LilyDate';
@@ -28,12 +29,28 @@ class StreamCall extends Component {
     const { showNoteAdd, collapsed } = this.state;
     const { item } = this.props;
 
-    const callType = item.direction === 0 ? 'inbound' : 'outbound';
-
     return (
       <React.Fragment>
         <div className="activity-stream-image is-call">
-          <i className={`lilicon hl-phone-${callType}-icon yellow`} />
+          <span className="fa-layers fa-fw yellow">
+            {item.direction === 0 ? (
+              <React.Fragment>
+                <FontAwesomeIcon
+                  icon={['far', 'arrow-up']}
+                  transform="rotate--135 shrink-7 up-5 right-6"
+                />
+                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <FontAwesomeIcon
+                  icon={['far', 'arrow-up']}
+                  transform="rotate-45 shrink-7 up-5 right-6"
+                />
+                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
+              </React.Fragment>
+            )}
+          </span>
         </div>
 
         <div className="stream-item">
@@ -84,11 +101,11 @@ class StreamCall extends Component {
 
             <div>
               <button className="hl-interface-btn note-toggle" onClick={this.toggleNotes}>
-                <i className="lilicon hl-note-icon" />
+                <FontAwesomeIcon icon={['far', 'sticky-note']} />
               </button>
 
               <button className="hl-interface-btn" onClick={this.toggleCollapse}>
-                <i className={`lilicon hl-toggle-${collapsed ? 'down' : 'up'}-icon`} />
+                <FontAwesomeIcon icon={['far', collapsed ? 'angle-down' : 'angle-up']} />
               </button>
             </div>
           </div>

@@ -311,11 +311,7 @@ class ActivityStream extends Component {
                       <LilyDate date={key} format="MMMM y" />
 
                       <div>
-                        <i
-                          className={`lilicon ${
-                            isCollapsed ? 'hl-toggle-down-icon' : 'hl-toggle-up-icon'
-                          }`}
-                        />
+                        <FontAwesomeIcon icon={['far', isCollapsed ? 'angle-down' : 'angle-up']} />
                       </div>
                     </button>
 
@@ -341,7 +337,7 @@ class ActivityStream extends Component {
               {activityStream.length === 0 && (
                 <React.Fragment>
                   <div className="activity-stream-image">
-                    <FontAwesomeIcon icon="hourglass-start" />
+                    <FontAwesomeIcon icon={['far', 'hourglass-start']} />
                   </div>
 
                   <div className="stream-item">

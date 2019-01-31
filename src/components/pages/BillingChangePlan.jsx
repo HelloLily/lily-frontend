@@ -132,7 +132,7 @@ class BillingChangePlan extends Component {
                       disabled={loading}
                       type="button"
                     >
-                      <FontAwesomeIcon icon="check" /> Save
+                      <FontAwesomeIcon icon={['far', 'check']} /> Save
                     </button>
 
                     <button type="button" className="hl-primary-btn m-l-10" disabled={loading}>

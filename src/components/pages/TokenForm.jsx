@@ -12,7 +12,7 @@ class TokenForm extends Component {
 
     this.state = { token: '', loading: true };
 
-    document.title = 'My API token - Lily';
+    document.title = 'My API key - Lily';
   }
 
   async componentDidMount() {
@@ -58,7 +58,7 @@ class TokenForm extends Component {
         <div className="content-block-container">
           <div className="content-block">
             <div className="content-block-header">
-              <div className="content-block-name">My API token</div>
+              <div className="content-block-name">My API key</div>
             </div>
 
             <div className="content-block-content">

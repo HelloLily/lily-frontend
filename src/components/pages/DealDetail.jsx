@@ -194,7 +194,7 @@ class DealDetail extends Component {
       <React.Fragment>
         <div className="content-block-label deals" />
         <div className="content-block-name">
-          <i className="lilicon hl-deal-icon m-r-5" />
+          <FontAwesomeIcon icon={['far', 'handshake']} className="m-r-5" />
           Deal details
         </div>
       </React.Fragment>
@@ -213,7 +213,7 @@ class DealDetail extends Component {
           to={`/quotes/create/${deal.id}`}
           className={`hl-primary-btn${!deal.contact ? ' is-disabled' : ''}`}
         >
-          <FontAwesomeIcon icon="plus" /> Document
+          <FontAwesomeIcon icon={['far', 'plus']} /> Document
         </Link>
 
         {!deal.contact && <LilyTooltip />}
@@ -227,11 +227,11 @@ class DealDetail extends Component {
             <div className="detail-page-header">
               <div>
                 <Link to={`/deals/${id}/edit`} className="hl-interface-btn">
-                  <i className="lilicon hl-edit-icon" />
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                 </Link>
 
                 <button className="hl-interface-btn">
-                  <i className="lilicon hl-trashcan-icon" />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
                 </button>
               </div>
             </div>
@@ -426,7 +426,7 @@ class DealDetail extends Component {
                                   rel="noopener noreferrer"
                                   className="hl-interface-btn"
                                 >
-                                  <i className="lilicon hl-edit-icon" />
+                                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                                 </a>
 
                                 {contact.emailAddresses.length > 0 &&
@@ -441,7 +441,7 @@ class DealDetail extends Component {
                                       }}
                                       className="hl-interface-btn"
                                     >
-                                      <FontAwesomeIcon icon="envelope" />
+                                      <FontAwesomeIcon icon={['far', 'envelope']} />
                                     </Link>
                                   )}
                               </td>
@@ -586,7 +586,7 @@ class DealDetail extends Component {
                         </div>
 
                         <button className="hl-primary-btn" onClick={this.toggleArchive}>
-                          <FontAwesomeIcon icon="archive" />{' '}
+                          <FontAwesomeIcon icon={['far', 'archive']} />{' '}
                           {deal.isArchived ? 'Unarchive' : 'Archive'}
                         </button>
                       </div>

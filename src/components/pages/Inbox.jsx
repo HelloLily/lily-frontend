@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import EmailAccount from 'models/EmailAccount';
 import Settings from 'models/Settings';
@@ -85,7 +86,7 @@ class Inbox extends Component {
           <React.Fragment>
             <div className="email-accounts m-r-15">
               <Link to="/email/compose/" className="hl-primary-btn-green w-100 m-b-15">
-                <i className="lilicon hl-email-icon m-r-5" /> Compose
+                <FontAwesomeIcon icon={['far', 'envelope']} className="m-r-5" /> Compose
               </Link>
 
               <EmailAccounts

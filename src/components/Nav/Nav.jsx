@@ -59,22 +59,22 @@ class Nav extends Component {
     <React.Fragment>
       <ObjectLimit model="accounts">
         <button className="hl-primary-btn" onClick={() => this.props.setSidebar('account')}>
-          <FontAwesomeIcon icon="plus" /> Account
+          <FontAwesomeIcon icon={['far', 'plus']} /> Account
         </button>
       </ObjectLimit>
 
       <ObjectLimit model="contacts">
         <button className="hl-primary-btn" onClick={() => this.props.setSidebar('contact')}>
-          <FontAwesomeIcon icon="plus" /> Contact
+          <FontAwesomeIcon icon={['far', 'plus']} /> Contact
         </button>
       </ObjectLimit>
 
       <button className="hl-primary-btn" onClick={() => this.props.setSidebar('deal')}>
-        <FontAwesomeIcon icon="plus" /> Deal
+        <FontAwesomeIcon icon={['far', 'plus']} /> Deal
       </button>
 
       <button className="hl-primary-btn" onClick={() => this.props.setSidebar('case')}>
-        <FontAwesomeIcon icon="plus" /> Case
+        <FontAwesomeIcon icon={['far', 'plus']} /> Case
       </button>
     </React.Fragment>
   );
@@ -100,35 +100,35 @@ class Nav extends Component {
 
               <li className="m-r-55">
                 <NavLink to="/email">
-                  <i className="lilicon hl-email-icon m-r-10" />
+                  <FontAwesomeIcon icon={['far', 'envelope']} className="m-r-10" />
                   <span className="nav-text">Email</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
                 <NavLink to="/accounts">
-                  <i className="lilicon hl-company-icon m-r-10" />
+                  <FontAwesomeIcon icon={['far', 'building']} className="m-r-10" />
                   <span className="nav-text">Accounts</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
                 <NavLink to="/contacts">
-                  <i className="lilicon hl-entity-icon m-r-10" />
+                  <FontAwesomeIcon icon={['far', 'user']} className="m-r-5" />
                   <span className="nav-text">Contacts</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
                 <NavLink to="/deals">
-                  <i className="lilicon hl-deals-icon m-r-10" />
+                  <FontAwesomeIcon icon={['far', 'handshake']} className="m-r-10" />
                   <span className="nav-text">Deals</span>
                 </NavLink>
               </li>
 
               <li className="m-r-55">
                 <NavLink to="/cases">
-                  <i className="lilicon hl-case-icon m-r-10" />
+                  <FontAwesomeIcon icon={['far', 'briefcase']} className="m-r-10" />
                   <span className="nav-text">Cases</span>
                 </NavLink>
               </li>
@@ -137,7 +137,7 @@ class Nav extends Component {
 
           <div className="nav-add-buttons">
             <button className="hl-primary-btn m-r-5" onClick={this.getLatestCall}>
-              <FontAwesomeIcon icon="phone" flip="horizontal" /> Caller info
+              <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" /> Caller info
             </button>
 
             {this.renderLinks()}
@@ -147,14 +147,14 @@ class Nav extends Component {
             clickable={
               <div className="nav-add-buttons-compact">
                 <button className="hl-primary-btn">
-                  <FontAwesomeIcon icon="plus" />
+                  <FontAwesomeIcon icon={['far', 'plus']} />
                 </button>
               </div>
             }
             menu={
               <div className="dropdown-menu">
                 <button className="hl-primary-btn m-r-5" onClick={this.getLatestCall}>
-                  <FontAwesomeIcon icon="phone" flip="horizontal" /> Caller info
+                  <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" /> Caller info
                 </button>
 
                 {this.renderLinks()}

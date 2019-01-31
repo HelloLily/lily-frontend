@@ -39,7 +39,7 @@ export function NoAccountsMessage(props) {
           type="button"
           className={`no-options-action${loading ? ' is-disabled' : ''}`}
         >
-          <FontAwesomeIcon icon="plus" /> Add <strong>{name}</strong> as a new account
+          <FontAwesomeIcon icon={['far', 'plus']} /> Add <strong>{name}</strong> as a new account
         </button>
       ) : null}
     </React.Fragment>
@@ -79,7 +79,7 @@ export function NoContactsMessage(props) {
           type="button"
           className={`no-options-action${loading ? ' is-disabled' : ''}`}
         >
-          <FontAwesomeIcon icon="plus" /> Add <strong>{name}</strong> as a new contact
+          <FontAwesomeIcon icon={['far', 'plus']} /> Add <strong>{name}</strong> as a new contact
         </button>
       ) : null}
     </React.Fragment>

@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
 import debounce from 'debounce-promise';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import setValues from 'utils/setValues';
@@ -451,8 +452,8 @@ class InnerContactForm extends Component {
                                     <td>
                                       {index === 0 && (
                                         <React.Fragment>
-                                          <i
-                                            className="lilicon hl-company-icon"
+                                          <FontAwesomeIcon
+                                            icon={['far', 'building']}
                                             data-tip={t('forms:contact.accountInfoTooltip')}
                                           />
 
@@ -505,8 +506,8 @@ class InnerContactForm extends Component {
                                   <td>
                                     {index === 0 && (
                                       <React.Fragment>
-                                        <i
-                                          className="lilicon hl-company-icon"
+                                        <FontAwesomeIcon
+                                          icon={['far', 'building']}
                                           data-tip={t('forms:contact.accountInfoTooltip')}
                                         />
 
@@ -561,8 +562,8 @@ class InnerContactForm extends Component {
                                   <td>
                                     {index === 0 && (
                                       <React.Fragment>
-                                        <i
-                                          className="lilicon hl-company-icon"
+                                        <FontAwesomeIcon
+                                          icon={['far', 'building']}
                                           data-tip={t('forms:contact.accountInfoTooltip')}
                                         />
 

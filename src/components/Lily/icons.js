@@ -1,5 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import {
   faPhone,
   faMobile,
@@ -32,7 +33,6 @@ import {
   faEye,
   faEyeSlash,
   faSyncAlt,
-  faAngleDown,
   faSort,
   faSortUp,
   faSortDown,
@@ -52,15 +52,38 @@ import {
   faSearch,
   faFileImport,
   faUpload,
-  faShareAlt
-} from '@fortawesome/free-solid-svg-icons';
-import { faStar as faStarOpen } from '@fortawesome/free-regular-svg-icons';
-import {
+  faShareAlt,
   faExpandAlt,
   faSpinnerThird,
+  faArrowUp,
   faArrowAltRight,
-  faExternalLink
-} from '@fortawesome/pro-solid-svg-icons';
+  faExternalLink,
+  faUser,
+  faUsers,
+  faUserTag,
+  faUserCog,
+  faUserLock,
+  faMailBulk,
+  faUserFriends,
+  faPuzzlePiece,
+  faCog,
+  faTrashAlt,
+  faPencilAlt,
+  faBuilding,
+  faHandshake,
+  faChevronUp,
+  faChevronDown,
+  faCalendarAlt,
+  faStickyNote,
+  faBriefcase,
+  faAngleUp,
+  faAngleDown,
+  faAngleLeft,
+  faThumbtack,
+  faPaperclip,
+  faBan,
+  faStar as faStarOpen
+} from '@fortawesome/pro-regular-svg-icons';
 
 library.add(
   fab,
@@ -96,7 +119,6 @@ library.add(
   faEyeSlash,
   faSyncAlt,
   faStarOpen,
-  faAngleDown,
   faSort,
   faSortUp,
   faSortDown,
@@ -119,6 +141,32 @@ library.add(
   faShareAlt,
   faExpandAlt,
   faSpinnerThird,
+  faArrowUp,
   faArrowAltRight,
-  faExternalLink
+  faExternalLink,
+  faUser,
+  faUsers,
+  faUserTag,
+  faUserCog,
+  faUserLock,
+  faMailBulk,
+  faUserFriends,
+  faPuzzlePiece,
+  faCog,
+  faTrashAlt,
+  faPencilAlt,
+  faBuilding,
+  faHandshake,
+  faChevronUp,
+  faChevronDown,
+  faCalendarAlt,
+  faCaretDown,
+  faStickyNote,
+  faBriefcase,
+  faAngleUp,
+  faAngleDown,
+  faAngleLeft,
+  faThumbtack,
+  faPaperclip,
+  faBan
 );

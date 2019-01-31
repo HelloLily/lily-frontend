@@ -31,20 +31,22 @@ const StreamNote = props => {
         <div className="stream-item-title">
           <div>
             {item.author.fullName} created a{item.isPinned && <span> pinned</span>}
-            <span className="m-l-5">
-              <i className={`lilicon hl-note-icon ${item.isPinned ? 'red' : 'yellow'}`} /> note
-            </span>
+            <FontAwesomeIcon
+              icon={['far', 'sticky-note']}
+              className={`m-l-5 ${item.isPinned ? 'red' : 'yellow'}`}
+            />{' '}
+            note
           </div>
 
           <div>
             <button className="hl-primary-btn borderless" onClick={togglePinned}>
               {item.isPinned ? (
                 <React.Fragment>
-                  <FontAwesomeIcon icon="times" /> Unpin
+                  <FontAwesomeIcon icon={['far', 'times']} /> Unpin
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <i className="lilicon hl-pin-icon" /> Pin
+                  <FontAwesomeIcon icon={['far', 'thumbtack']} /> Unpin
                 </React.Fragment>
               )}
             </button>

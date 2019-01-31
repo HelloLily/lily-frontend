@@ -8,9 +8,9 @@ const ColumnDisplay = ({ className, columns, toggleColumn }) => (
     clickable={
       <div className={className || ''}>
         <button className="hl-primary-btn">
-          <FontAwesomeIcon icon="columns" />
+          <FontAwesomeIcon icon={['far', 'columns']} />
           <span className="m-l-5 m-r-5">Columns</span>
-          <i className="lilicon hl-toggle-down-icon small" />
+          <FontAwesomeIcon icon={['far', 'angle-down']} className="small" />
         </button>
       </div>
     }

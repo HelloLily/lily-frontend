@@ -41,12 +41,18 @@ class ListColumns extends Component {
 
                     {sortColumn === column.sort ? (
                       <React.Fragment>
-                        {sortStatus === NO_SORT_STATUS && <FontAwesomeIcon icon="sort" />}
-                        {sortStatus === ASCENDING_STATUS && <FontAwesomeIcon icon="sort-up" />}
-                        {sortStatus === DESCENDING_STATUS && <FontAwesomeIcon icon="sort-down" />}
+                        {sortStatus === NO_SORT_STATUS && (
+                          <FontAwesomeIcon icon={['far', 'sort']} />
+                        )}
+                        {sortStatus === ASCENDING_STATUS && (
+                          <FontAwesomeIcon icon={['far', 'sort-up']} />
+                        )}
+                        {sortStatus === DESCENDING_STATUS && (
+                          <FontAwesomeIcon icon={['far', 'sort-down']} />
+                        )}
                       </React.Fragment>
                     ) : (
-                      <FontAwesomeIcon icon="sort" />
+                      <FontAwesomeIcon icon={['far', 'sort']} />
                     )}
                   </button>
                 ) : (

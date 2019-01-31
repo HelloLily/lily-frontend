@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withNamespaces } from 'react-i18next';
 import Textarea from 'react-textarea-autosize';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ENTER_KEY } from 'lib/constants';
 import { errorToast } from 'utils/toasts';
@@ -60,7 +61,7 @@ class StreamNoteAdd extends Component {
     return (
       <React.Fragment>
         <div className="activity-stream-image">
-          <i className="lilicon hl-note-icon" />
+          <FontAwesomeIcon icon={['far', 'sticky-note']} />
         </div>
 
         <div>

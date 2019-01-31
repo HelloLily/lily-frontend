@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import updateModel from 'utils/updateModel';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
@@ -113,7 +114,7 @@ class ContactDetail extends Component {
             <div className="detail-page-header">
               <div>
                 <Link to={`/contacts/${id}/edit`} className="hl-interface-btn">
-                  <i className="lilicon hl-edit-icon" />
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                 </Link>
 
                 {contact.functions.length > 0 && (
@@ -121,7 +122,7 @@ class ContactDetail extends Component {
                     ref={this.dropdownRef}
                     clickable={
                       <button className="hl-interface-btn">
-                        <i className="lilicon hl-company-icon" />
+                        <FontAwesomeIcon icon={['far', 'building']} />
                       </button>
                     }
                     menu={
@@ -160,7 +161,7 @@ class ContactDetail extends Component {
                 )}
 
                 <button className="hl-interface-btn">
-                  <i className="lilicon hl-trashcan-icon" />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
                 </button>
               </div>
             </div>
