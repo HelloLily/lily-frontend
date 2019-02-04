@@ -437,7 +437,7 @@ class UserList extends Component {
                       </div>
                     </td>
                   )}
-                  {columns[6].selected && (
+                  {currentUser.isAdmin && columns[6].selected && (
                     <React.Fragment>
                       {currentUser.isAdmin ? (
                         <td>{user.hasTwoFactor && <FontAwesomeIcon icon={['far', 'lock']} />}</td>

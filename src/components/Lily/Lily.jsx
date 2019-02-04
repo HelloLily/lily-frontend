@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { ToastContainer, cssTransition } from 'react-toastify';
 
-import ErrorBoundry from 'components/ErrorBoundry';
+import ErrorBoundary from 'components/ErrorBoundary';
 import withContext from 'src/withContext';
 import Notifications from 'lib/Notifications';
 import Nav from 'components/Nav';
@@ -120,9 +120,9 @@ class Lily extends Component {
     if (loading) {
       return (
         <div className="column">
-          <ErrorBoundry>
+          <ErrorBoundary>
             <Nav />
-          </ErrorBoundry>
+          </ErrorBoundary>
         </div>
       );
     }
@@ -131,21 +131,21 @@ class Lily extends Component {
       <div className="lily">
         <Switch>
           <Route path="/login" exact>
-            <ErrorBoundry>
+            <ErrorBoundary>
               <Login />
-            </ErrorBoundry>
+            </ErrorBoundary>
           </Route>
 
           <Route path="*">
             <Fragment>
               <div className="column">
-                <ErrorBoundry>
+                <ErrorBoundary>
                   <Nav />
-                </ErrorBoundry>
+                </ErrorBoundary>
               </div>
               <div className="main">
                 <main className="content" id="content">
-                  <ErrorBoundry>
+                  <ErrorBoundary>
                     <React.Suspense fallback={<LoadingIndicator />}>
                       <Switch>
                         <Route path="/email" component={Inbox} />
@@ -173,12 +173,13 @@ class Lily extends Component {
                         <Route path="/cases/:id" component={CaseDetail} />
                         <Route path="/cases" component={CaseList} />
 
+                        <Route path="/404" component={NotFound} />
                         <Route path="/" component={Dashboard} />
                         <Redirect from="/" to="/" exact />
                         <Route path="*" component={NotFound} />
                       </Switch>
                     </React.Suspense>
-                  </ErrorBoundry>
+                  </ErrorBoundary>
                 </main>
 
                 <Sidebar />

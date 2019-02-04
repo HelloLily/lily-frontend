@@ -147,6 +147,10 @@ a {
   border: 0;
   background: none;
 
+  svg {
+    font-size: 1.5em;
+  }
+
   &:hover {
     text-decoration: none;
     color: $app-color-aqua;
@@ -237,6 +241,7 @@ svg {
 .close-btn {
   color: $text-muted;
   border: 0;
+  font-size: 1.5em;
 
   &:hover {
     color: $app-color-red;

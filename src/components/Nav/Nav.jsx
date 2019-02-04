@@ -143,13 +143,14 @@ class Nav extends Component {
             {this.renderLinks()}
           </div>
 
+          {/* Rendered when the screen is small (< 1550px) */}
           <Dropdown
+            closeOnClick
+            className="nav-add-buttons-compact"
             clickable={
-              <div className="nav-add-buttons-compact">
-                <button className="hl-primary-btn">
-                  <FontAwesomeIcon icon={['far', 'plus']} />
-                </button>
-              </div>
+              <button className="hl-primary-btn">
+                <FontAwesomeIcon icon={['far', 'plus']} />
+              </button>
             }
             menu={
               <div className="dropdown-menu">

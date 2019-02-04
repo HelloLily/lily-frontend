@@ -22,7 +22,7 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      expanded: window.innerWidth < 1200
+      expanded: window.innerWidth < 1550
     };
   }
 
