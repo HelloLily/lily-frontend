@@ -3,6 +3,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const dotenv = require('dotenv');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Set up environment variables.
 const result = dotenv.config();
@@ -136,6 +137,7 @@ module.exports = {
       chunkFilename: '[chunkhash].css'
     }),
     new webpack.DefinePlugin(envKeys),
+    new CopyWebpackPlugin(['./_redirects', './favicon.ico']),
     // TODO: Can be removed once Froala releases jQuery-less version.
     new webpack.ProvidePlugin({
       $: 'jquery',

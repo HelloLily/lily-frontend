@@ -33,7 +33,13 @@ class UserList extends Component {
       { key: 'email', text: 'Email address', selected: true, sort: 'email' },
       { key: 'phoneNumber', text: 'Phone number', selected: true, sort: 'phoneNumber' },
       { key: 'internalNumber', text: 'Internal number', selected: true, sort: 'internalNumber' },
-      { key: 'isActive', text: 'Status', selected: true, sort: 'isActive' }
+      {
+        key: 'isActive',
+        text: 'Status',
+        selected: true,
+        sort: 'isActive',
+        className: 'narrow-header'
+      }
     ];
 
     if (props.currentUser.isAdmin) {

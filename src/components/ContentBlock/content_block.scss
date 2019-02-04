@@ -19,7 +19,7 @@
 }
 
 .content-block-scroll-fade {
-  position: absolute;
+  position: relative;
   height: 14px;
   background-color: lighten($sky-grey, 3);
   opacity: 0.85;
@@ -29,7 +29,7 @@
   z-index: 2;
   text-align: center;
   width: 100%;
-  bottom: 0;
+  bottom: -6px;
 
   &.hl-interface-btn {
     font-size: 1.25em;

@@ -38,9 +38,14 @@ class Socket {
   }
 
   unbind(type, callback) {
-    const index = this.listeners[type].indexOf(callback);
-    if (index > -1) {
-      this.listeners[type].splice(index, 1);
+    const listeners = this.listeners[type];
+
+    if (listeners) {
+      const index = listeners.indexOf(callback);
+
+      if (index > -1) {
+        this.listeners[type].splice(index, 1);
+      }
     }
   }
 

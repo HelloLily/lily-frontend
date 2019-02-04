@@ -34,7 +34,7 @@ class ListColumns extends Component {
         {columns.map(column => (
           <React.Fragment key={column.key}>
             {column.selected ? (
-              <th>
+              <th className={column.className || ''}>
                 {column.sort ? (
                   <button className="display-flex" onClick={() => this.setSorting(column.sort)}>
                     <div className="flex-grow">{column.text}</div>

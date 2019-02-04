@@ -39,9 +39,9 @@ class MyCases extends Component {
 
     if (this.mounted) {
       this.setState({ ...settingsResponse.results }, this.loadItems);
-    }
 
-    Socket.bind('case-assigned', this.loadItems);
+      Socket.bind('case-assigned', this.loadItems);
+    }
   }
 
   componentWillUnmount() {
