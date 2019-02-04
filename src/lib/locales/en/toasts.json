@@ -47,7 +47,8 @@
     "teamError": "Unable to update your colleagues' teams. Please try again.",
     "teamExists": "A team with that name already exists. Please choose a unique team name and try again.",
     "invitationSent": "Your colleagues are invited successfully.",
-    "invitationError": "Please check the email address of the colleague you are trying to invite and try again."
+    "invitationError": "Please check the email address of the colleague you are trying to invite and try again.",
+    "resentInvite": "A new invite has been sent to {{email}}."
   },
   "preferences": {
     "accountImportSuccess": "Your accounts are now being imported. You can keep using Lily in the meantime.",

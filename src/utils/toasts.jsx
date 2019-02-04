@@ -11,7 +11,7 @@ const SuccessToast = ({ text }) => (
 
 const ErrorToast = ({ text }) => (
   <div>
-    <FontAwesomeIcon icon={['far', 'times']} size="lg" />
+    <FontAwesomeIcon icon={['far', 'exclamation-circle']} size="lg" />
     <span className="m-l-10">{text}</span>
   </div>
 );

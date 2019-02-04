@@ -82,6 +82,7 @@ import {
   faThumbtack,
   faPaperclip,
   faBan,
+  faExclamationCircle,
   faStar as faStarOpen
 } from '@fortawesome/pro-regular-svg-icons';
 
@@ -168,5 +169,6 @@ library.add(
   faAngleLeft,
   faThumbtack,
   faPaperclip,
-  faBan
+  faBan,
+  faExclamationCircle
 );

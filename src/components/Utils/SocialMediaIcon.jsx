@@ -6,7 +6,7 @@ const SocialMediaIcon = ({ item }) => {
     twitter: ['fab', 'twitter'],
     linkedin: ['fab', 'linkedin'],
     facebook: ['fab', 'facebook'],
-    other: 'share-alt'
+    other: ['far', 'share-alt']
   };
 
   return <FontAwesomeIcon icon={iconMap[item.name]} fixedWidth />;

@@ -1,0 +1,72 @@
+.editable-input {
+  line-height: $default-line-height;
+  background: #fff;
+  flex: 1;
+
+  input {
+    padding: 6px 12px;
+  }
+
+  &.editable-has-buttons {
+    &:not(textarea) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 0;
+    }
+
+    &:not(input) {
+      border-bottom-right-radius: 0;
+
+      + .editable-buttons {
+        button {
+          border-top: 0;
+        }
+      }
+    }
+
+    &:focus {
+      + .editable-buttons {
+        button {
+          border-color: $app-color-darkblue;
+
+          &:not(:first-of-type) {
+            border-left-color: $inner-border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+input {
+  &.editable-input {
+    padding: 0 12px;
+  }
+}
+
+.editable-related-row {
+  display: flex;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.form-related-actions {
+  width: 75px;
+}
+
+.is-deleted {
+  // Buttons should be kept available (e.g. undo).
+  > :not(button):not(.form-related-actions) {
+    pointer-events: none;
+    opacity: 0.35;
+  }
+}
+
+.editable-addresses {
+  display: flex;
+  flex-grow: 1;
+
+  .address-row {
+    flex-grow: 1;
+  }
+}

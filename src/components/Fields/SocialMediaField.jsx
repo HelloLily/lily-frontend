@@ -68,7 +68,7 @@ class SocialMediaField extends Component {
                 </div>
                 <input
                   type="text"
-                  className="editable-input m-r-10"
+                  className="editable-input"
                   placeholder="Username"
                   value={item.username}
                   onBlur={() => this.handleBlur(index)}

@@ -9,6 +9,7 @@ import { ASCENDING_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import Editable from 'components/Editable';
 import ColumnDisplay from 'components/List/ColumnDisplay';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import LilyPagination from 'components/LilyPagination';
 import LilyTooltip from 'components/LilyTooltip';
 import BlockUI from 'components/Utils/BlockUI';
@@ -141,6 +142,7 @@ class UserList extends Component {
       if (this.mounted) {
         this.setState({ users: [] });
       }
+
       return;
     }
 
@@ -215,6 +217,37 @@ class UserList extends Component {
       this.setState({ loading: false }, this.loadItems);
     } catch (error) {
       errorToast(t('users.internalNumberExists'));
+    }
+  };
+
+  resendInvite = async invite => {
+    const { t } = this.props;
+
+    try {
+      await UserInvite.post({ invites: [invite] });
+
+      successToast(t('users.resentInvite', { email: invite.email }));
+    } catch (error) {
+      errorToast(t('users.invitationError'));
+    }
+  };
+
+  removeInvite = async ({ id }) => {
+    const { invites } = this.state;
+    const { t } = this.props;
+
+    try {
+      await UserInvite.del(id);
+
+      const text = t('modelDeleted', { model: 'invite' });
+      successToast(text);
+
+      const index = invites.findIndex(item => item.id === id);
+      invites.splice(index, 1);
+
+      this.setState({ invites });
+    } catch (error) {
+      errorToast(t('error'));
     }
   };
 
@@ -352,13 +385,15 @@ class UserList extends Component {
                       </td>
                       <td />
                       <td>
-                        <button className="hl-primary-btn borderless" type="button">
+                        <button
+                          className="hl-primary-btn borderless"
+                          type="button"
+                          onClick={() => this.resendInvite(invite)}
+                        >
                           <FontAwesomeIcon icon={['far', 'undo']} />
                         </button>
 
-                        <button className="hl-primary-btn borderless" type="button">
-                          <FontAwesomeIcon icon={['far', 'trash-alt']} />
-                        </button>
+                        <DeleteConfirmation item={invite} deleteCallback={this.removeInvite} />
                       </td>
                     </tr>
                   ))}

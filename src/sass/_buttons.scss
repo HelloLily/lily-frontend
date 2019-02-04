@@ -146,7 +146,6 @@ a {
   color: $text-muted;
   border: 0;
   background: none;
-  font-size: 1.5em;
 
   &:hover {
     text-decoration: none;
@@ -154,7 +153,15 @@ a {
   }
 
   &.larger {
-    font-size: 2em;
+    svg {
+      font-size: 2em;
+    }
+  }
+}
+
+svg {
+  &.hl-interface-btn {
+    font-size: 1.5em;
   }
 }
 

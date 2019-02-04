@@ -24,7 +24,8 @@ class InnerInviteForm extends Component {
   addRow = () => {
     const { invites } = this.props.values;
 
-    invites.push(INVITE_EMPTY_ROW);
+    const newRow = Object.assign({}, INVITE_EMPTY_ROW);
+    invites.push(newRow);
 
     this.props.setFieldValue({ invites });
   };

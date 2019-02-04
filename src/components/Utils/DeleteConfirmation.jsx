@@ -48,7 +48,7 @@ class DeleteConfirmation extends Component {
     const { item, showText, t } = this.props;
 
     // TODO: Think of a cleaner way.
-    const display = item.name || item.fullName || item.subject || item.label;
+    const display = item.name || item.fullName || item.subject || item.label || item.email;
 
     return (
       <React.Fragment>

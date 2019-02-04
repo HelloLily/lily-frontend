@@ -12,6 +12,7 @@
 @import 'content_block';
 @import 'list';
 @import 'preferences';
+@import 'editable';
 
 @mixin input-field($height) {
   background: #fff;

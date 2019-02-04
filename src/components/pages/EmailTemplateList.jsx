@@ -128,13 +128,14 @@ class EmailTemplateList extends Component {
 
   saveNewFolder = () => {
     const { folders, newFolder } = this.state;
+    const { t } = this.props;
 
     this.setState({ loading: true });
 
     EmailTemplateFolder.post(newFolder).then(response => {
       folders.unshift(response);
 
-      successToast('preferences.folderSaved');
+      successToast(t('preferences.folderSaved'));
 
       this.setState({ folders, newFolder: null, loading: false });
     });
@@ -188,7 +189,7 @@ class EmailTemplateList extends Component {
       await del(`/messaging/email/templates/${item.id}/`);
       await this.loadItems();
 
-      const text = t('preferences.modelDeleted', { model: 'email template' });
+      const text = t('modelDeleted', { model: 'email template' });
       successToast(text);
     } catch (error) {
       errorToast(t('error'));

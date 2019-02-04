@@ -7,7 +7,7 @@ const FormFooter = ({ isSubmitting, handleSubmit, confirmText, indent = true }) 
     <div className="form-section-content">
       <button
         disabled={isSubmitting}
-        className={`hl-primary-btn-blue w-30${isSubmitting ? ' is-disabled' : ''}`}
+        className={`hl-primary-btn-blue${isSubmitting ? ' is-disabled' : ''}`}
         onClick={handleSubmit}
         type="button"
       >
