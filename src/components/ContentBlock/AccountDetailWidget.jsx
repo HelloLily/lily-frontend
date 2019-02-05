@@ -84,7 +84,7 @@ class AccountDetailWidget extends Component {
       <ContentBlock title={title} extra={extra} component="accountDetailWidget">
         <div className="detail-row">
           <div>
-            <i className="lilicon hl-status-icon" /> Status
+            <FontAwesomeIcon icon={['far', 'user-tie']} /> Status
           </div>
           <div>
             <Editable
@@ -141,7 +141,7 @@ class AccountDetailWidget extends Component {
 
         <div className="detail-row">
           <div>
-            <FontAwesomeIcon icon={['far', 'user']} /> Assigned to
+            <FontAwesomeIcon icon={['far', 'user-circle']} /> Assigned to
           </div>
           <div>
             <Editable

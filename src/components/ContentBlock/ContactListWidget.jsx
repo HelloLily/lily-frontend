@@ -87,59 +87,62 @@ class ContactListWidget extends Component {
                 </tr>
               </thead>
 
-              {items.map(item => (
-                <tbody key={item.id}>
-                  <tr>
-                    <td>
-                      <Link to={`/contacts/${item.id}`}>{item.fullName}</Link>
-                      {!item.functions.find(func => func.account === account.id).isActive && (
-                        <span> (inactive)</span>
-                      )}
-                    </td>
-                    <td>
-                      {item.primaryEmail && object.primaryEmail && (
-                        <div>
-                          <FontAwesomeIcon icon={['far', 'building']} className="m-r-5" />
+              {items.map(item => {
+                const accountFunction = item.functions.find(func => func.account === account.id);
 
-                          <Link to={`/email/compose/${object.primaryEmail.emailAddress}`}>
-                            {object.primaryEmail.emailAddress}
-                          </Link>
-                        </div>
-                      )}
+                return (
+                  <tbody key={item.id}>
+                    <tr>
+                      <td>
+                        <Link to={`/contacts/${item.id}`}>{item.fullName}</Link>
+                        {!accountFunction ||
+                          (!accountFunction.isActive && <span> (inactive)</span>)}
+                      </td>
+                      <td>
+                        {item.primaryEmail && object.primaryEmail && (
+                          <div>
+                            <FontAwesomeIcon icon={['far', 'building']} className="m-r-5" />
 
-                      {item.primaryEmail && (
-                        <div>
-                          <Link to={`/email/compose/${item.primaryEmail.emailAddress}`}>
-                            {item.primaryEmail.emailAddress}
-                          </Link>
-                        </div>
-                      )}
+                            <Link to={`/email/compose/${object.primaryEmail.emailAddress}`}>
+                              {object.primaryEmail.emailAddress}
+                            </Link>
+                          </div>
+                        )}
 
-                      {!item.phoneNumber && object.phoneNumber && (
-                        <div>
-                          <FontAwesomeIcon
-                            icon={['far', 'building']}
-                            data-tip={t('contactListInfoTooltip')}
-                            data-for={`contact-${item.id}`}
-                            className="m-r-5"
-                          />
-                          <a href={`tel:${object.phoneNumber.number}`}>
-                            {object.phoneNumber.number}
-                          </a>
+                        {item.primaryEmail && (
+                          <div>
+                            <Link to={`/email/compose/${item.primaryEmail.emailAddress}`}>
+                              {item.primaryEmail.emailAddress}
+                            </Link>
+                          </div>
+                        )}
 
-                          <LilyTooltip id={`contact-${item.id}`} />
-                        </div>
-                      )}
+                        {!item.phoneNumber && object.phoneNumber && (
+                          <div>
+                            <FontAwesomeIcon
+                              icon={['far', 'building']}
+                              data-tip={t('contactListInfoTooltip')}
+                              data-for={`contact-${item.id}`}
+                              className="m-r-5"
+                            />
+                            <a href={`tel:${object.phoneNumber.number}`}>
+                              {object.phoneNumber.number}
+                            </a>
 
-                      {item.phoneNumber && (
-                        <div>
-                          <a href={`tel:${item.phoneNumber.number}`}>{item.phoneNumber.number}</a>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              ))}
+                            <LilyTooltip id={`contact-${item.id}`} />
+                          </div>
+                        )}
+
+                        {item.phoneNumber && (
+                          <div>
+                            <a href={`tel:${item.phoneNumber.number}`}>{item.phoneNumber.number}</a>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })}
 
               {items.length === 0 && (
                 <tbody>

@@ -390,7 +390,7 @@ class UserList extends Component {
                           type="button"
                           onClick={() => this.resendInvite(invite)}
                         >
-                          <FontAwesomeIcon icon={['far', 'undo']} />
+                          <FontAwesomeIcon icon={['far', 'redo']} />
                         </button>
 
                         <DeleteConfirmation item={invite} deleteCallback={this.removeInvite} />

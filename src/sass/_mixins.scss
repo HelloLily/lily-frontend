@@ -12,18 +12,23 @@
   }
 }
 
-@mixin menu-arrow($color: #fff) {
+@mixin menu-arrow($color: #fff, $reverse: false) {
   &:before {
     content: '';
     position: absolute;
     z-index: 4;
-    left: 10px;
     top: -8px;
     width: 0;
     height: 0;
     border-width: 0 8px 8px;
     border-color: transparent transparent $color;
     border-style: solid;
+
+    @if $reverse {
+      right: 10px;
+    } @else {
+      left: 10px;
+    }
   }
 
   &:after {
@@ -31,9 +36,14 @@
     z-index: 3;
     position: absolute;
     top: -9px;
-    left: 10px;
     border-width: 0 8px 8px;
     border-color: transparent transparent $base-border-color;
     border-style: solid;
+
+    @if $reverse {
+      right: 10px;
+    } @else {
+      left: 10px;
+    }
   }
 }

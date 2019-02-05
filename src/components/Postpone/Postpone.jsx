@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { isBefore, format } from 'date-fns';
 import { withNamespaces } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { FORM_DATE_FORMAT, API_DATE_FORMAT, ESCAPE_KEY } from 'lib/constants';
 import updateModel from 'utils/updateModel';
@@ -139,7 +140,7 @@ class Postpone extends Component {
             data-for={tooltipId}
             onClick={this.showMenu}
           >
-            <i className="lilicon hl-postpone-icon m-r-5" />
+            <FontAwesomeIcon icon={['far', 'calendar-edit']} className="m-r-5" />
 
             <LilyDate date={date} />
           </button>

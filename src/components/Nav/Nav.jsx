@@ -93,7 +93,7 @@ class Nav extends Component {
 
               <li className="m-r-55">
                 <NavLink to="/" exact>
-                  <i className="lilicon hl-dashboard-icon m-r-10" />
+                  <FontAwesomeIcon icon={['far', 'tasks']} className="m-r-10" />
                   <span className="nav-text">Dashboard</span>
                 </NavLink>
               </li>

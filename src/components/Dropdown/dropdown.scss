@@ -97,15 +97,33 @@
     }
   }
 
+  &.reverse {
+    right: 20px;
+  }
+
   &.has-header {
     @include menu-arrow($app-bg-color);
   }
 
   &:not(.has-header) {
+    &.reverse {
+      .dropdown-menu-item {
+        &:first-of-type {
+          @include menu-arrow($reverse: true);
+        }
+      }
+    }
+
+    &:not(.reverse) {
+      .dropdown-menu-item {
+        &:first-of-type {
+          @include menu-arrow();
+        }
+      }
+    }
+
     .dropdown-menu-item {
       &:first-of-type {
-        @include menu-arrow();
-
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
 

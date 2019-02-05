@@ -25,6 +25,7 @@ import {
   faArchive,
   faFolder,
   faUndo,
+  faRedo,
   faGlobe,
   faTags,
   faMapMarkerAlt,
@@ -83,6 +84,11 @@ import {
   faPaperclip,
   faBan,
   faExclamationCircle,
+  faUserTie,
+  faList,
+  faTasks,
+  faUserCircle,
+  faCalendarEdit,
   faStar as faStarOpen
 } from '@fortawesome/pro-regular-svg-icons';
 
@@ -111,6 +117,7 @@ library.add(
   faArchive,
   faFolder,
   faUndo,
+  faRedo,
   faGlobe,
   faTags,
   faMapMarkerAlt,
@@ -170,5 +177,10 @@ library.add(
   faThumbtack,
   faPaperclip,
   faBan,
-  faExclamationCircle
+  faExclamationCircle,
+  faUserTie,
+  faList,
+  faTasks,
+  faUserCircle,
+  faCalendarEdit
 );

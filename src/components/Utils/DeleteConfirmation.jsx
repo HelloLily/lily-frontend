@@ -52,7 +52,7 @@ class DeleteConfirmation extends Component {
 
     return (
       <React.Fragment>
-        <button className="hl-primary-btn borderless m-l-5" onClick={this.openModal}>
+        <button className="hl-primary-btn borderless" onClick={this.openModal}>
           <FontAwesomeIcon icon={['far', 'trash-alt']} />
           {showText && <span> Delete</span>}
         </button>

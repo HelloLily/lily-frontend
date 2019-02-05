@@ -182,7 +182,7 @@ class UserFilter extends Component {
         }
         menu={
           <React.Fragment>
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu reverse">
               {!loading ? (
                 <React.Fragment>
                   <li className="dropdown-menu-item">

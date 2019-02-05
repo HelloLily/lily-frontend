@@ -56,7 +56,7 @@ class InnerUserAccountForm extends Component {
                   </div>
                 </FormSection>
 
-                <FormSection header="Current password">
+                <FormSection header="Change your password">
                   <div className={`form-field${errors.password ? ' has-error' : ''}`}>
                     <label htmlFor="password">New password</label>
                     <input
