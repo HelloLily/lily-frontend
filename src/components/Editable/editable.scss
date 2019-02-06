@@ -1,4 +1,3 @@
-@import '~style/fonts/lilicon';
 @import '~style/variables/colors';
 @import '~style/variables/measurements';
 
@@ -32,46 +31,50 @@
 }
 
 .editable {
+  border: 1px transparent solid;
   border-top-left-radius: $base-border-radius;
   border-bottom-left-radius: $base-border-radius;
-  display: inline-block;
+  display: inline-flex;
   line-height: $default-line-height;
   position: relative;
-  padding: 0 6px;
-  border: 1px transparent solid;
   white-space: pre-wrap;
   margin: 0 -5px;
 
-  &:after {
-    background: $lily-white-tone-hover;
-    border: 1px $base-border-color solid;
-    border-top-right-radius: $base-border-radius;
-    border-bottom-right-radius: $base-border-radius;
-    color: $lily-dark-blue;
-    text-align: center;
-    float: left;
-    position: absolute;
-    top: -1px;
-    overflow: hidden;
-    font-family: 'lilicon';
-    content: $hl-edit-icon;
-    line-height: $default-line-height;
+  .editable-content {
+    cursor: text;
+    padding: 0 6px;
+  }
+
+  .editable-open {
     visibility: hidden;
     width: 0;
+    position: absolute;
+    border: 1px $base-border-color solid;
+    border-left-color: transparent;
+    background: $lily-white-tone-hover;
+    border-radius: 0;
+    border-top-right-radius: $base-border-radius;
+    border-bottom-right-radius: $base-border-radius;
+    line-height: $default-line-height;
     right: 0;
-    cursor: pointer;
+    top: -1px;
+    overflow: hidden;
+    padding: 0;
+
+    svg {
+      font-size: 1.25em;
+    }
   }
 
   &:hover {
     border: 1px $base-border-color solid;
-    cursor: text;
 
-    &:after {
-      transition: all ease-in-out 0.3s;
+    .editable-open {
       visibility: visible;
+      transition: width ease-out 0.2s, right ease-out 0.2s, border-left-color ease-out 0.2s;
       width: $default-line-height;
-      right: -$default-line-height - 2;
-      z-index: 99;
+      right: -$default-line-height;
+      border-left-color: $base-border-color;
     }
   }
 }

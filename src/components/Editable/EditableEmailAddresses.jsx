@@ -52,7 +52,14 @@ class EditableEmailAddresses extends Component {
   };
 
   handleSubmit = () => {
-    const data = this.props.value.filter(item => item.emailAddress);
+    const data = this.props.value.map(item => {
+      if (!item.emailAddress) {
+        item.isDeleted = true;
+      }
+
+      return item;
+    });
+
     const args = {
       id: this.props.object.id,
       [this.props.field]: data

@@ -63,7 +63,7 @@ class StreamCase extends Component {
           <div className="stream-item-content is-case">
             <div className="stream-item-extra-info">
               <div>
-                <strong className="m-l-5">Status:</strong>
+                <strong className="m-l-5 m-r-5">Status:</strong>
                 <Editable
                   inlineBlock
                   type="select"
@@ -100,10 +100,7 @@ class StreamCase extends Component {
                   <div className="stream-item-title">
                     <div>
                       {item.createdBy ? item.createdBy.fullName : t('unknownUser')} created the
-                      <FontAwesomeIcon
-                        icon={['far', 'briefcase']}
-                        className="purple m-l-5 m-r-5 font-size-16"
-                      />
+                      <FontAwesomeIcon icon={['far', 'briefcase']} className="purple m-l-5 m-r-5" />
                       case
                       <Link to={`/cases/${item.id}`}> {item.subject}</Link>
                     </div>

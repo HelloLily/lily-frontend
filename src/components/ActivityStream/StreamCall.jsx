@@ -114,7 +114,7 @@ class StreamCall extends Component {
             <div className="stream-item-content is-call">
               <div className="stream-item-extra-info">
                 <div>
-                  <strong className="m-l-5">Status:</strong>
+                  <strong className="m-l-5 m-r-5">Status:</strong>
                   <span>{item.statusDisplay}</span>
                 </div>
 

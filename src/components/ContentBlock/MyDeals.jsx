@@ -138,16 +138,15 @@ class MyDeals extends Component {
                 <ClientDisplay contact={item.contact} account={item.account} />
               </td>
               <td>
-                {item.amountOnce !== 0 && (
-                  <span>
-                    <LilyCurrency value={item.amountOnce} currency={item.currency} /> /month
-                  </span>
-                )}
-                {item.amountOnce !== 0 && item.amountRecurring !== 0 && <span> | </span>}
                 {item.amountRecurring !== 0 && (
                   <span>
-                    <LilyCurrency value={item.amountRecurring} currency={item.currency} />{' '}
-                    /recurring
+                    <LilyCurrency value={item.amountRecurring} currency={item.currency} /> /month
+                  </span>
+                )}
+                {item.amountRecurring !== 0 && item.amountOnce !== 0 && <span> | </span>}
+                {item.amountOnce !== 0 && (
+                  <span>
+                    <LilyCurrency value={item.amountOnce} currency={item.currency} /> /one-time
                   </span>
                 )}
               </td>

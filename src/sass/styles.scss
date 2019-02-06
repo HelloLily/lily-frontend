@@ -3,7 +3,6 @@
 @import 'vendor';
 @import 'buttons';
 @import 'form';
-@import 'fonts/lilicon';
 @import 'utils';
 @import 'tables';
 @import 'icons';
@@ -320,18 +319,24 @@ textarea {
   height: 300px;
 }
 
-.hl-prio-icon-low {
+svg {
+  &.larger {
+    font-size: 1.5em;
+  }
+}
+
+.low-priority-color {
   color: $low-prio-color;
 }
 
-.hl-prio-icon-medium {
+.medium-priority-color {
   color: $medium-prio-color;
 }
 
-.hl-prio-icon-high {
+.high-priority-color {
   color: $high-prio-color;
 }
 
-.hl-prio-icon-critical {
+.critical-priority-color {
   color: $critical-prio-color;
 }

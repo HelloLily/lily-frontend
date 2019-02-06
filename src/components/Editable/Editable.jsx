@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { SELECT_STYLES, ESCAPE_KEY } from 'lib/constants';
 import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
 import SocialMediaIcon from 'components/Utils/SocialMediaIcon';
+import PriorityIcon from 'components/Utils/PriorityIcon';
 import LilyTooltip from 'components/LilyTooltip';
 import camelToHuman from 'utils/camelToHuman';
 import updateModel from 'utils/updateModel';
@@ -156,7 +158,7 @@ class Editable extends Component {
     let newValue = value;
 
     if (type === 'related' || type === 'tags') {
-      args[field] = value.filter(item => item.id || (!item.id && !item.isDeleted));
+      args[field] = args[field].filter(item => item.id || (!item.id && !item.isDeleted));
 
       // Filter out any deleted values so we clean our new values.
       newValue = args[field].filter(item => !item.isDeleted);
@@ -202,12 +204,21 @@ class Editable extends Component {
     return items.map(item => ({ value: item, label: item[label] }));
   };
 
-  createIconLabel = value => {
-    const { iconClass, iconDisplay } = this.selectConfig;
+  createIcon = value => {
+    const { field } = this.props;
 
-    // Icon selects have a specific way of rendering.
-    // That's the the className for the label's icon is always built the same way.
-    return `${iconClass}${value[iconDisplay].toString().toLowerCase()}`;
+    const { iconDisplay } = this.selectConfig;
+
+    let icon;
+
+    if (field === 'priority') {
+      icon = <PriorityIcon priority={value} />;
+    } else if (field === 'nextStep') {
+      const position = value[iconDisplay].toString().toLowerCase();
+      icon = <i className={`step-type position-${position}} m-r-5`} />;
+    }
+
+    return icon;
   };
 
   addRow = data => {
@@ -257,7 +268,7 @@ class Editable extends Component {
       EditableComponent = EditableAsyncSelect;
     } else if (type === 'select' && this.props.icon) {
       EditableComponent = EditableIconSelect;
-      props.createIconLabel = this.createIconLabel;
+      props.createIcon = this.createIcon;
     } else if (type === 'related') {
       props.addRow = this.addRow;
       EditableComponent = components[field];
@@ -331,7 +342,7 @@ class Editable extends Component {
 
           display = (
             <span data-tip={tooltip} data-for={tooltipId}>
-              <i className={`${this.createIconLabel(value)} m-r-5`} />
+              {this.createIcon(value)}
 
               {/* Add a tooltip if the value isn't shown */}
               {!this.props.hideValue ? display : <LilyTooltip id={tooltipId} />}
@@ -367,17 +378,23 @@ class Editable extends Component {
               {hasError && <div className="error-message">{error}</div>}
             </span>
           ) : (
-            <span
+            <div
               role="presentation"
               onClick={this.enableEditing}
               className={`editable${!display ? ' editable-empty' : ''}`}
             >
-              {type === 'textarea' ? (
-                <ReactMarkdown source={display || emptyText} />
-              ) : (
-                <span>{display || emptyText}</span>
-              )}
-            </span>
+              <div className="editable-content">
+                {type === 'textarea' ? (
+                  <ReactMarkdown source={display || emptyText} />
+                ) : (
+                  <span>{display || emptyText}</span>
+                )}
+              </div>
+
+              <button className="editable-open hl-primary-btn borderless">
+                <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+              </button>
+            </div>
           )}
         </span>
       </BlockUI>

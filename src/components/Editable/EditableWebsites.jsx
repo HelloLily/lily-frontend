@@ -35,7 +35,14 @@ class EditableWebsites extends Component {
   };
 
   handleSubmit = () => {
-    const data = this.props.value.filter(item => item.website);
+    const data = this.props.value.map(item => {
+      if (!item.website) {
+        item.isDeleted = true;
+      }
+
+      return item;
+    });
+
     const args = {
       id: this.props.object.id,
       [this.props.field]: data

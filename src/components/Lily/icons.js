@@ -1,6 +1,11 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCaretDown,
+  faSquare,
+  faExclamationSquare,
+  faChevronUp
+} from '@fortawesome/pro-solid-svg-icons';
 import {
   faPhone,
   faMobile,
@@ -72,7 +77,6 @@ import {
   faPencilAlt,
   faBuilding,
   faHandshake,
-  faChevronUp,
   faChevronDown,
   faCalendarAlt,
   faStickyNote,
@@ -131,6 +135,7 @@ library.add(
   faSortUp,
   faSortDown,
   faExclamationTriangle,
+  faExclamationSquare,
   faInfo,
   faBold,
   faItalic,
@@ -169,6 +174,7 @@ library.add(
   faChevronDown,
   faCalendarAlt,
   faCaretDown,
+  faSquare,
   faStickyNote,
   faBriefcase,
   faAngleUp,

@@ -50,7 +50,14 @@ class EditableSocialMedia extends Component {
   };
 
   handleSubmit = () => {
-    const data = this.props.value.filter(item => item.username);
+    const data = this.props.value.map(item => {
+      if (!item.username) {
+        item.isDeleted = true;
+      }
+
+      return item;
+    });
+
     const args = {
       id: this.props.object.id,
       socialMedia: data

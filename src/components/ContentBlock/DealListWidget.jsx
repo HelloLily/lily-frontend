@@ -125,11 +125,11 @@ class DealListWidget extends Component {
                           {item.assignedTo ? item.assignedTo.fullName : 'Nobody'}
                         </div>
                         <div>
-                          <strong>Amount once: </strong>
+                          <strong>One-time cost: </strong>
                           <LilyCurrency value={item.amountOnce} currency={item.currency} />
                         </div>
                         <div>
-                          <strong>Recurring amount: </strong>
+                          <strong>Monthly: </strong>
                           <LilyCurrency value={item.amountRecurring} currency={item.currency} />
                         </div>
                         <div>

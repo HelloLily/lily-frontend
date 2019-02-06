@@ -83,30 +83,6 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: [
-          {
-            loader: 'url-loader?limit=10000&mimetype=application/font-woff',
-            options: {
-              outputPath: 'fonts',
-              publicPath: 'fonts'
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(ttf|otf|eot|svg)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'fonts',
-              publicPath: 'fonts'
-            }
-          }
-        ]
       }
     ]
   },

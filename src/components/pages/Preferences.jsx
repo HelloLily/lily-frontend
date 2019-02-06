@@ -130,7 +130,7 @@ const Preferences = ({ currentUser }) => (
         <ul>
           <li>
             <a
-              href="https://hellolily.com/blog/whats-new-lately/"
+              href="https://help.hellolily.com/release-notes"
               target="_blank"
               rel="noopener noreferrer"
             >

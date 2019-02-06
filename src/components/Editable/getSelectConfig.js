@@ -32,12 +32,10 @@ const selectConfig = {
     model: 'cases/priorities',
     choiceField: true,
     display: 'priorityDisplay',
-    iconClass: 'lilicon hl-prio-icon-',
     iconDisplay: 'name'
   },
   nextStep: {
     model: 'deals/next-steps',
-    iconClass: 'step-type position-',
     iconDisplay: 'position'
   },
   foundThrough: {

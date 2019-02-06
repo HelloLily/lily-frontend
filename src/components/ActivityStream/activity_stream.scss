@@ -124,7 +124,6 @@
         }
       }
 
-      .lilicon,
       svg {
         font-size: 1.5em;
         margin-top: 0;
@@ -163,17 +162,6 @@
           border: 0;
           cursor: pointer;
           width: 100%;
-
-          .lilicon {
-            color: $text-muted;
-            margin-right: 9px;
-          }
-
-          &:hover {
-            .lilicon {
-              color: $app-color-darkblue;
-            }
-          }
         }
 
         > a {

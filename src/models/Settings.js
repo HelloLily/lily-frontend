@@ -6,13 +6,13 @@ class Settings {
   }
 
   get() {
-    return get(`/users/me/settings/?component=${this.component}`);
+    return get(`/users/me/browser_settings/?component=${this.component}`);
   }
 
   store(data) {
     data.component = this.component;
 
-    return patch('/users/me/settings/', data);
+    return patch('/users/me/browser_settings/', data);
   }
 }
 

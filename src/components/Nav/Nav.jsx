@@ -9,6 +9,7 @@ import ObjectLimit from 'components/Billing/ObjectLimit';
 import Dropdown from 'components/Dropdown';
 import Account from 'models/Account';
 import Call from 'models/Call';
+import logo from 'images/lily_logo.svg';
 import NavDropdown from './NavDropdown';
 
 class Nav extends Component {
@@ -87,7 +88,7 @@ class Nav extends Component {
             <ul className="main-nav-links">
               <li>
                 <NavLink to="/" exact className="m-l-20 m-r-40">
-                  <i className="lilicon hl-lily-icon" />
+                  <img src={logo} className="lily-icon" />
                 </NavLink>
               </li>
 

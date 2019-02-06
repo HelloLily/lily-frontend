@@ -172,7 +172,7 @@ class InnerDealForm extends Component {
 
   IconValue = props => (
     <components.SingleValue {...props}>
-      <i className={`lilicon step-type position-${props.data.position} m-r-5`} />
+      <i className={`step-type position-${props.data.position} m-r-5`} />
 
       {props.data.name}
     </components.SingleValue>
@@ -180,7 +180,7 @@ class InnerDealForm extends Component {
 
   IconOption = props => (
     <components.Option {...props}>
-      <i className={`lilicon step-type position-${props.data.position} m-r-5`} />
+      <i className={`step-type position-${props.data.position} m-r-5`} />
 
       {props.data.name}
 

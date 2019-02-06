@@ -24,21 +24,19 @@
           font-size: 16px;
           display: flex;
           align-items: center;
-          padding: 16px 4px;
+
+          :not(:first-child) {
+            padding: 16px 4px;
+          }
 
           &.active,
           &:hover {
             color: #fff;
           }
-        }
 
-        .lilicon {
-          font-size: 16px;
-        }
-
-        .hl-lily-icon {
-          font-size: 1.85em;
-          color: #fff;
+          .lily-icon {
+            width: 40px;
+          }
         }
       }
 

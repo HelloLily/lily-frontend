@@ -53,7 +53,7 @@ class StreamDeal extends Component {
           <div className="stream-item-content is-deal">
             <div className="stream-item-extra-info">
               <div>
-                <strong className="m-l-5">Status:</strong>
+                <strong className="m-l-5 m-r-5">Status:</strong>
                 <Editable
                   inlineBlock
                   type="select"
@@ -90,10 +90,7 @@ class StreamDeal extends Component {
                   <div className="stream-item-title">
                     <div>
                       {item.createdBy ? item.createdBy.fullName : t('unknownUser')} created the
-                      <FontAwesomeIcon
-                        icon={['far', 'handshake']}
-                        className="green m-l-5 m-r-5 font-size-16"
-                      />
+                      <FontAwesomeIcon icon={['far', 'handshake']} className="green m-l-5 m-r-5" />
                       deal
                       <Link to={`/deals/${item.id}`}> {item.name}</Link>
                     </div>
