@@ -22,7 +22,6 @@
     "loadAllMail": "Do you want to import all of your existing emails into Lily?",
     "loadAllMailYes": "Yes, import all email into Lily.",
     "loadAllMailNo": "No, only import email received from now on.",
-    "inboxTitle": "This inbox is a",
     "publicInboxInfo": "For addresses used by multiple people in the company, such as info@ or support@.",
     "publicInboxExampleText": "Example for your convenience",
     "advancedInfo": "Give specific colleagues additional permissions to your email."

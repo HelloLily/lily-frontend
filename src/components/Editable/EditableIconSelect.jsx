@@ -53,7 +53,11 @@ class EditableIconSelect extends Component {
     let label = value;
 
     if (value !== null) {
-      label = createIcon(value);
+      label = (
+        <React.Fragment>
+          {createIcon(value)} {value.name}
+        </React.Fragment>
+      );
     }
 
     const option = { value, label };

@@ -9,9 +9,6 @@
     "confirmText": "You are about to delete <0>{{name}}</0>.",
     "confirmTextTwo": "You won't be able to revert this!",
     "confirmButtonText": "Yes, delete it!",
-    "successTitle": "Deleted",
-    "successText": "The {{model}} <strong>{{name}}</strong> has been deleted.",
-    "errorTitle": "Error",
     "errorText": "There was an error processing your request.<br />Please try again."
   },
   "assignTo": {
@@ -20,9 +17,7 @@
   },
   "deactivateUser": {
     "confirmText": "Are you sure you want to deactivate <strong>{{name}}</strong>",
-    "confirmButtonText": "Yes, deactivate",
-    "successTitle": "Deactivated!",
-    "successText": "<strong>{{name}}</strong> has been deactivated."
+    "confirmButtonText": "Yes, deactivate"
   },
   "resendUserInvite": {
     "title": "Resend invite",
@@ -33,33 +28,14 @@
   "removeUserInvite": {
     "confirmText": "Are you sure you want to delete the invite for <strong>{{name}}</strong>"
   },
-  "postpone": {
-    "dealTitle": "Change next step date",
-    "caseTitle": "Change expiry date",
-    "deal": "Wrong day to solve it?<br />Set to today or postpone it.",
-    "case": "Not the right day to act upon it?<br />Set to today or postpone it.",
-    "subText": "<strong>Note: </strong> Weekends are automatically skipped",
-    "datepicker": "Or manually select a date:",
-    "confirmButtonText": "Postpone"
-  },
   "timeLog": {
     "modalTitle": "Time logging",
     "confirmButtonText": "Log time",
     "invalidTime": "Invalid value provided"
   },
-  "dashboard": {
-    "title": "Widget settings"
-  },
   "cases": {
     "noSelectionText": "Please select an account or contact the deal belongs to.",
     "noAssigneeText": "Please select a colleague or team to assign the case to."
-  },
-  "deals": {
-    "title": "Why lost?",
-    "noSelectionTitle": "No account or contact",
-    "noSelectionText": "Please select an account or contact the deal belongs to",
-    "confirmButtonText": "Let me fix that for you",
-    "whyLostReason": "Please select the reason that best describes the situation."
   },
   "email": {
     "overwriteTemplateConfirm": "Selecting a different template will reload the template. This will put your typed text at the bottom of the email. Do you want to load the template anyway?",
@@ -84,9 +60,7 @@
       "disable": {
         "confirmTitle": "Are you sure?",
         "confirmText": "You are about to disable two factor authentication. This lowers your account security. Are you sure you want to continue?",
-        "confirmButtonText": "Yes, disable",
-        "successTitle": "Disabled!",
-        "successText": "Two factor auth was successfully disabled."
+        "confirmButtonText": "Yes, disable"
       },
       "removeBackupPhoneNumber": {
         "title": "Are you sure?",
