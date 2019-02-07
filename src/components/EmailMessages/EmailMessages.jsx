@@ -430,13 +430,13 @@ class EmailMessages extends Component {
                       </td>
                       <td>
                         <button
-                          className={`hl-interface-btn larger${
+                          className={`hl-interface-btn${
                             emailMessage.isStarred ? ' star-active' : ''
                           }`}
                           onClick={() => this.toggleStarred(emailMessage)}
                         >
                           {emailMessage.isStarred ? (
-                            <FontAwesomeIcon icon={['far', 'star']} className="yellow" />
+                            <FontAwesomeIcon icon="star" className="yellow" />
                           ) : (
                             <FontAwesomeIcon icon={['far', 'star']} />
                           )}

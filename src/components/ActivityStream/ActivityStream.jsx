@@ -311,7 +311,11 @@ class ActivityStream extends Component {
                       <LilyDate date={key} format="MMMM y" />
 
                       <div>
-                        <FontAwesomeIcon icon={['far', isCollapsed ? 'angle-down' : 'angle-up']} />
+                        <FontAwesomeIcon
+                          fixedWidth
+                          icon={['far', isCollapsed ? 'angle-down' : 'angle-up']}
+                          size="lg"
+                        />
                       </div>
                     </button>
 

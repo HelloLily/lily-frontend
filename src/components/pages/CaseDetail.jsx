@@ -182,7 +182,12 @@ class CaseDetail extends Component {
         <div className="content-block-label cases" />
         <div className="content-block-name">
           <FontAwesomeIcon icon={['far', 'briefcase']} className="m-r-5" />
-          Case details
+          <Editable
+            type="text"
+            object={caseObj}
+            field="subject"
+            submitCallback={this.submitCallback}
+          />
         </div>
       </React.Fragment>
     );

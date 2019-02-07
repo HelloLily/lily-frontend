@@ -112,6 +112,7 @@ class CaseListWidget extends Component {
                       >
                         <FontAwesomeIcon
                           icon={['far', item.expanded ? 'angle-up' : 'angle-down']}
+                          size="lg"
                         />
                       </button>
                     </td>

@@ -56,7 +56,7 @@ class StreamCase extends Component {
             </div>
 
             <button className="hl-interface-btn note-toggle" onClick={this.toggleNotes}>
-              <FontAwesomeIcon icon={['far', 'sticky-note']} />
+              <FontAwesomeIcon icon={['far', 'sticky-note']} size="lg" />
             </button>
           </div>
 

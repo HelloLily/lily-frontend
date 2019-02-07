@@ -86,8 +86,7 @@ class UnreadEmail extends Component {
       <React.Fragment>
         <div className="content-block-label email" />
         <div className="content-block-name">
-          <FontAwesomeIcon icon={['far', 'envelope']} className="m-r-5-" />
-          Unread email
+          <FontAwesomeIcon icon={['far', 'envelope']} className="m-r-5" /> Unread email
           <span className="label-amount">{total || '-'}</span>
         </div>
       </React.Fragment>

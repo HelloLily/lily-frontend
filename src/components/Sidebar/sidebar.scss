@@ -12,19 +12,12 @@
   transition: all 0.25s ease-out;
   height: 100%;
 
-  .sidebar-header {
-    .close-btn {
-      padding: 10px;
-      background: none;
-      font-size: 1.5em;
-    }
-
-    .hl-interface-btn {
-      svg {
-        font-size: 1.4em;
-      }
-    }
-  }
+  // .sidebar-header {
+  //   .close-btn {
+  //     padding: 10px;
+  //     background: none;
+  //   }
+  // }
 
   .sidebar-content {
     .content-block {

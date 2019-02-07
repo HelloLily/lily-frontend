@@ -6,9 +6,9 @@ import Settings from 'models/Settings';
 
 const statusIcons = [
   '',
-  <FontAwesomeIcon icon={['far', 'angle-up']} />,
-  <FontAwesomeIcon icon={['far', 'angle-down']} />,
-  <FontAwesomeIcon icon={['far', 'angle-left']} />
+  'angle-up',
+  'angle-down',
+  'angle-left'
 ];
 
 const HIDDEN = 0;
@@ -107,13 +107,13 @@ class ContentBlock extends Component {
               <div className="content-block-title">{this.props.title}</div>
               <div className="content-block-extra">{this.props.extra}</div>
               <div className="content-block-tools">
-                <button className="hl-interface-btn" onClick={this.toggleCollapse}>
-                  {statusIcons[status]}
+                <button className="hl-interface-btn m-l-5" onClick={this.toggleCollapse}>
+                  <FontAwesomeIcon icon={['far', statusIcons[status]]} size="lg" />
                 </button>
 
                 {this.props.closeable && (
-                  <button className="close-btn m-l-5" onClick={this.removeWidget}>
-                    <FontAwesomeIcon icon={['far', 'times']} />
+                  <button className="hl-interface-btn close-btn" onClick={this.removeWidget}>
+                    <FontAwesomeIcon icon={['far', 'times']} size="lg" />
                   </button>
                 )}
               </div>
@@ -124,12 +124,15 @@ class ContentBlock extends Component {
                   {this.props.children}
                 </div>
 
-                {!fullHeight && showFade && (
+                {(!loading && !fullHeight && showFade) && (
                   <button
                     className="content-block-scroll-fade hl-interface-btn"
                     onClick={this.heightToggle}
                   >
-                    <FontAwesomeIcon icon={['far', expandHeight ? 'angle-up' : 'angle-down']} />
+                    <FontAwesomeIcon
+                      icon={['far', expandHeight ? 'angle-up' : 'angle-down']}
+                      size="lg"
+                    />
                   </button>
                 )}
               </React.Fragment>

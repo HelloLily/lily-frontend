@@ -33,8 +33,9 @@ const StreamNote = props => {
             {item.author.fullName} created a{item.isPinned && <span> pinned</span>}
             <FontAwesomeIcon
               icon={['far', 'sticky-note']}
-              className={`m-l-5 ${item.isPinned ? 'red' : 'yellow'}`}
-            />{' '}
+              className={`m-l-5 m-r-5 ${item.isPinned ? 'red' : 'yellow'}`}
+              size="lg"
+            />
             note
           </div>
 

@@ -57,7 +57,7 @@ class Sidebar extends Component {
         {sidebar && (
           <React.Suspense fallback={<LoadingIndicator />}>
             <div className="sidebar-header">
-              <button onClick={this.closeSidebar} className="close-btn">
+              <button onClick={this.closeSidebar} className="hl-interface-btn close-btn">
                 <FontAwesomeIcon icon={['far', 'times']} />
               </button>
 

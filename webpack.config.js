@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const dotenv = require('dotenv');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -82,7 +81,11 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+        use: [
+            'style-loader', // creates style nodes from JS strings
+            'css-loader', // translates CSS into CommonJS
+            'sass-loader' // compiles Sass to CSS, using Node Sass by default
+        ]
       }
     ]
   },
@@ -107,10 +110,6 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: 'src/index.html',
       filename: './index.html'
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[chunkhash].css'
     }),
     new webpack.DefinePlugin(envKeys),
     new CopyWebpackPlugin(['./_redirects', './favicon.ico']),

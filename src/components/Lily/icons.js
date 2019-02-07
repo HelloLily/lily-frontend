@@ -4,7 +4,8 @@ import {
   faCaretDown,
   faSquare,
   faExclamationSquare,
-  faChevronUp
+  faChevronUp,
+  faStar as faStarOpen
 } from '@fortawesome/pro-solid-svg-icons';
 import {
   faPhone,
@@ -92,8 +93,7 @@ import {
   faList,
   faTasks,
   faUserCircle,
-  faCalendarEdit,
-  faStar as faStarOpen
+  faCalendarEdit
 } from '@fortawesome/pro-regular-svg-icons';
 
 library.add(

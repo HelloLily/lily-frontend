@@ -41,6 +41,7 @@ const StreamItemNote = props => {
             <FontAwesomeIcon
               icon={['far', 'sticky-note']}
               className={`m-l-5 ${note.isPinned ? 'red' : 'yellow'}`}
+              size="lg"
             />{' '}
             note
           </div>

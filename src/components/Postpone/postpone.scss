@@ -1,6 +1,10 @@
 @import '~style/variables/colors';
 @import '~style/variables/measurements';
 
+.postpone {
+  white-space: nowrap;
+}
+
 .postpone-container {
   background: #fff;
   z-index: 4;

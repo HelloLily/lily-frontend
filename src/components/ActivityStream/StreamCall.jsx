@@ -101,11 +101,11 @@ class StreamCall extends Component {
 
             <div>
               <button className="hl-interface-btn note-toggle" onClick={this.toggleNotes}>
-                <FontAwesomeIcon icon={['far', 'sticky-note']} />
+                <FontAwesomeIcon icon={['far', 'sticky-note']} size="lg" />
               </button>
 
               <button className="hl-interface-btn" onClick={this.toggleCollapse}>
-                <FontAwesomeIcon icon={['far', collapsed ? 'angle-down' : 'angle-up']} />
+                <FontAwesomeIcon icon={['far', collapsed ? 'angle-down' : 'angle-up']} size="lg" />
               </button>
             </div>
           </div>

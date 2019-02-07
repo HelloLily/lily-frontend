@@ -1,5 +1,7 @@
 import { get, post, put, patch, del } from 'lib/api';
 
+import { INBOX_LABEL, TRASH_LABEL, SPAM_LABEL, DRAFT_LABEL, DEFAULT_LABELS } from 'lib/constants';
+
 class EmailMessage {
   get(id) {
     return get(`/messaging/email/email/${id}/`);
@@ -23,54 +25,60 @@ class EmailMessage {
 
   query(params) {
     // TODO: Temporary until there's a proper email message API.
-    // const filter = [];
-    // const { emailAccount, label } = params;
+    const filter = [];
+    const { emailAccount, label } = params;
 
-    // if (label) {
+    if (label) {
     //  TODO: Send label to back end
-    //   if (label.labelId === INBOX_LABEL) {
-    //     filter.push('is_archived:false');
-    //   }
+      if (label.labelId === INBOX_LABEL) {
+        filter.push('is_archived:false');
+      }
 
-    //   if (label.labelId !== TRASH_LABEL) {
-    //     filter.push('is_trashed:false');
-    //   } else {
-    //     filter.push('(is_trashed:true OR is_deleted:false)');
-    //   }
+      if (label.labelId !== TRASH_LABEL) {
+        filter.push('is_trashed:false');
+      } else {
+        filter.push('(is_trashed:true OR is_deleted:false)');
+      }
 
-    //   if (label.labelId !== SPAM_LABEL) {
-    //     filter.push('is_spam:false');
-    //   } else {
-    //     filter.push('is_spam:true');
-    //   }
+      if (label.labelId !== SPAM_LABEL) {
+        filter.push('is_spam:false');
+      } else {
+        filter.push('is_spam:true');
+      }
 
-    //   if (label.labelId === DRAFT_LABEL) {
-    //     filter.push('is_draft:true');
-    //   }
+      if (label.labelId === DRAFT_LABEL) {
+        filter.push('is_draft:true');
+      }
 
-    //   const isDefaultLabel = DEFAULT_LABELS.some(
-    //     defaultLabel => defaultLabel.labelId === label.labelId
-    //   );
+      const isDefaultLabel = DEFAULT_LABELS.some(
+        defaultLabel => defaultLabel.labelId === label.labelId
+      );
 
-    //   if (!isDefaultLabel) {
-    //     filter.push(`label_id:${label.labelId}`);
-    //   }
-    // } else {
-    //   // Corresponds with the 'All mail' label.
-    //   filter.push('is_trashed:false');
-    //   filter.push('is_spam:false');
-    //   filter.push('is_draft:false');
-    // }
+      if (!isDefaultLabel) {
+        filter.push(`label_id:${label.labelId}`);
+      }
+    } else {
+      // Corresponds with the 'All mail' label.
+      filter.push('is_trashed:false');
+      filter.push('is_spam:false');
+      filter.push('is_draft:false');
+    }
 
-    // if (emailAccount) {
-    //   filter.push(`account.id:${emailAccount.id}`);
-    // }
+    if (emailAccount) {
+      filter.push(`account.id:${emailAccount.id}`);
+    }
 
-    // TODO: Temporary.
+    Object.assign(params, {
+      filterquery: filter.join(' AND '),
+      type: 'email_emailmessage',
+      sort: '-sent_date',
+      userEmailRelated: 1
+    });
+
     return { results: [] };
 
-    // eslint-disable-next-line
-    return get('/messaging/email/email/', params);
+    // return get('/messaging/email/email/', params);
+    return get('/search/search/', params);
   }
 
   search(params) {

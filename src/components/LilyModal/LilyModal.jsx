@@ -11,7 +11,7 @@ const LilyModal = ({ modalOpen, closeModal, alignCenter, children }) => (
     parentSelector={() => document.querySelector('#app')}
     ariaHideApp={false}
   >
-    <button onClick={closeModal} className="close-btn">
+    <button onClick={closeModal} className="hl-interface-btn close-btn">
       <FontAwesomeIcon icon={['far', 'times']} />
     </button>
 

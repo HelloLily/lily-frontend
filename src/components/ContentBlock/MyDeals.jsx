@@ -196,7 +196,7 @@ class MyDeals extends Component {
 
           {categories}
 
-          {total === 0 && (
+          {(total === 0 && currentUser.objectCounts.deals > 0) && (
             <tbody>
               <tr>
                 <td colSpan="8">

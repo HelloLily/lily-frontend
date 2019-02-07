@@ -195,7 +195,12 @@ class DealDetail extends Component {
         <div className="content-block-label deals" />
         <div className="content-block-name">
           <FontAwesomeIcon icon={['far', 'handshake']} className="m-r-5" />
-          Deal details
+          <Editable
+            type="text"
+            object={deal}
+            field="name"
+            submitCallback={this.submitCallback}
+          />
         </div>
       </React.Fragment>
     );

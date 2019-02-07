@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import $ from 'jquery';
 
 import { MAX_FILE_SIZE } from 'lib/constants';
-import EmailMessage from 'src/models/EmailMessage';
+import EmailMessage from 'models/EmailMessage';
 
 // Needed for FontAwesome to transform <i> elements (rendered by Froala) to SVG.
 dom.watch();
@@ -93,7 +93,7 @@ class LilyEditor extends Component {
       },
       heightMin: 150,
       heightMax: props.maxHeight,
-      iconsTemplate: 'font_awesome_5',
+      iconsTemplate: 'font_awesome_5r',
       enter: $.FroalaEditor.ENTER_BR
     };
 
