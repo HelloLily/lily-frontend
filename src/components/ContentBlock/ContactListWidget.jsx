@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
+import EmailLink from 'components/Utils/EmailLink';
 import ContentBlock from 'components/ContentBlock';
 import LilyTooltip from 'components/LilyTooltip';
 import Contact from 'models/Contact';
@@ -103,17 +104,17 @@ class ContactListWidget extends Component {
                           <div>
                             <FontAwesomeIcon icon={['far', 'building']} className="m-r-5" />
 
-                            <Link to={`/email/compose/${object.primaryEmail.emailAddress}`}>
+                            <EmailLink state={{ emailAddress: object.primaryEmail.emailAddress }}>
                               {object.primaryEmail.emailAddress}
-                            </Link>
+                            </EmailLink>
                           </div>
                         )}
 
                         {item.primaryEmail && (
                           <div>
-                            <Link to={`/email/compose/${item.primaryEmail.emailAddress}`}>
+                            <EmailLink state={{ emailAddress: item.primaryEmail.emailAddress }}>
                               {item.primaryEmail.emailAddress}
-                            </Link>
+                            </EmailLink>
                           </div>
                         )}
 

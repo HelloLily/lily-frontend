@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import EmailLink from 'components/Utils/EmailLink';
 import ListFilter from 'components/List/ListFilter';
 import Settings from 'models/Settings';
 import EmailMessage from 'models/EmailMessage';
@@ -126,9 +127,9 @@ class UnreadEmail extends Component {
                   <LilyDate date={item.sentDate} showTime />
                 </td>
                 <td>
-                  <Link to={`/email/compose/${item.id}`} className="hl-primary-btn borderless">
+                  <EmailLink state={{ emailMessage: item }} className="hl-primary-btn borderless">
                     <FontAwesomeIcon icon={['far', 'reply']} />
-                  </Link>
+                  </EmailLink>
                 </td>
               </tr>
             ))}

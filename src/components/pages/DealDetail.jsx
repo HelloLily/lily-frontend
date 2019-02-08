@@ -11,8 +11,9 @@ import Editable from 'components/Editable';
 import Dropdown from 'components/Dropdown';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
-import Postpone from 'components/Postpone';
+import EmailLink from 'components/Utils/EmailLink';
 import BlockUI from 'components/Utils/BlockUI';
+import Postpone from 'components/Postpone';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import LilyCurrency from 'components/Utils/LilyCurrency';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
@@ -195,12 +196,7 @@ class DealDetail extends Component {
         <div className="content-block-label deals" />
         <div className="content-block-name">
           <FontAwesomeIcon icon={['far', 'handshake']} className="m-r-5" />
-          <Editable
-            type="text"
-            object={deal}
-            field="name"
-            submitCallback={this.submitCallback}
-          />
+          <Editable type="text" object={deal} field="name" submitCallback={this.submitCallback} />
         </div>
       </React.Fragment>
     );
@@ -232,11 +228,11 @@ class DealDetail extends Component {
             <div className="detail-page-header">
               <div>
                 <Link to={`/deals/${id}/edit`} className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} size="lg" />
                 </Link>
 
                 <button className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} size="lg" />
                 </button>
               </div>
             </div>
@@ -436,18 +432,15 @@ class DealDetail extends Component {
 
                                 {contact.emailAddresses.length > 0 &&
                                   document.status !== 'completed' && (
-                                    <Link
-                                      to={{
-                                        pathname: '/email/compose',
-                                        state: {
-                                          emailAddress: contact.emailAddresses[0].emailAddress,
-                                          documentId: document.id
-                                        }
+                                    <EmailLink
+                                      state={{
+                                        emailAddress: contact.emailAddresses[0].emailAddress,
+                                        documentId: document.id
                                       }}
                                       className="hl-interface-btn"
                                     >
                                       <FontAwesomeIcon icon={['far', 'envelope']} />
-                                    </Link>
+                                    </EmailLink>
                                   )}
                               </td>
                             </tr>

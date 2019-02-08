@@ -15,6 +15,7 @@ import ColumnDisplay from 'components/List/ColumnDisplay';
 import ListActions from 'components/List/ListActions';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
+import EmailLink from 'components/Utils/EmailLink';
 import ListColumns from 'components/List/ListColumns';
 import SearchBar from 'components/List/SearchBar';
 import BlockUI from 'components/Utils/BlockUI';
@@ -102,9 +103,9 @@ class ContactList extends Component {
                   data-tip={tooltip}
                   data-for={`account-${account.id}-email`}
                 />
-                <Link to={`/email/compose/${account.primaryEmail.emailAddress}`}>
+                <EmailLink state={{ emailAddress: account.primaryEmail.emailAddress }}>
                   <span> {account.primaryEmail.emailAddress}</span>
-                </Link>
+                </EmailLink>
 
                 <LilyTooltip id={`account-${account.id}-email`} />
               </div>
@@ -229,10 +230,10 @@ class ContactList extends Component {
                       {contact.emailAddresses.map(emailAddress => (
                         <div key={emailAddress.id}>
                           {emailAddress.status !== INACTIVE_EMAIL_STATUS ? (
-                            <Link to={`/email/compose/${emailAddress.emailAddress}`}>
+                            <EmailLink state={{ emailAddress: emailAddress.emailAddress }}>
                               <FontAwesomeIcon icon={['far', 'envelope']} />{' '}
                               {emailAddress.emailAddress}
-                            </Link>
+                            </EmailLink>
                           ) : null}
                         </div>
                       ))}

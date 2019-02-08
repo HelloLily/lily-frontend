@@ -29,7 +29,7 @@ class EmailMessage {
     const { emailAccount, label } = params;
 
     if (label) {
-    //  TODO: Send label to back end
+      //  TODO: Send label to back end
       if (label.labelId === INBOX_LABEL) {
         filter.push('is_archived:false');
       }

@@ -198,7 +198,7 @@ class MyCases extends Component {
 
           {categories}
 
-          {(total === 0 && currentUser.objectCounts.cases > 1) && (
+          {total === 0 && currentUser.objectCounts.cases > 1 && (
             <tbody>
               <tr>
                 <td colSpan="8">

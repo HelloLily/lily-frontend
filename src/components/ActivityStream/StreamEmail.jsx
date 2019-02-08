@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { REPLY_MESSAGE, FORWARD_MESSAGE } from 'lib/constants';
 import LilyDate from 'components/Utils/LilyDate';
+import EmailLink from 'components/Utils/EmailLink';
 import StreamAvatar from './StreamAvatar';
 
 const StreamEmail = ({ item }) => {
@@ -29,31 +30,22 @@ const StreamEmail = ({ item }) => {
           )}
 
           <div>
-            <Link
-              to={{
-                pathname: '/email/compose',
-                state: {
-                  emailMessage: item,
-                  messageType: REPLY_MESSAGE
-                }
+            <EmailLink
+              state={{
+                emailMessage: item,
+                messageType: REPLY_MESSAGE
               }}
               className="hl-interface-btn"
             >
               <FontAwesomeIcon icon={['far', 'reply']} /> Reply
-            </Link>
+            </EmailLink>
 
-            <Link
-              to={{
-                pathname: '/email/compose',
-                state: {
-                  emailMessage: item,
-                  messageType: FORWARD_MESSAGE
-                }
-              }}
+            <EmailLink
+              state={{ emailMessage: item, messageType: FORWARD_MESSAGE }}
               className="hl-interface-btn"
             >
               <FontAwesomeIcon icon={['far', 'reply']} flip="horizontal" /> Forward
-            </Link>
+            </EmailLink>
           </div>
         </div>
 
@@ -62,9 +54,9 @@ const StreamEmail = ({ item }) => {
             <div>
               <strong className="m-r-5">From:</strong>
 
-              <Link to={`/email/compose/${item.sender.emailAddress}`}>
+              <EmailLink state={{ emailAddress: item.sender.emailAddress }}>
                 {item.sender.name || item.sender.emailAddress}
-              </Link>
+              </EmailLink>
             </div>
 
             <div>

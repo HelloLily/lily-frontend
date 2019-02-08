@@ -51,11 +51,11 @@ class AccountDetail extends Component {
             <div className="detail-page-header">
               <div>
                 <Link to={`/accounts/${id}/edit`} className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} size="lg" />
                 </Link>
 
                 <button className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} size="lg" />
                 </button>
               </div>
             </div>

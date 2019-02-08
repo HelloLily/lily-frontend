@@ -114,7 +114,7 @@ class ContactDetail extends Component {
             <div className="detail-page-header">
               <div>
                 <Link to={`/contacts/${id}/edit`} className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} size="lg" />
                 </Link>
 
                 {contact.functions.length > 0 && (
@@ -122,7 +122,7 @@ class ContactDetail extends Component {
                     ref={this.dropdownRef}
                     clickable={
                       <button className="hl-interface-btn">
-                        <FontAwesomeIcon icon={['far', 'building']} />
+                        <FontAwesomeIcon icon={['far', 'building']} size="lg" />
                       </button>
                     }
                     menu={
@@ -161,7 +161,7 @@ class ContactDetail extends Component {
                 )}
 
                 <button className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
+                  <FontAwesomeIcon icon={['far', 'trash-alt']} size="lg" />
                 </button>
               </div>
             </div>

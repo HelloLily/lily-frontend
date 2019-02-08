@@ -15,6 +15,7 @@ import ListActions from 'components/List/ListActions';
 import Editable from 'components/Editable';
 import LilyPagination from 'components/LilyPagination';
 import LilyDate from 'components/Utils/LilyDate';
+import EmailLink from 'components/Utils/EmailLink';
 import ListColumns from 'components/List/ListColumns';
 import ListFilter from 'components/List/ListFilter';
 import SearchBar from 'components/List/SearchBar';
@@ -220,10 +221,10 @@ class AccountList extends Component {
                       {account.emailAddresses.map(emailAddress => (
                         <div key={emailAddress.id}>
                           {emailAddress.status !== 0 ? (
-                            <Link to={`/email/compose/${emailAddress.emailAddress}`}>
+                            <EmailLink state={{ emailAddress: emailAddress.emailAddress }}>
                               <FontAwesomeIcon icon={['far', 'envelope']} />{' '}
                               {emailAddress.emailAddress}
-                            </Link>
+                            </EmailLink>
                           ) : null}
                         </div>
                       ))}

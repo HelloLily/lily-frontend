@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TRASH_LABEL, PHONE_EMPTY_ROW } from 'lib/constants';
 import withContext from 'src/withContext';
 import LilyDate from 'components/Utils/LilyDate';
+import EmailLink from 'components/Utils/EmailLink';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactListWidget from 'components/ContentBlock/ContactListWidget';
@@ -51,7 +52,7 @@ class EmailDetail extends Component {
       )
       .sort((a, b) => a.name.localeCompare(b.name));
 
-    const threadRequest = await EmailMessage.thread(id);
+    // const threadRequest = await EmailMessage.thread(id);
     const recipientsList = emailMessage.receivedBy.concat(emailMessage.receivedByCc);
 
     const recipientRequests = recipientsList.map(async recipient => {
@@ -313,9 +314,9 @@ class EmailDetail extends Component {
 
               <div className="email-actions">
                 <div className="hl-btn-group m-r-10">
-                  <Link to={`/email/compose/${emailMessage.id}`} className="hl-primary-btn">
+                  <EmailLink state={{ emailMessage }} className="hl-interface-btn">
                     <FontAwesomeIcon icon={['far', 'reply']} /> Reply
-                  </Link>
+                  </EmailLink>
 
                   <Dropdown
                     clickable={
@@ -326,12 +327,9 @@ class EmailDetail extends Component {
                     menu={
                       <ul className="dropdown-menu">
                         <li className="dropdown-menu-item">
-                          <Link
-                            to={`/email/compose/${emailMessage.id}`}
-                            className="dropdown-button"
-                          >
+                          <EmailLink state={{ emailMessage }} className="dropdown-button">
                             <FontAwesomeIcon icon={['far', 'reply-all']} /> Reply all
-                          </Link>
+                          </EmailLink>
                         </li>
 
                         <li className="dropdown-menu-item">
@@ -384,9 +382,7 @@ class EmailDetail extends Component {
                   </span>
 
                   <button
-                    className={`hl-interface-btn${
-                      emailMessage.isStarred ? ' star-active' : ''
-                    }`}
+                    className={`hl-interface-btn${emailMessage.isStarred ? ' star-active' : ''}`}
                     onClick={this.toggleStarred}
                   >
                     {emailMessage.isStarred ? (

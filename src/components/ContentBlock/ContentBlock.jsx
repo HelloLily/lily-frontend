@@ -4,12 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Settings from 'models/Settings';
 
-const statusIcons = [
-  '',
-  'angle-up',
-  'angle-down',
-  'angle-left'
-];
+const statusIcons = ['', 'angle-up', 'angle-down', 'angle-left'];
 
 const HIDDEN = 0;
 const VISIBLE = 1;
@@ -124,7 +119,7 @@ class ContentBlock extends Component {
                   {this.props.children}
                 </div>
 
-                {(!loading && !fullHeight && showFade) && (
+                {!loading && !fullHeight && showFade && (
                   <button
                     className="content-block-scroll-fade hl-interface-btn"
                     onClick={this.heightToggle}

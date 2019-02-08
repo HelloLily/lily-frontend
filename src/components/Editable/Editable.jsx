@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -8,6 +7,7 @@ import BlockUI from 'components/Utils/BlockUI';
 import Address from 'components/Utils/Address';
 import SocialMediaIcon from 'components/Utils/SocialMediaIcon';
 import PriorityIcon from 'components/Utils/PriorityIcon';
+import EmailLink from 'components/Utils/EmailLink';
 import LilyTooltip from 'components/LilyTooltip';
 import camelToHuman from 'utils/camelToHuman';
 import updateModel from 'utils/updateModel';
@@ -296,7 +296,11 @@ class Editable extends Component {
 
             switch (field) {
               case 'emailAddresses':
-                row = <Link to={`/email/compose/${item.emailAddress}`}>{item.emailAddress}</Link>;
+                row = (
+                  <EmailLink state={{ emailAddress: item.emailAddress }}>
+                    {item.emailAddress}
+                  </EmailLink>
+                );
                 break;
               case 'phoneNumbers':
                 row = <a href={`tel:${item.number}`}>{item.number}</a>;

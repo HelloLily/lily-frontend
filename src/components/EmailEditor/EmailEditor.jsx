@@ -55,7 +55,7 @@ class EmailEditor extends Component {
 
   async componentDidMount() {
     const { subject } = this.state;
-    const { email, recipients = [], documentId, currentUser } = this.props;
+    const { emailAddress, recipients = [], documentId, currentUser } = this.props;
 
     const state = {
       recipients: [],
@@ -63,8 +63,8 @@ class EmailEditor extends Component {
       recipientsBcc: []
     };
 
-    if (email) {
-      state.recipients.push({ value: email, label: email });
+    if (emailAddress) {
+      state.recipients.push({ value: { emailAddress }, label: emailAddress });
     }
 
     if (recipients) {

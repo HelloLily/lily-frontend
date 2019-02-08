@@ -85,7 +85,7 @@ class Inbox extends Component {
         {!loading ? (
           <React.Fragment>
             <div className="email-accounts m-r-15">
-              <Link to="/email/compose/" className="hl-primary-btn-green w-100 m-b-15">
+              <Link to="/email/compose" className="hl-primary-btn-green w-100 m-b-15">
                 <FontAwesomeIcon icon={['far', 'envelope']} className="m-r-5" /> Compose
               </Link>
 
