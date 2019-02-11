@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { successToast } from 'utils/toasts';
 import Tenant from 'models/Tenant';
@@ -103,4 +103,4 @@ class TenantSettings extends Component {
   }
 }
 
-export default withNamespaces(['preferences', 'toasts'])(TenantSettings);
+export default withTranslation(['preferences', 'toasts'])(TenantSettings);

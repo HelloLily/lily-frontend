@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { NEEDS_ALL, NEEDS_CONTACT, NEEDS_ACCOUNT } from 'lib/constants';
 
@@ -45,4 +45,4 @@ const ContactIcon = props => {
   );
 };
 
-export default withNamespaces('tooltips')(ContactIcon);
+export default withTranslation('tooltips')(ContactIcon);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import withContext from 'src/withContext';
@@ -252,4 +252,4 @@ const EmailAccountForm = withRouter(
   })(InnerEmailAccountForm)
 );
 
-export default withNamespaces(['forms', 'toasts'])(withContext(EmailAccountForm));
+export default withTranslation(['forms', 'toasts'])(withContext(EmailAccountForm));

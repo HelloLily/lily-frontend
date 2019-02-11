@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
@@ -187,4 +187,4 @@ class TemplateVariableList extends Component {
   }
 }
 
-export default withNamespaces(['emptyStates', 'toasts'])(TemplateVariableList);
+export default withTranslation(['emptyStates', 'toasts'])(TemplateVariableList);

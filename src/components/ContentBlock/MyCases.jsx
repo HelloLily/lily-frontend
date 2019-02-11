@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import timeCategorize from 'utils/timeCategorize';
@@ -225,4 +225,4 @@ class MyCases extends Component {
   }
 }
 
-export default withNamespaces(['emptyStates', 'tooltips'])(withContext(MyCases));
+export default withTranslation(['emptyStates', 'tooltips'])(withContext(MyCases));

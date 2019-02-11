@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import toggleFilter from 'utils/toggleFilter';
 import LilyTooltip from 'components/LilyTooltip';
@@ -139,4 +139,4 @@ class ListFilter extends Component {
   }
 }
 
-export default withNamespaces('tooltips')(ListFilter);
+export default withTranslation('tooltips')(ListFilter);

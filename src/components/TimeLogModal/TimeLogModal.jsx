@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { format, parseISO } from 'date-fns';
 import Textarea from 'react-textarea-autosize';
 
@@ -215,4 +215,4 @@ class TimeLogModal extends Component {
   }
 }
 
-export default withNamespaces('modals')(withContext(TimeLogModal));
+export default withTranslation('modals')(withContext(TimeLogModal));

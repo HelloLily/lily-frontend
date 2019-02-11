@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
@@ -156,4 +156,4 @@ const WebhookForm = withFormik({
   displayName: 'WebhookForm'
 })(InnerWebhookForm);
 
-export default withNamespaces(['preferences', 'toasts'])(withContext(WebhookForm));
+export default withTranslation(['preferences', 'toasts'])(withContext(WebhookForm));

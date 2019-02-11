@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import debounce from 'debounce-promise';
 
 import withContext from 'src/withContext';
@@ -489,4 +489,4 @@ class UserList extends Component {
   }
 }
 
-export default withNamespaces('toasts')(withContext(UserList));
+export default withTranslation('toasts')(withContext(UserList));

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import debounce from 'debounce-promise';
 
 import { DESCENDING_STATUS, DEBOUNCE_WAIT } from 'lib/constants';
@@ -299,4 +299,4 @@ class DealList extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(DealList);
+export default withTranslation('emptyStates')(DealList);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
@@ -171,4 +171,4 @@ class UserSecurity extends Component {
   }
 }
 
-export default withNamespaces(['modals', 'preferences', 'toasts'])(UserSecurity);
+export default withTranslation(['modals', 'preferences', 'toasts'])(UserSecurity);

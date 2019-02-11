@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import Socket from 'lib/Socket';
@@ -223,4 +223,4 @@ class MyDeals extends Component {
   }
 }
 
-export default withNamespaces(['emptyStates', 'tooltips'])(withContext(MyDeals));
+export default withTranslation(['emptyStates', 'tooltips'])(withContext(MyDeals));

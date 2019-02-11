@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { DEFAULT_LABELS, INBOX_LABEL } from 'lib/constants';
@@ -290,4 +290,4 @@ class EmailAccounts extends Component {
   }
 }
 
-export default withNamespaces('tooltips')(EmailAccounts);
+export default withTranslation('tooltips')(EmailAccounts);

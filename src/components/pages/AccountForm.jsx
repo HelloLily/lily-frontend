@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
@@ -728,4 +728,4 @@ const AccountForm = withRouter(
   })(InnerAccountForm)
 );
 
-export default withNamespaces('toasts')(withContext(AccountForm));
+export default withTranslation('toasts')(withContext(AccountForm));

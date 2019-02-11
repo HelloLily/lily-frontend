@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import debounce from 'debounce-promise';
 
 import {
@@ -310,4 +310,4 @@ class ContactList extends Component {
   }
 }
 
-export default withNamespaces('tooltips')(ContactList);
+export default withTranslation('tooltips')(ContactList);

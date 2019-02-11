@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import ContentBlock from 'components/ContentBlock';
@@ -166,4 +166,4 @@ class DealListWidget extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(withContext(DealListWidget));
+export default withTranslation('emptyStates')(withContext(DealListWidget));

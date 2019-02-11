@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { format, parse, parseISO } from 'date-fns';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
@@ -653,4 +653,4 @@ const CaseForm = withRouter(
   })(InnerCaseForm)
 );
 
-export default withNamespaces(['forms', 'toasts'])(withContext(CaseForm));
+export default withTranslation(['forms', 'toasts'])(withContext(CaseForm));

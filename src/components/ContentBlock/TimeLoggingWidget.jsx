@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { successToast, errorToast } from 'utils/toasts';
 import TimeLogDisplay from 'components/Utils/TimeLogDisplay';
@@ -125,4 +125,4 @@ class TimeLoggingWidget extends Component {
   }
 }
 
-export default withNamespaces('toasts')(TimeLoggingWidget);
+export default withTranslation('toasts')(TimeLoggingWidget);

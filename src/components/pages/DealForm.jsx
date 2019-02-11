@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { format, parse, parseISO } from 'date-fns';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
@@ -866,4 +866,4 @@ const DealForm = withRouter(
   })(InnerDealForm)
 );
 
-export default withNamespaces(['forms', 'toasts'])(withContext(DealForm));
+export default withTranslation(['forms', 'toasts'])(withContext(DealForm));

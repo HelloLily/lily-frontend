@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Textarea from 'react-textarea-autosize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -90,4 +90,4 @@ class StreamNoteAdd extends Component {
   }
 }
 
-export default withNamespaces('toasts')(StreamNoteAdd);
+export default withTranslation('toasts')(StreamNoteAdd);

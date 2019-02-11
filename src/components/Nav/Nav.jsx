@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { infoToast } from 'utils/toasts';
@@ -171,4 +171,4 @@ class Nav extends Component {
   }
 }
 
-export default withNamespaces('toasts')(withRouter(withContext(Nav)));
+export default withTranslation('toasts')(withRouter(withContext(Nav)));

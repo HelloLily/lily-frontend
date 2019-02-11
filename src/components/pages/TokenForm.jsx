@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
@@ -109,4 +109,4 @@ class TokenForm extends Component {
   }
 }
 
-export default withNamespaces(['modals', 'preferences'])(withContext(TokenForm));
+export default withTranslation(['modals', 'preferences'])(withContext(TokenForm));

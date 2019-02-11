@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import * as JsDiff from 'diff';
 
 import withContext from 'src/withContext';
@@ -711,4 +711,4 @@ class EmailEditor extends Component {
   }
 }
 
-export default withNamespaces(['modals', 'toasts'])(withContext(EmailEditor));
+export default withTranslation(['modals', 'toasts'])(withContext(EmailEditor));

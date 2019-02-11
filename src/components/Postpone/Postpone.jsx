@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { isBefore, format } from 'date-fns';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { FORM_DATE_FORMAT, API_DATE_FORMAT, ESCAPE_KEY } from 'lib/constants';
@@ -179,4 +179,4 @@ class Postpone extends Component {
   }
 }
 
-export default withNamespaces('tooltips')(Postpone);
+export default withTranslation('tooltips')(Postpone);

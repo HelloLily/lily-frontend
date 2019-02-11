@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import updateModel from 'utils/updateModel';
@@ -196,4 +196,4 @@ class ContactDetail extends Component {
   }
 }
 
-export default withNamespaces('toasts')(ContactDetail);
+export default withTranslation('toasts')(ContactDetail);

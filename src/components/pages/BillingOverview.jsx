@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces, Trans } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { parse } from 'date-fns';
 
@@ -282,4 +282,4 @@ class BillingOverview extends Component {
   }
 }
 
-export default withNamespaces('preferences')(withContext(BillingOverview));
+export default withTranslation('preferences')(withContext(BillingOverview));

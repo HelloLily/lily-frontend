@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
@@ -160,4 +160,4 @@ class ContactListWidget extends Component {
   }
 }
 
-export default withNamespaces('tooltips')(withContext(ContactListWidget));
+export default withTranslation('tooltips')(withContext(ContactListWidget));

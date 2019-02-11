@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Select from 'react-select';
 
 import { SELECT_STYLES } from 'lib/constants';
@@ -286,4 +286,4 @@ const EmailTemplateForm = withRouter(
   })(InnerEmailTemplateForm)
 );
 
-export default withNamespaces(['forms', 'toasts'])(EmailTemplateForm);
+export default withTranslation(['forms', 'toasts'])(EmailTemplateForm);

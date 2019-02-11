@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
@@ -157,4 +157,4 @@ class Import extends Component {
   }
 }
 
-export default withNamespaces(['preferences', 'toasts'])(withContext(Import));
+export default withTranslation(['preferences', 'toasts'])(withContext(Import));

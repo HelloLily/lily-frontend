@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
@@ -151,4 +151,4 @@ class BillingChangePlan extends Component {
   }
 }
 
-export default withNamespaces('toasts')(withRouter(BillingChangePlan));
+export default withTranslation('toasts')(withRouter(BillingChangePlan));

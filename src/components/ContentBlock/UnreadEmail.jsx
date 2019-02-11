@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ContentBlock from 'components/ContentBlock';
@@ -148,4 +148,4 @@ class UnreadEmail extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(UnreadEmail);
+export default withTranslation('emptyStates')(UnreadEmail);

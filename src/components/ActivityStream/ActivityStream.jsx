@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getYear, getMonth } from 'date-fns';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import cx from 'classnames';
 
 import { successToast, errorToast } from 'utils/toasts';
@@ -365,4 +365,4 @@ class ActivityStream extends Component {
   }
 }
 
-export default withNamespaces('toasts')(ActivityStream);
+export default withTranslation('toasts')(ActivityStream);

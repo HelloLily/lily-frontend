@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import LilyTooltip from 'components/LilyTooltip';
@@ -28,4 +28,4 @@ const ObjectLimit = props => {
   );
 };
 
-export default withNamespaces('tooltips')(withContext(ObjectLimit));
+export default withTranslation('tooltips')(withContext(ObjectLimit));

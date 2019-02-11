@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces, Trans } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { del } from 'lib/api';
@@ -85,4 +85,4 @@ class DeleteConfirmation extends Component {
   }
 }
 
-export default withNamespaces(['modals', 'toasts'])(DeleteConfirmation);
+export default withTranslation(['modals', 'toasts'])(DeleteConfirmation);

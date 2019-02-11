@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { DashboardModal } from '@uppy/react';
 
 import withContext from 'src/withContext';
@@ -284,4 +284,4 @@ const ProfileForm = withRouter(
   })(InnerProfileForm)
 );
 
-export default withNamespaces(['modals', 'toasts'])(withContext(ProfileForm));
+export default withTranslation(['modals', 'toasts'])(withContext(ProfileForm));

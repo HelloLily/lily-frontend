@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import LilyTooltip from 'components/LilyTooltip';
@@ -36,4 +36,4 @@ const FeatureUnavailableMarker = props => {
   );
 };
 
-export default withNamespaces('tooltips')(withContext(FeatureUnavailableMarker));
+export default withTranslation('tooltips')(withContext(FeatureUnavailableMarker));

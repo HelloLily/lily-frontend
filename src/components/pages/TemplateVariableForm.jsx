@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Select from 'react-select';
 
 import withContext from 'src/withContext';
@@ -237,4 +237,4 @@ const TemplateVariableForm = withRouter(
   })(InnerTemplateVariableForm)
 );
 
-export default withNamespaces('toasts')(withContext(TemplateVariableForm));
+export default withTranslation('toasts')(withContext(TemplateVariableForm));

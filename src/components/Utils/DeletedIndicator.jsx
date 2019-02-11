@@ -1,5 +1,5 @@
 import React from 'react';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LilyTooltip from 'components/LilyTooltip';
@@ -25,4 +25,4 @@ const DeletedIndicator = props => {
   );
 };
 
-export default withNamespaces('tooltips')(DeletedIndicator);
+export default withTranslation('tooltips')(DeletedIndicator);

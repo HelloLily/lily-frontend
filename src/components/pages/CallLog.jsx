@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-// import { successToast, errorToast } from 'utils/toasts';
+import { successToast, errorToast } from 'utils/toasts';
 import StreamCall from 'components/ActivityStream/StreamCall';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Note from 'models/Note';
@@ -15,7 +15,7 @@ export default function CallLog() {
   // useState only updates when the value actually changes.
   // When adding notes we update a nested value, which means the state doesn't actually change.
   const [, forceUpdate] = useReducer(x => x + 1, 0);
-  // const [t] = useTranslation();
+  const [t] = useTranslation('toasts');
 
   async function getCalls() {
     const callResponse = await Call.query({ ordering: '-start' });
@@ -39,7 +39,7 @@ export default function CallLog() {
 
   async function submitNote(note, item) {
     if (!note.content) {
-      // errorToast(t('emptyNoteError'));
+      errorToast(t('emptyNoteError'));
       return;
     }
 
@@ -52,9 +52,9 @@ export default function CallLog() {
 
       forceUpdate();
 
-      // successToast(t('noteCreated'));
+      successToast(t('modelCreated', { model: 'note' }));
     } catch (e) {
-      // errorToast(t('noteError'));
+      errorToast(t('noteError'));
     }
   }
 
@@ -65,10 +65,10 @@ export default function CallLog() {
       const noteIndex = item.notes.findIndex(itemNote => itemNote.id === note.id);
       calls[index].notes.splice(noteIndex, 1);
 
-      // const text = t('modelDeleted', { model: 'note' });
-      // successToast(text);
+      const text = t('modelDeleted', { model: 'note' });
+      successToast(text);
     } catch (error) {
-      // errorToast(t('error'));
+      errorToast(t('error'));
     }
   }
 

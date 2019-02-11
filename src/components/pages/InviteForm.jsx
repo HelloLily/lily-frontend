@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
@@ -142,4 +142,4 @@ const InviteForm = withRouter(
   })(InnerInviteForm)
 );
 
-export default withNamespaces('toasts')(withContext(InviteForm));
+export default withTranslation('toasts')(withContext(InviteForm));

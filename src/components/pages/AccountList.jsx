@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import debounce from 'debounce-promise';
 
 import {
@@ -295,4 +295,4 @@ class AccountList extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(AccountList);
+export default withTranslation('emptyStates')(AccountList);

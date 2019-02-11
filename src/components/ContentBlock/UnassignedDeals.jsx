@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
@@ -224,4 +224,4 @@ class UnassignedDeals extends Component {
   }
 }
 
-export default withNamespaces('emptyStates')(withContext(UnassignedDeals));
+export default withTranslation('emptyStates')(withContext(UnassignedDeals));

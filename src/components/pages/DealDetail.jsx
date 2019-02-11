@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import cx from 'classnames';
 
 import { DEAL_LOST_STATUS } from 'lib/constants';
@@ -656,4 +656,4 @@ class DealDetail extends Component {
   }
 }
 
-export default withNamespaces('tooltips')(withContext(DealDetail));
+export default withTranslation('tooltips')(withContext(DealDetail));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import { del } from 'lib/api';
 import { ESCAPE_KEY } from 'lib/constants';
@@ -498,4 +498,4 @@ class EmailTemplateList extends Component {
   }
 }
 
-export default withNamespaces('toasts')(EmailTemplateList);
+export default withTranslation('toasts')(EmailTemplateList);
