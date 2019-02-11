@@ -114,19 +114,6 @@
       &.is-call {
         box-shadow: inset 0 0 0 2px $app-color-yellow;
         background: #fff;
-
-        .fa-layers {
-          height: 1.5em;
-        }
-
-        .fa-fw {
-          width: 2em;
-        }
-      }
-
-      svg {
-        font-size: 1.5em;
-        margin-top: 0;
       }
     }
 
@@ -158,7 +145,7 @@
           border: 0;
         }
 
-        &.collapsable {
+        &.collapsible {
           border: 0;
           cursor: pointer;
           width: 100%;

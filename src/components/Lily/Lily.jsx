@@ -84,10 +84,6 @@ class Lily extends Component {
       window.Intercom('update');
 
       // Track a page event in Segment every time a new page is visited.
-      // analytics.page({
-      //   path: path,
-      //   referrer: referrer,
-      // });
       window.analytics.page({
         path: location.pathname,
         url: window.location.href,

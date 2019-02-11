@@ -137,8 +137,8 @@ class Nav extends Component {
           </nav>
 
           <div className="nav-add-buttons">
-            <button className="hl-primary-btn m-r-5" onClick={this.getLatestCall}>
-              <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" /> Caller info
+            <button className="hl-primary-btn m-r-5" onClick={() => this.props.setSidebar('calls')}>
+              <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" /> Recent calls
             </button>
 
             {this.renderLinks()}

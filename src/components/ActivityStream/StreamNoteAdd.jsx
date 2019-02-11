@@ -61,7 +61,7 @@ class StreamNoteAdd extends Component {
     return (
       <React.Fragment>
         <div className="activity-stream-image">
-          <FontAwesomeIcon icon={['far', 'sticky-note']} />
+          <FontAwesomeIcon icon={['far', 'sticky-note']} size="lg" />
         </div>
 
         <div>

@@ -101,7 +101,7 @@ class ActivityStream extends Component {
     }
   };
 
-  deleteItemNote = async (item, note) => {
+  deleteItemNote = async (note, item) => {
     const { activityStream } = this.state;
     const { t } = this.props;
 

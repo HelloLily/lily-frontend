@@ -5,12 +5,14 @@ import cx from 'classnames';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import withContext from 'src/withContext';
 
+const CallLog = React.lazy(() => import('pages/CallLog'));
 const AccountForm = React.lazy(() => import('pages/AccountForm'));
 const ContactForm = React.lazy(() => import('pages/ContactForm'));
 const DealForm = React.lazy(() => import('pages/DealForm'));
 const CaseForm = React.lazy(() => import('pages/CaseForm'));
 
-const Forms = {
+const Pages = {
+  calls: CallLog,
   account: AccountForm,
   contact: ContactForm,
   deal: DealForm,
@@ -46,7 +48,7 @@ class Sidebar extends Component {
     const { sidebar, expanded } = this.state;
 
     // Dynamically decide what form to load.
-    const FormComponent = sidebar ? Forms[sidebar] : null;
+    const Page = sidebar ? Pages[sidebar] : null;
     const className = cx('sidebar', {
       slide: sidebar,
       expanded: expanded && sidebar
@@ -58,15 +60,15 @@ class Sidebar extends Component {
           <React.Suspense fallback={<LoadingIndicator />}>
             <div className="sidebar-header">
               <button onClick={this.closeSidebar} className="hl-interface-btn close-btn">
-                <FontAwesomeIcon icon={['far', 'times']} />
+                <FontAwesomeIcon icon={['far', 'times']} size="lg" />
               </button>
 
               <button onClick={this.expandSidebar} className="hl-interface-btn">
-                <FontAwesomeIcon icon={['far', 'expand-alt']} />
+                <FontAwesomeIcon icon={['far', 'expand-alt']} size="lg" />
               </button>
             </div>
             <div className="sidebar-content">
-              <FormComponent closeSidebar={this.closeSidebar} />
+              <Page closeSidebar={this.closeSidebar} />
             </div>
           </React.Suspense>
         )}

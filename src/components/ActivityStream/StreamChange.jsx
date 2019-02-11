@@ -33,7 +33,7 @@ class StreamChange extends Component {
           <div className="stream-item-header">
             <LilyDate date={item.created} includeTime />
           </div>
-          <button className="stream-item-title collapsable" onClick={this.toggleCollapse}>
+          <button className="stream-item-title collapsible" onClick={this.toggleCollapse}>
             <div>
               <span className="m-r-5">{item.user.fullName} made changes to</span>
 

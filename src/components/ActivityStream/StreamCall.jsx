@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { RINGING_CALL_STATUS, IN_PROGRESS_CALL_STATUS, ENDED_CALL_STATUS } from 'lib/constants';
+import {
+  RINGING_CALL_STATUS,
+  IN_PROGRESS_CALL_STATUS,
+  ENDED_CALL_STATUS,
+  PHONE_EMPTY_ROW
+} from 'lib/constants';
 import LilyDate from 'components/Utils/LilyDate';
 import StreamItemNote from './StreamItemNote';
 import StreamNoteAdd from './StreamNoteAdd';
@@ -10,19 +15,40 @@ class StreamCall extends Component {
   constructor(props) {
     super(props);
 
+    this.isSidebar = this.props.isSidebar || false;
+
     this.state = { showNoteAdd: false, collapsed: true };
   }
 
   toggleNotes = () => {
-    const { showNoteAdd } = this.state;
+    const { showNoteAdd, collapsed } = this.state;
 
-    this.setState({ showNoteAdd: !showNoteAdd });
+    const newState = {
+      showNoteAdd: !showNoteAdd
+    };
+
+    if (collapsed) {
+      newState.collapsed = false;
+
+      if (!newState.showNoteAdd) {
+        newState.showNoteAdd = true;
+      }
+    }
+
+    this.setState(newState);
   };
 
   toggleCollapse = () => {
     const { collapsed } = this.state;
 
     this.setState({ collapsed: !collapsed });
+  };
+
+  openSidebar = item => {
+    const phoneNumber = PHONE_EMPTY_ROW;
+    phoneNumber.number = item.caller.number;
+
+    this.props.setSidebar('account', { phoneNumbers: [phoneNumber] });
   };
 
   render() {
@@ -38,16 +64,18 @@ class StreamCall extends Component {
                 <FontAwesomeIcon
                   icon={['far', 'arrow-up']}
                   transform="rotate--135 shrink-7 up-5 right-6"
+                  size="lg"
                 />
-                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
+                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" size="lg" />
               </React.Fragment>
             ) : (
               <React.Fragment>
                 <FontAwesomeIcon
                   icon={['far', 'arrow-up']}
                   transform="rotate-45 shrink-7 up-5 right-6"
+                  size="lg"
                 />
-                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
+                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" size="lg" />
               </React.Fragment>
             )}
           </span>
@@ -58,7 +86,7 @@ class StreamCall extends Component {
             <LilyDate date={item.start} includeTime />
           </div>
           <div className="stream-item-title">
-            <button className="collapsable flex-grow" onClick={this.toggleCollapse}>
+            <button className="collapsible flex-grow" onClick={this.toggleCollapse}>
               {item.caller.name || item.caller.number}
 
               {item.status === RINGING_CALL_STATUS ? (
@@ -67,7 +95,7 @@ class StreamCall extends Component {
                 <React.Fragment>
                   {!item.destination && <span> called but nobody picked up.</span>}
 
-                  {item.status === IN_PROGRESS_CALL_STATUS && <span> is calling with </span>}
+                  {item.status === IN_PROGRESS_CALL_STATUS && <span> is calling </span>}
 
                   {item.status === ENDED_CALL_STATUS && <span> called </span>}
 
@@ -100,13 +128,28 @@ class StreamCall extends Component {
             </button>
 
             <div>
-              <button className="hl-interface-btn note-toggle" onClick={this.toggleNotes}>
-                <FontAwesomeIcon icon={['far', 'sticky-note']} size="lg" />
-              </button>
+              {this.isSidebar && !item.caller.name ? (
+                <button className="hl-primary-btn" onClick={() => this.openSidebar(item)}>
+                  <FontAwesomeIcon icon={['far', 'plus']} /> Account
+                </button>
+              ) : (
+                <React.Fragment>
+                  <button className="hl-interface-btn note-toggle" onClick={this.toggleNotes}>
+                    {this.isSidebar && item.notes.length > 0 ? (
+                      <FontAwesomeIcon icon={['far', 'check-square']} size="lg" className="green" />
+                    ) : (
+                      <FontAwesomeIcon icon={['far', 'sticky-note']} size="lg" />
+                    )}
+                  </button>
 
-              <button className="hl-interface-btn" onClick={this.toggleCollapse}>
-                <FontAwesomeIcon icon={['far', collapsed ? 'angle-down' : 'angle-up']} size="lg" />
-              </button>
+                  <button className="hl-interface-btn" onClick={this.toggleCollapse}>
+                    <FontAwesomeIcon
+                      icon={['far', collapsed ? 'angle-down' : 'angle-up']}
+                      size="lg"
+                    />
+                  </button>
+                </React.Fragment>
+              )}
             </div>
           </div>
 
@@ -146,8 +189,10 @@ class StreamCall extends Component {
 
                         {transfer.destination ? (
                           <span>
-                            The call was transferred to{' '}
-                            {transfer.destination.name || transfer.destination.number}
+                            The call was transferred to
+                            <span className="m-l-5">
+                              {transfer.destination.name || transfer.destination.number}
+                            </span>
                           </span>
                         ) : (
                           <span>The call is being transferred, but nobody picked up yet.</span>

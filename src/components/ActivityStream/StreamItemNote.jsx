@@ -23,7 +23,7 @@ const StreamItemNote = props => {
   };
 
   const deleteCallback = () => {
-    deleteItemNote(item, note);
+    deleteItemNote(note, item);
   };
 
   return (
@@ -40,9 +40,8 @@ const StreamItemNote = props => {
             {note.author.fullName} created a{note.isPinned && <span> pinned</span>}
             <FontAwesomeIcon
               icon={['far', 'sticky-note']}
-              className={`m-l-5 ${note.isPinned ? 'red' : 'yellow'}`}
-              size="lg"
-            />{' '}
+              className={`m-l-5 m-r-5 ${note.isPinned ? 'red' : 'yellow'}`}
+            />
             note
           </div>
 

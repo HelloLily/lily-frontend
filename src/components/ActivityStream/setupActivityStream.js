@@ -33,9 +33,9 @@ export default async function setupActivityStream(
 
   const getItemNotes = async (contentType, ids) => {
     const params = {
-      gfkContentType: contentType,
-      gfkObjectId__in: ids,
-      ordering: '-date'
+      contentType,
+      objectId__in: ids,
+      ordering: '-modified'
     };
     const response = await Note.query(params);
 

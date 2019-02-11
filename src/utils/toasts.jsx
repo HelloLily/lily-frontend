@@ -2,33 +2,17 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 
-const SuccessToast = ({ text }) => (
-  <div>
-    <FontAwesomeIcon icon={['far', 'check']} size="lg" />
-    <span className="m-l-10">{text}</span>
+const BaseToast = ({ icon, text }) => (
+  <div className="display-flex">
+    <FontAwesomeIcon icon={['far', icon]} size="lg" />
+    <div className="m-l-10">{text}</div>
   </div>
 );
 
-const ErrorToast = ({ text }) => (
-  <div>
-    <FontAwesomeIcon icon={['far', 'exclamation-circle']} size="lg" />
-    <span className="m-l-10">{text}</span>
-  </div>
-);
-
-const WarningToast = ({ text }) => (
-  <div>
-    <FontAwesomeIcon icon={['far', 'exclamation-triangle']} size="lg" />
-    <span className="m-l-10">{text}</span>
-  </div>
-);
-
-const InfoToast = ({ text }) => (
-  <div>
-    <FontAwesomeIcon icon={['far', 'info']} size="lg" />
-    <span className="m-l-10">{text}</span>
-  </div>
-);
+const SuccessToast = ({ text }) => <BaseToast icon="check" text={text} />;
+const ErrorToast = ({ text }) => <BaseToast icon="exclamation-circle" text={text} />;
+const WarningToast = ({ text }) => <BaseToast icon="exclamation-triangle" text={text} />;
+const InfoToast = ({ text }) => <BaseToast icon="info" text={text} />;
 
 export function successToast(text) {
   toast.success(<SuccessToast text={text} />);

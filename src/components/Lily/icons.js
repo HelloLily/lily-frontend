@@ -93,7 +93,8 @@ import {
   faList,
   faTasks,
   faUserCircle,
-  faCalendarEdit
+  faCalendarEdit,
+  faCheckSquare
 } from '@fortawesome/pro-regular-svg-icons';
 
 library.add(
@@ -188,5 +189,6 @@ library.add(
   faList,
   faTasks,
   faUserCircle,
-  faCalendarEdit
+  faCalendarEdit,
+  faCheckSquare
 );
