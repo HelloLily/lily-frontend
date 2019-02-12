@@ -259,7 +259,7 @@ class InnerAccountForm extends Component {
   };
 
   searchUsers = async (query = '') => {
-    const request = await User.query({ search: query, ordering: 'firstName' });
+    const request = await User.query({ search: query, ordering: 'firstName', isActive: true });
 
     return request.results;
   };

@@ -8,6 +8,7 @@ import Note from 'models/Note';
 import Call from 'models/Call';
 
 import 'components/ActivityStream/activity_stream.scss';
+import 'style/call_logs.scss';
 
 export default function CallLog() {
   const [calls, setCalls] = useState([]);
@@ -48,17 +49,14 @@ export default function CallLog() {
       const index = calls.findIndex(call => call.id === item.id);
       calls[index].notes.unshift(response);
 
-      setCalls(calls);
-
-      forceUpdate();
-
       successToast(t('modelCreated', { model: 'note' }));
+      forceUpdate();
     } catch (e) {
       errorToast(t('noteError'));
     }
   }
 
-  async function deleteNote(item, note) {
+  async function deleteNote(note, item) {
     try {
       await Note.del(note.id);
       const index = calls.findIndex(call => call.id === item.id);
@@ -67,6 +65,7 @@ export default function CallLog() {
 
       const text = t('modelDeleted', { model: 'note' });
       successToast(text);
+      forceUpdate();
     } catch (error) {
       errorToast(t('error'));
     }
@@ -88,17 +87,21 @@ export default function CallLog() {
             </div>
 
             <div className="content-block-content">
-              <div className="call-logs">
-                {calls.map(call => (
-                  <StreamCall
-                    isSidebar
-                    item={call}
-                    key={call.id}
-                    submitNote={submitNote}
-                    deleteItemNote={deleteNote}
-                  />
-                ))}
-              </div>
+              {calls.length > 0 && (
+                <div className="call-logs">
+                  {calls.map(call => (
+                    <StreamCall
+                      isSidebar
+                      item={call}
+                      key={call.id}
+                      submitNote={submitNote}
+                      deleteItemNote={deleteNote}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {calls.length === 0 && <div className="p-l-15 p-t-15">{t('noCalls')}</div>}
             </div>
           </div>
         </React.Fragment>

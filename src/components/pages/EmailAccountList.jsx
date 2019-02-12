@@ -376,9 +376,7 @@ class EmailAccountList extends Component {
               <React.Fragment>
                 <h3>Share your email</h3>
                 <div className="shared-with-users">
-                  <div className="m-b-15">
-                    Give specific colleagues additional permissions to your email
-                  </div>
+                  <div className="m-b-15">{t('forms:emailAccount.advancedInfo')}</div>
                 </div>
 
                 <UserShare
@@ -427,4 +425,4 @@ class EmailAccountList extends Component {
   }
 }
 
-export default withTranslation(['emptyStates', 'toasts'])(withContext(EmailAccountList));
+export default withTranslation(['emptyStates', 'toasts', 'forms'])(withContext(EmailAccountList));

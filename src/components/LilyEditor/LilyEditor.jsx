@@ -34,8 +34,15 @@ class LilyEditor extends Component {
     });
 
     const fullPage = props.fullPage === undefined ? true : props.fullPage;
-    const iframeStyle =
-      'body {font-family: Roboto, sans-serif; font-size: 14px;} body table td {border: 0 !important;}';
+    const iframeStyle = `
+      body {
+        font-family: Roboto, sans-serif;
+        font-size: 14px;
+      }
+
+      body table td {
+        border: 0 !important;
+      }`;
 
     // Configuration for the Froala Editor.
     this.config = {
@@ -106,6 +113,7 @@ class LilyEditor extends Component {
     });
 
     uppy.on('file-added', () => {
+      // Changes to Uppy's internal state don't show immediately so call forceUpdate.
       this.forceUpdate();
     });
 

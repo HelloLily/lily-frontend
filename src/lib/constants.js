@@ -187,6 +187,7 @@ export const VARIABLE_REGEX = /\[\[ ?([a-z]+\.[a-z_]+) ?]]/g;
 export const TYPED_TEXT_REGEX = /\[\[ template\.typed_text \]\]/;
 
 // Regex to detect if an email address is valid.
+// eslint-disable-next-line
 export const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // Message types.

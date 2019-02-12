@@ -165,7 +165,7 @@ class UserFilter extends Component {
         clearCallback={display.length > 0 ? this.clearFilters : null}
         clickable={
           <button className="hl-primary-btn filter-btn" onClick={this.showMenu}>
-            <FontAwesomeIcon icon={['far', 'user-friends']} />
+            <FontAwesomeIcon icon={['far', 'users']} />
 
             <span className="m-l-5 m-r-5">
               {display.length === 0 && <React.Fragment>Colleagues</React.Fragment>}

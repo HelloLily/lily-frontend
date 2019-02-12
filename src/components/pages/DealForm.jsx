@@ -229,7 +229,7 @@ class InnerDealForm extends Component {
   };
 
   searchUsers = async (query = '') => {
-    const request = await User.query({ search: query, ordering: 'name' });
+    const request = await User.query({ search: query, ordering: 'name', isActive: true });
 
     return request.results;
   };

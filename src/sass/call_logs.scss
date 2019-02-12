@@ -1,0 +1,162 @@
+@import 'variables/colors';
+@import 'variables/measurements';
+
+.call-logs {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  grid-column-gap: 25px;
+  grid-row-gap: 15px;
+  position: relative;
+  padding: 15px;
+
+  .activity-stream-image {
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+    border: 4px #fff solid;
+    text-align: center;
+    overflow: hidden;
+    background: $app-bg-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    z-index: 2;
+
+    img {
+      width: 54px;
+      height: 54px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &.is-call {
+      box-shadow: inset 0 0 0 2px $app-color-yellow;
+      background: #fff;
+    }
+  }
+
+  .collapsible {
+    &.flex-grow {
+      flex: 1;
+    }
+  }
+}
+
+.stream-item {
+  display: inline-block;
+  grid-column: 2;
+  padding: 4px 0;
+  min-height: 75px;
+
+  .stream-item-header {
+    color: $text-muted;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .stream-item-title {
+    font-weight: 600;
+    font-size: 1.1em;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > button {
+      font-weight: 600;
+      text-align: left;
+      border: 0;
+    }
+
+    &.collapsible {
+      border: 0;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    > a {
+      color: $app-color-darkblue;
+    }
+
+    .hl-interface-btn {
+      &.note-toggle {
+        &:hover {
+          color: $app-color-yellow;
+        }
+      }
+    }
+  }
+
+  .stream-item-content {
+    border: 1px $inner-border-color solid;
+    // box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.15);
+    border-radius: $base-border-radius;
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    .stream-item-extra-info {
+      padding: 5px 10px;
+      border-bottom: 1px $inner-border-color solid;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 45px;
+    }
+
+    .stream-item-body {
+      background: $lily-white-tone;
+      border-radius: $base-border-radius;
+      padding: 10px;
+    }
+
+    &:before {
+      border-top-left-radius: $base-border-radius;
+      border-bottom-left-radius: $base-border-radius;
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 9px;
+      left: -2px;
+      background: $lily-grey;
+      width: 4px;
+      height: 100%;
+    }
+
+    &.is-call {
+      &.pinned:before {
+        background: $app-color-red;
+      }
+
+      &:before {
+        background: $app-color-yellow;
+      }
+    }
+  }
+}
+
+.stream-sub-items {
+  padding: 15px 0;
+  display: grid;
+  grid-template-columns: 45px 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 15px;
+  position: relative;
+  font-size: 0.95em;
+
+  .activity-stream-image {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 4px;
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}

@@ -198,7 +198,7 @@ class ContactList extends Component {
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
 
             <button className="hl-primary-btn" onClick={this.export}>
-              Export contacts
+              <FontAwesomeIcon icon={['far', 'file-export']} /> Export contacts
             </button>
 
             <div className="flex-grow" />

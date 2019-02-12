@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 
-import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import LilyModal from 'components/LilyModal';
@@ -22,6 +21,10 @@ class UserSecurity extends Component {
   }
 
   async componentDidMount() {
+    await this.loadItems();
+  }
+
+  loadItems = async () => {
     const deviceResponse = await Security.query();
     const sessionResponse = await Security.sessions();
 
@@ -30,7 +33,7 @@ class UserSecurity extends Component {
       sessions: sessionResponse.results,
       loading: false
     });
-  }
+  };
 
   openModal = () => {
     this.setState({ modalOpen: true });
@@ -41,19 +44,16 @@ class UserSecurity extends Component {
   };
 
   confirmDelete = async () => {
-    const { item, deleteCallback, t } = this.props;
+    const { t } = this.props;
 
     try {
       await Security.disable();
 
-      const text = t('toasts:twoFactorDisabled');
-      successToast(text);
+      successToast(t('toasts:twoFactorDisabled'));
+
+      await this.loadItems();
 
       this.closeModal();
-
-      if (deleteCallback) {
-        deleteCallback(item);
-      }
     } catch (error) {
       errorToast(t('toasts:error'));
     }
@@ -154,7 +154,7 @@ class UserSecurity extends Component {
               </div>
 
               <div className="modal-footer">
-                <button className="hl-primary-btn-red" onClick={this.confirm}>
+                <button className="hl-primary-btn-red" onClick={this.confirmDelete}>
                   Yes, disable
                 </button>
                 <button className="hl-primary-btn m-l-10" onClick={this.closeModal}>

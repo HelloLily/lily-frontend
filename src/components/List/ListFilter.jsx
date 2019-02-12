@@ -64,7 +64,7 @@ class ListFilter extends Component {
   };
 
   render() {
-    const { label, filters, items, t } = this.props;
+    const { label, filters, items, icon, t } = this.props;
 
     const filteredItems = items.filter(item => !filters.some(filter => filter === item.value));
     const allSelected = filteredItems.length === 0;
@@ -75,7 +75,7 @@ class ListFilter extends Component {
         clearCallback={display.length > 0 ? this.clearFilters : null}
         clickable={
           <button className="hl-primary-btn filter-btn">
-            <FontAwesomeIcon icon={['far', 'list']} />
+            <FontAwesomeIcon icon={['far', icon || 'list']} />
             <span className="m-l-5 m-r-5">
               {display.length === 0 && <React.Fragment>{label}</React.Fragment>}
 

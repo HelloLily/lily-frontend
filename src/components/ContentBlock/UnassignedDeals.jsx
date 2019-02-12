@@ -142,6 +142,7 @@ class UnassignedDeals extends Component {
 
         <ListFilter
           label="Teams"
+          icon="user-friends"
           items={teams}
           filters={filters.team}
           setFilters={this.setTeamFilters}

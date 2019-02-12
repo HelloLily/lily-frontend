@@ -181,7 +181,7 @@ class AccountList extends Component {
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
 
             <button className="hl-primary-btn" onClick={this.export}>
-              Export accounts
+              <FontAwesomeIcon icon={['far', 'file-export']} /> Export accounts
             </button>
 
             <ListFilter

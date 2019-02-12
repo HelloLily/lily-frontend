@@ -20,7 +20,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $app-color-mint;
+      color: $app-color-aqua;
     }
 
     &:not(:first-child) {
@@ -93,7 +93,7 @@
         height: 16px;
         border-radius: 8px;
         border: 0;
-        background: $app-color-mint;
+        background: $app-color-darkblue;
         box-sizing: border-box;
         text-align: center;
         color: #fff;

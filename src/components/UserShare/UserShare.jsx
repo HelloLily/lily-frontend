@@ -63,7 +63,7 @@ class UserShare extends Component {
   };
 
   searchUsers = async (query = '') => {
-    const request = await User.query({ search: query, ordering: 'firstName' });
+    const request = await User.query({ search: query, ordering: 'firstName', isActive: true });
 
     return request.results;
   };
@@ -161,7 +161,7 @@ class UserShare extends Component {
                 styles={SELECT_STYLES}
                 placeholder="Select people to share the account with"
                 onChange={this.handleAdditions}
-                loadOptions={debounce(this.searchContacts, DEBOUNCE_WAIT)}
+                loadOptions={debounce(this.searchUsers, DEBOUNCE_WAIT)}
                 getOptionLabel={option => option.fullName}
                 getOptionValue={option => option.id}
                 className="user-share-container"
