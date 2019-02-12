@@ -8,8 +8,15 @@ import './feature_unavailable.scss';
 
 const FeatureUnavailableMarker = props => {
   const { tier, currentUser, children, t } = props;
+
+  if (!currentUser.tenant) {
+    return <div />;
+  }
+
   const currentTier = currentUser.tenant.billing.plan.tier;
-  const tooltip = currentUser.isAdmin ? t('featureUnavailableIsAdmin') : t('featureUnavailable');
+  const tooltip = currentUser.isAdmin
+    ? t('featureUnavailableIsAdmin')
+    : t('featureUnavailable', { name: currentUser.tenant.admin });
 
   return (
     <React.Fragment>
@@ -23,7 +30,7 @@ const FeatureUnavailableMarker = props => {
                 Unavailable
               </Link>
             ) : (
-              <span>Unavailable</span>
+              <span className="unavailable-marker">Unavailable</span>
             )}
           </div>
 

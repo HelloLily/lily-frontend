@@ -118,7 +118,7 @@ class BillingOverview extends Component {
                 <div className="detail-row">
                   <div>Status</div>
                   <div>
-                    {currentUser.tenant.isFreePlan ? (
+                    {currentUser.isFreePlan ? (
                       <span className="label active">Active</span>
                     ) : (
                       <span className={`label ${subscription.status.replace('_', '-')}`}>

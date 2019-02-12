@@ -180,9 +180,9 @@ class AccountList extends Component {
           <div className="list-header">
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
 
-            <button className="hl-primary-btn" onClick={this.export}>
+            {/* <button className="hl-primary-btn" onClick={this.export}>
               <FontAwesomeIcon icon={['far', 'file-export']} /> Export accounts
-            </button>
+            </button> */}
 
             <ListFilter
               label="Account status"

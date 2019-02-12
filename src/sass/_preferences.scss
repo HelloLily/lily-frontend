@@ -38,6 +38,14 @@
           margin-right: 5px;
         }
       }
+
+      .is-disabled {
+        a {
+          &.active {
+            background: none;
+          }
+        }
+      }
     }
   }
 }

@@ -5,10 +5,7 @@
   },
   "contact": {
     "contactExists": "It looks like this contact already exists",
-    "accountInfoTooltip": "The selected account's data has been loaded for you so there is no need to enter duplicate data.",
-    "contactInfoTooltip": "This is the current contact's data",
-    "contactActiveAtIntro": "For each account you can toggle if <strong>{{name}}</strong> is still active there.",
-    "contactActiveAtText": "This won't affect the visablilty of past communication."
+    "accountInfoTooltip": "The selected account's data has been loaded for you so there is no need to enter duplicate data."
   },
   "deal": {
     "openDeal": "There's another open deal",

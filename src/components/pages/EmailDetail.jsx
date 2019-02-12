@@ -10,6 +10,8 @@ import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactListWidget from 'components/ContentBlock/ContactListWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
+import DealListWidget from 'components/ContentBlock/DealListWidget';
+import CaseListWidget from 'components/ContentBlock/CaseListWidget';
 import Dropdown from 'components/Dropdown';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
@@ -428,12 +430,20 @@ class EmailDetail extends Component {
                   <AccountDetailWidget account={data.account} />
 
                   <ContactListWidget object={data.account} />
+
+                  <DealListWidget object={data.account} />
+
+                  <CaseListWidget object={data.account} />
                 </React.Fragment>
               )}
 
               {data.contact && data.contact.hasOwnProperty('id') && (
                 <React.Fragment>
                   <ContactDetailWidget contact={data.contact} />
+
+                  <DealListWidget object={data.contact} />
+
+                  <CaseListWidget object={data.contact} />
                 </React.Fragment>
               )}
             </div>

@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
+import FeatureBlock from 'components/Utils/FeatureBlock';
 import FormSection from 'components/Form/FormSection';
 import Utils from 'models/Utils';
 
@@ -77,78 +78,90 @@ class Import extends Component {
             </div>
 
             <div className="content-block-content">
-              <FormSection header="Import accounts">
-                <p>{t('preferences:import.accountIntro')}</p>
-                <ul className="hl-instruction-list">
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsOne')}
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsTwo')}:<strong>company name</strong>
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsThree')}:<strong>website</strong>,
-                    <strong>email address</strong>,<strong>phone number</strong>,
-                    <strong>address</strong>,<strong>postal code</strong>,<strong>city</strong>,
-                    <strong>twitter</strong>.
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsFourAccount')}
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsFive')}
-                  </li>
-                </ul>
+              <FeatureBlock needsAdmin>
+                <FormSection header="Import accounts">
+                  <p>{t('preferences:import.accountIntro')}</p>
+                  <ul className="hl-instruction-list">
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsOne')}
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsTwo')}:<strong>company name</strong>
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsThree')}:<strong>website</strong>,
+                      <strong>email address</strong>,<strong>phone number</strong>,
+                      <strong>address</strong>,<strong>postal code</strong>,<strong>city</strong>,
+                      <strong>twitter</strong>.
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsFourAccount')}
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsFive')}
+                    </li>
+                  </ul>
 
-                <div className="m-t-15">
-                  <input id="accountFile" type="file" accept="text/csv" ref={this.accountFileRef} />
-                </div>
+                  <div className="m-t-15">
+                    <input
+                      id="accountFile"
+                      type="file"
+                      accept="text/csv"
+                      ref={this.accountFileRef}
+                    />
+                  </div>
 
-                <button className="hl-primary-btn-blue m-t-10" onClick={this.importAccounts}>
-                  <FontAwesomeIcon icon={['far', 'upload']} /> Import
-                </button>
+                  <button className="hl-primary-btn-blue m-t-10" onClick={this.importAccounts}>
+                    <FontAwesomeIcon icon={['far', 'upload']} /> Import
+                  </button>
 
-                <div className="m-t-10">
-                  {accountError && <div className="error-message">{accountError}</div>}
-                </div>
-              </FormSection>
+                  <div className="m-t-10">
+                    {accountError && <div className="error-message">{accountError}</div>}
+                  </div>
+                </FormSection>
 
-              <FormSection header="Import contacts">
-                <p>{t('preferences:import.contactIntro')}</p>
-                <ul className="hl-instruction-list">
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsOne')}
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsTwo')}:<strong>first name</strong>,
-                    <strong>last name</strong>
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsThree')}:<strong>email address</strong>,
-                    <strong>phone number</strong>,<strong>mobile</strong>,<strong>address</strong>,
-                    <strong>postal code</strong>,<strong>city</strong>,<strong>twitter</strong>,
-                    <strong>linkedin</strong>,<strong>company name</strong>.
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsFourContact')}
-                  </li>
-                  <li className="hl-instruction-list-item">
-                    {t('preferences:import.instructionsFive')}
-                  </li>
-                </ul>
+                <FormSection header="Import contacts">
+                  <p>{t('preferences:import.contactIntro')}</p>
+                  <ul className="hl-instruction-list">
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsOne')}
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsTwo')}:<strong>first name</strong>,
+                      <strong>last name</strong>
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsThree')}:<strong>email address</strong>,
+                      <strong>phone number</strong>,<strong>mobile</strong>,<strong>address</strong>
+                      ,<strong>postal code</strong>,<strong>city</strong>,<strong>twitter</strong>,
+                      <strong>linkedin</strong>,<strong>company name</strong>.
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsFourContact')}
+                    </li>
+                    <li className="hl-instruction-list-item">
+                      {t('preferences:import.instructionsFive')}
+                    </li>
+                  </ul>
 
-                <div className="m-t-15">
-                  <input id="contactFile" type="file" accept="text/csv" ref={this.contactFileRef} />
-                </div>
+                  <div className="m-t-15">
+                    <input
+                      id="contactFile"
+                      type="file"
+                      accept="text/csv"
+                      ref={this.contactFileRef}
+                    />
+                  </div>
 
-                <button className="hl-primary-btn-blue m-t-10" onClick={this.importContacts}>
-                  <FontAwesomeIcon icon={['far', 'upload']} /> Import
-                </button>
+                  <button className="hl-primary-btn-blue m-t-10" onClick={this.importContacts}>
+                    <FontAwesomeIcon icon={['far', 'upload']} /> Import
+                  </button>
 
-                <div className="m-t-10">
-                  {contactError && <div className="error-message">{contactError}</div>}
-                </div>
-              </FormSection>
+                  <div className="m-t-10">
+                    {contactError && <div className="error-message">{contactError}</div>}
+                  </div>
+                </FormSection>
+              </FeatureBlock>
             </div>
           </div>
         </div>

@@ -1,12 +1,14 @@
 {
   "featureUnavailableIsAdmin": "This feature isn't included in your current plan. Click here to go to the billing page to change plans.",
-  "emailLimitReachedIsAdmin": "You've reached the email account limit of your Personal plan. Please <a href=\"/preferences/billing\">upgrade</a> it to enable more email accounts.",
-  "sharingUnavailableIsAdmin": "Email accounts can't be shared while on the Personal plan. Please <a href=\"/preferences/billing\">upgrade</a> it to enable inbox sharing.",
+  "emailLimitReachedIsAdmin": "You've reached the email account limit of your Personal plan. Please <0>upgrade</0> it to enable more email accounts.",
+  "sharingUnavailableIsAdmin": "Email accounts can't be shared while on the Personal plan. Please <0>upgrade</0> it to enable inbox sharing.",
 
   "featureUnavailable": "This feature is unavailable with your current plan. Ask {{name}} to upgrade your team's plan.",
   "emailLimitReached": "You've reached the email account limit of your Personal plan. Ask {{name}} to upgrade your plan.",
   "sharingUnavailable": "Email accounts can't be shared while on the Personal plan. Ask {{name}} to upgrade your plan.",
-  "featureUnavailableInline": "This feature is unavailable for your current plan. <br />Please <a href=\"/preferences/billing\">upgrade</a> to use this feature.",
+  "featureUnavailableInline": "This feature isn't included in your current plan.",
+  "featureUnavailableInline2IsAdmin": "Please <0>upgrade</0> to use this feature.",
+  "featureUnavailableInline2": "Ask {{name}} to upgrade your plan.",
   "modEnter": {
     "title": "+Enter"
   },
@@ -30,5 +32,6 @@
   "casePostpone": "Change the expiry date",
   "dealPostpone": "Change the next step date",
   "customPostponeDate": "Pick a custom date",
-  "requiredFields": "Please make sure all required fields are filled in."
+  "requiredFields": "Please make sure all required fields are filled in.",
+  "forbidden": "You do not have permission to view this page."
 }

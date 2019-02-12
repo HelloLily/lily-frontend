@@ -340,3 +340,13 @@ svg {
 .critical-priority-color {
   color: $critical-prio-color;
 }
+
+.feature-unavailable-overlay {
+  position: absolute;
+  top: 65px;
+  padding: 10px;
+  text-align: center;
+  z-index: 3;
+  width: 100%;
+  background: #ffffffa8;
+}

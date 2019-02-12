@@ -117,9 +117,9 @@ class ContactList extends Component {
                   <div>
                     <span data-tip={tooltip} data-for={`account-${account.id}-phone`}>
                       {account.phoneNumber.type === MOBILE_PHONE_TYPE ? (
-                        <FontAwesomeIcon icon={['far', 'mobile']} />
+                        <FontAwesomeIcon icon={['far', 'mobile']} fixedWidth />
                       ) : (
-                        <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
+                        <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" fixedWidth />
                       )}
                     </span>
 
@@ -197,9 +197,9 @@ class ContactList extends Component {
           <div className="list-header">
             <ColumnDisplay columns={columns} toggleColumn={this.toggleColumn} />
 
-            <button className="hl-primary-btn" onClick={this.export}>
+            {/* <button className="hl-primary-btn" onClick={this.export}>
               <FontAwesomeIcon icon={['far', 'file-export']} /> Export contacts
-            </button>
+            </button> */}
 
             <div className="flex-grow" />
 
@@ -231,8 +231,8 @@ class ContactList extends Component {
                         <div key={emailAddress.id}>
                           {emailAddress.status !== INACTIVE_EMAIL_STATUS ? (
                             <EmailLink state={{ emailAddress: emailAddress.emailAddress }}>
-                              <FontAwesomeIcon icon={['far', 'envelope']} />{' '}
-                              {emailAddress.emailAddress}
+                              <FontAwesomeIcon icon={['far', 'envelope']} fixedWidth />
+                              <span> {emailAddress.emailAddress}</span>
                             </EmailLink>
                           ) : null}
                         </div>
@@ -242,9 +242,13 @@ class ContactList extends Component {
                           {phone.type === MOBILE_PHONE_TYPE || phone.type === WORK_PHONE_TYPE ? (
                             <a href={`tel:${phone.number}`}>
                               {phone.type === MOBILE_PHONE_TYPE ? (
-                                <FontAwesomeIcon icon={['far', 'mobile']} />
+                                <FontAwesomeIcon icon={['far', 'mobile']} fixedWidth />
                               ) : (
-                                <FontAwesomeIcon icon={['far', 'phone']} flip="horizontal" />
+                                <FontAwesomeIcon
+                                  icon={['far', 'phone']}
+                                  flip="horizontal"
+                                  fixedWidth
+                                />
                               )}
 
                               <span className="m-l-5">{phone.number}</span>

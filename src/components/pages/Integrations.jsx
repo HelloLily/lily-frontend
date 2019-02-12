@@ -1,6 +1,7 @@
 import React from 'react';
 
 import withContext from 'src/withContext';
+import FeatureBlock from 'components/Utils/FeatureBlock';
 
 const Integrations = () => (
   <div className="content-block-container">
@@ -9,7 +10,11 @@ const Integrations = () => (
         <div className="content-block-name">Integrations</div>
       </div>
 
-      <div className="content-block-content" />
+      <div className="content-block-content">
+        <FeatureBlock tier="2" needsAdmin>
+          Integrations page
+        </FeatureBlock>
+      </div>
     </div>
   </div>
 );

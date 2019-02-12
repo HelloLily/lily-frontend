@@ -1,9 +1,4 @@
 {
-  "accountForm": {
-    "title": "Website already exists",
-    "body": "This website has already been added to an existing account: <br /> <strong>{{account}}</strong><br /> Are you sure you want to use:<br /> {{website}}",
-    "cancelButtonText": "No, clear the field"
-  },
   "delete": {
     "confirmTitle": "Are you sure?",
     "confirmText": "You are about to delete <0>{{name}}</0>.",
@@ -14,19 +9,6 @@
   "assignTo": {
     "title": "Assign this {{type}}",
     "questionText": "Do you want to assign this {{type}} to yourself?"
-  },
-  "deactivateUser": {
-    "confirmText": "Are you sure you want to deactivate <strong>{{name}}</strong>",
-    "confirmButtonText": "Yes, deactivate"
-  },
-  "resendUserInvite": {
-    "title": "Resend invite",
-    "confirmText": "Are you sure you want to resend the invite to <strong>{{email}}</strong>",
-    "success": "The invitation was resent successfully",
-    "confirmButtonText": "Yes, resend invite"
-  },
-  "removeUserInvite": {
-    "confirmText": "Are you sure you want to delete the invite for <strong>{{name}}</strong>"
   },
   "timeLog": {
     "modalTitle": "Time logging",

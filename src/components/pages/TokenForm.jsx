@@ -4,6 +4,7 @@ import { withTranslation } from 'react-i18next';
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
+import FeatureBlock from 'components/Utils/FeatureBlock';
 import User from 'models/User';
 
 class TokenForm extends Component {
@@ -62,35 +63,37 @@ class TokenForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <div>
-                <strong>Your token is: </strong>
+              <FeatureBlock tier="2">
+                <div>
+                  <strong>Your token is: </strong>
 
-                {token ? (
-                  <code>{token}</code>
-                ) : (
-                  <span>{t('preferences:user.apiToken.noToken')}</span>
-                )}
-              </div>
+                  {token ? (
+                    <code>{token}</code>
+                  ) : (
+                    <span>{t('preferences:user.apiToken.noToken')}</span>
+                  )}
+                </div>
 
-              <div className="m-t-15">
-                {token ? (
-                  <React.Fragment>
-                    <p>{t('preferences:user.apiToken.usageInfo')}</p>
+                <div className="m-t-15">
+                  {token ? (
+                    <React.Fragment>
+                      <p>{t('preferences:user.apiToken.usageInfo')}</p>
 
-                    <pre>
-                      <code>Authorization: Token {token}</code>
-                    </pre>
+                      <pre>
+                        <code>Authorization: Token {token}</code>
+                      </pre>
 
-                    <p>{t('preferences:user.apiToken.usageInfoAlt')}</p>
+                      <p>{t('preferences:user.apiToken.usageInfoAlt')}</p>
 
-                    <pre>
-                      <code>{`/api/<endpoint>/?key=${token}`}</code>
-                    </pre>
-                  </React.Fragment>
-                ) : (
-                  <div className="label info">{t('preferences:user.apiToken.noTokenInfo')}</div>
-                )}
-              </div>
+                      <pre>
+                        <code>{`/api/<endpoint>/?key=${token}`}</code>
+                      </pre>
+                    </React.Fragment>
+                  ) : (
+                    <div className="label info">{t('preferences:user.apiToken.noTokenInfo')}</div>
+                  )}
+                </div>
+              </FeatureBlock>
             </div>
 
             <div className="content-block-footer">

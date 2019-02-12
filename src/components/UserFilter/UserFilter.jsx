@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withTranslation, Trans } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
@@ -156,7 +158,7 @@ class UserFilter extends Component {
 
   render() {
     const { teams, loading } = this.state;
-    const { currentUser, filters } = this.props;
+    const { currentUser, filters, t } = this.props;
 
     const display = this.getDisplay();
 
@@ -196,6 +198,26 @@ class UserFilter extends Component {
                     <label htmlFor={currentUser.id}>{currentUser.fullName}</label>
                   </li>
 
+                  {currentUser.isFreePlan && (
+                    <p className="feature-unavailable-overlay">
+                      {t('featureUnavailableInline')}
+
+                      <br />
+
+                      {currentUser.isAdmin ? (
+                        <Trans
+                          defaults={t('tooltips:featureUnavailableInline2IsAdmin')}
+                          components={[<Link to="/preferences/billing">text</Link>]}
+                        />
+                      ) : (
+                        <React.Fragment>
+                          {t('tooltips:featureUnavailableInline2', {
+                            name: currentUser.tenant.admin
+                          })}
+                        </React.Fragment>
+                      )}
+                    </p>
+                  )}
                   {teams.map(team => {
                     const teamSelected = filters.some(filter => filter === team.value);
                     const filteredItems = team.users.filter(
@@ -209,7 +231,11 @@ class UserFilter extends Component {
                       <React.Fragment key={teamKey}>
                         {team.id === 'unassigned' || team.users.length > 0 ? (
                           <React.Fragment>
-                            <li className="dropdown-menu-item">
+                            <li
+                              className={`dropdown-menu-item${
+                                currentUser.isFreePlan ? ' is-disabled' : ''
+                              }`}
+                            >
                               <input
                                 id={teamKey}
                                 type="checkbox"
@@ -231,7 +257,11 @@ class UserFilter extends Component {
                               )}
                             </li>
                             {!team.collapsed && team.users.length > 0 && (
-                              <ul className="dropdown-menu-sub">
+                              <ul
+                                className={`dropdown-menu-sub${
+                                  currentUser.isFreePlan ? ' is-disabled' : ''
+                                }`}
+                              >
                                 <li className="dropdown-menu-sub-item" key={`user-team-${team.id}`}>
                                   <input
                                     id={`${team.id}-filter`}
@@ -287,4 +317,4 @@ class UserFilter extends Component {
   }
 }
 
-export default withContext(UserFilter);
+export default withTranslation('tooltips')(withContext(UserFilter));

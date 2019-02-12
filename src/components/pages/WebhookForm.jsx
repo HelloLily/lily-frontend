@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
+import FeatureBlock from 'components/Utils/FeatureBlock';
 import Form from 'components/Form';
 import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
@@ -58,66 +59,68 @@ class InnerWebhookForm extends Component {
             </div>
 
             <div className="content-block-content">
-              <p>{t('preferences:user.webhookIntro')}</p>
+              <FeatureBlock tier="2">
+                <p>{t('preferences:user.webhookIntro')}</p>
 
-              <Form handleSubmit={handleSubmit}>
-                <FormSection header="Webhook info">
-                  {values.webhooks.map((webhook, index) => {
-                    const key = `webhook-${index}`;
-                    const { isDeleted } = webhook;
+                <Form handleSubmit={handleSubmit}>
+                  <FormSection header="Webhook info">
+                    {values.webhooks.map((webhook, index) => {
+                      const key = `webhook-${index}`;
+                      const { isDeleted } = webhook;
 
-                    return (
-                      <React.Fragment key={key}>
-                        <div className={`form-field${isDeleted ? ' is-deleted' : ''}`}>
-                          <label htmlFor="url" required>
-                            Webhook URL & name
-                          </label>
+                      return (
+                        <React.Fragment key={key}>
+                          <div className={`form-field${isDeleted ? ' is-deleted' : ''}`}>
+                            <label htmlFor="url" required>
+                              Webhook URL & name
+                            </label>
 
-                          <div className="display-flex">
-                            <input
-                              id="url"
-                              type="text"
-                              className="hl-input"
-                              placeholder="www.example.com"
-                              value={webhook.url}
-                              onChange={event =>
-                                this.handleChange(event.target.value, index, 'url')
-                              }
-                            />
+                            <div className="display-flex">
+                              <input
+                                id="url"
+                                type="text"
+                                className="hl-input"
+                                placeholder="www.example.com"
+                                value={webhook.url}
+                                onChange={event =>
+                                  this.handleChange(event.target.value, index, 'url')
+                                }
+                              />
 
-                            <input
-                              id="name"
-                              type="text"
-                              className="hl-input"
-                              placeholder="Webhook name"
-                              value={webhook.name}
-                              onChange={event =>
-                                this.handleChange(event.target.value, index, 'name')
-                              }
-                            />
+                              <input
+                                id="name"
+                                type="text"
+                                className="hl-input"
+                                placeholder="Webhook name"
+                                value={webhook.name}
+                                onChange={event =>
+                                  this.handleChange(event.target.value, index, 'name')
+                                }
+                              />
 
-                            <div className="form-related-actions">
-                              <button
-                                className="hl-primary-btn"
-                                onClick={() => this.toggleDelete(index)}
-                                type="button"
-                              >
-                                {webhook.isDeleted ? (
-                                  <FontAwesomeIcon icon={['far', 'undo']} />
-                                ) : (
-                                  <FontAwesomeIcon icon={['far', 'trash-alt']} />
-                                )}
-                              </button>
+                              <div className="form-related-actions">
+                                <button
+                                  className="hl-primary-btn"
+                                  onClick={() => this.toggleDelete(index)}
+                                  type="button"
+                                >
+                                  {webhook.isDeleted ? (
+                                    <FontAwesomeIcon icon={['far', 'undo']} />
+                                  ) : (
+                                    <FontAwesomeIcon icon={['far', 'trash-alt']} />
+                                  )}
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </React.Fragment>
-                    );
-                  })}
-                </FormSection>
+                        </React.Fragment>
+                      );
+                    })}
+                  </FormSection>
 
-                <FormFooter {...this.props} />
-              </Form>
+                  <FormFooter {...this.props} />
+                </Form>
+              </FeatureBlock>
             </div>
           </div>
         </div>

@@ -8,7 +8,6 @@ import Notifications from 'lib/Notifications';
 import Nav from 'components/Nav';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Sidebar from 'components/Sidebar';
-import NotFound from 'pages/NotFound';
 import Login from 'pages/Login';
 import Tenant from 'models/Tenant';
 import User from 'models/User';
@@ -30,6 +29,7 @@ const CaseForm = React.lazy(() => import('pages/CaseForm'));
 const CaseDetail = React.lazy(() => import('pages/CaseDetail'));
 const CaseList = React.lazy(() => import('pages/CaseList'));
 const PandaDocCreate = React.lazy(() => import('pages/PandaDocCreate'));
+const NotFound = React.lazy(() => import('pages/NotFound'));
 
 const Fade = cssTransition({
   enter: 'fade-in',
@@ -54,6 +54,8 @@ class Lily extends Component {
     currentUser.objectCounts = { ...tenantInfo.objectCounts };
     currentUser.limitReached = tenantInfo.limitReached ? { ...tenantInfo.limitReached } : null;
     currentUser.tenant.trialRemaining = tenantInfo.trialRemaining;
+    currentUser.tenant.admin = tenantInfo.admin;
+    currentUser.isFreePlan = currentUser.tenant.billing.isFreePlan;
 
     this.props.setCurrentUser(currentUser);
 

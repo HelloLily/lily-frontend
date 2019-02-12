@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 
 import withContext from 'src/withContext';
 import { errorToast, successToast } from 'utils/toasts';
@@ -223,6 +224,8 @@ class EmailAccountList extends Component {
       ? currentUser.primaryEmailAccount.id
       : null;
 
+    const accountTotal = emailAccounts.length + sharedAccounts.length;
+
     return (
       <BlockUI blocking={loading}>
         <div className="list">
@@ -298,11 +301,28 @@ class EmailAccountList extends Component {
                   <td colSpan="8">{t('emptyStates:preferences.emailAccounts')}</td>
                 </tr>
               )}
+
+              {currentUser.isFreePlan && accountTotal >= 2 && (
+                <tr>
+                  <td colSpan="8">
+                    {currentUser.isAdmin ? (
+                      <Trans
+                        defaults={t('tooltips:emailLimitReachedIsAdmin')}
+                        components={[<Link to="/preferences/billing">text</Link>]}
+                      />
+                    ) : (
+                      <React.Fragment>
+                        {t('tooltips:emailLimitReached', { name: currentUser.tenant.admin })}
+                      </React.Fragment>
+                    )}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
 
-        <div className={`m-t-25${currentUser.tenant.isFreePlan ? ' is-disabled' : ''}`}>
+        <div className="m-t-25">
           <div className="list">
             <div className="list-header">
               <div className="list-title">Email accounts shared with you</div>
@@ -324,7 +344,10 @@ class EmailAccountList extends Component {
                   const hasFullAccess = this.hasFullAccess(emailAccount);
 
                   return (
-                    <tr key={emailAccount.id}>
+                    <tr
+                      key={emailAccount.id}
+                      className={currentUser.isFreePlan ? ' is-disabled' : ''}
+                    >
                       <td>{hasFullAccess && <input type="radio" />}</td>
                       <td>{emailAccount.emailAddress}</td>
                       <td>{emailAccount.owner.fullName}</td>
@@ -363,6 +386,22 @@ class EmailAccountList extends Component {
                 {sharedAccounts.length === 0 && (
                   <tr>
                     <td colSpan="8">{t('emptyStates:preferences.sharedEmailAccounts')}</td>
+                  </tr>
+                )}
+                {currentUser.isFreePlan && sharedAccounts.length > 0 && (
+                  <tr>
+                    <td colSpan="8">
+                      {currentUser.isAdmin ? (
+                        <Trans
+                          defaults={t('tooltips:sharingUnavailableIsAdmin')}
+                          components={[<Link to="/preferences/billing">text</Link>]}
+                        />
+                      ) : (
+                        <React.Fragment>
+                          {t('tooltips:sharingUnavailable', { name: currentUser.tenant.admin })}
+                        </React.Fragment>
+                      )}
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -425,4 +464,6 @@ class EmailAccountList extends Component {
   }
 }
 
-export default withTranslation(['emptyStates', 'toasts', 'forms'])(withContext(EmailAccountList));
+export default withTranslation(['emptyStates', 'toasts', 'forms', 'tooltips'])(
+  withContext(EmailAccountList)
+);
