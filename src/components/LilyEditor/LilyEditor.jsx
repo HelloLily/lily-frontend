@@ -92,8 +92,7 @@ class LilyEditor extends Component {
         'video',
         'wordPaste'
       ],
-      // TODO: Should be calculated instead of being hard coded and based on another property.
-      toolbarStickyOffset: 57,
+      toolbarStickyOffset: 56,
       codeBeautifierOptions: {
         indent_char: ' ',
         indent_size: 4

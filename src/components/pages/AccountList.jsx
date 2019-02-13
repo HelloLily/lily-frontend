@@ -154,6 +154,16 @@ class AccountList extends Component {
     this.setState({ items });
   };
 
+  updateItem = newData => {
+    const { items } = this.state;
+    const { id } = newData;
+
+    const index = items.findIndex(item => item.id === id);
+    items[index] = newData;
+
+    this.setState({ items });
+  };
+
   export = () => {
     const columns = this.state.columns.filter(column => column.selected).map(column => column.key);
     Account.export({ columns });
@@ -269,7 +279,12 @@ class AccountList extends Component {
                     </td>
                   )}
                   <td>
-                    <ListActions item={account} deleteCallback={this.removeItem} {...this.props} />
+                    <ListActions
+                      item={account}
+                      deleteCallback={this.removeItem}
+                      submitCallback={this.updateItem}
+                      {...this.props}
+                    />
                   </td>
                 </tr>
               ))}

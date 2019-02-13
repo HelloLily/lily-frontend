@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import cx from 'classnames';
 
-import { DEAL_LOST_STATUS } from 'lib/constants';
 import withContext from 'src/withContext';
+import { DEAL_LOST_STATUS } from 'lib/constants';
 import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import Dropdown from 'components/Dropdown';
@@ -15,6 +15,7 @@ import EmailLink from 'components/Utils/EmailLink';
 import BlockUI from 'components/Utils/BlockUI';
 import Postpone from 'components/Postpone';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import LilyCurrency from 'components/Utils/LilyCurrency';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
@@ -161,6 +162,15 @@ class DealDetail extends Component {
     this.setState({ deal, whyLostSelected: false, submitting: false });
   };
 
+  openSidebar = () => {
+    const data = {
+      id: this.state.deal.id,
+      submitCallback: response => this.setState({ deal: response })
+    };
+
+    this.props.setSidebar('deal', data);
+  };
+
   renderMenu = status => {
     const { whyLost, submitting = false } = this.state;
 
@@ -187,7 +197,6 @@ class DealDetail extends Component {
   render() {
     const { deal, contact, dealStatuses, documents, whyLostSelected = false, loading } = this.state;
     const { currentUser, t } = this.props;
-    const { id } = this.props.match.params;
 
     const assignedKey = deal && deal.assignedTo ? deal.assignedTo.id : null;
 
@@ -227,13 +236,11 @@ class DealDetail extends Component {
           <React.Fragment>
             <div className="detail-page-header">
               <div>
-                <Link to={`/deals/${id}/edit`} className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} size="lg" />
-                </Link>
-
-                <button className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} size="lg" />
+                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                 </button>
+
+                <DeleteConfirmation item={deal} />
               </div>
             </div>
 

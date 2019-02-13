@@ -79,7 +79,7 @@ class InnerDealForm extends Component {
     this.lostStatus = statusResponse.results.find(status => status.name === DEAL_LOST_STATUS);
     this.noneStep = nextStepResponse.results.find(nextStep => nextStep.name === DEAL_NONE_STEP);
 
-    const { id } = this.props.match.params;
+    const { id } = this.props.data;
 
     if (id) {
       await this.loadDeal(id);
@@ -198,7 +198,7 @@ class InnerDealForm extends Component {
     };
 
     if (values.contact) {
-      args.contacts = values.contact.id;
+      args['contacts.id'] = values.contact.id;
     }
 
     const request = await Account.query(args);
@@ -214,7 +214,7 @@ class InnerDealForm extends Component {
     };
 
     if (values.account) {
-      args.accounts = values.account.id;
+      args['accounts.id'] = values.account.id;
     }
 
     const request = await Contact.query(args);
@@ -851,6 +851,7 @@ const DealForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'deal-created');
 
           if (props.closeSidebar) {
+            props.data.submitCallback(response);
             props.closeSidebar();
           } else {
             props.history.push(`/deals/${response.id}`);

@@ -47,7 +47,7 @@ class InnerContactForm extends Component {
   async componentDidMount() {
     this.mounted = true;
 
-    const { id } = this.props.match.params;
+    const { id } = this.props.data;
 
     let title;
 
@@ -659,6 +659,7 @@ const ContactForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'contact-created');
 
           if (props.closeSidebar) {
+            props.data.submitCallback(response);
             props.closeSidebar();
           } else {
             props.history.push(`/contacts/${response.id}`);

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
 
 import withContext from 'src/withContext';
 import Editable from 'components/Editable';
@@ -8,6 +7,7 @@ import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import Postpone from 'components/Postpone';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import TimeLoggingWidget from 'components/ContentBlock/TimeLoggingWidget';
 import ActivityStream from 'components/ActivityStream';
@@ -170,10 +170,18 @@ class CaseDetail extends Component {
     this.setState({ showEditor: false });
   };
 
+  openSidebar = () => {
+    const data = {
+      id: this.state.caseObj.id,
+      submitCallback: response => this.setState({ caseObj: response })
+    };
+
+    this.props.setSidebar('case', data);
+  };
+
   render() {
     const { caseObj, caseStatuses, showEditor, loading } = this.state;
     const { currentUser } = this.props;
-    const { id } = this.props.match.params;
 
     const assignedKey = caseObj && caseObj.assignedTo ? caseObj.assignedTo.id : null;
 
@@ -198,13 +206,11 @@ class CaseDetail extends Component {
           <React.Fragment>
             <div className="detail-page-header">
               <div>
-                <Link to={`/cases/${id}/edit`} className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} size="lg" />
-                </Link>
-
-                <button className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} size="lg" />
+                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                 </button>
+
+                <DeleteConfirmation item={caseObj} />
               </div>
             </div>
 

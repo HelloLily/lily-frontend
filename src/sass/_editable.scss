@@ -4,7 +4,7 @@
   flex: 1;
 
   input {
-    padding: 6px 12px;
+    padding: 6px 8px;
   }
 
   &.editable-has-buttons {
@@ -40,7 +40,7 @@
 
 input {
   &.editable-input {
-    padding: 0 6px;
+    padding: 0 8px;
   }
 }
 
@@ -48,10 +48,19 @@ input {
   display: flex;
   margin-bottom: 20px;
   flex-wrap: wrap;
+
+  .last-field {
+    width: 145px;
+
+    input {
+      width: 145px;
+    }
+  }
 }
 
 .form-related-actions {
   width: 75px;
+  align-self: flex-end;
 }
 
 .is-deleted {

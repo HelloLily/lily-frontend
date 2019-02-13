@@ -31,6 +31,14 @@ form {
   }
 }
 
+.sidebar {
+  &.expanded {
+    form {
+      width: 60%;
+    }
+  }
+}
+
 .hl-input {
   width: 100%;
 }

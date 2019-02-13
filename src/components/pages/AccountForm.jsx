@@ -60,7 +60,7 @@ class InnerAccountForm extends Component {
   async componentDidMount() {
     this.mounted = true;
 
-    const { id } = this.props.match.params;
+    const { id } = this.props.data;
 
     let title;
     const statusResponse = await Account.statuses();
@@ -713,6 +713,7 @@ const AccountForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'account-created');
 
           if (props.closeSidebar) {
+            props.data.submitCallback(response);
             props.closeSidebar();
           } else {
             props.history.push(`/accounts/${response.id}`);

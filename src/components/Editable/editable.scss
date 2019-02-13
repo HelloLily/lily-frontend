@@ -20,8 +20,8 @@
   }
 
   .hl-primary-btn {
-    align-self: flex-start;
-    line-height: 33px;
+    align-self: flex-end;
+    line-height: 32px;
   }
 
   .input-addon-icon {
@@ -44,6 +44,10 @@
     cursor: text;
     padding: 0 6px;
     white-space: nowrap;
+
+    p {
+      white-space: initial;
+    }
   }
 
   .editable-open {

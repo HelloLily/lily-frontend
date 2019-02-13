@@ -75,7 +75,7 @@ class EmailAddressField extends Component {
                 onBlur={() => this.props.onInputBlur(item.emailAddress)}
               />
 
-              <div className="w-30 m-l-10 m-r-10">
+              <div className="last-field m-l-10 m-r-10">
                 <Select
                   name="status"
                   styles={SELECT_STYLES}

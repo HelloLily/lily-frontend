@@ -10,91 +10,97 @@ import Contact from 'models/Contact';
 
 class PandaDocCreate extends Component {
   async componentDidMount() {
-    const { currentUser } = this.props;
-    const { id } = this.props.match.params;
-    const deal = await Deal.get(id);
-    // const account = await Account.get(deal.account.id);
+    // PandaDoc SDK is only needed in this component, so dynamically load it here.
+    const script = document.createElement('script');
+    script.setAttribute('src', '//s3.amazonaws.com/pd-js-sdk/0.2.20/pandadoc-js-sdk.min.js');
+    document.body.appendChild(script);
 
-    const editor = new window.PandaDoc.DocEditor();
-    const recipients = [
-      {
-        first_name: currentUser.firstName,
-        last_name: currentUser.lastName,
-        email: currentUser.email,
-        roleName: 'User'
+    script.onload = async () => {
+      const { currentUser } = this.props;
+      const { id } = this.props.match.params;
+      const deal = await Deal.get(id);
+
+      const editor = new window.PandaDoc.DocEditor();
+      const recipients = [
+        {
+          first_name: currentUser.firstName,
+          last_name: currentUser.lastName,
+          email: currentUser.email,
+          roleName: 'User'
+        }
+      ];
+
+      // Setup up the template variables.
+      const tokens = {
+        // Current user's info.
+        'User.FirstName': currentUser.firstName,
+        'User.LastName': currentUser.lastName,
+        'User.EmailAddress': currentUser.email,
+        'User.PhoneNumber': currentUser.phoneNumber,
+        Date: format(new Date(), FORM_DATE_FORMAT)
+      };
+
+      let docName;
+      let account;
+
+      if (deal.contact) {
+        const contact = await Contact.get(deal.contact.id);
+
+        tokens['Client.FirstName'] = contact.firstName;
+        tokens['Client.LastName'] = contact.lastName;
+
+        recipients.push({
+          first_name: contact.firstName,
+          last_name: contact.lastName,
+          roleName: 'Client'
+        });
+
+        if (contact.emailAddresses.length > 0) {
+          tokens['Client.Email'] = contact.emailAddresses[0].emailAddress;
+
+          recipients[1].email = contact.emailAddresses[0].emailAddress;
+        }
+
+        if (deal.account) {
+          ({ account } = deal);
+        } else if (contact.accounts.length) {
+          [account] = contact.accounts;
+        }
+
+        if (account) {
+          tokens['Client.Company'] = account.name;
+
+          if (account.addresses.length > 0) {
+            const address = account.addresses[0];
+
+            tokens['Client.Address'] = address.address;
+            tokens['Client.PostalCode'] = address.postalCode;
+            tokens['Client.City'] = address.city;
+          }
+
+          docName = account.name;
+        }
       }
-    ];
 
-    // Setup up the template variables.
-    const tokens = {
-      // Current user's info.
-      'User.FirstName': currentUser.firstName,
-      'User.LastName': currentUser.lastName,
-      'User.EmailAddress': currentUser.email,
-      'User.PhoneNumber': currentUser.phoneNumber,
-      Date: format(new Date(), FORM_DATE_FORMAT)
-    };
-
-    let docName;
-    let account;
-
-    if (deal.contact) {
-      const contact = await Contact.get(deal.contact.id);
-
-      tokens['Client.FirstName'] = contact.firstName;
-      tokens['Client.LastName'] = contact.lastName;
-
-      recipients.push({
-        first_name: contact.firstName,
-        last_name: contact.lastName,
-        roleName: 'Client'
+      editor.show({
+        el: '#pandadoc',
+        cssClass: 'pandadoc-form',
+        data: {
+          docName,
+          tokens,
+          recipients,
+          metadata: {
+            deal: deal.id,
+            account: account ? account.id : null,
+            contact: deal.contact ? deal.contact.id : null,
+            user: currentUser.id
+          }
+        },
+        events: {
+          onDocumentCreated: this.saveDocument
+        }
       });
-
-      if (contact.emailAddresses.length > 0) {
-        tokens['Client.Email'] = contact.emailAddresses[0].emailAddress;
-
-        recipients[1].email = contact.emailAddresses[0].emailAddress;
-      }
-
-      if (deal.account) {
-        ({ account } = deal);
-      } else if (contact.accounts.length) {
-        [account] = contact.accounts;
-      }
-
-      if (account) {
-        tokens['Client.Company'] = account.name;
-
-        if (account.addresses.length > 0) {
-          const address = account.addresses[0];
-
-          tokens['Client.Address'] = address.address;
-          tokens['Client.PostalCode'] = address.postalCode;
-          tokens['Client.City'] = address.city;
-        }
-
-        docName = account.name;
-      }
-    }
-
-    editor.show({
-      el: '#pandadoc',
-      cssClass: 'pandadoc-form',
-      data: {
-        docName,
-        tokens,
-        recipients,
-        metadata: {
-          deal: deal.id,
-          account: account ? account.id : null,
-          contact: deal.contact ? deal.contact.id : null,
-          user: currentUser.id
-        }
-      },
-      events: {
-        onDocumentCreated: this.saveDocument
-      }
-    });
+    };
   }
 
   saveDocument = data => {

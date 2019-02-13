@@ -2,22 +2,17 @@
 @import '~style/variables/measurements';
 
 .sidebar {
-  position: absolute;
+  position: fixed;
   right: -21%;
   top: $content-top;
+  padding-bottom: $content-top;
   width: 20%;
   z-index: 10;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   transition: all 0.25s ease-out;
-  min-height: 100%;
-
-  // .sidebar-header {
-  //   .close-btn {
-  //     padding: 10px;
-  //     background: none;
-  //   }
-  // }
+  height: 100%;
+  overflow-y: scroll;
 
   .sidebar-content {
     .content-block {

@@ -90,7 +90,7 @@ class PhoneNumberField extends Component {
                 onBlur={() => this.handleBlur(item, index)}
               />
 
-              <div className="w-30 m-l-10 m-r-10 text-capitalize">
+              <div className="last-field m-l-10 m-r-10 text-capitalize">
                 <Select
                   name="type"
                   styles={SELECT_STYLES}

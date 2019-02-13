@@ -17,7 +17,7 @@
   background: #fff;
   line-height: $height;
   height: $height;
-  padding: 6px 12px;
+  padding: 6px 8px;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
 }
@@ -169,7 +169,7 @@ textarea {
 
 .detail-page {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-gap: 25px;
   grid-auto-rows: min-content;
 

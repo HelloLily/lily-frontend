@@ -172,6 +172,16 @@ class CaseList extends Component {
     this.setState({ items });
   };
 
+  updateItem = async newData => {
+    const { items } = this.state;
+    const { id } = newData;
+
+    const index = items.findIndex(item => item.id === id);
+    Object.assign(items[index], newData);
+
+    this.setState({ items });
+  };
+
   createTableRow = (items, newlyAssigned = false) => {
     const { columns } = this.state;
 
@@ -243,7 +253,12 @@ class CaseList extends Component {
               </td>
             )}
             <td>
-              <ListActions item={item} deleteCallback={this.removeItem} {...this.props} />
+              <ListActions
+                item={item}
+                deleteCallback={this.removeItem}
+                submitCallback={this.updateItem}
+                {...this.props}
+              />
             </td>
           </tr>
         ))}

@@ -472,8 +472,11 @@ class EmailEditor extends Component {
     }
 
     if (!subject) {
-      // Warn user that no subject has been entered.
-      return;
+      const shouldSend = confirm(t('modals:email.noSubject'));
+
+      if (!shouldSend) {
+        return;
+      }
     }
 
     const recipients = this.state.recipients.map(recipient => recipient.value.emailAddress);

@@ -76,7 +76,7 @@ class SocialMediaField extends Component {
                 />
               </div>
 
-              <div className="w-30 m-l-10 m-r-10">
+              <div className="last-field m-l-10 m-r-10">
                 <Select
                   name="status"
                   styles={SELECT_STYLES}

@@ -71,34 +71,42 @@ class AddressField extends Component {
             <div className={rowClassName} key={item.id || `row-${index}`}>
               <div className="editable-addresses">
                 <div className="address-row">
-                  <div className="display-flex">
+                  <div className="m-r-10">
                     <input
                       type="text"
                       value={item.address}
                       onChange={event => this.handleChange(event.target.value, index, 'address')}
-                      className="editable-input"
+                      className="editable-input w-100"
                       placeholder="Address"
-                    />
-
-                    <input
-                      type="text"
-                      value={item.postalCode}
-                      onChange={event => this.handleChange(event.target.value, index, 'postalCode')}
-                      className="editable-input w-30 m-l-10 m-r-10"
-                      placeholder="Postal code"
                     />
                   </div>
 
                   <div className="display-flex m-t-10">
-                    <input
-                      type="text"
-                      value={item.city}
-                      onChange={event => this.handleChange(event.target.value, index, 'city')}
-                      className="editable-input w-30"
-                      placeholder="City"
-                    />
+                    <div className="w-60 m-r-10">
+                      <input
+                        type="text"
+                        value={item.postalCode}
+                        onChange={event =>
+                          this.handleChange(event.target.value, index, 'postalCode')
+                        }
+                        className="editable-input w-100"
+                        placeholder="Postal code"
+                      />
+                    </div>
 
-                    <div className="w-30 m-l-10 m-r-10">
+                    <div className="m-r-10 last-field">
+                      <input
+                        type="text"
+                        value={item.city}
+                        onChange={event => this.handleChange(event.target.value, index, 'city')}
+                        className="editable-input w-100"
+                        placeholder="City"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="display-flex m-t-10">
+                    <div className="w-60 m-r-10">
                       <Select
                         name="country"
                         styles={SELECT_STYLES}
@@ -109,7 +117,7 @@ class AddressField extends Component {
                       />
                     </div>
 
-                    <div className="w-30 m-r-10">
+                    <div className="m-r-10 last-field">
                       <Select
                         name="type"
                         styles={SELECT_STYLES}

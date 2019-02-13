@@ -54,7 +54,7 @@ class InnerCaseForm extends Component {
     const statusData = await Case.statuses();
     const priorityData = await Case.priorities();
 
-    const { id } = this.props.match.params;
+    const { id } = this.props.data;
 
     if (id) {
       await this.loadCase(id);
@@ -142,7 +142,7 @@ class InnerCaseForm extends Component {
     };
 
     if (values.contact) {
-      args.contacts = values.contact.id;
+      args['contacts.id'] = values.contact.id;
     }
 
     const request = await Account.query(args);
@@ -158,7 +158,7 @@ class InnerCaseForm extends Component {
     };
 
     if (values.account) {
-      args.accounts = values.account.id;
+      args['accounts.id'] = values.account.id;
     }
 
     const request = await Contact.query(args);
@@ -638,6 +638,7 @@ const CaseForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'case-created');
 
           if (props.closeSidebar) {
+            props.data.submitCallback(response);
             props.closeSidebar();
           } else {
             props.history.push(`/cases/${response.id}`);

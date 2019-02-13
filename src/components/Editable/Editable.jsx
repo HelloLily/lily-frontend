@@ -46,17 +46,11 @@ class Editable extends Component {
     this.mounted = false;
     this.editableRef = React.createRef();
 
-    let initialValue;
-
     const selectConfig = getSelectConfig(field);
 
     this.selectConfig = selectConfig;
 
-    if (selectConfig && selectConfig.choiceField) {
-      initialValue = { id: props.object[field], name: props.object[selectConfig.display] };
-    } else {
-      initialValue = props.object[field];
-    }
+    const initialValue = this.getInitialValue();
 
     this.state = {
       editing: false,
@@ -70,9 +64,46 @@ class Editable extends Component {
     this.mounted = true;
   }
 
+  componentDidUpdate() {
+    const { object, field } = this.props;
+    const { value } = this.state;
+
+    if (value) {
+      const { id } = value;
+
+      let shouldUpdate = false;
+
+      // Editable components don't get updated when the parent changes.
+      // So compare values and update if needed.
+      if (this.selectConfig && this.selectConfig.choiceField) {
+        if (id !== object[field]) {
+          shouldUpdate = true;
+        }
+      } else if (id !== object[field].id) {
+        shouldUpdate = true;
+      }
+
+      if (shouldUpdate) {
+        const newValue = this.getInitialValue();
+
+        this.setState({ value: newValue, initialValue: newValue });
+      }
+    }
+  }
+
   componentWillUnmount() {
     this.mounted = false;
   }
+
+  getInitialValue = () => {
+    const { object, field } = this.props;
+
+    if (this.selectConfig && this.selectConfig.choiceField) {
+      return { id: object[field], name: object[this.selectConfig.display] };
+    }
+
+    return object[field];
+  };
 
   getEmptyText = () => {
     const { field } = this.props;
@@ -227,58 +258,9 @@ class Editable extends Component {
     this.setState({ value: [...value, Object.assign({}, data)] });
   };
 
-  render() {
-    const { editing, submitting, error } = this.state;
+  getDisplay = (value, hasValue) => {
     const { object, field, type, multi } = this.props;
     const config = Object.assign({}, this.selectConfig);
-
-    if (field === 'status') {
-      config.model = `${object.contentType.appLabel}${config.model}`;
-    }
-
-    let { value } = this.state;
-
-    const hasValue = typeof value !== 'undefined' && value !== null;
-
-    if (!hasValue) {
-      value = '';
-    }
-
-    if (Array.isArray(value)) {
-      // Deep copy the array of objects.
-      value = value.map(item => ({ ...item }));
-    }
-
-    // Set up some generic props.
-    const props = {
-      ...this.props,
-      value,
-      error,
-      selectConfig: config,
-      handleSubmit: this.handleSubmit,
-      handleChange: this.handleChange,
-      cancel: this.cancel,
-      createOptions: this.createOptions
-    };
-
-    // Dynamically set up the editable component.
-    let EditableComponent;
-
-    if (type === 'select' && (this.props.async || multi)) {
-      EditableComponent = EditableAsyncSelect;
-    } else if (type === 'select' && this.props.icon) {
-      EditableComponent = EditableIconSelect;
-      props.createIcon = this.createIcon;
-    } else if (type === 'related') {
-      props.addRow = this.addRow;
-      EditableComponent = components[field];
-    } else {
-      EditableComponent = components[type];
-    }
-
-    if (type === 'select' || type === 'related' || type === 'tags') {
-      props.selectStyles = SELECT_STYLES;
-    }
 
     let display;
 
@@ -361,6 +343,63 @@ class Editable extends Component {
       display = this.props.children;
     }
 
+    return display;
+  };
+
+  render() {
+    const { editing, submitting, error } = this.state;
+    const { object, field, type, multi } = this.props;
+    const config = Object.assign({}, this.selectConfig);
+
+    if (field === 'status') {
+      config.model = `${object.contentType.appLabel}${config.model}`;
+    }
+
+    let { value } = this.state;
+
+    const hasValue = typeof value !== 'undefined' && value !== null;
+
+    if (!hasValue) {
+      value = '';
+    }
+
+    if (Array.isArray(value)) {
+      // Deep copy the array of objects.
+      value = value.map(item => ({ ...item }));
+    }
+
+    // Set up some generic props.
+    const props = {
+      ...this.props,
+      value,
+      error,
+      selectConfig: config,
+      handleSubmit: this.handleSubmit,
+      handleChange: this.handleChange,
+      cancel: this.cancel,
+      createOptions: this.createOptions
+    };
+
+    // Dynamically set up the editable component.
+    let EditableComponent;
+
+    if (type === 'select' && (this.props.async || multi)) {
+      EditableComponent = EditableAsyncSelect;
+    } else if (type === 'select' && this.props.icon) {
+      EditableComponent = EditableIconSelect;
+      props.createIcon = this.createIcon;
+    } else if (type === 'related') {
+      EditableComponent = components[field];
+      props.addRow = this.addRow;
+    } else {
+      EditableComponent = components[type];
+    }
+
+    if (type === 'select' || type === 'related' || type === 'tags') {
+      props.selectStyles = SELECT_STYLES;
+    }
+
+    const display = this.getDisplay(value, hasValue);
     // Certain fields have a custom empty state.
     const emptyText = this.getEmptyText();
     const hasError = error && type !== 'related';

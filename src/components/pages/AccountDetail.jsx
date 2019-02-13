@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
 import CaseListWidget from 'components/ContentBlock/CaseListWidget';
@@ -40,9 +41,17 @@ class AccountDetail extends Component {
     this.setState({ account });
   };
 
+  openSidebar = () => {
+    const data = {
+      id: this.state.account.id,
+      submitCallback: this.updateAccount
+    };
+
+    this.props.setSidebar('account', data);
+  };
+
   render() {
     const { account } = this.state;
-    const { id } = this.props.match.params;
 
     return (
       <React.Fragment>
@@ -50,13 +59,11 @@ class AccountDetail extends Component {
           <React.Fragment>
             <div className="detail-page-header">
               <div>
-                <Link to={`/accounts/${id}/edit`} className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} size="lg" />
-                </Link>
-
-                <button className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} size="lg" />
+                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
                 </button>
+
+                <DeleteConfirmation item={account} />
               </div>
             </div>
 
@@ -80,4 +87,4 @@ class AccountDetail extends Component {
   }
 }
 
-export default AccountDetail;
+export default withContext(AccountDetail);

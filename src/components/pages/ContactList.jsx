@@ -187,6 +187,16 @@ class ContactList extends Component {
     this.setState({ items });
   };
 
+  updateItem = newData => {
+    const { items } = this.state;
+    const { id } = newData;
+
+    const index = items.findIndex(item => item.id === id);
+    items[index] = newData;
+
+    this.setState({ items });
+  };
+
   render() {
     const { columns, items, query, pagination, sortColumn, sortStatus, page, loading } = this.state;
     const { t } = this.props;
@@ -288,7 +298,12 @@ class ContactList extends Component {
                     </td>
                   )}
                   <td>
-                    <ListActions item={contact} deleteCallback={this.removeItem} {...this.props} />
+                    <ListActions
+                      item={contact}
+                      deleteCallback={this.removeItem}
+                      submitCallback={this.updateItem}
+                      {...this.props}
+                    />
                   </td>
                 </tr>
               ))}

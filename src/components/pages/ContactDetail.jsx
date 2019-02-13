@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import updateModel from 'utils/updateModel';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
+import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import Dropdown from 'components/Dropdown';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
@@ -103,9 +104,17 @@ class ContactDetail extends Component {
     this.dropdownRef.current.closeMenu();
   };
 
+  openSidebar = () => {
+    const data = {
+      id: this.state.contact.id,
+      submitCallback: response => this.setState({ contact: response })
+    };
+
+    this.props.setSidebar('contact', data);
+  };
+
   render() {
     const { contact, submitting } = this.state;
-    const { id } = this.props.match.params;
 
     return (
       <React.Fragment>
@@ -113,9 +122,9 @@ class ContactDetail extends Component {
           <React.Fragment>
             <div className="detail-page-header">
               <div>
-                <Link to={`/contacts/${id}/edit`} className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} size="lg" />
-                </Link>
+                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
+                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+                </button>
 
                 {contact.functions.length > 0 && (
                   <Dropdown
@@ -160,9 +169,7 @@ class ContactDetail extends Component {
                   />
                 )}
 
-                <button className="hl-interface-btn">
-                  <FontAwesomeIcon icon={['far', 'trash-alt']} size="lg" />
-                </button>
+                <DeleteConfirmation item={contact} />
               </div>
             </div>
 
@@ -196,4 +203,4 @@ class ContactDetail extends Component {
   }
 }
 
-export default withTranslation('toasts')(ContactDetail);
+export default withTranslation('toasts')(withContext(ContactDetail));

@@ -1,21 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import withContext from 'src/withContext';
 import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 
 const ListActions = props => {
-  const url = props.item ? `${props.match.path}/${props.item.id}/edit` : '';
+  const data = {
+    id: props.item.id,
+    submitCallback: props.submitCallback
+  };
 
   return (
     <div>
-      <Link to={url} className="hl-primary-btn borderless">
+      <button
+        className="hl-primary-btn borderless"
+        onClick={() => props.setSidebar(props.item.contentType.model, data)}
+      >
         <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-      </Link>
+      </button>
 
       <DeleteConfirmation {...props} />
     </div>
   );
 };
 
-export default ListActions;
+export default withContext(ListActions);

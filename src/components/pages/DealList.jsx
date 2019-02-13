@@ -160,6 +160,16 @@ class DealList extends Component {
     this.setState({ items });
   };
 
+  updateItem = newData => {
+    const { items } = this.state;
+    const { id } = newData;
+
+    const index = items.findIndex(item => item.id === id);
+    items[index] = newData;
+
+    this.setState({ items });
+  };
+
   render() {
     const {
       columns,
@@ -273,7 +283,12 @@ class DealList extends Component {
                     </td>
                   )}
                   <td>
-                    <ListActions item={deal} deleteCallback={this.removeItem} {...this.props} />
+                    <ListActions
+                      item={deal}
+                      deleteCallback={this.removeItem}
+                      submitCallback={this.updateItem}
+                      {...this.props}
+                    />
                   </td>
                 </tr>
               ))}

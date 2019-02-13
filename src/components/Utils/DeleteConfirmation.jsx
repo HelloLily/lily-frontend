@@ -38,6 +38,8 @@ class DeleteConfirmation extends Component {
 
       if (deleteCallback) {
         deleteCallback(item);
+      } else {
+        window.location = `/${item.contentType.appLabel}`;
       }
     } catch (error) {
       errorToast(t('toasts:error'));
