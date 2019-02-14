@@ -54,7 +54,6 @@ class InnerDealForm extends Component {
       whyCustomer: [],
       whyLost: [],
       statuses: [],
-      currencies: [],
       dealSuggestions: [],
       showSuggestions: true,
       loading: true
@@ -78,6 +77,7 @@ class InnerDealForm extends Component {
     this.wonStatus = statusResponse.results.find(status => status.name === DEAL_WON_STATUS);
     this.lostStatus = statusResponse.results.find(status => status.name === DEAL_LOST_STATUS);
     this.noneStep = nextStepResponse.results.find(nextStep => nextStep.name === DEAL_NONE_STEP);
+    this.currencies = currencyResponse.results;
 
     const { id } = this.props.data;
 
@@ -125,7 +125,6 @@ class InnerDealForm extends Component {
         whyCustomer: whyCustomerResponse.results,
         whyLost: whyLostResponse.results,
         statuses: statusResponse.results,
-        currencies: currencyResponse.results,
         loading: false
       });
     }
@@ -136,8 +135,6 @@ class InnerDealForm extends Component {
   }
 
   loadDeal = async id => {
-    const { currencies } = this.state;
-
     const deal = await Deal.get(id);
 
     if (!deal.nextStepDate) {
@@ -156,7 +153,7 @@ class InnerDealForm extends Component {
       deal.nextStepDate = format(parseISO(deal.nextStepDate), FORM_DATE_FORMAT);
     }
 
-    deal.currency = currencies.find(currency => currency.code === deal.currency);
+    deal.currency = this.currencies.find(currency => currency.code === deal.currency);
 
     this.props.setValues(deal);
   };
@@ -339,7 +336,6 @@ class InnerDealForm extends Component {
       whyCustomer,
       whyLost,
       statuses,
-      currencies,
       dealSuggestions,
       showSuggestions,
       loading
@@ -570,7 +566,7 @@ class InnerDealForm extends Component {
                           value={values.currency}
                           styles={SELECT_STYLES}
                           onChange={value => setFieldValue('currency', value)}
-                          options={currencies}
+                          options={this.currencies}
                           getOptionLabel={option => option.name}
                           getOptionValue={option => option.code}
                           placeholder="Select a currency"
@@ -837,7 +833,7 @@ const DealForm = withRouter(
       let text;
 
       if (values.id) {
-        request = Deal.patch(cleanedValues);
+        request = Deal.put(cleanedValues);
         text = t('toasts:modelUpdated', { model: 'deal' });
       } else {
         request = Deal.post(cleanedValues);

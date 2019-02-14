@@ -1,4 +1,4 @@
-import { get, post, patch, del } from 'src/lib/api';
+import { get, post, patch, put, del } from 'src/lib/api';
 
 class Deal {
   get(id) {
@@ -11,6 +11,10 @@ class Deal {
 
   patch(data) {
     return patch(`/deals/${data.id}/`, data);
+  }
+
+  put(data) {
+    return put(`/deals/${data.id}/`, data);
   }
 
   del(id) {

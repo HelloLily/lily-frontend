@@ -27,6 +27,14 @@ class ContactDetail extends Component {
   async componentDidMount() {
     this.mounted = true;
 
+    await this.getContact();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  getContact = async () => {
     const { id } = this.props.match.params;
     const contact = await Contact.get(id);
 
@@ -35,11 +43,7 @@ class ContactDetail extends Component {
     }
 
     document.title = `${contact.fullName} - Lily`;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
+  };
 
   submitCallback = async args => {
     const { contact } = this.state;
@@ -107,7 +111,7 @@ class ContactDetail extends Component {
   openSidebar = () => {
     const data = {
       id: this.state.contact.id,
-      submitCallback: response => this.setState({ contact: response })
+      submitCallback: this.getContact
     };
 
     this.props.setSidebar('contact', data);
@@ -116,65 +120,70 @@ class ContactDetail extends Component {
   render() {
     const { contact, submitting } = this.state;
 
+    const extra =
+      this.props.match.path.includes('contacts') && contact ? (
+        <div>
+          <button className="hl-interface-btn" onClick={this.openSidebar}>
+            <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+          </button>
+
+          {contact.functions.length > 0 && (
+            <Dropdown
+              ref={this.dropdownRef}
+              clickable={
+                <button className="hl-interface-btn">
+                  <FontAwesomeIcon icon={['far', 'building']} />
+                </button>
+              }
+              menu={
+                <React.Fragment>
+                  <div className="dropdown-menu has-header">
+                    <div className="dropdown-header">Toggle active status</div>
+
+                    <ul className={submitting ? ' is-disabled' : ''}>
+                      {contact.functions.map(account => (
+                        <li className="dropdown-menu-item" key={account.id}>
+                          <input
+                            id={account.id}
+                            type="checkbox"
+                            checked={account.isActive}
+                            onChange={() => this.toggleActive(account)}
+                          />
+
+                          <label htmlFor={account.id}>{account.accountName}</label>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className={`dropdown-footer${submitting ? ' is-disabled' : ''}`}>
+                      <button className="hl-primary-btn-blue" onClick={this.submitActive}>
+                        Save
+                      </button>
+
+                      <button className="hl-primary-btn m-l-10" onClick={this.closeMenu}>
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </React.Fragment>
+              }
+            />
+          )}
+
+          <DeleteConfirmation item={contact} interfaceButton />
+        </div>
+      ) : null;
+
     return (
       <React.Fragment>
         {contact ? (
           <React.Fragment>
-            <div className="detail-page-header">
-              <div>
-                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-                </button>
-
-                {contact.functions.length > 0 && (
-                  <Dropdown
-                    ref={this.dropdownRef}
-                    clickable={
-                      <button className="hl-interface-btn">
-                        <FontAwesomeIcon icon={['far', 'building']} size="lg" />
-                      </button>
-                    }
-                    menu={
-                      <React.Fragment>
-                        <div className="dropdown-menu has-header">
-                          <div className="dropdown-header">Toggle active status</div>
-
-                          <ul className={submitting ? ' is-disabled' : ''}>
-                            {contact.functions.map(account => (
-                              <li className="dropdown-menu-item" key={account.id}>
-                                <input
-                                  id={account.id}
-                                  type="checkbox"
-                                  checked={account.isActive}
-                                  onChange={() => this.toggleActive(account)}
-                                />
-
-                                <label htmlFor={account.id}>{account.accountName}</label>
-                              </li>
-                            ))}
-                          </ul>
-
-                          <div className={`dropdown-footer${submitting ? ' is-disabled' : ''}`}>
-                            <button className="hl-primary-btn-blue" onClick={this.submitActive}>
-                              Save
-                            </button>
-
-                            <button className="hl-primary-btn m-l-10" onClick={this.closeMenu}>
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      </React.Fragment>
-                    }
-                  />
-                )}
-
-                <DeleteConfirmation item={contact} />
-              </div>
-            </div>
-
             <div className="detail-page">
-              <ContactDetailWidget contact={contact} submitCallback={this.submitCallback} />
+              <ContactDetailWidget
+                contact={contact}
+                submitCallback={this.submitCallback}
+                extra={extra}
+              />
 
               <DealListWidget object={contact} submitCallback={this.submitCallback} />
 

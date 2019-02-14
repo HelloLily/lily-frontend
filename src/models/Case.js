@@ -1,4 +1,4 @@
-import { get, post, patch, del } from 'src/lib/api';
+import { get, post, patch, put, del } from 'src/lib/api';
 
 class Case {
   get LOW_PRIORITY() {
@@ -27,6 +27,10 @@ class Case {
 
   patch(data) {
     return patch(`/cases/${data.id}/`, data);
+  }
+
+  put(data) {
+    return put(`/cases/${data.id}/`, data);
   }
 
   del(id) {

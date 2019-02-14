@@ -624,7 +624,7 @@ const CaseForm = withRouter(
       let text;
 
       if (values.id) {
-        request = Case.patch(cleanedValues);
+        request = Case.put(cleanedValues);
         text = t('toasts:modelUpdated', { model: 'case' });
       } else {
         request = Case.post(cleanedValues);

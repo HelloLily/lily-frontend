@@ -26,13 +26,29 @@ class CaseDetail extends Component {
     this.mounted = false;
     this.recipients = [];
 
-    this.state = { caseObj: null, caseStatuses: [], showEditor: false, loading: true };
+    this.state = {
+      caseObj: null,
+      caseStatuses: [],
+      showEditor: false,
+      loading: true
+    };
   }
 
   async componentDidMount() {
     this.mounted = true;
 
+    await this.getCase();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  getCase = async () => {
     const { id } = this.props.match.params;
+
+    this.setState({ loading: true });
+
     const caseObj = await Case.get(id);
     const statusResponse = await Case.statuses();
     const timeLogResponse = await TimeLog.getForObject(caseObj);
@@ -60,11 +76,7 @@ class CaseDetail extends Component {
     }
 
     document.title = `${caseObj.subject} - Lily`;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
+  };
 
   getRecipients = ({ account, contact }) => {
     let emailAddress = null;
@@ -173,7 +185,7 @@ class CaseDetail extends Component {
   openSidebar = () => {
     const data = {
       id: this.state.caseObj.id,
-      submitCallback: response => this.setState({ caseObj: response })
+      submitCallback: this.getCase
     };
 
     this.props.setSidebar('case', data);
@@ -200,25 +212,28 @@ class CaseDetail extends Component {
       </React.Fragment>
     );
 
+    const extra = (
+      <React.Fragment>
+        <div>
+          <button className="hl-interface-btn" onClick={this.openSidebar}>
+            <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+          </button>
+
+          <DeleteConfirmation item={caseObj} interfaceButton />
+        </div>
+      </React.Fragment>
+    );
+
     return (
       <React.Fragment>
         {caseObj ? (
           <React.Fragment>
-            <div className="detail-page-header">
-              <div>
-                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-                </button>
-
-                <DeleteConfirmation item={caseObj} />
-              </div>
-            </div>
-
             <div className="detail-page">
               <div>
                 <BlockUI blocking={loading}>
                   <ContentBlock
                     title={title}
+                    extra={extra}
                     component="caseDetailWidget"
                     className="m-b-25"
                     fullHeight

@@ -47,14 +47,17 @@ class DeleteConfirmation extends Component {
   };
 
   render() {
-    const { item, showText, t } = this.props;
+    const { item, showText, interfaceButton, t } = this.props;
 
     // TODO: Think of a cleaner way.
     const display = item.name || item.fullName || item.subject || item.label || item.email;
 
     return (
       <React.Fragment>
-        <button className="hl-primary-btn borderless" onClick={this.openModal}>
+        <button
+          className={interfaceButton ? 'hl-interface-btn' : 'hl-primary-btn borderless'}
+          onClick={this.openModal}
+        >
           <FontAwesomeIcon icon={['far', 'trash-alt']} />
           {showText && <span> Delete</span>}
         </button>

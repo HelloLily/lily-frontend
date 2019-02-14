@@ -42,8 +42,17 @@ class AccountDetailWidget extends Component {
     await this.submitCallback(args);
   };
 
+  openSidebar = () => {
+    const data = {
+      id: this.props.account.id,
+      submitCallback: this.props.submitCallback
+    };
+
+    this.props.setSidebar('account', data);
+  };
+
   render() {
-    const { account, clickable, currentUser } = this.props;
+    const { account, clickable, currentUser, extra } = this.props;
 
     const title = (
       <React.Fragment>
@@ -59,24 +68,6 @@ class AccountDetailWidget extends Component {
         </div>
       </React.Fragment>
     );
-
-    const externalAppLink =
-      currentUser.tenant.externalAppLinks.length > 0
-        ? currentUser.tenant.externalAppLinks[0]
-        : null;
-
-    const extra =
-      account.customerId && externalAppLink ? (
-        <a
-          href={externalAppLink.url.replace(/\[\[.+\]\]/, account.customerId)}
-          className="hl-primary-btn"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FontAwesomeIcon icon={['far', 'external-link']} className="m-r-5" />
-          {externalAppLink.name}
-        </a>
-      ) : null;
 
     const assignedKey = account.assignedTo ? account.assignedTo.id : null;
 

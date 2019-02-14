@@ -699,7 +699,7 @@ const AccountForm = withRouter(
       let text;
 
       if (values.id) {
-        request = Account.patch(cleanedValues);
+        request = Account.put(cleanedValues);
         text = t('modelUpdated', { model: 'account' });
       } else {
         request = Account.post(cleanedValues);

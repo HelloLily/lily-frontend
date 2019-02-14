@@ -4,7 +4,7 @@
 .dashboard-widgets {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(750px, 1fr));
-  grid-gap: 15px;
+  grid-gap: 25px;
 
   .content-block {
     .content-block-body {

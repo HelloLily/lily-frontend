@@ -23,6 +23,14 @@ class AccountDetail extends Component {
   async componentDidMount() {
     this.mounted = true;
 
+    await this.getAccount();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  getAccount = async () => {
     const { id } = this.props.match.params;
     const account = await Account.get(id);
 
@@ -31,54 +39,64 @@ class AccountDetail extends Component {
     }
 
     document.title = `${account.name} - Lily`;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
+  };
 
   updateAccount = async account => {
     this.setState({ account });
   };
 
-  openSidebar = () => {
-    const data = {
-      id: this.state.account.id,
-      submitCallback: this.updateAccount
-    };
-
-    this.props.setSidebar('account', data);
-  };
-
   render() {
     const { account } = this.state;
+    const { currentUser } = this.props;
+
+    const externalAppLink =
+      currentUser.tenant.externalAppLinks.length > 0
+        ? currentUser.tenant.externalAppLinks[0]
+        : null;
+
+    const extra =
+      this.props.match.path.includes('accounts') && account ? (
+        <React.Fragment>
+          {account.customerId && externalAppLink ? (
+            <a
+              href={externalAppLink.url.replace(/\[\[.+\]\]/, account.customerId)}
+              className="hl-primary-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={['far', 'external-link']} className="m-r-5" />
+              {externalAppLink.name}
+            </a>
+          ) : null}
+
+          <div>
+            <button className="hl-interface-btn" onClick={this.openSidebar}>
+              <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+            </button>
+
+            <DeleteConfirmation item={account} interfaceButton />
+          </div>
+        </React.Fragment>
+      ) : null;
 
     return (
       <React.Fragment>
         {account ? (
-          <React.Fragment>
-            <div className="detail-page-header">
-              <div>
-                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-                </button>
+          <div className="detail-page">
+            <AccountDetailWidget
+              account={account}
+              extra={extra}
+              submitCallback={this.updateAccount}
+            />
 
-                <DeleteConfirmation item={account} />
-              </div>
-            </div>
+            <DealListWidget object={account} />
 
-            <div className="detail-page">
-              <AccountDetailWidget account={account} />
+            <CaseListWidget object={account} />
 
-              <DealListWidget object={account} />
+            <ActivityStream object={account} />
 
-              <CaseListWidget object={account} />
-
-              <ActivityStream object={account} />
-
-              <ContactListWidget object={account} />
-            </div>
-          </React.Fragment>
+            <ContactListWidget object={account} />
+          </div>
         ) : (
           <LoadingIndicator />
         )}

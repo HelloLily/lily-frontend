@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentBlock from 'components/ContentBlock';
 import Editable from 'components/Editable';
 
-const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
+const ContactDetailWidget = ({ contact, submitCallback, clickable, extra }) => {
   const title = (
     <React.Fragment>
       <div className="content-block-label" />
@@ -21,7 +21,7 @@ const ContactDetailWidget = ({ contact, submitCallback, clickable }) => {
   );
 
   return (
-    <ContentBlock title={title} component="contactDetailWidget">
+    <ContentBlock title={title} extra={extra} component="contactDetailWidget">
       <div className="detail-row">
         <div>
           <FontAwesomeIcon icon={['far', 'comment']} /> Salutation

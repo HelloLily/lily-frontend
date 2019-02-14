@@ -645,7 +645,7 @@ const ContactForm = withRouter(
       let text;
 
       if (values.id) {
-        request = Contact.patch(cleanedValues);
+        request = Contact.put(cleanedValues);
         text = t('toasts:modelUpdated', { model: 'contact' });
       } else {
         request = Contact.post(cleanedValues);

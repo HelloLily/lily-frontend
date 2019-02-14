@@ -102,7 +102,7 @@ class ContentBlock extends Component {
               <div className="content-block-title">{this.props.title}</div>
               <div className="content-block-extra">{this.props.extra}</div>
               <div className="content-block-tools">
-                <button className="hl-interface-btn m-l-5" onClick={this.toggleCollapse}>
+                <button className="hl-interface-btn" onClick={this.toggleCollapse}>
                   <FontAwesomeIcon icon={['far', statusIcons[status]]} size="lg" />
                 </button>
 

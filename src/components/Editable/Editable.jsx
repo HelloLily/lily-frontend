@@ -70,6 +70,7 @@ class Editable extends Component {
 
     if (value) {
       const { id } = value;
+      const isObject = value !== null && typeof value === 'object';
 
       let shouldUpdate = false;
 
@@ -79,7 +80,9 @@ class Editable extends Component {
         if (id !== object[field]) {
           shouldUpdate = true;
         }
-      } else if (id !== object[field].id) {
+      } else if (isObject && id !== object[field].id) {
+        shouldUpdate = true;
+      } else if (!isObject && value !== object[field]) {
         shouldUpdate = true;
       }
 
@@ -352,6 +355,7 @@ class Editable extends Component {
     const config = Object.assign({}, this.selectConfig);
 
     if (field === 'status') {
+      // We need to manually apply the content type since there are multiple status endpoints.
       config.model = `${object.contentType.appLabel}${config.model}`;
     }
 

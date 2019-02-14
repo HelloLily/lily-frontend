@@ -52,7 +52,18 @@ class DealDetail extends Component {
   }
 
   async componentDidMount() {
+    await this.getDeal();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  getDeal = async () => {
     const { id } = this.props.match.params;
+
+    this.setState({ loading: true });
+
     const deal = await Deal.get(id);
     const contact = deal.contact ? await Contact.get(deal.contact.id) : null;
     const statusResponse = await Deal.statuses();
@@ -77,11 +88,7 @@ class DealDetail extends Component {
     });
 
     document.title = `${deal.name} - Lily`;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
+  };
 
   toggleArchive = async () => {
     const { deal } = this.state;
@@ -165,7 +172,7 @@ class DealDetail extends Component {
   openSidebar = () => {
     const data = {
       id: this.state.deal.id,
-      submitCallback: response => this.setState({ deal: response })
+      submitCallback: this.getDeal
     };
 
     this.props.setSidebar('deal', data);
@@ -210,6 +217,18 @@ class DealDetail extends Component {
       </React.Fragment>
     );
 
+    const extra = (
+      <React.Fragment>
+        <div>
+          <button className="hl-interface-btn" onClick={this.openSidebar}>
+            <FontAwesomeIcon icon={['far', 'pencil-alt']} />
+          </button>
+
+          <DeleteConfirmation item={deal} interfaceButton />
+        </div>
+      </React.Fragment>
+    );
+
     const documentsTitle = (
       <React.Fragment>
         <div className="content-block-label" />
@@ -234,151 +253,143 @@ class DealDetail extends Component {
       <React.Fragment>
         {deal ? (
           <React.Fragment>
-            <div className="detail-page-header">
-              <div>
-                <button className="hl-primary-btn borderless" onClick={this.openSidebar}>
-                  <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-                </button>
-
-                <DeleteConfirmation item={deal} />
-              </div>
-            </div>
-
             <div className="detail-page">
               <div>
-                <ContentBlock title={title} component="dealDetailWidget" fullHeight>
-                  <div className="detail-row">
-                    <div>One-time payment</div>
-                    <div>
-                      <Editable
-                        type="text"
-                        object={deal}
-                        field="amountOnce"
-                        submitCallback={this.submitCallback}
-                      >
-                        <LilyCurrency value={deal.amountOnce} currency={deal.currency} />
-                      </Editable>
-                    </div>
-                  </div>
-
-                  <div className="detail-row">
-                    <div>Monthly payment</div>
-                    <div>
-                      <Editable
-                        type="text"
-                        object={deal}
-                        field="amountRecurring"
-                        submitCallback={this.submitCallback}
-                      >
-                        <LilyCurrency value={deal.amountRecurring} currency={deal.currency} />
-                      </Editable>
-                    </div>
-                  </div>
-
-                  {deal.whyLost && deal.status.name === DEAL_LOST_STATUS && (
+                <BlockUI blocking={loading}>
+                  <ContentBlock title={title} extra={extra} component="dealDetailWidget" fullHeight>
                     <div className="detail-row">
-                      <div>Why lost</div>
+                      <div>One-time payment</div>
+                      <div>
+                        <Editable
+                          type="text"
+                          object={deal}
+                          field="amountOnce"
+                          submitCallback={this.submitCallback}
+                        >
+                          <LilyCurrency value={deal.amountOnce} currency={deal.currency} />
+                        </Editable>
+                      </div>
+                    </div>
+
+                    <div className="detail-row">
+                      <div>Monthly payment</div>
+                      <div>
+                        <Editable
+                          type="text"
+                          object={deal}
+                          field="amountRecurring"
+                          submitCallback={this.submitCallback}
+                        >
+                          <LilyCurrency value={deal.amountRecurring} currency={deal.currency} />
+                        </Editable>
+                      </div>
+                    </div>
+
+                    {deal.whyLost && deal.status.name === DEAL_LOST_STATUS && (
+                      <div className="detail-row">
+                        <div>Why lost</div>
+                        <div className="has-editable">
+                          <Editable
+                            type="select"
+                            field="whyLost"
+                            object={deal}
+                            submitCallback={this.submitCallback}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {deal.closedDate && (
+                      <div className="detail-row">
+                        <div>Closed date</div>
+                        <div>
+                          <LilyDate date={deal.closedDate} />
+                        </div>
+                      </div>
+                    )}
+
+                    {this.showQuoteSection && (
+                      <div className="detail-row">
+                        <div>Quote</div>
+                        <div className="has-editable">
+                          <Editable
+                            type="text"
+                            field="quoteId"
+                            object={deal}
+                            submitCallback={this.submitCallback}
+                          >
+                            {deal.quoteId ? (
+                              <a
+                                href={`https://freedom.voys.${
+                                  this.isVoysNL ? 'nl' : 'co.za'
+                                }/quotes/pdf/${deal.quoteId}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {deal.quoteId}
+                              </a>
+                            ) : (
+                              <span className="editable-empty">No quote ID</span>
+                            )}
+                          </Editable>
+                        </div>
+                      </div>
+                    )}
+
+                    {(deal.foundThrough || deal.contactedBy || deal.whyCustomer) && (
+                      <React.Fragment>
+                        <div className="detail-row">
+                          <div>Found through</div>
+                          <div className="has-editable">
+                            <Editable
+                              type="select"
+                              field="foundThrough"
+                              object={deal}
+                              submitCallback={this.submitCallback}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="detail-row">
+                          <div>Contacted by</div>
+                          <div className="has-editable">
+                            <Editable
+                              type="select"
+                              field="contactedBy"
+                              object={deal}
+                              submitCallback={this.submitCallback}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="detail-row">
+                          <div>Why customer</div>
+                          <div className="has-editable">
+                            <Editable
+                              type="select"
+                              field="whyCustomer"
+                              object={deal}
+                              submitCallback={this.submitCallback}
+                            />
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    )}
+
+                    <div className="detail-row">
+                      <div>Tags</div>
                       <div className="has-editable">
                         <Editable
-                          type="select"
-                          field="whyLost"
+                          multi
+                          type="tags"
+                          field="tags"
                           object={deal}
                           submitCallback={this.submitCallback}
                         />
                       </div>
                     </div>
-                  )}
-
-                  {deal.closedDate && (
-                    <div className="detail-row">
-                      <div>Closed date</div>
-                      <div>
-                        <LilyDate date={deal.closedDate} />
-                      </div>
-                    </div>
-                  )}
-
-                  {this.showQuoteSection && (
-                    <div className="detail-row">
-                      <div>Quote</div>
-                      <div className="has-editable">
-                        <Editable
-                          type="text"
-                          field="quoteId"
-                          object={deal}
-                          submitCallback={this.submitCallback}
-                        >
-                          {deal.quoteId ? (
-                            <a
-                              href={`https://freedom.voys.${
-                                this.isVoysNL ? 'nl' : 'co.za'
-                              }/quotes/pdf/${deal.quoteId}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {deal.quoteId}
-                            </a>
-                          ) : (
-                            <span className="editable-empty">No quote ID</span>
-                          )}
-                        </Editable>
-                      </div>
-                    </div>
-                  )}
-
-                  {(deal.foundThrough || deal.contactedBy || deal.whyCustomer) && (
-                    <React.Fragment>
-                      <div className="detail-row">
-                        <div>Found through</div>
-                        <div className="has-editable">
-                          <Editable
-                            type="select"
-                            field="foundThrough"
-                            object={deal}
-                            submitCallback={this.submitCallback}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="detail-row">
-                        <div>Contacted by</div>
-                        <div className="has-editable">
-                          <Editable
-                            type="select"
-                            field="contactedBy"
-                            object={deal}
-                            submitCallback={this.submitCallback}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="detail-row">
-                        <div>Why customer</div>
-                        <div className="has-editable">
-                          <Editable
-                            type="select"
-                            field="whyCustomer"
-                            object={deal}
-                            submitCallback={this.submitCallback}
-                          />
-                        </div>
-                      </div>
-                    </React.Fragment>
-                  )}
-
-                  <div className="detail-row">
-                    <div>Tags</div>
-                    <div className="has-editable">
-                      <Editable
-                        multi
-                        type="tags"
-                        field="tags"
-                        object={deal}
-                        submitCallback={this.submitCallback}
-                      />
-                    </div>
-                  </div>
-                </ContentBlock>
+                  </ContentBlock>
+                </BlockUI>
 
                 <div className="m-b-25" />
 
