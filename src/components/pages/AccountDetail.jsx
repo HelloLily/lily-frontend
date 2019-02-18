@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import withContext from 'src/withContext';
 import objectToHash from 'utils/objectToHash';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
-import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
 import CaseListWidget from 'components/ContentBlock/CaseListWidget';
+import DetailActions from 'components/ContentBlock/DetailActions';
 import ContactListWidget from 'components/ContentBlock/ContactListWidget';
 import ActivityStream from 'components/ActivityStream';
 import Account from 'models/Account';
@@ -79,13 +79,7 @@ class AccountDetail extends Component {
             </a>
           ) : null}
 
-          <div>
-            <button className="hl-interface-btn" onClick={this.openSidebar}>
-              <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-            </button>
-
-            <DeleteConfirmation item={account} interfaceButton />
-          </div>
+          <DetailActions item={account} openSidebar={this.openSidebar} />
         </React.Fragment>
       ) : null;
 

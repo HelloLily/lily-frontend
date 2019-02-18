@@ -9,9 +9,9 @@ import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
 import Postpone from 'components/Postpone';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
-import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import TimeLoggingWidget from 'components/ContentBlock/TimeLoggingWidget';
+import DetailActions from 'components/ContentBlock/DetailActions';
 import ActivityStream from 'components/ActivityStream';
 import EmailEditor from 'components/EmailEditor';
 import BlockUI from 'components/Utils/BlockUI';
@@ -213,17 +213,7 @@ class CaseDetail extends Component {
       </React.Fragment>
     );
 
-    const extra = (
-      <React.Fragment>
-        <div>
-          <button className="hl-interface-btn" onClick={this.openSidebar}>
-            <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-          </button>
-
-          <DeleteConfirmation item={caseObj} interfaceButton />
-        </div>
-      </React.Fragment>
-    );
+    const extra = <DetailActions item={caseObj} openSidebar={this.openSidebar} />;
 
     return (
       <React.Fragment>

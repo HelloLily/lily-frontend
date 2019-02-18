@@ -7,7 +7,7 @@ import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
 import BlockUI from 'components/Utils/BlockUI';
 import LilyModal from 'components/LilyModal';
-import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
+import ListActions from 'components/List/ListActions';
 import TemplateVariable from 'models/TemplateVariable';
 
 class TemplateVariableList extends Component {
@@ -104,14 +104,13 @@ class TemplateVariableList extends Component {
                       <FontAwesomeIcon icon={['far', 'eye']} /> Preview
                     </button>
 
-                    <Link
-                      to={`/preferences/templatevariables/${variable.id}/edit`}
-                      className="hl-primary-btn borderless"
-                    >
-                      <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-                    </Link>
-
-                    <DeleteConfirmation item={variable} deleteCallback={this.removeItem} />
+                    <ListActions
+                      model="template variable"
+                      url={`/preferences/templatevariables/${variable.id}/edit`}
+                      item={variable}
+                      deleteCallback={this.removeItem}
+                      {...this.props}
+                    />
                   </td>
                 </tr>
               ))}

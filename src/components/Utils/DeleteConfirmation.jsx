@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { del } from 'lib/api';
 import { successToast, errorToast } from 'utils/toasts';
+import LilyTooltip from 'components/LilyTooltip';
 import LilyModal from 'components/LilyModal';
 
 class DeleteConfirmation extends Component {
   constructor(props) {
     super(props);
+
+    this.ref = React.createRef();
 
     this.state = {
       modalOpen: false
@@ -47,8 +50,9 @@ class DeleteConfirmation extends Component {
   };
 
   render() {
-    const { item, showText, interfaceButton, t } = this.props;
+    const { item, showText, interfaceButton, tooltipPlace, t } = this.props;
 
+    const model = this.props.model || item.contentType.model;
     // TODO: Think of a cleaner way.
     const display = item.name || item.fullName || item.subject || item.label || item.email;
 
@@ -57,10 +61,15 @@ class DeleteConfirmation extends Component {
         <button
           className={interfaceButton ? 'hl-interface-btn' : 'hl-primary-btn borderless'}
           onClick={this.openModal}
+          data-tip={t('tooltips:deleteAction', { model })}
+          data-for={`${model}-${item.id}-delete`}
+          ref={this.ref}
         >
           <FontAwesomeIcon icon={['far', 'trash-alt']} />
           {showText && <span> Delete</span>}
         </button>
+
+        <LilyTooltip id={`${model}-${item.id}-delete`} place={tooltipPlace} />
 
         <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeModal} alignCenter>
           <div className="modal-header">
@@ -90,4 +99,4 @@ class DeleteConfirmation extends Component {
   }
 }
 
-export default withTranslation(['modals', 'toasts'])(DeleteConfirmation);
+export default withTranslation(['modals', 'toasts', 'tooltips'])(DeleteConfirmation);

@@ -288,6 +288,8 @@ class EmailAccountList extends Component {
                   </td>
                   <td>
                     <ListActions
+                      model="email account"
+                      url={`/preferences/emailaccounts/${emailAccount.id}/edit`}
                       item={emailAccount}
                       deleteCallback={this.removeItem}
                       {...this.props}

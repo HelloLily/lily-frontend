@@ -8,7 +8,7 @@ import { ESCAPE_KEY } from 'lib/constants';
 import { successToast, errorToast } from 'utils/toasts';
 import toggleFilter from 'utils/toggleFilter';
 import BlockUI from 'components/Utils/BlockUI';
-import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
+import ListActions from 'components/List/ListActions';
 import SearchBar from 'components/List/SearchBar';
 import Editable from 'components/Editable';
 import Dropdown from 'components/Dropdown';
@@ -464,16 +464,12 @@ class EmailTemplateList extends Component {
                               }
                             />
 
-                            <Link
-                              to={`/preferences/emailtemplates/${emailTemplate.id}/edit`}
-                              className="hl-primary-btn borderless"
-                            >
-                              <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-                            </Link>
-
-                            <DeleteConfirmation
+                            <ListActions
+                              model="email account"
+                              url={`/preferences/emailtemplates/${emailTemplate.id}/edit`}
                               item={emailTemplate}
                               deleteCallback={this.removeItem}
+                              {...this.props}
                             />
                           </td>
                         </tr>

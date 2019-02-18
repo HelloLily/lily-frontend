@@ -390,11 +390,18 @@ class UserList extends Component {
                           className="hl-primary-btn borderless"
                           type="button"
                           onClick={() => this.resendInvite(invite)}
+                          data-tip="Resend invite"
                         >
                           <FontAwesomeIcon icon={['far', 'redo']} />
                         </button>
 
-                        <DeleteConfirmation item={invite} deleteCallback={this.removeInvite} />
+                        <LilyTooltip />
+
+                        <DeleteConfirmation
+                          model="invite"
+                          item={invite}
+                          deleteCallback={this.removeInvite}
+                        />
                       </td>
                     </tr>
                   ))}

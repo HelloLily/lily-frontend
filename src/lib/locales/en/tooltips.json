@@ -33,5 +33,7 @@
   "dealPostpone": "Change the next step date",
   "customPostponeDate": "Pick a custom date",
   "requiredFields": "Please make sure all required fields are filled in.",
-  "forbidden": "You do not have permission to view this page."
+  "forbidden": "You do not have permission to view this page.",
+  "editAction": "Edit this {{model}}",
+  "deleteAction": "Delete this {{model}}"
 }

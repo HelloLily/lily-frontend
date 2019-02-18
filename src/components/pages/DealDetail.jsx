@@ -16,10 +16,10 @@ import EmailLink from 'components/Utils/EmailLink';
 import BlockUI from 'components/Utils/BlockUI';
 import Postpone from 'components/Postpone';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
-import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import LilyCurrency from 'components/Utils/LilyCurrency';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
+import DetailActions from 'components/ContentBlock/DetailActions';
 import ActivityStream from 'components/ActivityStream';
 import LilyTooltip from 'components/LilyTooltip';
 import Tenant from 'models/Tenant';
@@ -218,17 +218,7 @@ class DealDetail extends Component {
       </React.Fragment>
     );
 
-    const extra = (
-      <React.Fragment>
-        <div>
-          <button className="hl-interface-btn" onClick={this.openSidebar}>
-            <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-          </button>
-
-          <DeleteConfirmation item={deal} interfaceButton />
-        </div>
-      </React.Fragment>
-    );
+    const extra = <DetailActions item={deal} openSidebar={this.openSidebar} />;
 
     const documentsTitle = (
       <React.Fragment>

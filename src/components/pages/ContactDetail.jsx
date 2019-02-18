@@ -6,12 +6,12 @@ import withContext from 'src/withContext';
 import updateModel from 'utils/updateModel';
 import objectToHash from 'utils/objectToHash';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
-import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import Dropdown from 'components/Dropdown';
 import ContactDetailWidget from 'components/ContentBlock/ContactDetailWidget';
 import DealListWidget from 'components/ContentBlock/DealListWidget';
 import CaseListWidget from 'components/ContentBlock/CaseListWidget';
 import ContactListWidget from 'components/ContentBlock/ContactListWidget';
+import DetailActions from 'components/ContentBlock/DetailActions';
 import ActivityStream from 'components/ActivityStream';
 import Contact from 'models/Contact';
 
@@ -124,10 +124,6 @@ class ContactDetail extends Component {
     const extra =
       this.props.match.path.includes('contacts') && contact ? (
         <div>
-          <button className="hl-interface-btn" onClick={this.openSidebar}>
-            <FontAwesomeIcon icon={['far', 'pencil-alt']} />
-          </button>
-
           {contact.functions.length > 0 && (
             <Dropdown
               ref={this.dropdownRef}
@@ -171,7 +167,7 @@ class ContactDetail extends Component {
             />
           )}
 
-          <DeleteConfirmation item={contact} interfaceButton />
+          <DetailActions item={contact} openSidebar={this.openSidebar} />
         </div>
       ) : null;
 
