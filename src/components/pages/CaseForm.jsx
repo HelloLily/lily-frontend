@@ -577,7 +577,7 @@ class InnerCaseForm extends Component {
                       </div>
                     </FormSection>
 
-                    <FormFooter {...this.props} />
+                    <FormFooter {...this.props} confirmText="Save case" />
                   </Form>
                 </div>
               </div>

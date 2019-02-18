@@ -31,14 +31,6 @@ form {
   }
 }
 
-.sidebar {
-  &.expanded {
-    form {
-      width: 60%;
-    }
-  }
-}
-
 .hl-input {
   width: 100%;
 }
@@ -112,18 +104,6 @@ label {
 
   .form-section-content {
     flex: 1 1 75%;
-  }
-}
-
-.sidebar {
-  &.expanded {
-    .form-section-heading {
-      text-align: right;
-    }
-  }
-
-  .form-section-heading {
-    text-align: initial;
   }
 }
 
@@ -240,5 +220,26 @@ label {
       width: 20px;
       padding-right: 5px;
     }
+  }
+}
+
+.sidebar {
+  &.expanded {
+    form {
+      width: 50%;
+    }
+
+    .form-section {
+      flex-wrap: unset;
+
+      .form-section-heading {
+        text-align: right;
+        flex-basis: 30%;
+      }
+    }
+  }
+
+  .form-section-heading {
+    text-align: initial;
   }
 }

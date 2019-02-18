@@ -118,7 +118,7 @@ class InnerWebhookForm extends Component {
                     })}
                   </FormSection>
 
-                  <FormFooter {...this.props} />
+                  <FormFooter {...this.props} confirmText="Save webhook(s)" />
                 </Form>
               </FeatureBlock>
             </div>

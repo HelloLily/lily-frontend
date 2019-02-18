@@ -198,7 +198,7 @@ class InnerEmailAccountForm extends Component {
                   </Tabs>
                 </div>
 
-                <FormFooter {...this.props} indent={false} />
+                <FormFooter {...this.props} indent={false} confirmText="Save email account" />
               </Form>
             </div>
           </div>

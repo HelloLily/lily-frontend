@@ -226,7 +226,11 @@ class InnerProfileForm extends Component {
                   </div>
                 </FormSection>
 
-                <FormFooter {...this.props} handleSubmit={this.handleSubmit} />
+                <FormFooter
+                  handleSubmit={this.handleSubmit}
+                  confirmText="Save profile"
+                  {...this.props}
+                />
 
                 <DashboardModal
                   uppy={uppy}

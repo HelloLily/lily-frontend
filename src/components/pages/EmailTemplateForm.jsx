@@ -230,7 +230,12 @@ class InnerEmailTemplateForm extends Component {
                   {errors.bodyHtml && <div className="error-message">{errors.bodyHtml}</div>}
                 </div>
 
-                <FormFooter {...this.props} indent={false} handleSubmit={this.handleSubmit} />
+                <FormFooter
+                  indent={false}
+                  handleSubmit={this.handleSubmit}
+                  confirmText="Save email template"
+                  {...this.props}
+                />
               </Form>
             </div>
           </div>

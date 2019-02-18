@@ -192,7 +192,12 @@ class InnerTemplateVariableForm extends Component {
                   />
                 </div>
 
-                <FormFooter {...this.props} indent={false} handleSubmit={this.handleSubmit} />
+                <FormFooter
+                  indent={false}
+                  handleSubmit={this.handleSubmit}
+                  confirmText="Save variable"
+                  {...this.props}
+                />
               </Form>
             </div>
           </div>

@@ -29,8 +29,10 @@ export default async function handleResponse(response) {
       window.location = '/';
     }
 
+    const currentPath = window.location.pathname;
+
     // Show a 404 if the page that's being viewed doesn't exists.
-    if (status === 404 && response.url.includes(window.location.pathname)) {
+    if (currentPath !== '/' && status === 404 && response.url.includes(currentPath)) {
       history.replace('/404');
     }
 

@@ -604,7 +604,7 @@ class InnerContactForm extends Component {
                       </div>
                     </FormSection>
 
-                    <FormFooter {...this.props} />
+                    <FormFooter {...this.props} confirmText="Save contact" />
                   </Form>
                 </div>
               </div>

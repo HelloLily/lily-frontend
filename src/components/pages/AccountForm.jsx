@@ -655,7 +655,7 @@ class InnerAccountForm extends Component {
                       </div>
                     </FormSection>
 
-                    <FormFooter {...this.props} />
+                    <FormFooter {...this.props} confirmText="Save account" />
                   </Form>
                 </div>
               </div>

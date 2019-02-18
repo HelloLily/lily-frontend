@@ -764,7 +764,7 @@ class InnerDealForm extends Component {
                       </div>
                     </FormSection>
 
-                    <FormFooter {...this.props} />
+                    <FormFooter {...this.props} confirmText="Save deal" />
                   </Form>
                 </div>
               </div>
