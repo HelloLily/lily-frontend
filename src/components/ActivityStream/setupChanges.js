@@ -200,7 +200,7 @@ export default function setupChanges(items, mergeChanges = true) {
       }
     });
 
-    // Our data was put in other keys, so just remove the data key.
+    // The data was put in other keys, so just remove the data key.
     delete change.data;
 
     change.relatedCount = Object.keys(change.related).length;

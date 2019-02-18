@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
+import objectToHash from 'utils/objectToHash';
+import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import ContentBlock from 'components/ContentBlock';
 import LilyDate from 'components/Utils/LilyDate';
@@ -17,7 +19,6 @@ import TimeLog from 'models/TimeLog';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
 import Case from 'models/Case';
-import updateModel from 'src/utils/updateModel';
 
 class CaseDetail extends Component {
   constructor(props) {
@@ -237,6 +238,7 @@ class CaseDetail extends Component {
                     component="caseDetailWidget"
                     className="m-b-25"
                     fullHeight
+                    key={objectToHash(caseObj)}
                   >
                     <div className="detail-row">
                       <div>Priority</div>
@@ -350,7 +352,7 @@ class CaseDetail extends Component {
 
               <div className="grid-column-2">
                 <BlockUI blocking={loading}>
-                  <div className="content-block-container m-b-25">
+                  <div className="content-block-container m-b-25" key={objectToHash(caseObj)}>
                     <div className="content-block">
                       <div className="content-block-header space-between">
                         <div className={`hl-btn-group${caseObj.isArchived ? ' is-disabled' : ''}`}>

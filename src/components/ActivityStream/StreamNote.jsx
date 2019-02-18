@@ -46,7 +46,7 @@ const StreamNote = props => {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <FontAwesomeIcon icon={['far', 'thumbtack']} /> Unpin
+                  <FontAwesomeIcon icon={['far', 'thumbtack']} /> Pin
                 </React.Fragment>
               )}
             </button>

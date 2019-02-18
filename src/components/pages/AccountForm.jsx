@@ -60,6 +60,7 @@ class InnerAccountForm extends Component {
   async componentDidMount() {
     this.mounted = true;
 
+    const { values, setFieldValue } = this.props;
     const { id } = this.props.data;
 
     let title;
@@ -75,14 +76,14 @@ class InnerAccountForm extends Component {
       );
 
       if (relation) {
-        this.props.setFieldValue('status', relation);
+        setFieldValue('status', relation);
       }
 
       const { data } = this.props;
 
       if (data) {
         if (data.website) {
-          this.props.setFieldValue('primaryWebsite', data.website);
+          setFieldValue('primaryWebsite', data.website);
 
           await this.loadDataproviderInfo();
 
@@ -93,11 +94,11 @@ class InnerAccountForm extends Component {
               .join(' ');
             const companyName = ucfirst(company);
 
-            this.props.setFieldValue('name', companyName);
+            setFieldValue('name', companyName);
           }
         } else {
           Object.keys(data).forEach(key => {
-            this.props.setFieldValue(key, data[key]);
+            setFieldValue(key, data[key]);
           });
         }
       }
@@ -109,7 +110,9 @@ class InnerAccountForm extends Component {
       document.title = title;
     }
 
-    this.props.setFieldValue('assignedTo', this.props.currentUser);
+    if (!values) {
+      setFieldValue('assignedTo', this.props.currentUser);
+    }
 
     if (this.mounted) {
       this.setState({ accountStatuses: statusResponse.results, loading: false });

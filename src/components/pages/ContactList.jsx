@@ -153,7 +153,7 @@ class ContactList extends Component {
   };
 
   handleSearch = query => {
-    this.setState({ query }, this.debouncedSearch);
+    this.setState({ page: 1, query }, this.debouncedSearch);
   };
 
   loadItems = async () => {

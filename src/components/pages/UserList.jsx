@@ -131,10 +131,10 @@ class UserList extends Component {
   };
 
   handleSearch = query => {
-    this.setState({ query }, this.debouncedSearch);
+    this.setState({ page: 1, query }, this.debouncedSearch);
   };
 
-  loadItems = async () => {
+  loadItems = async query => {
     const { statusFilter, page, sortColumn, sortStatus } = this.state;
 
     if (statusFilter === 3) {
@@ -153,6 +153,7 @@ class UserList extends Component {
     }
 
     const params = {
+      search: query,
       pageSize: 20,
       page,
       sortColumn,

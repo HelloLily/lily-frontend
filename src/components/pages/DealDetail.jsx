@@ -6,6 +6,7 @@ import cx from 'classnames';
 
 import withContext from 'src/withContext';
 import { DEAL_LOST_STATUS } from 'lib/constants';
+import objectToHash from 'utils/objectToHash';
 import updateModel from 'utils/updateModel';
 import Editable from 'components/Editable';
 import Dropdown from 'components/Dropdown';
@@ -256,10 +257,16 @@ class DealDetail extends Component {
             <div className="detail-page">
               <div>
                 <BlockUI blocking={loading}>
-                  <ContentBlock title={title} extra={extra} component="dealDetailWidget" fullHeight>
+                  <ContentBlock
+                    title={title}
+                    extra={extra}
+                    component="dealDetailWidget"
+                    fullHeight
+                    key={objectToHash(deal)}
+                  >
                     <div className="detail-row">
                       <div>One-time payment</div>
-                      <div>
+                      <div className="has-editable">
                         <Editable
                           type="text"
                           object={deal}
@@ -273,7 +280,7 @@ class DealDetail extends Component {
 
                     <div className="detail-row">
                       <div>Monthly payment</div>
-                      <div>
+                      <div className="has-editable">
                         <Editable
                           type="text"
                           object={deal}
@@ -568,7 +575,7 @@ class DealDetail extends Component {
 
               <div className="grid-column-2">
                 <BlockUI blocking={loading}>
-                  <div className="content-block-container m-b-25">
+                  <div className="content-block-container m-b-25" key={objectToHash(deal)}>
                     <div className="content-block">
                       <div className="content-block-header space-between">
                         <div className={`hl-btn-group${deal.isArchived ? ' is-disabled' : ''}`}>

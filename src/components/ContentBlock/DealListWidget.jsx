@@ -126,7 +126,7 @@ class DealListWidget extends Component {
                           {item.assignedTo ? item.assignedTo.fullName : 'Nobody'}
                         </div>
                         <div>
-                          <strong>One-time cost: </strong>
+                          <strong>One-time payment: </strong>
                           <LilyCurrency value={item.amountOnce} currency={item.currency} />
                         </div>
                         <div>

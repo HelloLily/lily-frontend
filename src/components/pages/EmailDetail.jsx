@@ -316,7 +316,7 @@ class EmailDetail extends Component {
 
               <div className="email-actions">
                 <div className="hl-btn-group m-r-10">
-                  <EmailLink state={{ emailMessage }} className="hl-interface-btn">
+                  <EmailLink state={{ emailMessage }} className="hl-primary-btn">
                     <FontAwesomeIcon icon={['far', 'reply']} /> Reply
                   </EmailLink>
 

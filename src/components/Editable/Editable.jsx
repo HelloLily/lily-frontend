@@ -64,36 +64,6 @@ class Editable extends Component {
     this.mounted = true;
   }
 
-  componentDidUpdate() {
-    const { object, field } = this.props;
-    const { value } = this.state;
-
-    if (value) {
-      const { id } = value;
-      const isObject = value !== null && typeof value === 'object';
-
-      let shouldUpdate = false;
-
-      // Editable components don't get updated when the parent changes.
-      // So compare values and update if needed.
-      if (this.selectConfig && this.selectConfig.choiceField) {
-        if (id !== object[field]) {
-          shouldUpdate = true;
-        }
-      } else if (isObject && id !== object[field].id) {
-        shouldUpdate = true;
-      } else if (!isObject && value !== object[field]) {
-        shouldUpdate = true;
-      }
-
-      if (shouldUpdate) {
-        const newValue = this.getInitialValue();
-
-        this.setState({ value: newValue, initialValue: newValue });
-      }
-    }
-  }
-
   componentWillUnmount() {
     this.mounted = false;
   }

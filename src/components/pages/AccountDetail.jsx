@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
+import objectToHash from 'utils/objectToHash';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import AccountDetailWidget from 'components/ContentBlock/AccountDetailWidget';
@@ -43,6 +44,15 @@ class AccountDetail extends Component {
 
   updateAccount = async account => {
     this.setState({ account });
+  };
+
+  openSidebar = () => {
+    const data = {
+      id: this.state.account.id,
+      submitCallback: this.updateAccount
+    };
+
+    this.props.setSidebar('account', data);
   };
 
   render() {
@@ -87,6 +97,7 @@ class AccountDetail extends Component {
               account={account}
               extra={extra}
               submitCallback={this.updateAccount}
+              key={objectToHash(account)}
             />
 
             <DealListWidget object={account} />

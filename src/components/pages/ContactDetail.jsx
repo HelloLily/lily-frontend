@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import updateModel from 'utils/updateModel';
+import objectToHash from 'utils/objectToHash';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import DeleteConfirmation from 'components/Utils/DeleteConfirmation';
 import Dropdown from 'components/Dropdown';
@@ -183,6 +184,7 @@ class ContactDetail extends Component {
                 contact={contact}
                 submitCallback={this.submitCallback}
                 extra={extra}
+                key={objectToHash(contact)}
               />
 
               <DealListWidget object={contact} submitCallback={this.submitCallback} />

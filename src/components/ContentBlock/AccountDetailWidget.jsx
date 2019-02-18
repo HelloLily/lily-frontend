@@ -42,15 +42,6 @@ class AccountDetailWidget extends Component {
     await this.submitCallback(args);
   };
 
-  openSidebar = () => {
-    const data = {
-      id: this.props.account.id,
-      submitCallback: this.props.submitCallback
-    };
-
-    this.props.setSidebar('account', data);
-  };
-
   render() {
     const { account, clickable, currentUser, extra } = this.props;
 
@@ -64,7 +55,14 @@ class AccountDetailWidget extends Component {
             <Link to={`/accounts/${account.id}`}>{account.name}</Link>
           )}
 
-          {(!clickable || account.isDeleted) && <React.Fragment>{account.name}</React.Fragment>}
+          {(!clickable || account.isDeleted) && (
+            <Editable
+              type="text"
+              object={account}
+              field="name"
+              submitCallback={this.submitCallback}
+            />
+          )}
         </div>
       </React.Fragment>
     );

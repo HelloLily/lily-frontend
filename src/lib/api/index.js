@@ -61,6 +61,10 @@ export function get(path, params = {}, _options) {
     params.pageSize = 20;
   }
 
+  if (params.hasOwnProperty('search')) {
+    params.page = 1;
+  }
+
   if (Object.keys(params).length > 0) {
     url += `?${createParams(params)}`;
   }

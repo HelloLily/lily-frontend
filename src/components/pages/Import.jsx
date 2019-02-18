@@ -32,7 +32,7 @@ class Import extends Component {
     const formData = new FormData();
 
     formData.append('csv', csv);
-    formData.append('import_type', 'account');
+    formData.append('import_type', 'accounts');
 
     try {
       await Utils.import(formData);
@@ -53,7 +53,7 @@ class Import extends Component {
     const formData = new FormData();
 
     formData.append('csv', csv);
-    formData.append('import_type', 'contact');
+    formData.append('import_type', 'contacts');
 
     try {
       await Utils.import(formData);

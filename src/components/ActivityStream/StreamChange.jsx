@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LilyDate from 'components/Utils/LilyDate';
 import Address from 'components/Utils/Address';
-import PriorityIcon from 'components/Utils/PriorityIcon';
 import StreamAvatar from './StreamAvatar';
 
 class StreamChange extends Component {
@@ -64,13 +63,11 @@ class StreamChange extends Component {
                         {value.changeType === 'edit' && (
                           <React.Fragment>
                             Changed <strong>{value.displayName.toLowerCase()}</strong> from
-                            {field === 'priority' && <PriorityIcon priority={value.old} />}
                             {field === 'nextStep' && (
                               <i className={`m-l-5 step-type position-${value.position}}`} />
                             )}
                             <strong> {value.old}</strong>
                             <span> to </span>
-                            {field === 'priority' && <PriorityIcon priority={value.new} />}
                             {field === 'nextStep' && (
                               <i className={`m-l-5 step-type position-${value.position}}`} />
                             )}
