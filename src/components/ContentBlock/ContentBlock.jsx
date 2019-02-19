@@ -74,6 +74,12 @@ class ContentBlock extends Component {
     await this.settings.store({ status: newStatus });
   };
 
+  removeWidget = async () => {
+    this.setState({ status: HIDDEN });
+
+    await this.settings.store({ status: HIDDEN });
+  };
+
   handleScroll = event => {
     const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
 

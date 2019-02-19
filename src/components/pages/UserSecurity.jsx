@@ -142,7 +142,7 @@ class UserSecurity extends Component {
               </table>
             </div>
 
-            <LilyModal modalOpen={modalOpen} closeModal={this.closeModal} alignCenter>
+            <LilyModal modalOpen={modalOpen} closeModal={this.closeModal}>
               <div className="modal-header">
                 <div className="modal-title">
                   {t('modals:preferences.twoFactorAuth.disable.confirmTitle')}

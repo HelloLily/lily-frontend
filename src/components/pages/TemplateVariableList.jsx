@@ -167,7 +167,7 @@ class TemplateVariableList extends Component {
           </table>
 
           {selectedVariable && (
-            <LilyModal modalOpen={modalOpen} closeModal={this.closeModal} alignCenter>
+            <LilyModal modalOpen={modalOpen} closeModal={this.closeModal}>
               <div
                 className="modal-content"
                 dangerouslySetInnerHTML={{ __html: selectedVariable.text }}

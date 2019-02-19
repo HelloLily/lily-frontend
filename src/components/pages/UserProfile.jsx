@@ -10,8 +10,8 @@ import formatPhoneNumber from 'utils/formatPhoneNumber';
 import BlockUI from 'components/Utils/BlockUI';
 import FormSection from 'components/Form/FormSection';
 import FormFooter from 'components/Form/FormFooter';
+import LilyModal from 'components/LilyModal';
 import User from 'models/User';
-import LilyModal from '../LilyModal/index';
 
 const Uppy = require('@uppy/core');
 
@@ -246,7 +246,7 @@ class InnerProfileForm extends Component {
           </div>
         </div>
 
-        <LilyModal modalOpen={modalOpen} alignCenter>
+        <LilyModal modalOpen={modalOpen}>
           <div className="modal-header">
             <div className="modal-title">{t('modals:notificationPermission.title')}</div>
           </div>

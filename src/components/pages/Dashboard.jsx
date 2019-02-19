@@ -7,6 +7,7 @@ const MyDeals = React.lazy(() => import('components/ContentBlock/MyDeals'));
 const UnassignedCases = React.lazy(() => import('components/ContentBlock/UnassignedCases'));
 const UnassignedDeals = React.lazy(() => import('components/ContentBlock/UnassignedDeals'));
 const UnreadEmail = React.lazy(() => import('components/ContentBlock/UnreadEmail'));
+const DashboardSettings = React.lazy(() => import('components/ContentBlock/DashboardSettings'));
 
 const Dashboard = () => {
   document.title = 'Dashboard - Lily';
@@ -19,6 +20,7 @@ const Dashboard = () => {
         <UnassignedCases />
         <UnassignedDeals />
         <UnreadEmail />
+        <DashboardSettings />
       </React.Suspense>
     </div>
   );

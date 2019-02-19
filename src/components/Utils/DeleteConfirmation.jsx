@@ -71,7 +71,7 @@ class DeleteConfirmation extends Component {
 
         <LilyTooltip id={`${model}-${item.id}-delete`} place={tooltipPlace} />
 
-        <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeModal} alignCenter>
+        <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeModal}>
           <div className="modal-header">
             <div className="modal-title">{t('modals:delete.confirmTitle')}</div>
           </div>

@@ -82,6 +82,8 @@ class EmailAccountList extends Component {
   };
 
   openSharedWithModal = async emailAccount => {
+    this.setState({ modalOpen: true, selectedAccount: emailAccount });
+
     const promises = emailAccount.sharedEmailConfigs.map(async config => {
       const user = await User.get(config.user);
 
@@ -89,7 +91,7 @@ class EmailAccountList extends Component {
     });
     const users = await Promise.all(promises);
 
-    this.setState({ modalOpen: true, selectedAccount: emailAccount, users });
+    this.setState({ users });
   };
 
   closeSharedWithModal = () => {
@@ -415,17 +417,20 @@ class EmailAccountList extends Component {
           <LilyModal modalOpen={this.state.modalOpen} closeModal={this.closeSharedWithModal}>
             {selectedAccount.owner.id === currentUser.id ? (
               <React.Fragment>
-                <h3>Share your email</h3>
-                <div className="shared-with-users">
-                  <div className="m-b-15">{t('forms:emailAccount.advancedInfo')}</div>
+                <div className="modal-header">
+                  <div className="modal-title">Share your email</div>
                 </div>
 
-                <UserShare
-                  updateEmailAccount={this.updateEmailAccount}
-                  emailAccount={selectedAccount}
-                />
+                <div className="modal-content">
+                  <p className="m-b-15">{t('forms:emailAccount.advancedInfo')}</p>
 
-                <div className="m-t-15">
+                  <UserShare
+                    updateEmailAccount={this.updateEmailAccount}
+                    emailAccount={selectedAccount}
+                  />
+                </div>
+
+                <div className="modal-footer">
                   <button className="hl-primary-btn-blue" onClick={this.updateModel}>
                     Save
                   </button>
@@ -439,7 +444,7 @@ class EmailAccountList extends Component {
               <React.Fragment>
                 <h3>Account shared with</h3>
 
-                <div className="shared-with-users">
+                <div className="modal-content">
                   <div className="m-b-15">
                     {selectedAccount.owner.fullName} has shared this account with
                   </div>

@@ -49,15 +49,15 @@
   margin: 10% auto auto;
   border: 1px $base-border-color solid;
   background: #fff;
-  border-radius: $base-border-radius;
   outline: none;
-  padding: 20px;
   position: relative;
   overflow-y: scroll;
 
   .modal-header {
+    padding: 10px 15px;
+    border-bottom: 1px $inner-border-color solid;
+
     .modal-title {
-      line-height: $default-line-height;
       font-size: 1.25em;
       font-weight: 500;
       color: $app-color-darkblue;
@@ -65,17 +65,17 @@
   }
 
   .modal-content {
-    min-height: 225px;
+    min-height: 125px;
+    padding: 15px;
   }
 
   .modal-footer {
-    // position: absolute;
-    // bottom: 15px;
+    padding: 15px;
   }
 
   .close-btn {
     position: absolute;
-    top: 10px;
+    top: 7px;
     right: 15px;
   }
 }

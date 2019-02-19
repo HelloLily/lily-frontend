@@ -70,7 +70,8 @@
       }
     }
   },
-  "widgetSettings": "Check or uncheck a box to change which widgets are visible in the dashboard.",
+  "dashboardSettingsTitle": "Dashboard settings",
+  "dashboardSettings": "Check or uncheck a box to change which widgets are visible in the dashboard.",
   "timeLogZeroError": "Please enter a value greater than 0",
   "timeLogInvalid": "Please enter a valid value"
 }

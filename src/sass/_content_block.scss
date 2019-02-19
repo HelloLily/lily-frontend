@@ -48,6 +48,10 @@
       min-width: 24px;
       line-height: 24px;
 
+      &:first-of-type {
+        margin-left: 5px;
+      }
+
       &.high-prio {
         color: #fff;
         border-color: darken($critical-prio-color, 20);

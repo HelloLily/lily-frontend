@@ -2,11 +2,11 @@ import React from 'react';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const LilyModal = ({ modalOpen, closeModal, alignCenter, children }) => (
+const LilyModal = ({ modalOpen, closeModal, children }) => (
   <Modal
     isOpen={modalOpen}
     onRequestClose={closeModal}
-    className={`lily-modal${alignCenter ? ' text-center' : ''} zoom-in`}
+    className="lily-modal zoom-in"
     overlayClassName="modal-overlay"
     parentSelector={() => document.querySelector('#app')}
     ariaHideApp={false}

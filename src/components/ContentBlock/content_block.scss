@@ -15,6 +15,11 @@
   .loading-indicator {
     height: $content-block-max-height / 2 - 25px;
   }
+
+  .widget-settings {
+    grid-column: 1 / span 2;
+    justify-self: end;
+  }
 }
 
 .content-block-container {

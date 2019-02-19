@@ -6,11 +6,19 @@ class Settings {
   }
 
   get() {
-    return get(`/users/me/settings/?component=${this.component}`);
+    const params = {};
+
+    if (this.component) {
+      params.component = this.component;
+    }
+
+    return get('/users/me/settings/', params);
   }
 
   store(data) {
-    data.component = this.component;
+    if (this.component) {
+      data.component = this.component;
+    }
 
     return patch('/users/me/settings/', data);
   }

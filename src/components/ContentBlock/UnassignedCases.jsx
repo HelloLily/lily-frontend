@@ -38,7 +38,12 @@ class UnassignedCases extends Component {
     const { currentUser } = this.props;
 
     const settingsResponse = await this.settings.get();
-    const settings = settingsResponse.results || { filters };
+    let settings = { ...settingsResponse.results };
+
+    if (!settings || !settings.hasOwnProperty('filters')) {
+      settings = Object.assign(settings, { filters });
+    }
+
     const caseTypeResponse = await Case.caseTypes();
     const caseTypes = caseTypeResponse.results.map(caseType => {
       caseType.value = `type.id=${caseType.id}`;

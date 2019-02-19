@@ -39,13 +39,19 @@ class UnassignedDeals extends Component {
     const { currentUser } = this.props;
 
     const settingsResponse = await this.settings.get();
-    const settings = settingsResponse.results || { filters };
+    let settings = { ...settingsResponse.results };
+
+    if (!settings || !settings.hasOwnProperty('filters')) {
+      settings = Object.assign(settings, { filters });
+    }
+
     const nextStepResponse = await Deal.nextSteps();
     const nextSteps = nextStepResponse.results.map(nextStep => {
       nextStep.value = `nextStep.id=${nextStep.id}`;
 
       return nextStep;
     });
+
     const teamResponse = await UserTeam.query();
     const teams = teamResponse.results.map(team => {
       team.value = `assignedToTeams.id=${team.id}`;
