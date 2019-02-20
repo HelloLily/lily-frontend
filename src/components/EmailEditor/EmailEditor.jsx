@@ -535,8 +535,7 @@ class EmailEditor extends Component {
 
       this.props.history.push('/email');
     } catch (error) {
-      // TODO: Show a proper error.
-      errorToast(t('toasts:error'));
+      errorToast(t('toasts:email.error'));
     }
 
     this.props.setSending(false);

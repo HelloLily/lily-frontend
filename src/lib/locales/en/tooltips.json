@@ -36,5 +36,6 @@
   "forbidden": "You do not have permission to view this page.",
   "editAction": "Edit this {{model}}",
   "deleteAction": "Delete this {{model}}",
-  "widgetSettings": "Open widget settings"
+  "widgetSettings": "Open widget settings",
+  "emailMetadataMessage": "The content of this email is not visible to you because the owner has chosen not to share the full message"
 }

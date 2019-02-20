@@ -235,7 +235,14 @@ svg {
 }
 
 .filter-btn {
-  max-width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+
+  .filter-btn-text {
+    max-width: 250px;
+    margin: 0 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
+

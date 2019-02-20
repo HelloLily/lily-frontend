@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 
 import { REPLY_MESSAGE, FORWARD_MESSAGE } from 'lib/constants';
 import LilyDate from 'components/Utils/LilyDate';
 import EmailLink from 'components/Utils/EmailLink';
+import EmailAccount from 'models/EmailAccount';
 import StreamAvatar from './StreamAvatar';
 
 const StreamEmail = ({ item }) => {
   const [showRecipients, setShowRecipients] = useState(false);
+  const [t] = useTranslation('tooltips');
 
   const toggleRecipients = () => {
     setShowRecipients(!showRecipients);
@@ -23,30 +26,38 @@ const StreamEmail = ({ item }) => {
           <LilyDate date={item.sentDate} includeTime />
         </div>
         <div className="stream-item-title">
-          {item.subject ? (
-            <Link to={`/email/${item.id}`}>{item.subject}</Link>
+          {item.account.privacy !== EmailAccount.METADATA ? (
+            <React.Fragment>
+              {item.subject ? (
+                <Link to={`/email/${item.id}`}>{item.subject}</Link>
+              ) : (
+                <span className="text-muted">No subject</span>
+              )}
+            </React.Fragment>
           ) : (
-            <span className="text-muted">No subject</span>
+            <span>[Subject hidden]</span>
           )}
 
-          <div>
-            <EmailLink
-              state={{
-                emailMessage: item,
-                messageType: REPLY_MESSAGE
-              }}
-              className="hl-interface-btn"
-            >
-              <FontAwesomeIcon icon={['far', 'reply']} /> Reply
-            </EmailLink>
+          {item.account.privacy !== EmailAccount.METADATA && (
+            <div>
+              <EmailLink
+                state={{
+                  emailMessage: item,
+                  messageType: REPLY_MESSAGE
+                }}
+                className="hl-interface-btn"
+              >
+                <FontAwesomeIcon icon={['far', 'reply']} /> Reply
+              </EmailLink>
 
-            <EmailLink
-              state={{ emailMessage: item, messageType: FORWARD_MESSAGE }}
-              className="hl-interface-btn"
-            >
-              <FontAwesomeIcon icon={['far', 'reply']} flip="horizontal" /> Forward
-            </EmailLink>
-          </div>
+              <EmailLink
+                state={{ emailMessage: item, messageType: FORWARD_MESSAGE }}
+                className="hl-interface-btn"
+              >
+                <FontAwesomeIcon icon={['far', 'reply']} flip="horizontal" /> Forward
+              </EmailLink>
+            </div>
+          )}
         </div>
 
         <div className="stream-item-content is-email">
@@ -102,13 +113,19 @@ const StreamEmail = ({ item }) => {
             )}
           </div>
 
-          <div className="stream-item-body">
-            {item.bodyText ? (
-              <React.Fragment>{item.bodyText}</React.Fragment>
-            ) : (
-              <span className="text-muted">No body</span>
-            )}
-          </div>
+          {item.account.privacy === EmailAccount.METADATA ? (
+            <div className="stream-item-body hidden-content">
+              {t('emailMetadataMessage')}
+            </div>
+          ) : (
+            <div className="stream-item-body">
+              {item.bodyText ? (
+                <React.Fragment>{item.bodyText}</React.Fragment>
+              ) : (
+                <span className="text-muted">No body</span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </React.Fragment>

@@ -30,7 +30,8 @@
     "emailSent": "Your email has been sent.",
     "emptyRecipients": "There is no recipient. Please fill in who you want to send this email to.",
     "invalidRecipients": "There seem to be some invalid email addresses in your message.",
-    "unauthorizedEmailAccount": "One of the email accounts you use was disconnected from Lily. Please connect it again to continue using this email."
+    "unauthorizedEmailAccount": "One of the email accounts you use was disconnected from Lily. Please connect it again to continue using this email.",
+    "error": "There was an error sending your email. Please try again."
   },
   "security": {
     "twoFactorPhoneRemoved": "The phone number used for two-factor authentication was successfully removed.",

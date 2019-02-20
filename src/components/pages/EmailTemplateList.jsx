@@ -83,13 +83,19 @@ class EmailTemplateList extends Component {
     }
   };
 
-  deleteFolder = folder => {
+  deleteFolder = async folder => {
     const { folders } = this.state;
+    const { t } = this.props;
 
-    // TODO: Add confirmation.
-    EmailTemplateFolder.delete({ id: folder.id }).then(() => {
+    try {
+      await EmailTemplateFolder.delete({ id: folder.id });
+
       this.setState({ folders });
-    });
+
+      successToast(t('modelDeleted', { model: 'folder' }));
+    } catch (error) {
+      errorToast(t('error'));
+    }
   };
 
   handleSelect = emailTemplate => {

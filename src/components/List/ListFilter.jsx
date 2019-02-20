@@ -76,7 +76,7 @@ class ListFilter extends Component {
         clickable={
           <button className="hl-primary-btn filter-btn">
             <FontAwesomeIcon icon={['far', icon || 'list']} />
-            <span className="m-l-5 m-r-5">
+            <div className="filter-btn-text">
               {display.length === 0 && <React.Fragment>{label}</React.Fragment>}
 
               {display.length > 2 ? (
@@ -86,7 +86,7 @@ class ListFilter extends Component {
               ) : (
                 <React.Fragment>{display.join(' + ')}</React.Fragment>
               )}
-            </span>
+            </div>
 
             <FontAwesomeIcon icon={['far', 'angle-down']} className="small" />
           </button>

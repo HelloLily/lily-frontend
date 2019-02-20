@@ -169,7 +169,7 @@ class UserFilter extends Component {
           <button className="hl-primary-btn filter-btn" onClick={this.showMenu}>
             <FontAwesomeIcon icon={['far', 'users']} />
 
-            <span className="m-l-5 m-r-5">
+            <div className="filter-btn-text">
               {display.length === 0 && <React.Fragment>Colleagues</React.Fragment>}
 
               {display.length > 2 ? (
@@ -177,7 +177,7 @@ class UserFilter extends Component {
               ) : (
                 <React.Fragment>{display.join(', ')}</React.Fragment>
               )}
-            </span>
+            </div>
 
             <FontAwesomeIcon icon={['far', 'angle-down']} className="small" />
           </button>

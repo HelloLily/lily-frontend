@@ -93,6 +93,11 @@ code {
   border-radius: $base-border-radius;
 }
 
+blockquote {
+  border-left: 3px $app-color-darkblue solid;
+  padding-left: 10px;
+}
+
 .hl-input {
   @include input-field(34px);
 }

@@ -102,6 +102,7 @@ class ContactList extends Component {
                   icon={['far', 'building']}
                   data-tip={tooltip}
                   data-for={`account-${account.id}-email`}
+                  fixedWidth
                 />
                 <EmailLink state={{ emailAddress: account.primaryEmail.emailAddress }}>
                   <span> {account.primaryEmail.emailAddress}</span>

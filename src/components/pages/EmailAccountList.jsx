@@ -209,13 +209,22 @@ class EmailAccountList extends Component {
     }
   };
 
-  removeItem = ({ id }) => {
+  removeItem = async ({ id }) => {
     const { emailAccounts } = this.state;
+    const { t } = this.props;
 
-    const index = emailAccounts.findIndex(item => item.id === id);
-    emailAccounts.splice(index, 1);
+    try {
+      await EmailAccount.del(id);
 
-    this.setState({ emailAccounts });
+      const index = emailAccounts.findIndex(item => item.id === id);
+      emailAccounts.splice(index, 1);
+
+      successToast(t('toasts:modelUpdated', { model: 'email account' }));
+
+      this.setState({ emailAccounts });
+    } catch (error) {
+      errorToast(t('toasts:error'));
+    }
   };
 
   render() {
