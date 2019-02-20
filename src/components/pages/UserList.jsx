@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import debounce from 'debounce-promise';
 
 import withContext from 'src/withContext';
@@ -15,6 +15,7 @@ import LilyTooltip from 'components/LilyTooltip';
 import BlockUI from 'components/Utils/BlockUI';
 import ListColumns from 'components/List/ListColumns';
 import SearchBar from 'components/List/SearchBar';
+import LilyModal from 'components/LilyModal';
 import Settings from 'models/Settings';
 import UserInvite from 'models/UserInvite';
 import UserTeam from 'models/UserTeam';
@@ -54,6 +55,8 @@ class UserList extends Component {
       query: '',
       pagination: {},
       page: 1,
+      selectedUser: null,
+      modalOpen: false,
       statusFilter: 0,
       sortColumn: 'fullName',
       sortStatus: ASCENDING_STATUS,
@@ -111,9 +114,9 @@ class UserList extends Component {
       await UserTeam.post(newTeam);
       this.setState({ newTeam: null, loading: false });
 
-      successToast(t('modelCreated', { model: 'team' }));
+      successToast(t('toasts:modelCreated', { model: 'team' }));
     } catch (error) {
-      errorToast(t('users.teamExists'));
+      errorToast(t('toasts:users.teamExists'));
     }
   };
 
@@ -134,8 +137,8 @@ class UserList extends Component {
     this.setState({ page: 1, query }, this.debouncedSearch);
   };
 
-  loadItems = async query => {
-    const { statusFilter, page, sortColumn, sortStatus } = this.state;
+  loadItems = async () => {
+    const { statusFilter, query, page, sortColumn, sortStatus } = this.state;
 
     if (statusFilter === 3) {
       // Only display invites.
@@ -185,11 +188,11 @@ class UserList extends Component {
     try {
       await User.patch(args);
 
-      successToast(t('modelUpdated', { model: 'user' }));
+      successToast(t('toasts:modelUpdated', { model: 'user' }));
 
       this.setState({ loading: false }, this.loadItems);
     } catch (error) {
-      errorToast(t('users.teamError'));
+      errorToast(t('toasts:users.teamError'));
     }
   };
 
@@ -208,16 +211,16 @@ class UserList extends Component {
       await User.patch(args);
 
       if (foundUser) {
-        successToast(t('users.internalNumberCleared', { name: foundUser.fullName }));
+        successToast(t('toasts:users.internalNumberCleared', { name: foundUser.fullName }));
       }
 
       const updatedUser = users.find(user => user.id === args.id);
 
-      successToast(t('users.internalNumberCleared', { name: updatedUser.fullName }));
+      successToast(t('toasts:users.internalNumberCleared', { name: updatedUser.fullName }));
 
       this.setState({ loading: false }, this.loadItems);
     } catch (error) {
-      errorToast(t('users.internalNumberExists'));
+      errorToast(t('toasts:users.internalNumberExists'));
     }
   };
 
@@ -227,9 +230,9 @@ class UserList extends Component {
     try {
       await UserInvite.post({ invites: [invite] });
 
-      successToast(t('users.resentInvite', { email: invite.email }));
+      successToast(t('toasts:users.resentInvite', { email: invite.email }));
     } catch (error) {
-      errorToast(t('users.invitationError'));
+      errorToast(t('toasts:users.invitationError'));
     }
   };
 
@@ -240,7 +243,7 @@ class UserList extends Component {
     try {
       await UserInvite.del(id);
 
-      const text = t('modelDeleted', { model: 'invite' });
+      const text = t('toasts:modelDeleted', { model: 'invite' });
       successToast(text);
 
       const index = invites.findIndex(item => item.id === id);
@@ -248,7 +251,7 @@ class UserList extends Component {
 
       this.setState({ invites });
     } catch (error) {
-      errorToast(t('error'));
+      errorToast(t('toasts:error'));
     }
   };
 
@@ -256,25 +259,55 @@ class UserList extends Component {
     const { users } = this.state;
     const { t } = this.props;
 
-    const isActive = !item.isActive;
-    const args = {
-      id: item.id,
-      isActive
-    };
+    if (!item.isActive) {
+      const args = {
+        id: item.id,
+        isActive: true
+      };
+
+      try {
+        await User.patch(args);
+
+        const index = users.findIndex(user => user.id === item.id);
+        users[index].isActive = true;
+
+        successToast(t('toasts:users.userActivated'));
+
+        this.setState({ users });
+      } catch (error) {
+        errorToast(t('toasts:users.activationError'));
+      }
+    } else {
+      // Add confirm to deactivate.
+      this.setState({ modalOpen: true, selectedUser: item });
+    }
+  };
+
+  deactivateUser = async () => {
+    const { users, selectedUser } = this.state;
+    const { t } = this.props;
 
     try {
+      const args = {
+        id: selectedUser.id,
+        isActive: false
+      };
+
       await User.patch(args);
 
-      const index = users.findIndex(user => user.id === item.id);
-      users[index].isActive = isActive;
+      const index = users.findIndex(user => user.id === selectedUser.id);
+      users[index].isActive = false;
 
-      const text = isActive ? t('users.userActivated') : t('users.userDeactivated');
-      successToast(text);
+      successToast(t('toasts:users.userDeactivated'));
 
-      this.setState({ users });
+      this.closeModal();
     } catch (error) {
-      errorToast(t('users.activationError'));
+      errorToast(t('toasts:error'));
     }
+  };
+
+  closeModal = () => {
+    this.setState({ modalOpen: false, selectedUser: null });
   };
 
   render() {
@@ -285,13 +318,15 @@ class UserList extends Component {
       query,
       statusFilter,
       newTeam,
+      selectedUser,
+      modalOpen,
       pagination,
       page,
       sortColumn,
       sortStatus,
       loading
     } = this.state;
-    const { currentUser } = this.props;
+    const { currentUser, t } = this.props;
 
     const filterOptions = ['All', 'Active', 'Inactive', 'Invited'];
 
@@ -492,9 +527,36 @@ class UserList extends Component {
             <LilyPagination setPage={this.setPage} pagination={pagination} page={page} />
           </div>
         </div>
+
+        {selectedUser && (
+          <LilyModal modalOpen={modalOpen} closeModal={this.closeModal}>
+            <div className="modal-header">
+              <div className="modal-title">Share your email</div>
+            </div>
+
+            <div className="modal-content">
+              <p className="m-b-15">
+                <Trans
+                  defaults={t('modals:preferences.deactivateUser', { name: selectedUser.fullName })}
+                  components={[<strong>text</strong>]}
+                />
+              </p>
+            </div>
+
+            <div className="modal-footer">
+              <button className="hl-primary-btn-red" onClick={this.deactivateUser}>
+                Yes, deactivate
+              </button>
+
+              <button className="hl-primary-btn m-l-10" onClick={this.closeModal}>
+                Cancel
+              </button>
+            </div>
+          </LilyModal>
+        )}
       </BlockUI>
     );
   }
 }
 
-export default withTranslation('toasts')(withContext(UserList));
+export default withTranslation(['modals', 'toasts'])(withContext(UserList));

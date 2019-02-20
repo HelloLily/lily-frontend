@@ -32,6 +32,7 @@ module.exports = {
     chunkFilename: '[chunkhash].js'
   },
   optimization: {
+    runtimeChunk: false,
     splitChunks: {
       chunks: 'all'
     }

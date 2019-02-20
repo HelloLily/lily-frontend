@@ -29,6 +29,7 @@
     "text": "Browser permission is needed to send notifications for the call integration. Please allow these notifications to make complete use of the call integration."
   },
   "preferences": {
+    "deactivateUser": "Are you sure you want to deactivate <0>{{name}}</0>?",
     "userAssignTitle": "Assign {{user}} to teams",
     "shareAccountTitle": "Share your email",
     "subscription": {

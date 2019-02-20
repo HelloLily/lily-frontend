@@ -114,9 +114,7 @@ const StreamEmail = ({ item }) => {
           </div>
 
           {item.account.privacy === EmailAccount.METADATA ? (
-            <div className="stream-item-body hidden-content">
-              {t('emailMetadataMessage')}
-            </div>
+            <div className="stream-item-body hidden-content">{t('emailMetadataMessage')}</div>
           ) : (
             <div className="stream-item-body">
               {item.bodyText ? (
