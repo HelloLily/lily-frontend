@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import withContext from 'src/withContext';
 import FeatureBlock from 'components/Utils/FeatureBlock';
@@ -12,7 +13,17 @@ const Integrations = () => (
 
       <div className="content-block-content">
         <FeatureBlock tier="2" needsAdmin>
-          Integrations page
+          <div>
+            <Link to="/preferences/integrations/pandadoc">PandaDoc</Link>
+          </div>
+
+          <div>
+            <Link to="/preferences/integrations/moneybird">Moneybird</Link>
+          </div>
+
+          <div>
+            <Link to="/preferences/integrations/slack">Slack</Link>
+          </div>
         </FeatureBlock>
       </div>
     </div>

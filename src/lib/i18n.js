@@ -7,6 +7,7 @@ import toastsEn from 'lib/locales/en/toasts.json';
 import emptyStatesEn from 'lib/locales/en/empty_states.json';
 import modalsEn from 'lib/locales/en/modals.json';
 import preferencesEn from 'lib/locales/en/preferences.json';
+import integrationsEn from 'lib/locales/en/integrations.json';
 
 i18n.use(XHR).init({
   lng: 'en',
@@ -18,7 +19,8 @@ i18n.use(XHR).init({
       toasts: toastsEn,
       emptyStates: emptyStatesEn,
       modals: modalsEn,
-      preferences: preferencesEn
+      preferences: preferencesEn,
+      integrations: integrationsEn
     }
   },
   react: {

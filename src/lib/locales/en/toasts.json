@@ -9,6 +9,7 @@
   "noCalls": "No recent calls were found.",
   "subscriptionUpdated": "Your subscription has been updated for you.",
   "subscriptionError": "Your subscription couldn't be changed. Please try again.",
+  "sharedKeySuccess": "The PandaDoc shared key has been saved for you.",
   "moneybirdImportStart": "The import will continue in the background. Feel free to continue using Lily.",
   "profileUpdated": "Your profile has been updated for you.",
   "timeLogged": "Your hours have been logged",

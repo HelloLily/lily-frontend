@@ -23,6 +23,10 @@
     &.expanded-height {
       max-height: $content-block-max-height * 2;
     }
+
+    &.simple {
+      max-height: unset;
+    }
   }
 
   .content-block-title {

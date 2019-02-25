@@ -177,8 +177,8 @@ export const RINGING_CALL_STATUS = 0;
 export const IN_PROGRESS_CALL_STATUS = 1;
 export const ENDED_CALL_STATUS = 2;
 
-// Maximum file size allowed per attachment.
-export const MAX_FILE_SIZE = 20 * 1024 * 1024;
+// Maximum file size allowed per attachment (5 MB).
+export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 // Regex to find normal variables.
 export const VARIABLE_REGEX = /\[\[ ?([a-z]+\.[a-z_]+) ?]]/g;

@@ -107,7 +107,8 @@ class LilyEditor extends Component {
 
     const uppy = Uppy({
       restrictions: {
-        maxFileSize: MAX_FILE_SIZE
+        maxFileSize: MAX_FILE_SIZE,
+        maxNumberOfFiles: 5
       }
     });
 

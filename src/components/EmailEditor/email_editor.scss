@@ -1,23 +1,5 @@
 @import '~style/variables/colors';
 
-.editor {
-  background-color: #fff;
-  border: 1px solid $base-border-color;
-  border-top: 0;
-  position: relative;
-  color: $app-color-darkblue;
-
-  &.fixed {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    width: 30%;
-    height: 60%;
-    z-index: 20;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  }
-}
-
 .lily-tabs {
   .editor {
     border: 0;

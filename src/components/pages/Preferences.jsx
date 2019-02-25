@@ -19,6 +19,9 @@ const TemplateVariableForm = React.lazy(() => import('./TemplateVariableForm'));
 const TemplateVariableList = React.lazy(() => import('./TemplateVariableList'));
 const UserList = React.lazy(() => import('./UserList'));
 const Integrations = React.lazy(() => import('./Integrations'));
+const IntegrationsPandaDoc = React.lazy(() => import('./IntegrationsPandaDoc'));
+const IntegrationsMoneybird = React.lazy(() => import('./IntegrationsMoneybird'));
+const IntegrationsSlack = React.lazy(() => import('./IntegrationsSlack'));
 const BillingOverview = React.lazy(() => import('./BillingOverview'));
 const BillingChangePlan = React.lazy(() => import('./BillingChangePlan'));
 const InviteForm = React.lazy(() => import('./InviteForm'));
@@ -100,7 +103,7 @@ const Preferences = ({ currentUser }) => (
             <React.Fragment>
               <li>
                 <FeatureUnavailableMarker tier="2">
-                  <NavLink to="/preferences/integrations" exact>
+                  <NavLink to="/preferences/integrations">
                     <FontAwesomeIcon icon={['far', 'puzzle-piece']} /> Integrations
                   </NavLink>
                 </FeatureUnavailableMarker>
@@ -168,6 +171,9 @@ const Preferences = ({ currentUser }) => (
             <Route path="/preferences/templatevariables/create" component={TemplateVariableForm} />
             <Route path="/preferences/templatevariables" component={TemplateVariableList} />
             <Route path="/preferences/users" component={UserList} />
+            <Route path="/preferences/integrations/pandadoc" component={IntegrationsPandaDoc} />
+            <Route path="/preferences/integrations/moneybird" component={IntegrationsMoneybird} />
+            <Route path="/preferences/integrations/slack" component={IntegrationsSlack} />
             <Route path="/preferences/integrations" component={Integrations} />
             <Route path="/preferences/billing/change" component={BillingChangePlan} />
             <Route path="/preferences/billing" component={BillingOverview} />

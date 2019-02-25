@@ -419,7 +419,7 @@ class UserList extends Component {
                       <td>
                         <div className="label info w-100">Invited</div>
                       </td>
-                      <td />
+                      {currentUser.isAdmin && <td />}
                       <td>
                         <button
                           className="hl-primary-btn borderless"
@@ -484,41 +484,43 @@ class UserList extends Component {
                     <React.Fragment>
                       {currentUser.isAdmin ? (
                         <td>{user.hasTwoFactor && <FontAwesomeIcon icon={['far', 'lock']} />}</td>
-                      ) : (
-                        <td />
-                      )}
+                      ) : null}
                     </React.Fragment>
                   )}
-                  <td>
-                    <button
-                      className="hl-primary-btn borderless"
-                      onClick={() => this.toggleStatus(user)}
-                      data-tip={`${user.isActive ? 'Deactivate' : 'Activate'} colleague`}
-                      data-for={`user-${user.id}`}
-                    >
-                      {user.isActive ? (
-                        <span className="fa-layers fa-fw">
-                          <FontAwesomeIcon
-                            icon={['far', 'ban']}
-                            className="red"
-                            transform="shrink-4 up-5 right-10"
-                          />
-                          <FontAwesomeIcon icon={['far', 'user']} />
-                        </span>
-                      ) : (
-                        <span className="fa-layers fa-fw">
-                          <FontAwesomeIcon
-                            icon={['far', 'check']}
-                            className="green"
-                            transform="shrink-4 up-5 right-10"
-                          />
-                          <FontAwesomeIcon icon={['far', 'user']} />
-                        </span>
-                      )}
-                    </button>
+                  {currentUser.isAdmin ? (
+                    <td>
+                      <button
+                        className="hl-primary-btn borderless"
+                        onClick={() => this.toggleStatus(user)}
+                        data-tip={`${user.isActive ? 'Deactivate' : 'Activate'} colleague`}
+                        data-for={`user-${user.id}`}
+                      >
+                        {user.isActive ? (
+                          <span className="fa-layers fa-fw">
+                            <FontAwesomeIcon
+                              icon={['far', 'ban']}
+                              className="red"
+                              transform="shrink-4 up-5 right-10"
+                            />
+                            <FontAwesomeIcon icon={['far', 'user']} />
+                          </span>
+                        ) : (
+                          <span className="fa-layers fa-fw">
+                            <FontAwesomeIcon
+                              icon={['far', 'check']}
+                              className="green"
+                              transform="shrink-4 up-5 right-10"
+                            />
+                            <FontAwesomeIcon icon={['far', 'user']} />
+                          </span>
+                        )}
+                      </button>
 
-                    <LilyTooltip id={`user-${user.id}`} />
-                  </td>
+                      <LilyTooltip id={`user-${user.id}`} />
+                    </td>
+                  ) : (
+                    <td />
+                  )}
                 </tr>
               ))}
             </tbody>

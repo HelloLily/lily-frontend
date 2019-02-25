@@ -82,6 +82,10 @@ $sides: (top, bottom, left, right);
   .display-flex {
     display: flex;
     align-items: center;
+
+    > * {
+      flex: 1 100%;
+    }
   }
 
   .display-none {

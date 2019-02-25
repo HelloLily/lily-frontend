@@ -102,6 +102,19 @@
   }
 }
 
+.integrations-page {
+  .react-tabs {
+    border: 0;
+    border-radius: 0;
+
+    .react-tabs__tab {
+      &:first-of-type {
+        border-top-left-radius: 0;
+      }
+    }
+  }
+}
+
 // FontAwesome
 .fa-cc-visa {
   color: #0f2899;
@@ -185,6 +198,10 @@
         border-radius: $base-border-radius;
         width: 30px;
         height: 30px;
+
+        &:hover {
+          background: $app-bg-color;
+        }
 
         svg {
           width: 16px;
