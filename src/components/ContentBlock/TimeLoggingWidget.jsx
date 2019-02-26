@@ -66,50 +66,54 @@ class TimeLoggingWidget extends Component {
             </div>
           </div>
 
-          <div className="content-block-content">
-            <div>
-              <strong>Total time spent</strong>
+          <div className="content-block-body h-100">
+            <div className="detail-row">
+              <div>
+                <strong>Total time spent</strong>
+              </div>
+              <div>
+                {object.timeLogs.length === 0 ? (
+                  <span>No time has been logged yet</span>
+                ) : (
+                  <TimeLogDisplay timeLogs={object.timeLogs} />
+                )}
+              </div>
             </div>
-            <div>
-              {object.timeLogs.length === 0 ? (
-                <span>No time has been logged yet</span>
-              ) : (
-                <TimeLogDisplay timeLogs={object.timeLogs} />
-              )}
-            </div>
-          </div>
 
-          <div className="content-block-content time-log-collaborators">
-            <strong>Collaborators</strong>
-
-            <div>
-              {users.length > 0 ? (
-                <React.Fragment>
-                  <div>
-                    {users.map(user => (
-                      <img
-                        src={user.profilePicture}
-                        alt={user.fullName}
-                        key={`timelog-avatar-${user.id}`}
-                        className="user-avatar"
-                      />
-                    ))}
-                  </div>
-
-                  {users.map(user => (
-                    <div className="display-flex m-t-15" key={user.id}>
-                      <div className="flex-grow">{user.fullName}</div>
-                      <div>
-                        <TimeLogDisplay
-                          timeLogs={object.timeLogs.filter(timeLog => timeLog.user.id === user.id)}
+            <div className="detail-row time-log-collaborators">
+              <div>Collaborators</div>
+              <div>
+                {users.length > 0 ? (
+                  <React.Fragment>
+                    <div>
+                      {users.map(user => (
+                        <img
+                          src={user.profilePicture}
+                          alt={user.fullName}
+                          key={`timelog-avatar-${user.id}`}
+                          className="user-avatar"
                         />
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </React.Fragment>
-              ) : (
-                <span>No collaborators</span>
-              )}
+
+                    {users.map(user => (
+                      <div className="time-log-collaborator" key={user.id}>
+                        {user.fullName}
+
+                        <div>
+                          <TimeLogDisplay
+                            timeLogs={object.timeLogs.filter(
+                              timeLog => timeLog.user.id === user.id
+                            )}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </React.Fragment>
+                ) : (
+                  <span>No collaborators</span>
+                )}
+              </div>
             </div>
           </div>
         </div>

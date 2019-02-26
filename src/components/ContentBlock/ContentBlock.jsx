@@ -97,7 +97,7 @@ class ContentBlock extends Component {
 
     const bodyClass = cx('content-block-body', {
       'expanded-height': expandHeight,
-      'height-100': fullHeight
+      'h-100': fullHeight
     });
 
     return (
