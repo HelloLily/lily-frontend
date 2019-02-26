@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import withContext from 'src/withContext';
 import { successToast, errorToast } from 'utils/toasts';
+import updateArray from 'utils/updateArray';
 import BlockUI from 'components/Utils/BlockUI';
 import FeatureBlock from 'components/Utils/FeatureBlock';
 import Form from 'components/Form';
@@ -35,9 +36,9 @@ class InnerWebhookForm extends Component {
 
   handleChange = (value, index, field) => {
     const items = this.props.values.webhooks;
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.props.setFieldValue('webhooks', items);
+    this.props.setFieldValue('webhooks', newItems);
   };
 
   toggleDelete = index => {

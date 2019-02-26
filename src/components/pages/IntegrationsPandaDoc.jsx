@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { SELECT_STYLES } from 'lib/constants';
 import { errorToast, successToast } from 'utils/toasts';
+import updateArray from 'utils/updateArray';
 import SimpleContentBlock from 'components/ContentBlock/SimpleContentBlock';
 import RadioButtons from 'components/RadioButtons';
 import Integration from 'models/Integration';
@@ -88,10 +89,8 @@ const IntegrationsPandaDoc = () => {
   }
 
   function updateEvent(value, index, field) {
-    const newEvents = items.map((item, arrIndex) =>
-      index === arrIndex ? { ...item, [field]: value } : item
-    );
-    setItems(newEvents);
+    const newItems = updateArray(items, value, index, field);
+    setItems(newItems);
   }
 
   function getName(name) {
@@ -181,7 +180,7 @@ const IntegrationsPandaDoc = () => {
                   const key = `event-${index}`;
 
                   return (
-                    <div className="display-flex" key={key}>
+                    <div className="display-flex flex-content" key={key}>
                       <div className="m-r-10">
                         <div>Document event</div>
                         <Select

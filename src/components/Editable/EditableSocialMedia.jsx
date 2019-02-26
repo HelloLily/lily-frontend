@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import { SOCIAL_MEDIA_OPTIONS, SOCIAL_MEDIA_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
+import updateArray from 'utils/updateArray';
 import SocialMediaIcon from 'components/Utils/SocialMediaIcon';
 
 class EditableSocialMedia extends Component {
@@ -23,9 +24,9 @@ class EditableSocialMedia extends Component {
   handleChange = (value, index, field) => {
     const items = this.props.value;
 
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.props.handleChange(items);
+    this.props.handleChange(newItems);
   };
 
   toggleDelete = (item, index) => {

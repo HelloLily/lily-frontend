@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import { ADDRESS_TYPES, ADDRESS_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
+import updateArray from 'utils/updateArray';
 import Utils from 'models/Utils';
 
 class EditableAddresses extends Component {
@@ -37,9 +38,9 @@ class EditableAddresses extends Component {
 
   handleChange = (value, index, field) => {
     const items = this.props.value;
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.props.handleChange(items);
+    this.props.handleChange(newItems);
   };
 
   toggleDelete = (item, index) => {

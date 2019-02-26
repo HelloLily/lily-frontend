@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Select from 'react-select';
 
 import { SOCIAL_MEDIA_EMPTY_ROW, SOCIAL_MEDIA_OPTIONS, SELECT_STYLES } from 'lib/constants';
+import updateArray from 'utils/updateArray';
 import SocialMediaIcon from 'components/Utils/SocialMediaIcon';
 
 class SocialMediaField extends Component {
@@ -14,9 +15,9 @@ class SocialMediaField extends Component {
   handleChange = (value, index, field) => {
     const { items } = this.props;
 
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.handleRelated(items);
+    this.handleRelated(newItems);
   };
 
   handleRelated = items => {

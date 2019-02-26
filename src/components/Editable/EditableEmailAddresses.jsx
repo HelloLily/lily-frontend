@@ -12,6 +12,7 @@ import {
   EMAIL_EMPTY_ROW,
   ESCAPE_KEY
 } from 'lib/constants';
+import updateArray from 'utils/updateArray';
 
 class EditableEmailAddresses extends Component {
   componentDidMount = () => {
@@ -38,9 +39,9 @@ class EditableEmailAddresses extends Component {
       });
     }
 
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.props.handleChange(items);
+    this.props.handleChange(newItems);
   };
 
   toggleDelete = (item, index) => {

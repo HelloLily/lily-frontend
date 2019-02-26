@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { successToast, errorToast } from 'utils/toasts';
@@ -13,9 +13,6 @@ import 'style/call_logs.scss';
 export default function CallLog() {
   const [calls, setCalls] = useState([]);
   const [loading, setLoading] = useState(true);
-  // useState only updates when the value actually changes.
-  // When adding notes we update a nested value, which means the state doesn't actually change.
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const [t] = useTranslation('toasts');
 
   async function getCalls() {
@@ -46,11 +43,16 @@ export default function CallLog() {
 
     try {
       const response = await Note.post(note);
-      const index = calls.findIndex(call => call.id === item.id);
-      calls[index].notes.unshift(response);
+      const newCalls = calls.map(call => {
+        if (call.id === item.id) {
+          call.notes = [response, ...call.notes];
+        }
 
+        return call;
+      });
+
+      setCalls(newCalls);
       successToast(t('modelCreated', { model: 'note' }));
-      forceUpdate();
     } catch (e) {
       errorToast(t('noteError'));
     }
@@ -59,13 +61,18 @@ export default function CallLog() {
   async function deleteNote(note, item) {
     try {
       await Note.del(note.id);
-      const index = calls.findIndex(call => call.id === item.id);
-      const noteIndex = item.notes.findIndex(itemNote => itemNote.id === note.id);
-      calls[index].notes.splice(noteIndex, 1);
+      const newCalls = calls.map(call => {
+        if (call.id === item.id) {
+          call.notes = call.notes.filter(callNote => callNote.id !== note.id);
+        }
+
+        return call;
+      });
+
+      setCalls(newCalls);
 
       const text = t('modelDeleted', { model: 'note' });
       successToast(text);
-      forceUpdate();
     } catch (error) {
       errorToast(t('error'));
     }
@@ -93,7 +100,7 @@ export default function CallLog() {
                     <StreamCall
                       isSidebar
                       item={call}
-                      key={call.id}
+                      key={`call-${call.id}`}
                       submitNote={submitNote}
                       deleteItemNote={deleteNote}
                     />

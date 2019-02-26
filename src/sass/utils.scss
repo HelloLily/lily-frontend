@@ -83,8 +83,10 @@ $sides: (top, bottom, left, right);
     display: flex;
     align-items: center;
 
-    > * {
-      flex: 1 100%;
+    &.flex-content {
+      > * {
+        flex: 1 100%;
+      }
     }
   }
 

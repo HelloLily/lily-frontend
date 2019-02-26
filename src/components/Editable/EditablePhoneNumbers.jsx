@@ -5,6 +5,7 @@ import cx from 'classnames';
 
 import withContext from 'src/withContext';
 import formatPhoneNumber from 'utils/formatPhoneNumber';
+import updateArray from 'utils/updateArray';
 import { MOBILE_PHONE_TYPE, PHONE_TYPE_OPTIONS, PHONE_EMPTY_ROW, ESCAPE_KEY } from 'lib/constants';
 
 class EditablePhoneNumbers extends Component {
@@ -23,9 +24,9 @@ class EditablePhoneNumbers extends Component {
 
   handleChange = (value, index, field) => {
     const items = this.props.value;
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.props.handleChange(items);
+    this.props.handleChange(newItems);
   };
 
   toggleDelete = (item, index) => {

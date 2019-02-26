@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import { INVITE_EMPTY_ROW } from 'lib/constants';
+import updateArray from 'utils/updateArray';
 import { successToast, errorToast } from 'utils/toasts';
 import withContext from 'src/withContext';
 import BlockUI from 'components/Utils/BlockUI';
@@ -33,9 +34,9 @@ class InnerInviteForm extends Component {
   handleChange = (value, index, field) => {
     const { invites } = this.props.values;
 
-    invites[index][field] = value;
+    const newItems = updateArray(invites, value, index, field);
 
-    this.props.setFieldValue({ invites });
+    this.props.setFieldValue({ invites: newItems });
   };
 
   render() {

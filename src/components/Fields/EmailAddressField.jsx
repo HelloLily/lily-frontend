@@ -12,6 +12,7 @@ import {
   EMAIL_EMPTY_ROW,
   SELECT_STYLES
 } from 'lib/constants';
+import updateArray from 'utils/updateArray';
 
 class EmailAddressField extends Component {
   componentDidMount() {
@@ -32,9 +33,9 @@ class EmailAddressField extends Component {
       });
     }
 
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.handleRelated(items);
+    this.handleRelated(newItems);
   };
 
   handleRelated = items => {

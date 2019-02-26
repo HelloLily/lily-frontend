@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Select from 'react-select';
 
 import withContext from 'src/withContext';
+import updateArray from 'utils/updateArray';
 import { ADDRESS_TYPES, ADDRESS_EMPTY_ROW, SELECT_STYLES } from 'lib/constants';
 import Utils from 'models/Utils';
 
@@ -30,9 +31,9 @@ class AddressField extends Component {
   handleChange = (value, index, field) => {
     const { items } = this.props;
 
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.handleRelated(items);
+    this.handleRelated(newItems);
   };
 
   addRow = () => {

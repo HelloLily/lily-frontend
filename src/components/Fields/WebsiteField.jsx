@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
 
 import { WEBSITE_EMPTY_ROW } from 'lib/constants';
+import updateArray from 'utils/updateArray';
 
 class WebsiteField extends Component {
   componentDidMount() {
@@ -12,9 +13,9 @@ class WebsiteField extends Component {
   handleChange = (value, index, field) => {
     const { items } = this.props;
 
-    items[index][field] = value;
+    const newItems = updateArray(items, value, index, field);
 
-    this.handleRelated(items);
+    this.handleRelated(newItems);
   };
 
   handleRelated = items => {
