@@ -298,7 +298,7 @@ class InnerAccountForm extends Component {
           suggestion => suggestion.account.id === account.id
         );
 
-        const alreadyAdded = this.props.values.accounts.some(
+        const alreadyAdded = this.props.values.emailAddresses.some(
           contactAccount => contactAccount.id === account.id
         );
 
@@ -488,6 +488,7 @@ class InnerAccountForm extends Component {
                       <Suggestions
                         field="name"
                         type="account"
+                        object={values}
                         suggestions={accountSuggestions.name}
                         display={showSuggestions.name}
                         handleMerge={this.merge}
@@ -578,6 +579,7 @@ class InnerAccountForm extends Component {
                       <Suggestions
                         field="emailAddress"
                         type="account"
+                        object={values}
                         suggestions={accountSuggestions.emailAddress}
                         display={showSuggestions.emailAddress}
                         handleMerge={this.merge}
@@ -606,6 +608,7 @@ class InnerAccountForm extends Component {
                       <Suggestions
                         field="phoneNumber"
                         type="account"
+                        object={values}
                         suggestions={accountSuggestions.phoneNumber}
                         display={showSuggestions.phoneNumber}
                         handleMerge={this.merge}

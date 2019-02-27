@@ -110,9 +110,18 @@ label {
 .form-suggestions {
   background: lighten($app-color-yellow, 47);
   border: 1px lighten($app-color-yellow, 20) solid;
-  padding: 10px;
+  padding: 15px 15px 0;
   border-radius: $base-border-radius;
   margin-bottom: 10px;
+
+  .form-suggestion-container {
+    padding: 10px 0;
+    border-top: 1px lighten($app-color-yellow, 20) dotted;
+
+    &:first-of-type {
+      border-top: 0;
+    }
+  }
 
   .form-suggestion-title {
     color: $app-color-darkblue;
@@ -126,9 +135,6 @@ label {
     font-size: 14px;
     display: flex;
     width: 100%;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-    border-bottom: 1px lighten($app-color-yellow, 20) dotted;
 
     &:last-of-type {
       margin-bottom: 0;
@@ -241,5 +247,53 @@ label {
 
   .form-section-heading {
     text-align: initial;
+  }
+}
+
+.change-log {
+  .change-related {
+    border-collapse: separate;
+    border-spacing: 10px;
+    margin-top: 10px;
+
+    tbody {
+      td:first-child {
+        font-weight: bold;
+        width: 15%;
+      }
+
+      .change-item {
+        border: 1px solid $lily-grey;
+        border-radius: $base-border-radius;
+        padding: 4px 8px;
+        vertical-align: middle;
+        background: #fff;
+        margin-top: 10px;
+        height: 31px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+
+        &.change-before {
+          border-left: 4px solid $app-color-red;
+        }
+
+        &.change-after {
+          border-left: 4px solid $app-color-mint;
+        }
+
+        &.change-empty {
+          background: #f5f5f5;
+          border: 1px solid $lily-grey;
+        }
+      }
+    }
+
+    .change-items {
+      margin-bottom: 0;
+      margin-left: 25px;
+      width: 60%;
+    }
   }
 }
