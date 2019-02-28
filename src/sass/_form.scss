@@ -110,7 +110,7 @@ label {
 .form-suggestions {
   background: lighten($app-color-yellow, 47);
   border: 1px lighten($app-color-yellow, 20) solid;
-  padding: 15px 15px 0;
+  padding: 10px 10px 0;
   border-radius: $base-border-radius;
   margin-bottom: 10px;
 
@@ -127,8 +127,9 @@ label {
     color: $app-color-darkblue;
     font-size: 16px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .form-suggestion-row {

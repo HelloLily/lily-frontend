@@ -95,7 +95,7 @@ class TimeLogModal extends Component {
 
     // No number in the given time, so invalid input.
     if (!/[0-9]/i.test(time)) {
-      this.setState({ error: t('timeLogZeroError') });
+      this.setState({ error: t('timeLog.timeLogZeroError') });
 
       return false;
     }
@@ -135,7 +135,7 @@ class TimeLogModal extends Component {
 
       this.props.closeModal();
     } else {
-      this.setState({ error: t('timeLogInvalid') });
+      this.setState({ error: t('timeLog.timeLogInvalid') });
     }
   };
 
@@ -156,7 +156,6 @@ class TimeLogModal extends Component {
                 <div className="w-60 m-r-25">
                   <label required>Worked</label>
                   <input
-                    autoFocus
                     id="time"
                     type="text"
                     className="hl-input"

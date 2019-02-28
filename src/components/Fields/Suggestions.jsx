@@ -36,8 +36,8 @@ const Suggestions = props => {
           <div className="form-suggestion-title">
             <div>{`${label} found in existing ${type}`}</div>
 
-            <button className="hl-interface-btn" onClick={close} type="button">
-              <FontAwesomeIcon icon={['far', 'times']} />
+            <button className="hl-interface-btn close-btn" onClick={close} type="button">
+              <FontAwesomeIcon icon={['far', 'times']} size="lg" />
             </button>
           </div>
 
@@ -90,8 +90,8 @@ const Suggestions = props => {
                         <thead>
                           <tr>
                             <th />
-                            <th>Current</th>
-                            <th>After merge</th>
+                            <th className="w-40">Current</th>
+                            <th className="w-40">After merge</th>
                           </tr>
                         </thead>
 
@@ -115,8 +115,9 @@ const Suggestions = props => {
                             objectValue = objectValue.filter(value => value[fieldRow.display]);
 
                             // No values, so don't bother showing anything.
-                            if (suggestionValue.length === 0 && objectValue.length === 0)
+                            if (suggestionValue.length === 0 && objectValue.length === 0) {
                               return null;
+                            }
                           }
 
                           const key = `suggestion-${suggestion.id}-${fieldRow.field}`;
@@ -147,7 +148,7 @@ const Suggestions = props => {
 
                           const emptyRows = [];
 
-                          if (suggestionValue.length < total) {
+                          if (Array.isArray(suggestionValue) && suggestionValue.length < total) {
                             for (let i = suggestionValue.length; i < total; i++) {
                               const emptyKey = `${key}-${i}-empty`;
                               const element = (

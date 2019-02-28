@@ -334,30 +334,38 @@ class InnerAccountForm extends Component {
     if (!this.props.values.id && phoneNumber) {
       // There was a call for the current user,
       // so try to find an account or contact with the given number.
-      const response = await Account.query({ query: phoneNumber });
+      const accountResponse = await Account.query({ search: phoneNumber });
 
-      if (response.data.account) {
-        const { account } = response.data;
+      if (accountResponse.results.length > 0) {
+        const account = accountResponse.results[0];
         const exists = accountSuggestions.phoneNumber.some(
           suggestion => suggestion.account.id === account.id
         );
 
-        if (!exists) {
+        const alreadyAdded = this.props.values.emailAddresses.some(
+          contactAccount => contactAccount.id === account.id
+        );
+
+        if (!exists && !alreadyAdded) {
           accountSuggestions.phoneNumber.push({ phoneNumber, account });
         }
 
         showSuggestions.phoneNumber = true;
-      } else if (response.data.contact) {
-        const { contact } = response.data;
-        const exists = contactSuggestions.phoneNumber.some(
-          suggestion => suggestion.contact.id === contact.id
-        );
+      } else {
+        const contactResponse = await Contact.query({ search: phoneNumber });
 
-        if (!exists) {
-          contactSuggestions.phoneNumber.push({ phoneNumber, contact });
+        if (contactResponse.results.length > 0) {
+          const contact = contactResponse.results[0];
+          const exists = contactSuggestions.emailAddress.some(
+            suggestion => suggestion.contact.id === contact.id
+          );
+
+          if (!exists) {
+            contactSuggestions.emailAddress.push({ phoneNumber, contact });
+          }
+
+          showSuggestions.phoneNumber = true;
         }
-
-        showSuggestions.phoneNumber = true;
       }
 
       this.setState({ accountSuggestions, contactSuggestions, showSuggestions });

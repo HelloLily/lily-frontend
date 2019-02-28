@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { withFormik } from 'formik';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import AsyncSelect from 'react-select/lib/Async';
 import Textarea from 'react-textarea-autosize';
 import debounce from 'debounce-promise';
@@ -29,6 +29,7 @@ import LilyTooltip from 'components/LilyTooltip';
 import Address from 'components/Utils/Address';
 import Account from 'models/Account';
 import Contact from 'models/Contact';
+import camelToHuman from 'src/utils/camelToHuman';
 
 class InnerContactForm extends Component {
   constructor(props) {
@@ -218,15 +219,16 @@ class InnerContactForm extends Component {
     if (!this.props.values.id && phoneNumber) {
       // There was a call for the current user,
       // so try to find an account or contact with the given number.
-      const response = await Account.query({ search: phoneNumber });
+      const accountResponse = await Account.query({ search: phoneNumber });
 
-      if (response.data.account) {
-        const { account } = response.data;
+      if (accountResponse.results.length > 0) {
+        const account = accountResponse.results[0];
         const exists = accountSuggestions.phoneNumber.some(
           suggestion => suggestion.account.id === account.id
         );
-        const alreadyAdded = this.props.values.accounts.some(
-          contactAccount => contactAccount.id === response.data.id
+
+        const alreadyAdded = this.props.values.emailAddresses.some(
+          contactAccount => contactAccount.id === account.id
         );
 
         if (!exists && !alreadyAdded) {
@@ -234,17 +236,21 @@ class InnerContactForm extends Component {
         }
 
         showSuggestions.phoneNumber = true;
-      } else if (response.data.contact) {
-        const { contact } = response.data;
-        const exists = contactSuggestions.phoneNumber.some(
-          suggestion => suggestion.contact.id === contact.id
-        );
+      } else {
+        const contactResponse = await Contact.query({ search: phoneNumber });
 
-        if (!exists) {
-          contactSuggestions.phoneNumber.push({ phoneNumber, contact });
+        if (contactResponse.results.length > 0) {
+          const contact = contactResponse.results[0];
+          const exists = contactSuggestions.emailAddress.some(
+            suggestion => suggestion.contact.id === contact.id
+          );
+
+          if (!exists) {
+            contactSuggestions.emailAddress.push({ phoneNumber, contact });
+          }
+
+          showSuggestions.phoneNumber = true;
         }
-
-        showSuggestions.phoneNumber = true;
       }
 
       this.setState({ accountSuggestions, contactSuggestions, showSuggestions });
@@ -295,6 +301,66 @@ class InnerContactForm extends Component {
     this.setState({ showSuggestions });
   };
 
+  renderContactSuggestion = type => {
+    const { accountSuggestions, showSuggestions } = this.state;
+    const { t } = this.props;
+
+    return accountSuggestions[type].length > 0 && showSuggestions[type] ? (
+      <div className="form-suggestions">
+        <div className="form-suggestion-title">
+          <div>{t('forms:contact.relatedExists', { type: camelToHuman(type) })}</div>
+
+          <button className="hl-interface-btn close-btn" onClick={this.close} type="button">
+            <FontAwesomeIcon icon={['far', 'times']} size="lg" />
+          </button>
+        </div>
+
+        <div className="form-suggestion-items">
+          {accountSuggestions[type].map(suggestion => {
+            const { account } = suggestion;
+
+            return (
+              <div className="form-suggestion-container" key={`account-${type}-${account.id}`}>
+                <div className="form-suggestion-row">
+                  <div className="form-suggestion-info">
+                    <Trans
+                      defaults={t('forms:contact.accountAddText', { name: account.name })}
+                      components={[<Link to={`/accounts/${account.id}`}>text</Link>]}
+                    />
+                  </div>
+
+                  <div className="form-suggestion-action">
+                    <button
+                      className="hl-primary-btn-blue"
+                      onClick={() => this.addAccount(account)}
+                      type="button"
+                    >
+                      Add to Works at
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    ) : null;
+  };
+
+  addAccount = account => {
+    const { accountSuggestions } = this.state;
+    const { values, setFieldValue } = this.props;
+
+    setFieldValue('accounts', [...values.accounts, account]);
+
+    // Clear the suggestions.
+    Object.keys(accountSuggestions).forEach(key => {
+      accountSuggestions[key] = {};
+    });
+
+    this.setState({ accountSuggestions });
+  };
+
   merge = async contactId => {
     const { contactSuggestions } = this.state;
     const response = await Contact.get(contactId);
@@ -312,7 +378,7 @@ class InnerContactForm extends Component {
   };
 
   render() {
-    const { accountSuggestions, contactSuggestions, showSuggestions, loading } = this.state;
+    const { contactSuggestions, showSuggestions, loading } = this.state;
     const { values, errors, isSubmitting, handleChange, handleSubmit, currentUser, t } = this.props;
 
     const hasAccountPhoneNumbers =
@@ -400,6 +466,7 @@ class InnerContactForm extends Component {
                       <Suggestions
                         field="name"
                         type="contact"
+                        object={values}
                         suggestions={contactSuggestions.name}
                         display={showSuggestions.name}
                         handleMerge={this.merge}
@@ -478,18 +545,12 @@ class InnerContactForm extends Component {
                         />
                       </div>
 
-                      <Suggestions
-                        field="emailAddress"
-                        type="account"
-                        suggestions={accountSuggestions.emailAddress}
-                        display={showSuggestions.emailAddress}
-                        handleMerge={this.merge}
-                        handleClose={this.handleClose}
-                      />
+                      {this.renderContactSuggestion('emailAddress')}
 
                       <Suggestions
                         field="emailAddress"
                         type="contact"
+                        object={values}
                         suggestions={contactSuggestions.emailAddress}
                         display={showSuggestions.emailAddress}
                         handleClose={this.handleClose}
@@ -534,18 +595,12 @@ class InnerContactForm extends Component {
                         />
                       </div>
 
-                      <Suggestions
-                        field="phoneNumber"
-                        type="account"
-                        suggestions={accountSuggestions.phoneNumber}
-                        display={showSuggestions.phoneNumber}
-                        handleMerge={this.merge}
-                        handleClose={this.handleClose}
-                      />
+                      {this.renderContactSuggestion('phoneNumber')}
 
                       <Suggestions
                         field="phoneNumber"
                         type="contact"
+                        object={values}
                         suggestions={contactSuggestions.phoneNumber}
                         display={showSuggestions.phoneNumber}
                         handleClose={this.handleClose}

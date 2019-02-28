@@ -11,9 +11,8 @@
     "questionText": "Do you want to assign this {{type}} to yourself?"
   },
   "timeLog": {
-    "modalTitle": "Time logging",
-    "confirmButtonText": "Log time",
-    "invalidTime": "Invalid value provided"
+    "timeLogZeroError": "Please enter a value greater than 0.",
+    "timeLogInvalid": "Please enter a valid value."
   },
   "cases": {
     "noSelectionText": "Please select an account or contact the deal belongs to.",
@@ -72,7 +71,5 @@
     }
   },
   "dashboardSettingsTitle": "Dashboard settings",
-  "dashboardSettings": "Check or uncheck a box to change which widgets are visible in the dashboard.",
-  "timeLogZeroError": "Please enter a value greater than 0",
-  "timeLogInvalid": "Please enter a valid value"
+  "dashboardSettings": "Check or uncheck a box to change which widgets are visible in the dashboard."
 }
