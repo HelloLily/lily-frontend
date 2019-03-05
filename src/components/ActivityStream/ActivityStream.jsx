@@ -10,14 +10,15 @@ import LilyDate from 'components/Utils/LilyDate';
 import LoadingIndicator from 'components/Utils/LoadingIndicator';
 import Note from 'models/Note';
 import setupActivityStream from './setupActivityStream';
-import StreamCase from './StreamCase';
-import StreamDeal from './StreamDeal';
-import StreamEmail from './StreamEmail';
-import StreamNote from './StreamNote';
-import StreamCall from './StreamCall';
-import StreamChange from './StreamChange';
-import StreamTimeLog from './StreamTimeLog';
-import StreamNoteAdd from './StreamNoteAdd';
+
+const StreamCase = React.lazy(() => import('./StreamCase'));
+const StreamDeal = React.lazy(() => import('./StreamDeal'));
+const StreamEmail = React.lazy(() => import('./StreamEmail'));
+const StreamNote = React.lazy(() => import('./StreamNote'));
+const StreamCall = React.lazy(() => import('./StreamCall'));
+const StreamChange = React.lazy(() => import('./StreamChange'));
+const StreamTimeLog = React.lazy(() => import('./StreamTimeLog'));
+const StreamNoteAdd = React.lazy(() => import('./StreamNoteAdd'));
 
 const components = {
   case: StreamCase,
@@ -226,141 +227,147 @@ class ActivityStream extends Component {
     const { model } = object.contentType;
 
     return (
-      <div className="activity-stream">
-        {!loading ? (
-          <React.Fragment>
-            {parentObject && (
-              <div className="activity-stream-title">{`Latest ${model} activity`}</div>
-            )}
-            <div className="activity-stream-filter capitalize">
-              <div className="radio-button-group">
-                {options.map((option, index) => {
-                  const isSelected = filter === option.id;
-                  const radioId = `radio-activity-${model}-${index}`;
-                  const className = cx('radio-button', {
-                    active: isSelected
-                  });
-
-                  return (
-                    <label className={className} key={`option-${option.id}`} htmlFor={radioId}>
-                      <input
-                        type="radio"
-                        id={radioId}
-                        className="radio-button-input"
-                        checked={isSelected}
-                        onChange={() => this.setSelection(option)}
-                      />
-
-                      <span className={`radio-button-label is-${option.model}`}>
-                        {isSelected && <span className="radio-button-checkmark" />}
-
-                        {option.appLabel === 'timelogs' ? (
-                          <span>Logged time</span>
-                        ) : (
-                          <span>{option.appLabel}</span>
-                        )}
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="activity-stream-list">
-              <StreamNoteAdd item={object} submitCallback={this.submitNote} />
-
-              {orderedActivityStream.pinned.length > 0 && (
-                <React.Fragment>
-                  <div className="activity-stream-indicator" />
-
-                  <div className="activity-stream-category">Pinned</div>
-
-                  <React.Fragment>
-                    {orderedActivityStream.pinned.map(item => {
-                      const StreamComponent = components[item.contentType.model];
-
-                      return (
-                        <StreamComponent
-                          item={item}
-                          key={`${item.contentType.model}-${item.id}`}
-                          {...defaultProps}
-                        />
-                      );
-                    })}
-                  </React.Fragment>
-                </React.Fragment>
+      <React.Suspense fallback={<LoadingIndicator>Loading activity stream</LoadingIndicator>}>
+        <div className="activity-stream">
+          {!loading ? (
+            <React.Fragment>
+              {parentObject && (
+                <div className="activity-stream-title">{`Latest ${model} activity`}</div>
               )}
+              <div className="activity-stream-filter capitalize">
+                <div className="radio-button-group">
+                  {options.map((option, index) => {
+                    const isSelected = filter === option.id;
+                    const radioId = `radio-activity-${model}-${index}`;
+                    const className = cx('radio-button', {
+                      active: isSelected
+                    });
 
-              {Object.keys(orderedActivityStream.nonPinned).map(key => {
-                const category = orderedActivityStream.nonPinned[key];
-                // Only show items which have the same content type as the selected filter.
-                const items = filter
-                  ? category.items.filter(item => item.contentType.id === filter)
-                  : category.items;
-                const isCollapsed = collapsed.includes(key);
+                    return (
+                      <label className={className} key={`option-${option.id}`} htmlFor={radioId}>
+                        <input
+                          type="radio"
+                          id={radioId}
+                          className="radio-button-input"
+                          checked={isSelected}
+                          onChange={() => this.setSelection(option)}
+                        />
 
-                return items.length ? (
-                  <React.Fragment key={key}>
+                        <span className={`radio-button-label is-${option.model}`}>
+                          {isSelected && <span className="radio-button-checkmark" />}
+
+                          {option.appLabel === 'timelogs' ? (
+                            <span>Logged time</span>
+                          ) : (
+                            <span>{option.appLabel}</span>
+                          )}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="activity-stream-list">
+                <StreamNoteAdd item={object} submitCallback={this.submitNote} />
+
+                {orderedActivityStream.pinned.length > 0 && (
+                  <React.Fragment>
                     <div className="activity-stream-indicator" />
 
-                    <button
-                      className="activity-stream-category"
-                      onClick={() => this.toggleCollapse(key)}
-                      type="button"
-                    >
-                      <LilyDate date={key} format="MMMM y" />
+                    <div className="activity-stream-category">Pinned</div>
 
-                      <div>
-                        <FontAwesomeIcon
-                          fixedWidth
-                          icon={['far', isCollapsed ? 'angle-down' : 'angle-up']}
-                          size="lg"
-                        />
-                      </div>
-                    </button>
+                    <React.Fragment>
+                      {orderedActivityStream.pinned.map(item => {
+                        const StreamComponent = components[item.contentType.model];
 
-                    {!isCollapsed && (
-                      <React.Fragment>
-                        {items.map(item => {
-                          const StreamComponent = components[item.contentType.model];
-
-                          return (
-                            <StreamComponent
-                              item={item}
-                              key={`${item.contentType.model}-${item.id}`}
-                              {...defaultProps}
-                            />
-                          );
-                        })}
-                      </React.Fragment>
-                    )}
+                        return (
+                          <StreamComponent
+                            item={item}
+                            key={`${item.contentType.model}-${item.id}`}
+                            {...defaultProps}
+                          />
+                        );
+                      })}
+                    </React.Fragment>
                   </React.Fragment>
-                ) : null;
-              })}
+                )}
 
-              {activityStream.length === 0 && (
-                <React.Fragment>
-                  <div className="activity-stream-image">
-                    <FontAwesomeIcon icon={['far', 'hourglass-start']} />
-                  </div>
+                {Object.keys(orderedActivityStream.nonPinned).map(key => {
+                  const category = orderedActivityStream.nonPinned[key];
+                  // Only show items which have the same content type as the selected filter.
+                  const items = filter
+                    ? category.items.filter(item => item.contentType.id === filter)
+                    : category.items;
+                  const isCollapsed = collapsed.includes(key);
 
-                  <div className="stream-item">
-                    <div className="stream-item-header">Until now</div>
-                    <div className="stream-item-title">
-                      <span className="flex-grow">
-                        <span className="text-capitalize">{model} </span>
-                        was created
-                      </span>
+                  return items.length ? (
+                    <React.Fragment key={key}>
+                      <div className="activity-stream-indicator" />
+
+                      <button
+                        className="activity-stream-category"
+                        onClick={() => this.toggleCollapse(key)}
+                        type="button"
+                      >
+                        <LilyDate date={key} format="MMMM y" />
+
+                        <div>
+                          <FontAwesomeIcon
+                            fixedWidth
+                            icon={['far', isCollapsed ? 'angle-down' : 'angle-up']}
+                            size="lg"
+                          />
+                        </div>
+                      </button>
+
+                      {!isCollapsed && (
+                        <React.Fragment>
+                          {items.map(item => {
+                            // TODO: This check should be removed once proper API is live.
+                            const StreamComponent =
+                              item.contentType === 27
+                                ? components.emailmessage
+                                : components[item.contentType.model];
+
+                            return (
+                              <StreamComponent
+                                item={item}
+                                key={`${item.contentType.model}-${item.id}`}
+                                {...defaultProps}
+                              />
+                            );
+                          })}
+                        </React.Fragment>
+                      )}
+                    </React.Fragment>
+                  ) : null;
+                })}
+
+                {activityStream.length === 0 && (
+                  <React.Fragment>
+                    <div className="activity-stream-image">
+                      <FontAwesomeIcon icon={['far', 'hourglass-start']} />
                     </div>
-                  </div>
-                </React.Fragment>
-              )}
-            </div>
-          </React.Fragment>
-        ) : (
-          <LoadingIndicator>Loading activity stream</LoadingIndicator>
-        )}
-      </div>
+
+                    <div className="stream-item">
+                      <div className="stream-item-header">Until now</div>
+                      <div className="stream-item-title">
+                        <span className="flex-grow">
+                          <span className="text-capitalize">{model} </span>
+                          was created
+                        </span>
+                      </div>
+                    </div>
+                  </React.Fragment>
+                )}
+              </div>
+            </React.Fragment>
+          ) : (
+            <LoadingIndicator>Loading activity stream</LoadingIndicator>
+          )}
+        </div>
+      </React.Suspense>
     );
   }
 }

@@ -55,7 +55,7 @@ class EmailMessage {
       );
 
       if (!isDefaultLabel) {
-        filter.push(`label_id:${label.labelId}`);
+        filter.push(`label_id:${label}`);
       }
     } else {
       // Corresponds with the 'All mail' label.
@@ -75,9 +75,6 @@ class EmailMessage {
       userEmailRelated: 1
     });
 
-    return { results: [] };
-
-    // return get('/messaging/email/email/', params);
     return get('/search/search/', params);
   }
 

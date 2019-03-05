@@ -175,6 +175,15 @@ export default async function setupActivityStream(
     const emailMessages = await getEmailMessages();
 
     emailMessages.forEach(emailMessage => {
+      // TODO: Temporary until there's a proper email API.
+      emailMessage.sender = {
+        name: emailMessage.senderName,
+        emailAddress: emailMessage.senderEmail
+      };
+      emailMessage.receivedBy = [];
+      emailMessage.attachments = [];
+      emailMessage.bodyText = emailMessage.body;
+
       activityStream.push(emailMessage);
     });
 
@@ -221,7 +230,8 @@ export default async function setupActivityStream(
   activityStream.forEach(item => {
     const itemModel = item.contentType.model;
 
-    if (itemModel === 'emailmessage') {
+    // TODO: Second check for email should be removed once proper API is live.
+    if (itemModel === 'emailmessage' || item.contentType === 27) {
       item.activitySortDate = item.sentDate;
     } else if (['note', 'change'].includes(itemModel)) {
       item.activitySortDate = item.created;
