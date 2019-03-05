@@ -121,23 +121,37 @@ class DealListWidget extends Component {
                   {item.expanded && (
                     <tr>
                       <td colSpan="5">
-                        <div>
-                          <strong>Assigned to: </strong>
-                          {item.assignedTo ? item.assignedTo.fullName : 'Nobody'}
+                        <div className="detail-row">
+                          <div>
+                            <strong>Assigned to: </strong>
+                          </div>
+                          <div>{item.assignedTo ? item.assignedTo.fullName : 'Nobody'}</div>
                         </div>
-                        <div>
-                          <strong>One-time payment: </strong>
-                          <LilyCurrency value={item.amountOnce} currency={item.currency} />
+                        <div className="detail-row">
+                          <div>
+                            <strong>One-time payment</strong>
+                          </div>
+                          <div>
+                            <LilyCurrency value={item.amountOnce} currency={item.currency} />
+                          </div>
                         </div>
-                        <div>
-                          <strong>Monthly: </strong>
-                          <LilyCurrency value={item.amountRecurring} currency={item.currency} />
+                        <div className="detail-row">
+                          <div>
+                            <strong>Monthly</strong>
+                          </div>
+                          <div>
+                            <LilyCurrency value={item.amountRecurring} currency={item.currency} />
+                          </div>
                         </div>
-                        <div>
-                          <strong>Created by: </strong>
-                          {item.createdBy ? item.createdBy.fullName : 'Unknown'}
-                          <span> on </span>
-                          <LilyDate date={item.created} />
+                        <div className="detail-row">
+                          <div>
+                            <strong>Created by</strong>
+                          </div>
+                          <div>
+                            {item.createdBy ? item.createdBy.fullName : 'Unknown'}
+                            <span> on </span>
+                            <LilyDate date={item.created} />
+                          </div>
                         </div>
                         {item.description && (
                           <div>

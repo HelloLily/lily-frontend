@@ -120,19 +120,21 @@ class CaseListWidget extends Component {
                   {item.expanded && (
                     <tr>
                       <td colSpan="5">
-                        <div>
-                          <strong>Type: </strong>
-                          {item.type.name}
+                        <div className="detail-row">
+                          <div>Type</div>
+                          <div>{item.type.name}</div>
                         </div>
-                        <div>
-                          <strong>Assigned to: </strong>
-                          {item.assignedTo ? item.assignedTo.fullName : 'Nobody'}
+                        <div className="detail-row">
+                          <div>Assigned to</div>
+                          <div>{item.assignedTo ? item.assignedTo.fullName : 'Nobody'}</div>
                         </div>
-                        <div>
-                          <strong>Created by: </strong>
-                          {item.createdBy ? item.createdBy.fullName : 'Unknown'}
-                          <span> on </span>
-                          <LilyDate date={item.created} />
+                        <div className="detail-row">
+                          <div>Created by</div>
+                          <div>
+                            {item.createdBy ? item.createdBy.fullName : 'Unknown'}
+                            <span> on </span>
+                            <LilyDate date={item.created} />
+                          </div>
                         </div>
                         {item.description && (
                           <div>

@@ -49,7 +49,6 @@ export const SELECT_STYLES = {
     ...base,
     background: '#fff',
     minHeight: '34px',
-    // height: '34px',
     borderColor: state.isFocused ? '#27244c' : '#e1e6ef',
     '&:hover': {
       borderColor: state.isFocused ? '#27244c' : '#e1e6ef'

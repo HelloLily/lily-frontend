@@ -18,16 +18,16 @@
       flex-direction: row;
 
       li {
+        &.m-r-55 {
+          padding: 16px 4px;
+        }
+
         a {
           text-decoration: none;
           color: #9392a6;
           font-size: 16px;
           display: flex;
           align-items: center;
-
-          :not(:first-child) {
-            padding: 16px 4px;
-          }
 
           &.active,
           &:hover {
