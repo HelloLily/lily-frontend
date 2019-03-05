@@ -18,7 +18,11 @@ class Security {
   }
 
   sessions() {
-    return get(`/users/sessions/`);
+    return get('/users/sessions/');
+  }
+
+  endSession(sessionKey) {
+    return del(`/users/sessions/${sessionKey}`);
   }
 }
 

@@ -59,6 +59,23 @@ class UserSecurity extends Component {
     }
   };
 
+  endSession = async ({ sessionKey }) => {
+    const { sessions } = this.state;
+    const { t } = this.props;
+
+    try {
+      await Security.endSession(sessionKey);
+
+      successToast(t('toasts:security.sessionEnded'));
+
+      const newSessions = sessions.filter(session => session.sessionKey !== sessionKey);
+
+      this.setState({ sessions: newSessions });
+    } catch (error) {
+      errorToast(t('toasts:error'));
+    }
+  };
+
   render() {
     const { devices, sessions, modalOpen, loading } = this.state;
     const { t } = this.props;
@@ -79,7 +96,12 @@ class UserSecurity extends Component {
                       Disable
                     </button>
                   ) : (
-                    <button className="hl-primary-btn-blue">Enable</button>
+                    <a
+                      href={`${process.env.BASE_URL}two-factor/setup/`}
+                      className="hl-primary-btn-blue"
+                    >
+                      Enable
+                    </a>
                   )}
                 </div>
 
@@ -133,7 +155,12 @@ class UserSecurity extends Component {
                         {session.isCurrent ? (
                           <span>(current session)</span>
                         ) : (
-                          <button className="hl-primary-btn">End session</button>
+                          <button
+                            className="hl-primary-btn"
+                            onClick={() => this.endSession(session)}
+                          >
+                            End session
+                          </button>
                         )}
                       </td>
                     </tr>
