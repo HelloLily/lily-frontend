@@ -727,7 +727,10 @@ const AccountForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'account-created');
 
           if (props.closeSidebar) {
-            props.data.submitCallback(response);
+            if (props.data.submitCallback) {
+              props.data.submitCallback(response);
+            }
+
             props.closeSidebar();
           } else {
             props.history.push(`/accounts/${response.id}`);

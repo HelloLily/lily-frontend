@@ -714,7 +714,10 @@ const ContactForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'contact-created');
 
           if (props.closeSidebar) {
-            props.data.submitCallback(response);
+            if (props.data.submitCallback) {
+              props.data.submitCallback(response);
+            }
+
             props.closeSidebar();
           } else {
             props.history.push(`/contacts/${response.id}`);

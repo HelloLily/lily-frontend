@@ -847,7 +847,10 @@ const DealForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'deal-created');
 
           if (props.closeSidebar) {
-            props.data.submitCallback(response);
+            if (props.data.submitCallback) {
+              props.data.submitCallback(response);
+            }
+
             props.closeSidebar();
           } else {
             props.history.push(`/deals/${response.id}`);

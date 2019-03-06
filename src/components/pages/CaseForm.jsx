@@ -638,7 +638,10 @@ const CaseForm = withRouter(
           if (!values.id) window.Intercom('trackEvent', 'case-created');
 
           if (props.closeSidebar) {
-            props.data.submitCallback(response);
+            if (props.data.submitCallback) {
+              props.data.submitCallback(response);
+            }
+
             props.closeSidebar();
           } else {
             props.history.push(`/cases/${response.id}`);
